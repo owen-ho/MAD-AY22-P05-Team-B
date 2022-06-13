@@ -19,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
         binding=ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //so that fragment starts at home when user enters (instead of no fragment)
+        replacefragment(new homefrag());
+
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
 
