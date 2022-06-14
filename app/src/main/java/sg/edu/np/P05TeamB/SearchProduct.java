@@ -7,27 +7,52 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class SearchProduct extends AppCompatActivity {
 
+    public ArrayList<Product> sProductList = initSProduct();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_product);
 
-        //below codes for testing only
-        ArrayList<String> pNameList = new ArrayList<>();
-        pNameList.add("a");
-        pNameList.add("b");
-        pNameList.add("c");
-        pNameList.add("d");
-
-        RecyclerView sProductList = findViewById(R.id.sProductView);
-        SearchProductAdapter pAdapter = new SearchProductAdapter(pNameList, this);
+        RecyclerView sProductRView = findViewById(R.id.sProductView);
+        SearchProductAdapter pAdapter = new SearchProductAdapter(sProductList, this);
 
         //use gridlayout manager to control the number of cards per row in recyclerview
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2,GridLayoutManager.VERTICAL,false);
-        sProductList.setLayoutManager(gridLayoutManager);
-        sProductList.setAdapter(pAdapter);
+        sProductRView.setLayoutManager(gridLayoutManager);
+        sProductRView.setAdapter(pAdapter);
+    }
+
+    //method to initialise random product for testing
+    private ArrayList<Product> initSProduct(){
+        ArrayList<Product> sProductList = new ArrayList<>();
+        while(sProductList.size() < 20){
+            Random rand = new Random();
+            Integer randId;
+            String randName = "Name" + Integer.toString(rand.nextInt());
+            Double price = 4.50;
+            Float rating = 4.3f;
+            String websiteName = "Lazada";
+
+            //ensure id does not clash
+            while (true){
+                Boolean repeatId = false;//set repeating id conition to false
+                randId = Math.abs(rand.nextInt());
+                for(Product product : sProductList){
+                    if(product.getID() == randId){
+                        repeatId = true;//set condition to false if there is repeating id found
+                    }
+                }
+                if(repeatId == false){
+                    break;//break the while loop if there is no repeats
+                }
+            }
+            Product p = new Product(randId,randName,price,rating,websiteName);
+            sProductList.add(p);
+        }
+        return sProductList;
     }
 }

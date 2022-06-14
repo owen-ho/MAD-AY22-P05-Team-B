@@ -1,5 +1,7 @@
 package sg.edu.np.P05TeamB;
 
+import static java.lang.Math.round;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +10,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductViewHolder> {
-    ArrayList<String> pNames;
+    ArrayList<Product> prodList;
     LayoutInflater inflater;
 
-    public SearchProductAdapter(ArrayList<String> pNames, Context context){
-        this.pNames = pNames;
+    public SearchProductAdapter(ArrayList<Product> prodList, Context context){
+        this.prodList = prodList;
         this.inflater = LayoutInflater.from(context);
     }
 
@@ -28,14 +31,16 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductView
 
     @Override
     public void onBindViewHolder(@NonNull SearchProductViewHolder holder, int position) {
-        holder.prodName.setText(pNames.get(position));
-
-        //rating (need change)
-        holder.prodRating.setRating(4.5f);
+        Product p = prodList.get(position);
+        holder.prodName.setText(p.getProductName());
+        DecimalFormat df = new DecimalFormat("0.00");
+        holder.prodPrice.setText("$" + df.format(p.getPrice()));
+        holder.prodRating.setRating(p.getRating());
+        holder.websiteName.setText(p.getWebsiteName());
     }
 
     @Override
     public int getItemCount() {
-        return pNames.size();
+        return prodList.size();
     }
 }
