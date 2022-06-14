@@ -4,18 +4,49 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class SearchProduct extends AppCompatActivity {
 
+    public static Activity fa;
+
     public ArrayList<Product> sProductList = initSProduct();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_product);
+
+        SearchView searchView = findViewById(R.id.goSearchAgn);
+        //make the whole search bar clickable
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setIconified(false);
+            }
+        });
+        //navigate to new activity after entering
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                getIntent().putExtra("testing","testing");
+                recreate();
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
 
         RecyclerView sProductRView = findViewById(R.id.sProductView);
         SearchProductAdapter pAdapter = new SearchProductAdapter(sProductList, this);
@@ -25,6 +56,7 @@ public class SearchProduct extends AppCompatActivity {
         sProductRView.setLayoutManager(gridLayoutManager);
         sProductRView.setAdapter(pAdapter);
     }
+
 
     //method to initialise random product for testing
     private ArrayList<Product> initSProduct(){
