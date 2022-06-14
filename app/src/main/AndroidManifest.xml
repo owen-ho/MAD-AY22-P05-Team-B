@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="sg.edu.np.P05TeamB">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.P05TeamB">
+        <activity
+            android:name=".ShoppingViewHolder"
+            android:exported="false" />
         <activity
             android:name=".SearchProduct"
             android:exported="false" />

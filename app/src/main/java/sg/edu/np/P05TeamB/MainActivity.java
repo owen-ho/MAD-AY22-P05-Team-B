@@ -1,17 +1,22 @@
 package sg.edu.np.P05TeamB;
 
+import android.app.ProgressDialog;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Bundle;
+import java.util.ArrayList;
 
 import sg.edu.np.P05TeamB.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+    private ArrayList<Product> productList;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
         replacefragment(new homefrag());
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-
-
             switch (item.getItemId()){
                 case R.id.home:
                     replacefragment(new homefrag());
@@ -42,10 +45,12 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
     }
+
     private  void replacefragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout,fragment);
         fragmentTransaction.commit();
     }
+
 }
