@@ -3,8 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/qiren/Desktop/MAD/ASG/MAD-AY22-P05-Team-B/app/src/main/res/drawable/auth_input.xml" value="0.5425" />
+        <entry key="..\:/Users/qiren/Desktop/MAD/ASG/MAD-AY22-P05-Team-B/app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.5435" />
         <entry key="..\:/Users/qiren/Desktop/MAD/ASG/MAD-AY22-P05-Team-B/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.5435" />
+        <entry key="..\:/Users/qiren/Desktop/MAD/ASG/MAD-AY22-P05-Team-B/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.5435" />
         <entry key="..\:/Users/qiren/Desktop/MAD/ASG/MAD-AY22-P05-Team-B/app/src/main/res/drawable/ic_baseline_shopping_bag_24.xml" value="0.5435" />
+        <entry key="..\:/Users/qiren/Desktop/MAD/ASG/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_login.xml" value="0.55" />
         <entry key="..\:/Users/qiren/Desktop/MAD/ASG/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_search_product.xml" value="0.536" />
         <entry key="..\:/Users/qiren/Desktop/MAD/ASG/MAD-AY22-P05-Team-B/app/src/main/res/layout/fragment_home.xml" value="0.55" />
         <entry key="..\:/Users/qiren/Desktop/MAD/ASG/MAD-AY22-P05-Team-B/app/src/main/res/layout/product_row.xml" value="0.55" />
