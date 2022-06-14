@@ -11,23 +11,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/goSearch"
-            android:layout_width="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:text="go to search product view"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            app:cardBackgroundColor="#E6E6E6"
+            app:cardCornerRadius="50dp"
+            app:cardElevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="homepage"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <SearchView
+                android:id="@+id/goSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
