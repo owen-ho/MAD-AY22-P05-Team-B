@@ -18,9 +18,10 @@ public class ShoppingViewHolder extends RecyclerView.ViewHolder {
 
     public ShoppingViewHolder(@NonNull View itemView) {
         super(itemView);
-        productListing = itemView.findViewById(R.id.productlisting);
-        productImage = itemView.findViewById(R.id.productImage);
-        productTitle = itemView.findViewById(R.id.title);
-        productPrice = itemView.findViewById(R.id.price);
+        productListing = itemView.findViewById(R.id.productlisting);//
+        productImage = itemView.findViewById(R.id.sProdImage);
+        productTitle = itemView.findViewById(R.id.sProdTitle);
+        productPrice = itemView.findViewById(R.id.sProdPrice);
+
     }
 }
