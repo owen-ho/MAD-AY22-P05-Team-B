@@ -13,29 +13,17 @@
         android:layout_height="match_parent"
         tools:context=".shoppingfrag">
 
-        <Button
-            android:id="@+id/searchBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:text="Search"
-            android:textAlignment="center"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/shoppingrecyclerview"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
-            android:layout_width="247dp"
+            android:layout_width="0dp"
             android:layout_height="52dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
             app:cardBackgroundColor="#E6E6E6"
             app:cardCornerRadius="50dp"
             app:cardElevation="10dp"
-            app:layout_constraintEnd_toStartOf="@+id/searchBtn"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
