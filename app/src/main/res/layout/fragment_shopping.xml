@@ -21,6 +21,7 @@
             android:text="Search"
             android:textAlignment="center"
             android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/shoppingrecyclerview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

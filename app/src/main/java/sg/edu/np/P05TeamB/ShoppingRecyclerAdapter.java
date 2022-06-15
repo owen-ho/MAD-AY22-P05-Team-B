@@ -27,7 +27,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
 
     @Override
     public int getItemViewType(final int position) {
-        return R.layout.product_row;
+        return R.layout.shopping_view_holder;
     }//
 
     @Override
@@ -40,12 +40,19 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
     @Override
     public void onBindViewHolder(ShoppingViewHolder holder, int position) {
         Product p = data.get(position);
+
         holder.productTitle.setText(p.title);
         String price = String.format("$%.2f",p.price);
         holder.productPrice.setText(price);
+        holder.prodRating.setRating(p.getRating());
+
+        //HARD CODED
+        holder.productWebsite.setText("Amazon.sg");
+
         Picasso.get()
                 .load(p.image)
                 .into(holder.productImage);
+
         holder.productListing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

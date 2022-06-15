@@ -25,7 +25,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/sProdImage"
+                android:id="@+id/sProdImage1"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="4dp"
@@ -33,7 +33,7 @@
                 android:layout_marginEnd="4dp"
                 android:layout_marginBottom="8dp"
                 android:adjustViewBounds="true"
-                app:layout_constraintBottom_toTopOf="@+id/sProdTitle"
+                app:layout_constraintBottom_toTopOf="@+id/sProdTitle1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,39 +41,39 @@
                 app:srcCompat="@android:drawable/sym_def_app_icon" />
 
             <TextView
-                android:id="@+id/sProdTitle"
+                android:id="@+id/sProdTitle1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="product name"
                 android:textColor="#020202"
-                app:layout_constraintBottom_toTopOf="@+id/sProdPrice"
+                app:layout_constraintBottom_toTopOf="@+id/sProdPrice1"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/sProdPrice"
+                android:id="@+id/sProdPrice1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="price"
                 android:textColor="#8F0B0B"
-                app:layout_constraintBottom_toTopOf="@+id/sProdRating"
+                app:layout_constraintBottom_toTopOf="@+id/sProdRating1"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <RatingBar
-                android:id="@+id/sProdRating"
+                android:id="@+id/sProdRating1"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/sProdWebsite"
+                app:layout_constraintBottom_toTopOf="@+id/sProdWebsite1"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/sProdWebsite"
+                android:id="@+id/sProdWebsite1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"

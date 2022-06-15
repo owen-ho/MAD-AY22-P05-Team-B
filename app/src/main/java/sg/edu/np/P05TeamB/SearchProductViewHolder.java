@@ -13,9 +13,9 @@ public class SearchProductViewHolder extends RecyclerView.ViewHolder {
     TextView websiteName;
     public SearchProductViewHolder(View itemView){
         super(itemView);
-        prodName = itemView.findViewById(R.id.sProdTitle);
-        prodPrice = itemView.findViewById(R.id.sProdPrice);
-        prodRating = itemView.findViewById(R.id.sProdRating);
-        websiteName = itemView.findViewById(R.id.sProdWebsite);
+        prodName = itemView.findViewById(R.id.sProdTitle1);
+        prodPrice = itemView.findViewById(R.id.sProdPrice1);
+        prodRating = itemView.findViewById(R.id.sProdRating1);
+        websiteName = itemView.findViewById(R.id.sProdWebsite1);
     }
 }

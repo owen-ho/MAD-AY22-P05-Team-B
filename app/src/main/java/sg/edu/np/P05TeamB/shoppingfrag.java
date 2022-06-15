@@ -7,8 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -64,13 +62,25 @@ public class shoppingfrag extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         SearchView query = view.findViewById(R.id.searchQuery);
-        Button searchBtn = view.findViewById(R.id.searchBtn);
-        searchBtn.setOnClickListener(new View.OnClickListener() {
+        //Button searchBtn = view.findViewById(R.id.searchBtn);
+        query.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onClick(View view) {
-                new getProducts(query.toString(),productList,view).execute();
+            public boolean onQueryTextSubmit(String s) {
+                new getProducts(s,productList,view).execute();
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
             }
         });
+//        searchBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                new getProducts(query.toString(),productList,view).execute();
+//            }
+//        });
     }
 
     class getProducts extends AsyncTask<Void, Void, Void> {
@@ -89,10 +99,9 @@ public class shoppingfrag extends Fragment {
             if(progressDialog.isShowing()){
                 progressDialog.dismiss();
             }
-
-
             //recyclerView.setAdapter(new ShoppingRecyclerAdapter(productList));
-            SearchProductAdapter pAdapter = new SearchProductAdapter(productList, getActivity());
+            SearchProductAdapter pAdapter = new SearchProductAdapter(productList, getContext());
+
             recyclerView.setAdapter(pAdapter);
         }
 
@@ -105,6 +114,10 @@ public class shoppingfrag extends Fragment {
             progressDialog.show();
         }
 
+        private Float convertToFloat(Double doubleValue) {
+            return doubleValue == null ? null : doubleValue.floatValue();
+        }
+
         @Override
         protected Void doInBackground(Void... voids) {
             String APIkey = "CFF558057AA04DCB817FDCA3F5FE9546";//Hard coded but can be changed later on if we swap rainforestapi accounts
@@ -112,7 +125,7 @@ public class shoppingfrag extends Fragment {
             String url ="https://api.rainforestapi.com/request?api_key="+APIkey+"&type=search&amazon_domain=amazon.sg&search_term="+query;
             APIHandler handler = new APIHandler();
             String jsonString = handler.httpServiceCall(url);
-            Log.d("OWENHOSL",jsonString);
+            Log.d("TAGGGGGG",jsonString);
             if (jsonString!=null){
                 try {
                     JSONObject jsonObject = new JSONObject(jsonString);
@@ -125,14 +138,12 @@ public class shoppingfrag extends Fragment {
                         String asin = jsonObject1.getString("asin");
                         String title = jsonObject1.getString("title");
                         String image = jsonObject1.getString("image");
-                        String link = jsonObject1.getString("link");
-
                         String category = categoryObject.getString("name");
-
                         Double price = priceObject.getDouble("value");
+                        String link = jsonObject1.getString("link");
+                        //Double rating = jsonObject1.getDouble("rating");
 
-                        productList.add(new Product(asin,title,category,price,image,link));
-
+                        productList.add(new Product(asin,title,category,price,image,link,4.5f));
                     }
                 } catch (JSONException e) {
                     getActivity().runOnUiThread(new Runnable() {
