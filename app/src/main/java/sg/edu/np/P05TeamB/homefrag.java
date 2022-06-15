@@ -70,31 +70,6 @@ public class homefrag extends Fragment {
         });
         search.setSubmitButtonEnabled(true);
 
-        //navigate to new activity after entering
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                Bundle bundle = new Bundle();
-                bundle.putString("searchInput", s);
-
-                Fragment fragment = new shoppingfrag();
-                fragment.setArguments(bundle);
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.frameLayout, fragment ); // give your fragment container id in first parameter
-                transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
-                //set the shop menu item active
-                BottomNavigationView navigationView = (BottomNavigationView) getActivity().findViewById(R.id.bottomNavigationView);
-                navigationView.setSelectedItemId(R.id.Shop);
-                transaction.commit();
-
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
-
         //loading of image using picasso
         ImageView imageView = getView().findViewById(R.id.largeImage);
         Picasso.get().load("https://i.imgur.com/DvpvklR.png").into(imageView);
