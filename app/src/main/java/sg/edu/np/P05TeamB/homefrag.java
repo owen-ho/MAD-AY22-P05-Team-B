@@ -10,10 +10,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import sg.edu.np.P05TeamB.databinding.ActivityMainBinding;
 
 public class homefrag extends Fragment {
 
@@ -56,10 +62,15 @@ public class homefrag extends Fragment {
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                getActivity().overridePendingTransition(0, 0);
-                Intent i = new Intent(getActivity(), SearchProduct.class);
-                startActivity(i);
-                getActivity().overridePendingTransition(0, 0);
+                Fragment fragment = new shoppingfrag();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frameLayout, fragment ); // give your fragment container id in first parameter
+                transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+                 //set the shop menu item active
+                BottomNavigationView navigationView = (BottomNavigationView) getActivity().findViewById(R.id.bottomNavigationView);
+                navigationView.setSelectedItemId(R.id.Shop);
+                transaction.commit();
+
                 return false;
             }
             @Override

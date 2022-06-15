@@ -32,11 +32,12 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductView
     @Override
     public void onBindViewHolder(@NonNull SearchProductViewHolder holder, int position) {
         Product p = prodList.get(position);
+        /*
         holder.prodName.setText(p.getProductName());
         DecimalFormat df = new DecimalFormat("0.00");
         holder.prodPrice.setText("$" + df.format(p.getPrice()));
         holder.prodRating.setRating(p.getRating());
-        holder.websiteName.setText(p.getWebsiteName());
+        holder.websiteName.setText(p.getWebsiteName());*/
     }
 
     @Override

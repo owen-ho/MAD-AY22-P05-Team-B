@@ -18,8 +18,9 @@ import java.util.Random;
 public class SearchProduct extends AppCompatActivity {
 
     public static Activity fa;
+    private ArrayList<Product> sProductList;
 
-    public ArrayList<Product> sProductList = initSProduct();
+    //public ArrayList<Product> sProductList = initSProduct();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +49,7 @@ public class SearchProduct extends AppCompatActivity {
         });
 
 
+        sProductList = new ArrayList<Product>();
         RecyclerView sProductRView = findViewById(R.id.sProductView);
         SearchProductAdapter pAdapter = new SearchProductAdapter(sProductList, this);
 
@@ -59,7 +61,7 @@ public class SearchProduct extends AppCompatActivity {
 
 
     //method to initialise random product for testing
-    private ArrayList<Product> initSProduct(){
+    /*private ArrayList<Product> initSProduct(){
         ArrayList<Product> sProductList = new ArrayList<>();
         while(sProductList.size() < 20){
             Random rand = new Random();
@@ -86,5 +88,5 @@ public class SearchProduct extends AppCompatActivity {
             sProductList.add(p);
         }
         return sProductList;
-    }
+    }*/
 }

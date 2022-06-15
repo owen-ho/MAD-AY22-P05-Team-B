@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         //so that fragment starts at home when user enters (instead of no fragment)
         replacefragment(new homefrag());
+        //binding.bottomNavigationView.getMenu().getItem(0).setChecked(true);
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private  void replacefragment(Fragment fragment){
+    private void replacefragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout,fragment);
