@@ -1,12 +1,14 @@
 package sg.edu.np.P05TeamB;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -60,9 +62,33 @@ public class shoppingfrag extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         SearchView query = view.findViewById(R.id.searchQuery);
+        query.setSubmitButtonEnabled(true);
+        Bundle bundle = this.getArguments();
+        if(bundle!= null){
+            Boolean search = bundle.getBoolean("condition",false);
+            if(search == true){
+                query.setIconifiedByDefault(false);//set the searchbar to focus
+                query.requestFocusFromTouch();//set the searchbar to focus
+                query.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean hasFocus) {
+                        if (hasFocus) {
+                            showInputMethod(view.findFocus());
+                        }
+                    }
+                });
+            }
+        }
         //Button searchBtn = view.findViewById(R.id.searchBtn);
+        //make the whole search bar clickable
+        query.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                query.setIconified(false);
+            }
+        });
+
         query.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -164,6 +190,12 @@ public class shoppingfrag extends Fragment {
                 });
             }
             return null;
+        }
+    }
+    private void showInputMethod(View view) {
+        InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (mgr != null) {
+            mgr.showSoftInput(view, 0);
         }
     }
 }

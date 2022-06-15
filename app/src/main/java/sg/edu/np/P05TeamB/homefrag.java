@@ -55,29 +55,20 @@ public class homefrag extends Fragment {
             @Override
             public void onClick(View v) {
                 search.setIconified(false);
-            }
-        });
-
-        //navigate to new activity after entering
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
                 Fragment fragment = new shoppingfrag();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("condition", true);
+                fragment.setArguments(bundle);
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.frameLayout, fragment ); // give your fragment container id in first parameter
                 transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
-                 //set the shop menu item active
+                //set the shop menu item active
                 BottomNavigationView navigationView = (BottomNavigationView) getActivity().findViewById(R.id.bottomNavigationView);
                 navigationView.setSelectedItemId(R.id.Shop);
                 transaction.commit();
-
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
             }
         });
+        search.setSubmitButtonEnabled(true);
 
         //loading of image using picasso
         ImageView imageView = getView().findViewById(R.id.largeImage);
