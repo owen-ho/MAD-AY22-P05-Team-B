@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,7 +54,8 @@ public class shoppingfrag extends Fragment {
         productList = new ArrayList<Product>();
         recyclerView = view.findViewById(R.id.shoppingrecyclerview);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2,GridLayoutManager.VERTICAL,false);
+        recyclerView.setLayoutManager(gridLayoutManager);
         return view;
     }
 
@@ -62,7 +64,7 @@ public class shoppingfrag extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         EditText query = view.findViewById(R.id.searchQuery);
-        Button searchBtn = view.findViewById(R.id.searchBtn);
+        Button searchBtn = view.findViewById(R.id.searchQuery);
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,17 +72,6 @@ public class shoppingfrag extends Fragment {
             }
         });
     }
-
-
-
-
-
-
-
-
-
-
-
 
     class getProducts extends AsyncTask<Void, Void, Void> {
         String query;
@@ -100,7 +91,11 @@ public class shoppingfrag extends Fragment {
             }
 
 
-            recyclerView.setAdapter(new ShoppingRecyclerAdapter(productList));
+            //recyclerView.setAdapter(new ShoppingRecyclerAdapter(productList));
+            SearchProductAdapter pAdapter = new SearchProductAdapter(productList, getActivity());
+
+            //use gridlayout manager to control the number of cards per row in recyclerview
+            recyclerView.setAdapter(pAdapter);
         }
 
         @Override

@@ -1,6 +1,7 @@
 package sg.edu.np.P05TeamB;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,25 +18,29 @@ import java.util.ArrayList;
 
 public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHolder> {
     private ArrayList<Product> data;
+    LayoutInflater inflater;
 
-    public ShoppingRecyclerAdapter(ArrayList<Product> input) {
-        data = input;
+    public ShoppingRecyclerAdapter(ArrayList<Product> input, Context  context) {
+        this.data = input;
+        this.inflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getItemViewType(final int position) {
-        return R.layout.shopping_view_holder;
-    }
+        return R.layout.product_row;
+    }//
 
     @Override
     public ShoppingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
+        //View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
+        View view = inflater.inflate(R.layout.product_row,parent,false);
         return new ShoppingViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ShoppingViewHolder holder, int position) {
         Product p = data.get(position);
+        /*
         holder.productTitle.setText(p.title);
         String price = String.format("$%.2f",p.price);
         holder.productPrice.setText(price);
@@ -63,7 +68,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                 });
                 builder.show();
             }
-        });
+        });*/
     }
 
     @Override

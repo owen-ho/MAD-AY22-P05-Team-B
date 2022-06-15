@@ -5,15 +5,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.SearchView;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class SearchProduct extends AppCompatActivity {
 
@@ -26,7 +22,7 @@ public class SearchProduct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_product);
 
-        SearchView searchView = findViewById(R.id.goSearchAgn);
+        SearchView searchView = findViewById(R.id.searchQuery);
         //make the whole search bar clickable
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +46,7 @@ public class SearchProduct extends AppCompatActivity {
 
 
         sProductList = new ArrayList<Product>();
-        RecyclerView sProductRView = findViewById(R.id.sProductView);
+        RecyclerView sProductRView = findViewById(R.id.shoppingrecyclerview);
         SearchProductAdapter pAdapter = new SearchProductAdapter(sProductList, this);
 
         //use gridlayout manager to control the number of cards per row in recyclerview
