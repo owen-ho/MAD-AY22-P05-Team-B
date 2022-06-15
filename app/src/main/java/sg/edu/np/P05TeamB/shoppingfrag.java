@@ -100,7 +100,7 @@ public class shoppingfrag extends Fragment {
                 progressDialog.dismiss();
             }
             //recyclerView.setAdapter(new ShoppingRecyclerAdapter(productList));
-            SearchProductAdapter pAdapter = new SearchProductAdapter(productList, getContext());
+            ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext());
 
             recyclerView.setAdapter(pAdapter);
         }
@@ -141,9 +141,9 @@ public class shoppingfrag extends Fragment {
                         String category = categoryObject.getString("name");
                         Double price = priceObject.getDouble("value");
                         String link = jsonObject1.getString("link");
-                        //Double rating = jsonObject1.getDouble("rating");
+                        Double rating = jsonObject1.getDouble("rating");
 
-                        productList.add(new Product(asin,title,category,price,image,link,4.5f));
+                        productList.add(new Product(asin,title,category,price,image,link,convertToFloat(rating)));
                     }
                 } catch (JSONException e) {
                     getActivity().runOnUiThread(new Runnable() {

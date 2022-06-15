@@ -33,7 +33,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
     @Override
     public ShoppingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-        View view = inflater.inflate(R.layout.product_row,parent,false);
+        View view = inflater.inflate(R.layout.shopping_view_holder,parent,false);
         return new ShoppingViewHolder(view);
     }
 

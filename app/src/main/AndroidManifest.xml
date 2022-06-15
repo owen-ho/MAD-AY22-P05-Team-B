@@ -15,9 +15,6 @@
             android:name=".ShoppingViewHolder"
             android:exported="false" />
         <activity
-            android:name=".SearchProduct"
-            android:exported="false" />
-        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
