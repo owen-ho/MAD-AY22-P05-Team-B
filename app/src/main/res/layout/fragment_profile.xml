@@ -10,7 +10,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView2"
@@ -175,8 +179,8 @@
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="100dp"
-                    android:layout_height="116dp"
+                    android:layout_width="118dp"
+                    android:layout_height="124dp"
                     android:src="@android:drawable/sym_def_app_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
