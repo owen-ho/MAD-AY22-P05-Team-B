@@ -22,7 +22,7 @@ public class SearchProduct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_product);
 
-        SearchView searchView = findViewById(R.id.searchQuery);
+        SearchView searchView = findViewById(R.id.searchQuery1);
         //make the whole search bar clickable
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +46,7 @@ public class SearchProduct extends AppCompatActivity {
 
 
         sProductList = new ArrayList<Product>();
-        RecyclerView sProductRView = findViewById(R.id.shoppingrecyclerview);
+        RecyclerView sProductRView = findViewById(R.id.shoppingrecyclerview1);
         SearchProductAdapter pAdapter = new SearchProductAdapter(sProductList, this);
 
         //use gridlayout manager to control the number of cards per row in recyclerview

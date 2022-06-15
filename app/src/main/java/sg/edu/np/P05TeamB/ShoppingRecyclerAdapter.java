@@ -40,7 +40,6 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
     @Override
     public void onBindViewHolder(ShoppingViewHolder holder, int position) {
         Product p = data.get(position);
-        /*
         holder.productTitle.setText(p.title);
         String price = String.format("$%.2f",p.price);
         holder.productPrice.setText(price);
@@ -68,7 +67,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                 });
                 builder.show();
             }
-        });*/
+        });
     }
 
     @Override
