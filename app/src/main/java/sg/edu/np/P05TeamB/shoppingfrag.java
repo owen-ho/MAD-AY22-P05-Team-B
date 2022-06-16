@@ -161,8 +161,9 @@ public class shoppingfrag extends Fragment {
                         Double price = priceObject.getDouble("value");
                         String link = jsonObject1.getString("link");
                         Double rating = jsonObject1.getDouble("rating");
+                        String website = "Amazon"; //hardcoded
 
-                        productList.add(new Product(asin,title,category,price,image,link,convertToFloat(rating)));
+                        productList.add(new Product(asin,title,category,price,image,link,convertToFloat(rating),website));
                     }
                 } catch (JSONException e) {
                     getActivity().runOnUiThread(new Runnable() {

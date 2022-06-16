@@ -45,8 +45,8 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
     public void onBindViewHolder(ShoppingViewHolder holder, int position) {
         Product p = data.get(position);
 
-        holder.productTitle.setText(p.title);
-        String price = String.format("$%.2f",p.price);
+        holder.productTitle.setText(p.getTitle());
+        String price = String.format("$%.2f",p.getPrice());
         holder.productPrice.setText(price);
         holder.prodRating.setRating(p.getRating());
 
@@ -54,7 +54,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         holder.productWebsite.setText("Amazon.sg");
 
         Picasso.get()
-                .load(p.image)
+                .load(p.getImageUrl())
                 .into(holder.productImage);
 
         holder.productListing.setOnClickListener(new View.OnClickListener() {
@@ -62,12 +62,12 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(holder.productListing.getContext());
                 builder.setTitle("Product Details");
-                builder.setMessage("Title: "+p.title+'\n'+'\n'+"Category: "+p.category+'\n'+'\n'+String.format("Price: $%.2f",p.price));
+                builder.setMessage("Title: "+p.getTitle()+'\n'+'\n'+"Category: "+p.getCategory()+'\n'+'\n'+String.format("Price: $%.2f",p.getPrice()));
                 builder.setCancelable(false);
                 builder.setPositiveButton("Open", new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int id){
                         //Opens store page for item
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(p.link));
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(p.getLink()));
                         holder.productListing.getContext().startActivity(browserIntent);
                     }
                 });

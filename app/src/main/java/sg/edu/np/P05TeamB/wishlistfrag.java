@@ -11,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,18 +42,29 @@ public class wishlistfrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         View view  = inflater.inflate(R.layout.fragment_wishlist, container, false);
+
+        //WishList Filters
         recyclerViewFilter = view.findViewById(R.id.recyclerFilter);
         wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(filterList);
 
         //Layout manager
-        LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);//set horizon layout
         recyclerViewFilter.setLayoutManager(hLayoutManager);
         recyclerViewFilter.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewFilter.setAdapter(wFilterAdapter);//set adapter for wishlist filters
 
-        recyclerViewFilter.setAdapter(wFilterAdapter);
 
-        // Inflate the layout for this fragment
+        //WishList List
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null){
+            String uid = user.getUid();
+
+        }
+        recyclerViewWishlist = view.findViewById(R.id.recyclerWishlist);
+
+
         return view;
     }
 

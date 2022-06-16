@@ -28,11 +28,9 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.cardview.widget.CardView
-            android:layout_width="429dp"
-            android:layout_height="624dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="200dp"
-            android:layout_marginEnd="50dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="32dp"
             android:background="#CBEBEB"
             app:cardBackgroundColor="#CBEBEB"
             app:cardCornerRadius="40dp"
@@ -42,13 +40,14 @@
             app:layout_constraintTop_toBottomOf="@+id/cardView3">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="453dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
                     android:text="Username"
                     android:textColor="#989898"
@@ -59,7 +58,7 @@
 
                 <TextView
                     android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="58dp"
@@ -70,11 +69,10 @@
 
                 <TextView
                     android:id="@+id/textView5"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
+                    android:layout_marginStart="24dp"
                     android:layout_marginTop="58dp"
-                    android:layout_marginEnd="346dp"
                     android:text="Password"
                     android:textColor="#989898"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -115,7 +113,7 @@
 
                 <TextView
                     android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="2dp"
@@ -126,7 +124,7 @@
 
                 <TextView
                     android:id="@+id/textView10"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="2dp"
@@ -137,9 +135,9 @@
 
                 <TextView
                     android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="25dp"
                     android:layout_marginTop="2dp"
                     android:text="QiOwgHoChongPhua@gmail.com"
                     android:textColor="#000000"
