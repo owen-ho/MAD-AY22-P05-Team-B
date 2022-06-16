@@ -18,6 +18,7 @@ public class ShoppingViewHolder extends RecyclerView.ViewHolder {
     TextView productPrice;
     TextView productWebsite;
     RatingBar prodRating;
+    ImageView prodFavourite;
 
     public ShoppingViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -27,5 +28,6 @@ public class ShoppingViewHolder extends RecyclerView.ViewHolder {
         productPrice = itemView.findViewById(R.id.sProdPrice);
         productWebsite = itemView.findViewById(R.id.sProdWebsite);
         prodRating = itemView.findViewById(R.id.sProdRating);
+        prodFavourite = itemView.findViewById(R.id.sProdFavourite);
     }
 }
