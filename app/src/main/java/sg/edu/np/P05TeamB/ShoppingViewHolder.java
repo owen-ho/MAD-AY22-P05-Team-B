@@ -20,14 +20,26 @@ public class ShoppingViewHolder extends RecyclerView.ViewHolder {
     RatingBar prodRating;
     ImageView prodFavourite;
 
-    public ShoppingViewHolder(@NonNull View itemView) {
+    public ShoppingViewHolder(@NonNull View itemView, int viewType) {
         super(itemView);
-        productListing = itemView.findViewById(R.id.sProdListing);
-        productImage = itemView.findViewById(R.id.sProdImage);
-        productTitle = itemView.findViewById(R.id.sProdTitle);
-        productPrice = itemView.findViewById(R.id.sProdPrice);
-        productWebsite = itemView.findViewById(R.id.sProdWebsite);
-        prodRating = itemView.findViewById(R.id.sProdRating);
-        prodFavourite = itemView.findViewById(R.id.sProdFavourite);
+        if (viewType == 1){//shopping search view
+            productListing = itemView.findViewById(R.id.sProdListing);
+            productImage = itemView.findViewById(R.id.sProdImage);
+            productTitle = itemView.findViewById(R.id.sProdTitle);
+            productPrice = itemView.findViewById(R.id.sProdPrice);
+            productWebsite = itemView.findViewById(R.id.sProdWebsite);
+            prodRating = itemView.findViewById(R.id.sProdRating);
+            prodFavourite = itemView.findViewById(R.id.sProdFavourite);
+        }
+        else{//wishlistview
+            productListing = itemView.findViewById(R.id.wishlistListing);
+            productImage = itemView.findViewById(R.id.wImage);
+            productTitle = itemView.findViewById(R.id.wTitle);
+            productPrice = itemView.findViewById(R.id.wPrice);
+            productWebsite = itemView.findViewById(R.id.wWebsite);
+            prodRating = itemView.findViewById(R.id.wRatingBar);
+            prodFavourite = itemView.findViewById(R.id.wFavourite);
+        }
+
     }
 }

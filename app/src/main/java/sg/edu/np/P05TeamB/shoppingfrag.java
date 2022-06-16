@@ -119,7 +119,7 @@ public class shoppingfrag extends Fragment {
                 progressDialog.dismiss();
             }
             //recyclerView.setAdapter(new ShoppingRecyclerAdapter(productList));
-            ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext());
+            ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),1);
 
             recyclerView.setAdapter(pAdapter);
         }

@@ -12,7 +12,7 @@ public class Product implements Serializable {
     private Float rating;
     private String website;
 
-    public Product() {
+    public Product() {//default constructors
     }
 
     public Product(String _asin, String _title, String _category, Double _price, String _image, String _link, Float _rating, String _website){

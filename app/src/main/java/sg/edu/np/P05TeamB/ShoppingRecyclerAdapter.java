@@ -22,23 +22,38 @@ import java.util.ArrayList;
 
 public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHolder> {
     private ArrayList<Product> data;
-    LayoutInflater inflater;
 
-    public ShoppingRecyclerAdapter(ArrayList<Product> input, Context  context) {
+    LayoutInflater inflater;
+    int layoutType; //toggle between search product view and shopping list view
+    // 1 = shopping search product view
+    // 2 = wishlist view
+
+    public ShoppingRecyclerAdapter(ArrayList<Product> input, Context  context, int _layoutType) {
         this.data = input;
         this.inflater = LayoutInflater.from(context);
+        this.layoutType = _layoutType;
     }
 
     @Override
     public int getItemViewType(final int position) {
-        return R.layout.shopping_view_holder;
+        if (this.layoutType == 1){
+            return 1;//shopping search product view
+        }
+        else{
+            return 2;//wishlist view
+        }
     }//
 
     @Override
     public ShoppingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-        View view = inflater.inflate(R.layout.shopping_view_holder,parent,false);
-        return new ShoppingViewHolder(view);
+        View view;
+        if(viewType == 1){//search product view
+            view = inflater.inflate(R.layout.shopping_view_holder,parent,false);
+        }
+        else{//wishlist view
+            view = inflater.inflate(R.layout.wishlist_row,parent,false);
+        }
+        return new ShoppingViewHolder(view,viewType);
     }
 
     @Override
@@ -50,8 +65,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         holder.productPrice.setText(price);
         holder.prodRating.setRating(p.getRating());
 
-        //HARD CODED
-        holder.productWebsite.setText("Amazon.sg");
+        holder.productWebsite.setText(p.getWebsite());
 
         Picasso.get()
                 .load(p.getImageUrl())
@@ -96,4 +110,5 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
     public int getItemCount() {
         return data.size();
     }
+
 }
