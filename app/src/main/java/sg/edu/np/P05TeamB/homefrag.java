@@ -1,11 +1,14 @@
 package sg.edu.np.P05TeamB;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
@@ -49,23 +52,37 @@ public class homefrag extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         SearchView search = getView().findViewById(R.id.goSearch);
-
-        //make the whole search bar clickable
-        search.setOnClickListener(new View.OnClickListener() {
+        //transition to the shopping fragment
+        search.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                search.setIconified(false);
+
                 Fragment fragment = new shoppingfrag();
                 Bundle bundle = new Bundle();
-                bundle.putBoolean("condition", true);
+                bundle.putBoolean("condition", true);//inform shopping fragment that this method is passed
                 fragment.setArguments(bundle);
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.frameLayout, fragment ); // give your fragment container id in first parameter
-                transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+                transaction.addToBackStack(null);  //this transaction will be added to backstack
+
                 //set the shop menu item active
                 BottomNavigationView navigationView = (BottomNavigationView) getActivity().findViewById(R.id.bottomNavigationView);
                 navigationView.setSelectedItemId(R.id.Shop);
                 transaction.commit();
+            }
+        });
+
+        //to make the whole searchbar clickable
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*
+                View view1 = getActivity().getCurrentFocus();//to hide keyboard in the home fragment
+                if (view1 != null){
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
+                }*/
+                search.setIconified(false); // cannot be placed under setOnSearchListener because it will cause listener to be informed
             }
         });
         search.setSubmitButtonEnabled(true);

@@ -100,13 +100,6 @@ public class shoppingfrag extends Fragment {
                 return false;
             }
         });
-//        searchBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                new getProducts(query.toString(),productList,view).execute();
-//            }
-//        });
     }
 
     class getProducts extends AsyncTask<Void, Void, Void> {
