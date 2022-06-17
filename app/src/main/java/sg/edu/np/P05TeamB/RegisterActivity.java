@@ -1,16 +1,15 @@
 package sg.edu.np.P05TeamB;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,8 +36,6 @@ public class RegisterActivity extends AppCompatActivity {
         Button registerBtn = findViewById(R.id.registerButton);
         EditText Username = findViewById(R.id.Username);
 
-
-
         loginPrompt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,10 +48,8 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 createAccount(email.getText().toString(),password.getText().toString(),Username.getText().toString());
-
             }
         });
-
     }
 
     private void createAccount(String email, String password,String Username){
@@ -66,9 +61,13 @@ public class RegisterActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             //Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+
                             User u = new User();
+                            u.uid = user.getUid();
+                            u.email = user.getEmail();
                             u.username = Username;
-                            userRef.child(user.getUid()).child("username").setValue(Username);
+                            userRef.child(u.uid).setValue(u);
+
                             Intent i = new Intent(RegisterActivity.this,LoginActivity.class);
                             startActivity(i);
                         } else {

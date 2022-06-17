@@ -1,30 +1,25 @@
 package sg.edu.np.P05TeamB;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
-    DatabaseReference userRef = database.getReference("user");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +31,6 @@ public class LoginActivity extends AppCompatActivity {
         EditText email = findViewById(R.id.emailBox);
         EditText password = findViewById(R.id.passwordBox);
         Button loginBtn = findViewById(R.id.loginButton);
-        TextView email1 = findViewById(R.id.emailBox);
-
-
-
-
-
-
-
-
 
         registerPrompt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,13 +68,9 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             //Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            User w = new User();
-                            w.uid = user.getUid();
-                            w.email = user.getEmail();
-                            w.username = "test";
-                            userRef.child(w.uid).setValue(w);
 
                             Intent i = new Intent(LoginActivity.this,MainActivity.class);
+                            assert user != null;
                             i.putExtra("email",user.getEmail());
                             i.putExtra("uid",user.getUid());
                             startActivity(i);
