@@ -1,14 +1,26 @@
 package sg.edu.np.P05TeamB;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -61,11 +73,57 @@ public class profilefrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
+        DatabaseReference userRef = database.getReference("user");
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_profile, container, false);
         View V = inflater.inflate(R.layout.fragment_profile, container, false);
         ImageView profilepic = V.findViewById(R.id.imageView3);
         Picasso.get().load("https://s.yimg.com/ny/api/res/1.2/XQDn25S2GxDbItD31nyahQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTU4OTtjZj13ZWJw/https://s.yimg.com/os/creatr-uploaded-images/2021-02/e2698180-6b90-11eb-97fb-e40529b50439").into(profilepic);
+        TextView email1 = V.findViewById(R.id.textView9);
+        TextView user1 = V.findViewById(R.id.usernamebox);
+        Button email = V.findViewById(R.id.changeemail);
+        Button user2 = V.findViewById(R.id.changeuser);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user!=null){
+            userRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String username = snapshot.child(user.getUid()).child("username").getValue().toString();
+
+                    String email3 = user.getEmail();
+                    email1.setText(email3);
+                    user1.setText(username);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+
+
+
+
+        }else{
+
+        }
+//        email1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(profilefrag.this, Pop.class));
+//            }
+//        });
+
+
         return  V;
+
+
+
+
     }
 }

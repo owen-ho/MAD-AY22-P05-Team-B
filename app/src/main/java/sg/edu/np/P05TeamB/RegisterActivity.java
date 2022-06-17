@@ -17,11 +17,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
+    FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    DatabaseReference userRef = database.getReference("user");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
@@ -30,6 +35,9 @@ public class RegisterActivity extends AppCompatActivity {
         EditText email = findViewById(R.id.emailBox);
         EditText password = findViewById(R.id.passwordBox);
         Button registerBtn = findViewById(R.id.registerButton);
+        EditText Username = findViewById(R.id.Username);
+
+
 
         loginPrompt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,13 +50,14 @@ public class RegisterActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createAccount(email.getText().toString(),password.getText().toString());
+                createAccount(email.getText().toString(),password.getText().toString(),Username.getText().toString());
+
             }
         });
 
     }
 
-    private void createAccount(String email, String password){
+    private void createAccount(String email, String password,String Username){
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -57,6 +66,9 @@ public class RegisterActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             //Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            User u = new User();
+                            u.username = Username;
+                            userRef.child(user.getUid()).child("username").setValue(Username);
                             Intent i = new Intent(RegisterActivity.this,LoginActivity.class);
                             startActivity(i);
                         } else {
@@ -67,5 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     }
                 });
+
     }
+
 }

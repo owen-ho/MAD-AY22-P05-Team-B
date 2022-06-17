@@ -2,6 +2,7 @@ package sg.edu.np.P05TeamB;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +36,15 @@ public class LoginActivity extends AppCompatActivity {
         EditText email = findViewById(R.id.emailBox);
         EditText password = findViewById(R.id.passwordBox);
         Button loginBtn = findViewById(R.id.loginButton);
+        TextView email1 = findViewById(R.id.emailBox);
+
+
+
+
+
+
+
+
 
         registerPrompt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,8 +82,11 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             //Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            User userObject = new User(user.getUid(),user.getEmail());
-                            userRef.child(userObject.uid).setValue(userObject);
+                            User w = new User();
+                            w.uid = user.getUid();
+                            w.email = user.getEmail();
+                            w.username = "test";
+                            userRef.child(w.uid).setValue(w);
 
                             Intent i = new Intent(LoginActivity.this,MainActivity.class);
                             i.putExtra("email",user.getEmail());
@@ -88,5 +101,11 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+    private void openfrag(){
+        profilefrag frag = new profilefrag();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        Bundle bundle = new Bundle();
+        //bundle.putString("email",);
     }
 }
