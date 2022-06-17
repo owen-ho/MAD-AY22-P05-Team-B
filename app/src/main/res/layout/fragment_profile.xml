@@ -134,7 +134,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
                 <TextView
-                    android:id="@+id/textView9"
+                    android:id="@+id/emailbox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
@@ -166,7 +166,7 @@
         </androidx.cardview.widget.CardView>
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/uploadPic"
             android:layout_width="29dp"
             android:layout_height="28dp"
             android:layout_marginTop="84dp"

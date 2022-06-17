@@ -62,7 +62,7 @@ public class homefrag extends Fragment {
                 bundle.putBoolean("condition", true);//inform shopping fragment that this method is passed
                 fragment.setArguments(bundle);
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.frameLayout, fragment ); // give your fragment container id in first parameter
+                transaction.replace(R.id.frameLayout, fragment );
                 transaction.addToBackStack(null);  //this transaction will be added to backstack
 
                 //set the shop menu item active
