@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.P05TeamB">
         <activity
+            android:name=".changinginfo"
+            android:exported="false" />
+        <activity
             android:name=".ShoppingViewHolder"
             android:exported="false" />
         <activity

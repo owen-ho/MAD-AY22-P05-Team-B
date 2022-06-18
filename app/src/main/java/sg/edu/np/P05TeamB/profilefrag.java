@@ -10,13 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -61,10 +66,13 @@ public class profilefrag extends Fragment {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference userRef = database.getReference("user");
+
         TextView email1 = view.findViewById(R.id.emailbox);
-        TextView user1 = view.findViewById(R.id.usernamebox);
-        Button email = view.findViewById(R.id.changeemail);
-        Button user2 = view.findViewById(R.id.changeuser);
+        TextView usertext = view.findViewById(R.id.usernamebox);
+
+        Button infobutton = view.findViewById(R.id.changeinfo);
+
+
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -77,7 +85,7 @@ public class profilefrag extends Fragment {
 
                     String email3 = user.getEmail();
                     email1.setText(email3);
-                    user1.setText(username);
+                    usertext.setText(username);
                 }
 
                 @Override
@@ -88,12 +96,21 @@ public class profilefrag extends Fragment {
         }else{
 
         }
-//        email1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(profilefrag.this, Pop.class));
-//            }
-//        });
+
+        infobutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),changinginfo.class);
+                startActivity(intent);
+
+
+
+
+
+
+            }
+        });
+
 
         //the plus icon to upload a new profile picture
         ImageView upload = view.findViewById(R.id.uploadPic);
