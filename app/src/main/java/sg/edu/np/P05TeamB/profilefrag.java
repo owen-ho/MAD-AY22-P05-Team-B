@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 public class profilefrag extends Fragment {
@@ -50,8 +54,6 @@ public class profilefrag extends Fragment {
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_profile, container, false);
         View V = inflater.inflate(R.layout.fragment_profile, container, false);
-        ImageView profilepic = V.findViewById(R.id.imageView3);
-        Picasso.get().load("https://s.yimg.com/ny/api/res/1.2/XQDn25S2GxDbItD31nyahQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTU4OTtjZj13ZWJw/https://s.yimg.com/os/creatr-uploaded-images/2021-02/e2698180-6b90-11eb-97fb-e40529b50439").into(profilepic);
         return  V;
     }
 
@@ -59,8 +61,15 @@ public class profilefrag extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ImageView profilepic = view.findViewById(R.id.imageView3);
+
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference userRef = database.getReference("user");
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
+
         TextView email1 = view.findViewById(R.id.emailbox);
         TextView user1 = view.findViewById(R.id.usernamebox);
         Button email = view.findViewById(R.id.changeemail);
@@ -78,6 +87,20 @@ public class profilefrag extends Fragment {
                     String email3 = user.getEmail();
                     email1.setText(email3);
                     user1.setText(username);
+
+                    //loading of pics
+                    //each user can add an profile picture, its file name is uid.png
+                    storageRef.child("profilepics/" + usr.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {//user has set a profile picture before
+                            Picasso.get().load(uri).into(profilepic);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before
+                        @Override
+                        public void onFailure(@NonNull Exception e) {//set default picture
+                            Picasso.get().load("https://s.yimg.com/ny/api/res/1.2/XQDn25S2GxDbItD31nyahQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTU4OTtjZj13ZWJw/https://s.yimg.com/os/creatr-uploaded-images/2021-02/e2698180-6b90-11eb-97fb-e40529b50439").into(profilepic);
+                        }
+                    });
                 }
 
                 @Override
