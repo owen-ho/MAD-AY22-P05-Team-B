@@ -121,7 +121,9 @@ public class profilefrag extends Fragment {
             if (requestCode == SELECT_PICTURE) {
                 Uri pfpUri = data.getData();
                 if (null != pfpUri) {
-                    //upload to firebase
+                    Intent i = new Intent(getActivity(),SelectProfilePic.class);
+                    i.putExtra("path",pfpUri.toString());
+                    startActivity(i);
                 }
             }
         }

@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.P05TeamB">
         <activity
-            android:name=".ShoppingViewHolder"
+            android:name=".SelectProfilePic"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
