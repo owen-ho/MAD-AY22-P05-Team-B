@@ -15,6 +15,9 @@
             android:name=".SelectProfilePic"
             android:exported="false" />
         <activity
+            android:name=".changinginfo"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
