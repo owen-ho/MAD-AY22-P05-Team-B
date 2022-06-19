@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -63,7 +65,16 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         holder.productTitle.setText(p.getTitle());
         String price = String.format("$%.2f",p.getPrice());
         holder.productPrice.setText(price);
-        holder.prodRating.setRating(p.getRating());
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(holder.productListing);//close the constraint layout
+
+        if(Math.signum(p.getRating()) == 0){//check if rating is 0 (rating is not available)
+            holder.prodRating.setVisibility(View.GONE);//rating bar gone
+        }
+        else {//rating is available (set rating)
+            holder.prodRating.setVisibility(View.VISIBLE);//rating bar visible
+            holder.prodRating.setRating(p.getRating());
+        }
 
         holder.productWebsite.setText(p.getWebsite());
 
@@ -100,9 +111,11 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             public void onClick(View view) {
 
                 // showing favourite
+                holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_red));//use custom red color
+                /*
                 Drawable unwrappedDrawable = AppCompatResources.getDrawable(holder.prodFavourite.getContext(), R.drawable.favourate_button);
                 Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
-                DrawableCompat.setTint(wrappedDrawable, Color.RED);
+                DrawableCompat.setTint(wrappedDrawable, Color.RED);*/
 
             }
         });

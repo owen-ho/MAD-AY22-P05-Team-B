@@ -17,6 +17,7 @@ public class ShoppingViewHolder extends RecyclerView.ViewHolder {
     TextView productTitle;
     TextView productPrice;
     TextView productWebsite;
+    TextView prodNoRating;
     RatingBar prodRating;
     ImageView prodFavourite;
 
