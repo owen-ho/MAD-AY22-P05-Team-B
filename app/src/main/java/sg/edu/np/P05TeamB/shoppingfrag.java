@@ -133,9 +133,10 @@ public class shoppingfrag extends Fragment {
             progressDialog.show();
         }
 
-        private String getAPIlink(String query, String website, String apikey){
-            String url;
+        private String[] getAPIlink(String query, String website, String apikey){
+            String url = null;
             query = query = query.replace(" ","+");
+            String[] output = new String[2];
 
             if(website.toLowerCase().equals("amazon")){
                 //url = "https://api.rainforestapi.com/request?api_key="+apikey+"&type=search&amazon_domain=amazon.sg&search_term="+query;
@@ -158,18 +159,19 @@ public class shoppingfrag extends Fragment {
             else{
                 Toast.makeText(getContext(),"We do not have APIs to that website yet!",Toast.LENGTH_SHORT).show();
             }
-            return null;
+            return new String[] {url,website};
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            //String APIkey = "4487B79AE90342968E9E30B71F25913D";
+            //String amazonAPIkey = "4487B79AE90342968E9E30B71F25913D";
 
-            //String url ="https://api.rainforestapi.com/request?api_key="+APIkey+"&type=search&amazon_domain=amazon.sg&search_term="+query;
-            String url = getAPIlink("QUERY DOESNT WORK NOW","Amazon","APIKEY DOESNT WORK");
+            String url = getAPIlink("QUERY DOESNT WORK NOW",query,"APIKEY DOESNT WORK")[0]; //Change API here
+            String website = getAPIlink("QUERY DOESNT WORK NOW",query,"APIKEY DOESNT WORK")[1];
+
             APIHandler handler = new APIHandler();
             String jsonString = handler.httpServiceCall(url);
-            Log.d("TAGGGGGG",jsonString);
+            Log.d("JSONInput",jsonString);
             if (jsonString!=null){
                 try {
                     JSONObject jsonObject = new JSONObject(jsonString);
@@ -178,19 +180,33 @@ public class shoppingfrag extends Fragment {
                     for(int i=0;i<products.length();i++){
                         JSONObject jsonObject1 = products.getJSONObject(i);
 
-                        //String asin = jsonObject1.getString("asin"); //deleted because ebay API has no asin
-                        String title = jsonObject1.getString("title");
-                        String image = jsonObject1.getString("image");
-                        String link = jsonObject1.getString("link");
-                        //Double rating = jsonObject1.getDouble("rating");
+                        String title = "No title";
+                        String image = "no image";
+                        String link = "no link";
+                        Double price = 0.0;
 
-                        //JSONObject categoryObject = jsonObject1.getJSONArray("categories").getJSONObject(0); //deleted because ebay API does not have product categories
-                        //String category = categoryObject.getString("name");
+                        if(website.toLowerCase().equals("walmart")){
+                            JSONObject productObject = jsonObject1.getJSONObject("product");
+                            title = productObject.getString("title");
+                            image = productObject.getString("main_image");
+                            link = productObject.getString("link");
 
-                        JSONObject priceObject = jsonObject1.getJSONObject("price");
-                        Double price = priceObject.getDouble("value");
+                            JSONObject offersObject = jsonObject1.getJSONObject("offers").getJSONObject("primary");
+                            price = offersObject.getDouble("price");
+                        }else{
+                            //String asin = jsonObject1.getString("asin"); //deleted because ebay API has no asin
+                            title = jsonObject1.getString("title");
+                            image = jsonObject1.getString("image");
+                            link = jsonObject1.getString("link");
+                            //Double rating = jsonObject1.getDouble("rating");
 
-                        String website = "Amazon"; //hardcoded
+                            //JSONObject categoryObject = jsonObject1.getJSONArray("categories").getJSONObject(0); //deleted because ebay API does not have product categories
+                            //String category = categoryObject.getString("name");
+
+                            JSONObject priceObject = jsonObject1.getJSONObject("price");
+                            price = priceObject.getDouble("value");
+                        }
+
 
                         productList.add(new Product("asin",title,"category",price,image,link,3.0f,website));
                     }
