@@ -72,7 +72,7 @@ public class profilefrag extends Fragment {
         TextView usertext = view.findViewById(R.id.usernamebox);
         ImageView profilepic = view.findViewById(R.id.imageView3);
 
-        Button infobutton = view.findViewById(R.id.changeinfo);
+        TextView infobutton = view.findViewById(R.id.changeinfo);
         Button logoutbutton = view.findViewById(R.id.logoutBtn);
 
         if (user!=null){
@@ -136,7 +136,7 @@ public class profilefrag extends Fragment {
 
     }
 
-    //meethod to select image from gallery
+    //method to select image from gallery
     private void chooseImg(){
         Intent intent = new Intent();
         intent.setType("image/*");

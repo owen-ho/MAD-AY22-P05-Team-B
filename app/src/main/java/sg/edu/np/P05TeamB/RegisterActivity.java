@@ -52,6 +52,11 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        //do nothing
+    }
+
     private void createAccount(String email, String password,String Username){
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -80,5 +85,6 @@ public class RegisterActivity extends AppCompatActivity {
                 });
 
     }
+
 
 }
