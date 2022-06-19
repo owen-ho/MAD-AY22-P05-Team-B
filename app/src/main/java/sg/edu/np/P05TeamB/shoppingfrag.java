@@ -67,7 +67,7 @@ public class shoppingfrag extends Fragment {
         Bundle bundle = this.getArguments();
         if(bundle!= null){
             Boolean search = bundle.getBoolean("condition",false);
-            if(search == true){
+            if(search){
                 query.setIconifiedByDefault(false);//set the searchbar to focus
                 query.requestFocusFromTouch();//set the searchbar to focus
                 query.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
@@ -80,6 +80,7 @@ public class shoppingfrag extends Fragment {
                 });
             }
         }
+
         //Button searchBtn = view.findViewById(R.id.searchBtn);
         //make the whole search bar clickable
         query.setOnClickListener(new View.OnClickListener() {
