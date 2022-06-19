@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 public class homefrag extends Fragment {
     private ArrayList<Product> homeproductList = new ArrayList<Product>();
+    private ImageView[] imArray;
     public homefrag() {
         // Required empty public constructor
     }
@@ -45,9 +46,10 @@ public class homefrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return v;
     }
 
 
@@ -55,7 +57,14 @@ public class homefrag extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
-
+        ImageView large = getView().findViewById(R.id.largeImage);
+        ImageView small1 = getView().findViewById(R.id.smallImage1);
+        ImageView small2 = getView().findViewById(R.id.smallImage2);
+        ImageView small3 = getView().findViewById(R.id.smallImage3);
+        ImageView small4 = getView().findViewById(R.id.smallImage4);
+        ImageView small5 = getView().findViewById(R.id.smallImage5);
+        ImageView small6 = getView().findViewById(R.id.smallImage6);
+        imArray = new ImageView[] {large,small1,small2,small3,small4,small5,small6};
         SearchView search = getView().findViewById(R.id.goSearch);
         //transition to the shopping fragment
         search.setOnSearchClickListener(new View.OnClickListener() {
@@ -104,14 +113,8 @@ public class homefrag extends Fragment {
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
             //recyclerView.setAdapter(new ShoppingRecyclerAdapter(productList));
-            ImageView large = getView().findViewById(R.id.largeImage);
-            ImageView small1 = getView().findViewById(R.id.smallImage1);
-            ImageView small2 = getView().findViewById(R.id.smallImage2);
-            ImageView small3 = getView().findViewById(R.id.smallImage3);
-            ImageView small4 = getView().findViewById(R.id.smallImage4);
-            ImageView small5 = getView().findViewById(R.id.smallImage5);
-            ImageView small6 = getView().findViewById(R.id.smallImage6);
-            ImageView[] imArray = new ImageView[] {large,small1,small2,small3,small4,small5,small6};
+
+
 
             Integer count=0;
             for(ImageView iv:imArray){
