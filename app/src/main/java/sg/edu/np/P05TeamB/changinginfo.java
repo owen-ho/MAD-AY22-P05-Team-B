@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,7 +42,7 @@ public class changinginfo extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(getApplicationContext(), "username updated", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(changinginfo.this, "username updated", Toast.LENGTH_SHORT).show();
                                 }else{
                                     try{
                                         throw Objects.requireNonNull(task.getException());
@@ -63,7 +62,7 @@ public class changinginfo extends AppCompatActivity {
                                     if(!password.getText().toString().equals("")){
                                         changePassword(user,password.getText().toString());
                                     }
-                                    Toast.makeText(getApplicationContext(), "email updated", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(changinginfo.this, "email updated", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -73,7 +72,7 @@ public class changinginfo extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(getApplicationContext(), "realtime db email updated", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(changinginfo.this, "realtime db email updated", Toast.LENGTH_SHORT).show();
 
                                 }else{
                                     try{
@@ -101,7 +100,7 @@ public class changinginfo extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "password updated", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(changinginfo.this, "password updated", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

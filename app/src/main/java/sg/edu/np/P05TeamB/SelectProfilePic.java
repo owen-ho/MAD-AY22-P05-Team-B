@@ -80,14 +80,14 @@ public class SelectProfilePic extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(),"Upload Success!",Toast.LENGTH_SHORT).show();//to show at the bottom of the screen when pic uploaded
+                            Toast.makeText(SelectProfilePic.this,"Upload Success!",Toast.LENGTH_SHORT).show();//to show at the bottom of the screen when pic uploaded
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(),"Upload failed, try again later",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SelectProfilePic.this,"Upload failed, try again later",Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -118,14 +118,14 @@ public class SelectProfilePic extends AppCompatActivity {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(),"Upload Success!",Toast.LENGTH_SHORT).show();//to show at the bottom of the screen when pic uploaded
+                        Toast.makeText(SelectProfilePic.this,"Upload Success!",Toast.LENGTH_SHORT).show();//to show at the bottom of the screen when pic uploaded
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(),"Upload failed, try again later",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SelectProfilePic.this,"Upload failed, try again later",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
