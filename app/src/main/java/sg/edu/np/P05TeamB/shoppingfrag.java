@@ -108,7 +108,7 @@ public class shoppingfrag extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 new getProducts(s,productList,view).execute();
-                return false;
+                return true;
             }
             @Override
             public boolean onQueryTextChange(String s) {
