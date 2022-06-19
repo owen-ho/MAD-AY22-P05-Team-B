@@ -13,8 +13,10 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/textView2"
@@ -28,9 +30,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="32dp"
+            android:layout_width="336dp"
+            android:layout_height="497dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="41dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginBottom="42dp"
             android:background="#CBEBEB"
             app:cardBackgroundColor="#CBEBEB"
             app:cardCornerRadius="40dp"
@@ -44,7 +49,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/Username"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -57,27 +62,28 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/Email"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="58dp"
+                    android:layout_marginTop="32dp"
                     android:text="Email Address"
                     android:textColor="#989898"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                    app:layout_constraintTop_toBottomOf="@+id/usernamebox" />
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/Password"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="58dp"
+                    android:layout_marginTop="28dp"
                     android:text="Password"
                     android:textColor="#989898"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                    app:layout_constraintTop_toBottomOf="@+id/emailbox" />
 
                 <TextView
                     android:id="@+id/ChangeUsername"
@@ -92,7 +98,7 @@
                     android:textColor="#5E96A8"
                     android:textSize="10sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@+id/textView3"
+                    app:layout_constraintStart_toEndOf="@+id/Username"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -108,19 +114,20 @@
                     android:textColor="#5E96A8"
                     android:textSize="10sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@+id/textView5"
+                    app:layout_constraintStart_toEndOf="@+id/Password"
                     app:layout_constraintTop_toBottomOf="@+id/ChangeUsername" />
 
                 <TextView
                     android:id="@+id/usernamebox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="26dp"
+                    android:layout_marginEnd="179dp"
                     android:text="QiOwgHoChongPhua"
                     android:textColor="#000000"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                    app:layout_constraintTop_toBottomOf="@+id/Username" />
 
                 <TextView
                     android:id="@+id/textView10"
@@ -131,7 +138,7 @@
                     android:text="********"
                     android:textColor="#000000"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                    app:layout_constraintTop_toBottomOf="@+id/Password" />
 
                 <TextView
                     android:id="@+id/emailbox"
@@ -142,27 +149,16 @@
                     android:text="QiOwgHoChongPhua@gmail.com"
                     android:textColor="#000000"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-                <Button
-                    android:id="@+id/changeinfo"
-                    android:layout_width="137dp"
-                    android:layout_height="51dp"
-                    android:layout_marginTop="88dp"
-                    android:layout_marginEnd="28dp"
-                    android:text="Change"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                    app:layout_constraintTop_toBottomOf="@+id/Email" />
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/changeinfo"
                     android:layout_width="98dp"
                     android:layout_height="41dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="68dp"
-                    android:text="Change info"
-                    app:layout_constraintEnd_toStartOf="@+id/changeinfo"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    android:layout_marginTop="64dp"
+                    android:text="Change Info"
+                    android:textAlignment="center"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
@@ -170,7 +166,8 @@
                     android:id="@+id/logoutBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="100dp"
+                    android:layout_marginBottom="60dp"
+                    android:backgroundTint="#69B4DC"
                     android:text="Log out"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
