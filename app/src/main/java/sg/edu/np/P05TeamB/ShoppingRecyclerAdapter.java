@@ -76,7 +76,8 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(holder.productListing.getContext());
                 builder.setTitle("Product Details");
-                builder.setMessage("Title: "+p.getTitle()+'\n'+'\n'+"Category: "+p.getCategory()+'\n'+'\n'+String.format("Price: $%.2f",p.getPrice()));
+                //builder.setMessage("Title: "+p.getTitle()+'\n'+'\n'+"Category: "+p.getCategory()+'\n'+'\n'+String.format("Price: $%.2f",p.getPrice()));
+                builder.setMessage("Title: "+p.getTitle()+'\n'+String.format("Price: $%.2f",p.getPrice()));
                 builder.setCancelable(false);
                 builder.setPositiveButton("Open", new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int id){
@@ -102,6 +103,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                 Drawable unwrappedDrawable = AppCompatResources.getDrawable(holder.prodFavourite.getContext(), R.drawable.favourate_button);
                 Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
                 DrawableCompat.setTint(wrappedDrawable, Color.RED);
+
             }
         });
     }//end of onBindViewHolder

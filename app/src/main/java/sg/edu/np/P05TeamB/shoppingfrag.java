@@ -23,6 +23,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class shoppingfrag extends Fragment {
 
@@ -93,6 +95,7 @@ public class shoppingfrag extends Fragment {
         query.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+                productList.clear();
                 new getProducts(s,productList,view).execute();
                 return false;
             }
@@ -103,12 +106,26 @@ public class shoppingfrag extends Fragment {
         });
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     class getProducts extends AsyncTask<Void, Void, Void> {
         String query;
         ArrayList<Product> productList;
         View view;
-        public getProducts(String queries, ArrayList<Product> pList,View v){
-            this.query=queries;
+
+        public getProducts(String _query, ArrayList<Product> pList,View v){
+            this.query=_query;
             this.productList=pList;
             this.view=v;
         }
@@ -120,8 +137,15 @@ public class shoppingfrag extends Fragment {
                 progressDialog.dismiss();
             }
             //recyclerView.setAdapter(new ShoppingRecyclerAdapter(productList));
-            ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),1);
 
+            Collections.sort(productList, new Comparator<Product>() {
+                @Override
+                public int compare(Product prod1, Product prod2) {
+                    return Double.valueOf(prod1.getPrice()).compareTo(Double.valueOf(prod2.getPrice()));
+                }
+            });
+
+            ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),1);
             recyclerView.setAdapter(pAdapter);
         }
 
@@ -134,42 +158,49 @@ public class shoppingfrag extends Fragment {
             progressDialog.show();
         }
 
-        private String[] getAPIlink(String query, String website, String apikey){
+        @Override
+        protected Void doInBackground(Void... voids) {
+            String[] apiList = new String[] {"walmart","amazon","ebay"};//Amazon API uses demo as our API has expired, it will only query for memory cards
+            for (String i:apiList){
+                String url = getAPIlink(query,i); //Find URL link by processing through template based on online shopping site used, this is so the correct API & API keys are used
+                loadJsonfromUrl(url,i); //Loads json using URL query and extracts Product details from Json
+            }
+            return null;
+        }
+
+        private String getAPIlink(String query, String website){
             String url = null;
-            query = query = query.replace(" ","+");
-            String[] output = new String[2];
+            String apikey;
+            query = query.replace(" ","+");
 
             if(website.toLowerCase().equals("amazon")){
+                //apikey = "4487B79AE90342968E9E30B71F25913D";
                 //url = "https://api.rainforestapi.com/request?api_key="+apikey+"&type=search&amazon_domain=amazon.sg&search_term="+query;
 
-                //USE OF TEMPORARY DEMO API
+                //TEMPORARY DEMO API FOR TESTING
                 url = "https://api.rainforestapi.com/request?api_key=demo&amazon_domain=amazon.com&type=search&search_term=memory+cards";
             }
             else if(website.toLowerCase().equals("walmart")){
-                //url = "https://api.bluecartapi.com/request?api_key="+apikey+"&type=search&search_term="+query+"&sort_by=best_seller";
+                apikey = "83B616CC6FAD4A6FBE7A739483C2C741";
+                url = "https://api.bluecartapi.com/request?api_key="+apikey+"&type=search&search_term="+query+"&sort_by=best_seller";
 
-                //USE OF TEMPORARY DEMO API
-                url = "https://api.bluecartapi.com/request?api_key=demo&type=search&search_term=highlighter+pens&sort_by=best_seller";
+                //TEMPORARY DEMO API FOR TESTING
+                //url = "https://api.bluecartapi.com/request?api_key=demo&type=search&search_term=highlighter+pens&sort_by=best_seller";
             }
             else if(website.toLowerCase().equals("ebay")){
-                //url = "https://api.countdownapi.com/request?api_key="+apikey+"&type=search&ebay_domain=ebay.com&search_term="+query+"&sort_by=price_high_to_low"
+                apikey = "A00A8C31BBF84303A82C2EE40B02A6FF";
+                url = "https://api.countdownapi.com/request?api_key="+apikey+"&type=search&ebay_domain=ebay.com&search_term="+query+"&sort_by=price_high_to_low";
 
-                //USE OF TEMPORARY DEMO API
-                url = "https://api.countdownapi.com/request?api_key=demo&type=search&ebay_domain=ebay.com&search_term=memory+cards&sort_by=price_high_to_low";
+                //TEMPORARY DEMO API FOR TESTING
+                //url = "https://api.countdownapi.com/request?api_key=demo&type=search&ebay_domain=ebay.com&search_term=memory+cards&sort_by=price_high_to_low";
             }
             else{
                 Toast.makeText(getContext(),"We do not have APIs to that website yet!",Toast.LENGTH_SHORT).show();
             }
-            return new String[] {url,website};
+            return url;
         }
 
-        @Override
-        protected Void doInBackground(Void... voids) {
-            //String amazonAPIkey = "4487B79AE90342968E9E30B71F25913D";
-
-            String url = getAPIlink("QUERY DOESNT WORK NOW",query,"APIKEY DOESNT WORK")[0]; //Change API here
-            String website = getAPIlink("QUERY DOESNT WORK NOW",query,"APIKEY DOESNT WORK")[1];
-
+        private void loadJsonfromUrl(String url, String website){
             APIHandler handler = new APIHandler();
             String jsonString = handler.httpServiceCall(url);
             Log.d("JSONInput",jsonString);
@@ -207,8 +238,6 @@ public class shoppingfrag extends Fragment {
                             JSONObject priceObject = jsonObject1.getJSONObject("price");
                             price = priceObject.getDouble("value");
                         }
-
-
                         productList.add(new Product("asin",title,"category",price,image,link,3.0f,website));
                     }
                 } catch (JSONException e) {
@@ -229,8 +258,8 @@ public class shoppingfrag extends Fragment {
                     }
                 });
             }
-            return null;
         }
+
     }
     private void showInputMethod(View view) {
         InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
