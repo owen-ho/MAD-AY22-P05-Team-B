@@ -16,16 +16,16 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width="346dp"
-        android:layout_height="254dp"
+        android:layout_width="396dp"
+        android:layout_height="404dp"
         app:cardBackgroundColor="#CBEBEB"
         app:cardCornerRadius="20dp"
-        tools:layout_editor_absoluteX="28dp"
+        tools:layout_editor_absoluteX="10dp"
         tools:layout_editor_absoluteY="274dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="425dp">
 
             <TextView
                 android:id="@+id/LisingTitle"
@@ -34,8 +34,8 @@
                 android:text="Listing Title"
                 android:textColor="#040404"
                 android:textSize="16sp"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="10dp" />
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="29dp" />
 
             <EditText
                 android:id="@+id/Title"
@@ -46,8 +46,8 @@
                 android:inputType="textPersonName"
                 android:textColor="#000000"
                 android:textColorHint="#000000"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="32dp" />
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="51dp" />
 
             <TextView
                 android:id="@+id/PriceTextView"
@@ -56,8 +56,8 @@
                 android:text="Price"
                 android:textColor="#000000"
                 android:textSize="16sp"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="90dp" />
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="121dp" />
 
             <EditText
                 android:id="@+id/Price"
@@ -68,8 +68,8 @@
                 android:inputType="textPersonName"
                 android:textColor="#000000"
                 android:textColorHint="#000000"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="112dp" />
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="143dp" />
 
             <TextView
                 android:id="@+id/URLText"
@@ -79,19 +79,19 @@
                 android:textColor="#000000"
                 android:textColorHint="#000000"
                 android:textSize="16sp"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="163dp" />
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="214dp" />
 
             <EditText
                 android:id="@+id/Website"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="213dp"
+                android:layout_height="42dp"
                 android:ems="10"
                 android:hint="Website"
                 android:inputType="textPersonName"
                 android:textColorHint="#000000"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="185dp" />
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="236dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
