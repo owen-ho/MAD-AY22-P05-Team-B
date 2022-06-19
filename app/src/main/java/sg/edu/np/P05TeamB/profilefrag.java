@@ -132,8 +132,6 @@ public class profilefrag extends Fragment {
                 chooseImg();
             }
         });
-
-
     }
 
     //method to select image from gallery
@@ -143,9 +141,9 @@ public class profilefrag extends Fragment {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent,"Select Profile Picture"),SELECT_PICTURE);
     }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
                 Uri pfpUri = data.getData();
