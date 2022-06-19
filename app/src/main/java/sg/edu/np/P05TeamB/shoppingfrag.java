@@ -133,12 +133,40 @@ public class shoppingfrag extends Fragment {
             progressDialog.show();
         }
 
+        private String getAPIlink(String query, String website, String apikey){
+            String url;
+            query = query = query.replace(" ","+");
+
+            if(website.toLowerCase().equals("amazon")){
+                //url = "https://api.rainforestapi.com/request?api_key="+apikey+"&type=search&amazon_domain=amazon.sg&search_term="+query;
+
+                //USE OF TEMPORARY DEMO API
+                url = "https://api.rainforestapi.com/request?api_key=demo&amazon_domain=amazon.com&type=search&search_term=memory+cards";
+            }
+            else if(website.toLowerCase().equals("walmart")){
+                //url = "https://api.bluecartapi.com/request?api_key="+apikey+"&type=search&search_term="+query+"&sort_by=best_seller";
+
+                //USE OF TEMPORARY DEMO API
+                url = "https://api.bluecartapi.com/request?api_key=demo&type=search&search_term=highlighter+pens&sort_by=best_seller";
+            }
+            else if(website.toLowerCase().equals("ebay")){
+                //url = "https://api.countdownapi.com/request?api_key="+apikey+"&type=search&ebay_domain=ebay.com&search_term="+query+"&sort_by=price_high_to_low"
+
+                //USE OF TEMPORARY DEMO API
+                url = "https://api.countdownapi.com/request?api_key=demo&type=search&ebay_domain=ebay.com&search_term=memory+cards&sort_by=price_high_to_low";
+            }
+            else{
+                Toast.makeText(getContext(),"We do not have APIs to that website yet!",Toast.LENGTH_SHORT).show();
+            }
+            return null;
+        }
+
         @Override
         protected Void doInBackground(Void... voids) {
-            String APIkey = "4487B79AE90342968E9E30B71F25913D";
-            query = query.replace(" ","+");
+            //String APIkey = "4487B79AE90342968E9E30B71F25913D";
+
             //String url ="https://api.rainforestapi.com/request?api_key="+APIkey+"&type=search&amazon_domain=amazon.sg&search_term="+query;
-            String url = "https://api.rainforestapi.com/request?api_key=demo&amazon_domain=amazon.com&type=search&search_term=memory+cards";
+            String url = getAPIlink("QUERY DOESNT WORK NOW","Amazon","APIKEY DOESNT WORK");
             APIHandler handler = new APIHandler();
             String jsonString = handler.httpServiceCall(url);
             Log.d("TAGGGGGG",jsonString);
