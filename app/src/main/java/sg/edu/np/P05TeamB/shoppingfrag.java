@@ -120,19 +120,6 @@ public class shoppingfrag extends Fragment {
         });
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     class getProducts extends AsyncTask<Void, Void, Void> {
         String query;
         ArrayList<Product> productList;
@@ -196,17 +183,17 @@ public class shoppingfrag extends Fragment {
             }
             else if(website.toLowerCase().equals("walmart")){
                 apikey = "83B616CC6FAD4A6FBE7A739483C2C741";
-                url = "https://api.bluecartapi.com/request?api_key="+apikey+"&type=search&search_term="+query+"&sort_by=best_seller";
+                //url = "https://api.bluecartapi.com/request?api_key="+apikey+"&type=search&search_term="+query+"&sort_by=best_seller";
 
                 //TEMPORARY DEMO API FOR TESTING
-                //url = "https://api.bluecartapi.com/request?api_key=demo&type=search&search_term=highlighter+pens&sort_by=best_seller";
+                url = "https://api.bluecartapi.com/request?api_key=demo&type=search&search_term=highlighter+pens&sort_by=best_seller";
             }
             else if(website.toLowerCase().equals("ebay")){
                 apikey = "A00A8C31BBF84303A82C2EE40B02A6FF";
-                url = "https://api.countdownapi.com/request?api_key="+apikey+"&type=search&ebay_domain=ebay.com&search_term="+query+"&sort_by=price_high_to_low";
+                //url = "https://api.countdownapi.com/request?api_key="+apikey+"&type=search&ebay_domain=ebay.com&search_term="+query+"&sort_by=price_high_to_low";
 
                 //TEMPORARY DEMO API FOR TESTING
-                //url = "https://api.countdownapi.com/request?api_key=demo&type=search&ebay_domain=ebay.com&search_term=memory+cards&sort_by=price_high_to_low";
+                url = "https://api.countdownapi.com/request?api_key=demo&type=search&ebay_domain=ebay.com&search_term=memory+cards&sort_by=price_high_to_low";
             }
             else{
                 Toast.makeText(getContext(),"We do not have APIs to that website yet!",Toast.LENGTH_SHORT).show();
@@ -223,7 +210,7 @@ public class shoppingfrag extends Fragment {
                     JSONObject jsonObject = new JSONObject(jsonString);
                     JSONArray products = jsonObject.getJSONArray("search_results");
 
-                    for(int i=0;i<products.length();i++){
+                    for(int i=0;i<products.length();i++) {
                         JSONObject jsonObject1 = products.getJSONObject(i);
 
                         String title = "No title";
@@ -231,20 +218,26 @@ public class shoppingfrag extends Fragment {
                         String link = "no link";
                         Double price = 0.0;
 
-                        if(website.toLowerCase().equals("walmart")){
+                        float ratingF = 0;
+                        if (website.toLowerCase().equals("walmart")) {
                             JSONObject productObject = jsonObject1.getJSONObject("product");
                             title = productObject.getString("title");
                             image = productObject.getString("main_image");
                             link = productObject.getString("link");
 
+                            Double ratingD = productObject.getDouble("rating");
+                            ratingF = ratingD.floatValue();
+
                             JSONObject offersObject = jsonObject1.getJSONObject("offers").getJSONObject("primary");
                             price = offersObject.getDouble("price");
-                        }else{
+                        } else {
                             //String asin = jsonObject1.getString("asin"); //deleted because ebay API has no asin
                             title = jsonObject1.getString("title");
                             image = jsonObject1.getString("image");
                             link = jsonObject1.getString("link");
-                            //Double rating = jsonObject1.getDouble("rating");
+                            Double ratingD = jsonObject1.getDouble("rating");
+                            ratingF = ratingD.floatValue();
+                            Log.i("knn", String.valueOf(ratingF));
 
                             //JSONObject categoryObject = jsonObject1.getJSONArray("categories").getJSONObject(0); //deleted because ebay API does not have product categories
                             //String category = categoryObject.getString("name");
@@ -252,13 +245,15 @@ public class shoppingfrag extends Fragment {
                             JSONObject priceObject = jsonObject1.getJSONObject("price");
                             price = priceObject.getDouble("value");
                         }
-                        productList.add(new Product("asin",title,"category",price,image,link,3.0f,website));
+
+                        productList.add(new Product("asin", title, "category", price, image, link, ratingF, website));
                     }
                 } catch (JSONException e) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getContext(),"Json Parsing Error",Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getContext(),"Json Parsing Error",Toast.LENGTH_LONG).show();
+                            Log.i("error","Json Parsing Error");
                         }
                     });
                 }
