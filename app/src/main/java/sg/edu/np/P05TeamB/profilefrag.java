@@ -5,23 +5,17 @@ import static android.app.Activity.RESULT_OK;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -63,7 +57,7 @@ public class profilefrag extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference userRef = database.getReference("user");
 
@@ -71,19 +65,15 @@ public class profilefrag extends Fragment {
         TextView usertext = view.findViewById(R.id.usernamebox);
 
         Button infobutton = view.findViewById(R.id.changeinfo);
-
-
-
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Button logoutbutton = view.findViewById(R.id.logoutBtn);
 
         if (user!=null){
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     String username = snapshot.child(user.getUid()).child("username").getValue().toString();
+                    String email3 = snapshot.child(user.getUid()).child("email").getValue().toString();
 
-                    String email3 = user.getEmail();
                     email1.setText(email3);
                     usertext.setText(username);
                 }
@@ -102,15 +92,18 @@ public class profilefrag extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(),changinginfo.class);
                 startActivity(intent);
-
-
-
-
-
-
             }
         });
 
+        logoutbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent i = new Intent(getActivity(),LoginActivity.class);
+                startActivity(i);
+                getActivity().finish();
+            }
+        });
 
         //the plus icon to upload a new profile picture
         ImageView upload = view.findViewById(R.id.uploadPic);

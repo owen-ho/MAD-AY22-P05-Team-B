@@ -26,7 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
         //so that fragment starts at home when user enters (instead of no fragment)
         replacefragment(new homefrag());
-        //binding.bottomNavigationView.getMenu().getItem(0).setChecked(true);
+
+        int intentFragment = getIntent().getExtras().getInt("frgToLoad");
+        if(intentFragment==3){
+            replacefragment(new profilefrag());
+            binding.bottomNavigationView.getMenu().getItem(3).setChecked(true);
+        }else{
+
+        }
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){

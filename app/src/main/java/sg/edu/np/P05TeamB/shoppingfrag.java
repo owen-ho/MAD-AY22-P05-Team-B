@@ -133,15 +133,12 @@ public class shoppingfrag extends Fragment {
             progressDialog.show();
         }
 
-        private Float convertToFloat(Double doubleValue) {
-            return doubleValue == null ? null : doubleValue.floatValue();
-        }
-
         @Override
         protected Void doInBackground(Void... voids) {
-            String APIkey = "CFF558057AA04DCB817FDCA3F5FE9546";//Hard coded but can be changed later on if we swap rainforestapi accounts
+            String APIkey = "4487B79AE90342968E9E30B71F25913D";
             query = query.replace(" ","+");
-            String url ="https://api.rainforestapi.com/request?api_key="+APIkey+"&type=search&amazon_domain=amazon.sg&search_term="+query;
+            //String url ="https://api.rainforestapi.com/request?api_key="+APIkey+"&type=search&amazon_domain=amazon.sg&search_term="+query;
+            String url = "https://api.rainforestapi.com/request?api_key=demo&amazon_domain=amazon.com&type=search&search_term=memory+cards";
             APIHandler handler = new APIHandler();
             String jsonString = handler.httpServiceCall(url);
             Log.d("TAGGGGGG",jsonString);
@@ -152,18 +149,22 @@ public class shoppingfrag extends Fragment {
 
                     for(int i=0;i<products.length();i++){
                         JSONObject jsonObject1 = products.getJSONObject(i);
-                        JSONObject categoryObject = jsonObject1.getJSONArray("categories").getJSONObject(0);
-                        JSONObject priceObject = jsonObject1.getJSONObject("price");
-                        String asin = jsonObject1.getString("asin");
+
+                        //String asin = jsonObject1.getString("asin"); //deleted because ebay API has no asin
                         String title = jsonObject1.getString("title");
                         String image = jsonObject1.getString("image");
-                        String category = categoryObject.getString("name");
-                        Double price = priceObject.getDouble("value");
                         String link = jsonObject1.getString("link");
-                        Double rating = jsonObject1.getDouble("rating");
+                        //Double rating = jsonObject1.getDouble("rating");
+
+                        //JSONObject categoryObject = jsonObject1.getJSONArray("categories").getJSONObject(0); //deleted because ebay API does not have product categories
+                        //String category = categoryObject.getString("name");
+
+                        JSONObject priceObject = jsonObject1.getJSONObject("price");
+                        Double price = priceObject.getDouble("value");
+
                         String website = "Amazon"; //hardcoded
 
-                        productList.add(new Product(asin,title,category,price,image,link,convertToFloat(rating),website));
+                        productList.add(new Product("asin",title,"category",price,image,link,3.0f,website));
                     }
                 } catch (JSONException e) {
                     getActivity().runOnUiThread(new Runnable() {

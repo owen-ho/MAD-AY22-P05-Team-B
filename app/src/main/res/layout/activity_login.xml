@@ -89,6 +89,7 @@
         android:id="@+id/forgorpassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:focusable="false"
         android:text="Forgot your password?"
         android:textColor="#70A4F1"
         app:layout_constraintEnd_toEndOf="parent"

@@ -36,14 +36,14 @@
                 android:id="@+id/changeemail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="56dp"
+                android:layout_marginTop="52dp"
                 android:ems="10"
-                android:hint="Change email?"
+                android:hint="New email"
                 android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.078"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/changepass" />
+                app:layout_constraintTop_toBottomOf="@+id/changeuser" />
 
             <EditText
                 android:id="@+id/changeuser"
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="60dp"
                 android:ems="10"
-                android:hint="Change username?"
+                android:hint="New username"
                 android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.078"
@@ -64,12 +64,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="52dp"
                 android:ems="10"
-                android:hint="Change password?"
+                android:hint="New password"
                 android:inputType="textPersonName"
+                android:password="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.078"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/changeuser" />
+                app:layout_constraintTop_toBottomOf="@+id/changeemail" />
 
             <Button
                 android:id="@+id/confirmation"
@@ -81,17 +82,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/changeemail" />
 
-            <Button
-                android:id="@+id/back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="108dp"
-                android:text="Back"
-                app:layout_constraintEnd_toStartOf="@+id/confirmation"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/changeemail" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
