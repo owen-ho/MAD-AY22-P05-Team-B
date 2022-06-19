@@ -1,31 +1,34 @@
 package sg.edu.np.P05TeamB;
 
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
-import com.squareup.picasso.Picasso;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import sg.edu.np.P05TeamB.databinding.ActivityMainBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class homefrag extends Fragment {
-
+    private ArrayList<Product> homeproductList = new ArrayList<Product>();
     public homefrag() {
         // Required empty public constructor
     }
@@ -51,6 +54,8 @@ public class homefrag extends Fragment {
     //create this method because getView() only works after onCreateView()
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+
         SearchView search = getView().findViewById(R.id.goSearch);
         //transition to the shopping fragment
         search.setOnSearchClickListener(new View.OnClickListener() {
@@ -90,5 +95,116 @@ public class homefrag extends Fragment {
         //loading of image using picasso
         ImageView imageView = getView().findViewById(R.id.largeImage);
         Picasso.get().load("https://i.imgur.com/DvpvklR.png").into(imageView);
+        new getProducts().execute();
     }//end of onview created method
+
+
+    class getProducts extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            //recyclerView.setAdapter(new ShoppingRecyclerAdapter(productList));
+            ImageView large = getView().findViewById(R.id.largeImage);
+            ImageView small1 = getView().findViewById(R.id.smallImage1);
+            ImageView small2 = getView().findViewById(R.id.smallImage2);
+            ImageView small3 = getView().findViewById(R.id.smallImage3);
+            ImageView small4 = getView().findViewById(R.id.smallImage4);
+            ImageView small5 = getView().findViewById(R.id.smallImage5);
+            ImageView small6 = getView().findViewById(R.id.smallImage6);
+            ImageView[] imArray = new ImageView[] {large,small1,small2,small3,small4,small5,small6};
+
+            Integer count=0;
+            for(ImageView iv:imArray){
+                Product p = homeproductList.get(count);
+                Picasso
+                        .get()
+                        .load(p.getImageUrl())
+                        .fit()
+                        .into(iv);
+
+                iv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("Product Details");
+                        builder.setMessage("Title: "+p.getTitle()+'\n'+'\n'+String.format("Price: $%.2f",p.getPrice()));
+                        builder.setCancelable(false);
+                        builder.setPositiveButton("Open", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id){
+                                //Opens store page for item
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(p.getLink()));
+                                getContext().startActivity(browserIntent);
+                            }
+                        });
+                        builder.setNegativeButton("Close", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id){
+                            }
+                        });
+                        builder.show();
+                    }
+                });
+                count+=1;
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            String url = "https://api.rainforestapi.com/request?api_key=demo&type=bestsellers&category_id=bestsellers_appliances&amazon_domain=amazon.com";
+            APIHandler handler = new APIHandler();
+            String jsonString = handler.httpServiceCall(url);
+            Log.d("JSONInput",jsonString);
+            if (jsonString!=null){
+                try {
+                    JSONObject jsonObject = new JSONObject(jsonString);
+                    JSONArray products = jsonObject.getJSONArray("bestsellers");
+
+                    for(int i=0;i<products.length();i++){
+                        JSONObject jsonObject1 = products.getJSONObject(i);
+
+                        String title = "No title";
+                        String image = "no image";
+                        String link = "no link";
+                        Double price = 0.0;
+                        Double rating = 0.0;
+
+                        //String asin = jsonObject1.getString("asin");
+                        title = jsonObject1.getString("title");
+                        image = jsonObject1.getString("image");
+                        link = jsonObject1.getString("link");
+                        rating = jsonObject1.getDouble("rating");
+
+                        JSONObject priceObject = jsonObject1.getJSONObject("price");
+                        price = priceObject.getDouble("value");
+
+                        Product p = new Product("asin",title,"category",price,image,link, rating.floatValue(), "Amazon");
+                        homeproductList.add(p);
+                    }
+                } catch (JSONException e) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getContext(),"Json Parsing Error",Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                        }
+                    });
+                }
+            }
+            else{
+                Toast.makeText(getContext(),"Server error",Toast.LENGTH_LONG).show();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getContext(),"Server Error",Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+            return null;
+        }
+    }
 }
+
