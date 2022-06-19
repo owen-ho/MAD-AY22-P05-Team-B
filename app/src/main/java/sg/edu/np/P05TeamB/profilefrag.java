@@ -56,7 +56,7 @@ public class profilefrag extends Fragment {
         //return inflater.inflate(R.layout.fragment_profile, container, false);
         View V = inflater.inflate(R.layout.fragment_profile, container, false);
         ImageView profilepic = V.findViewById(R.id.imageView3);
-        Picasso.get().load("https://s.yimg.com/ny/api/res/1.2/XQDn25S2GxDbItD31nyahQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTU4OTtjZj13ZWJw/https://s.yimg.com/os/creatr-uploaded-images/2021-02/e2698180-6b90-11eb-97fb-e40529b50439").into(profilepic);
+        Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").into(profilepic);
         return  V;
     }
 

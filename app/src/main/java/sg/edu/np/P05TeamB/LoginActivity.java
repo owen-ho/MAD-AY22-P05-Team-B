@@ -31,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         EditText email = findViewById(R.id.emailBox);
         EditText password = findViewById(R.id.passwordBox);
         Button loginBtn = findViewById(R.id.loginButton);
+        TextView forgotpassword = findViewById(R.id.forgorpassword);
 
         registerPrompt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +48,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        forgotpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent x = new Intent(LoginActivity.this, ForgetPassword.class);
+                startActivity(x);
+            }
+        });
     }
 
     @Override
@@ -90,4 +98,5 @@ public class LoginActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         //bundle.putString("email",);
     }
+
 }
