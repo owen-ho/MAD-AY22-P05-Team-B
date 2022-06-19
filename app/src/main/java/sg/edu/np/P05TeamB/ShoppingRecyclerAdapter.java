@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -110,9 +111,11 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             public void onClick(View view) {
 
                 // showing favourite
+                holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_red));//use custom red color
+                /*
                 Drawable unwrappedDrawable = AppCompatResources.getDrawable(holder.prodFavourite.getContext(), R.drawable.favourate_button);
                 Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
-                DrawableCompat.setTint(wrappedDrawable, Color.RED);
+                DrawableCompat.setTint(wrappedDrawable, Color.RED);*/
 
             }
         });
