@@ -31,10 +31,10 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         TextView loginPrompt = findViewById(R.id.loginPrompt);
-        EditText email = findViewById(R.id.emailBox);
-        EditText password = findViewById(R.id.passwordBox);
+        EditText email = findViewById(R.id.emailRegister);
+        EditText password = findViewById(R.id.passwordRegister);
         Button registerBtn = findViewById(R.id.registerButton);
-        EditText Username = findViewById(R.id.Username);
+        EditText Username = findViewById(R.id.usernameRegister);
 
         loginPrompt.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -8,41 +8,53 @@
     tools:context=".RegisterActivity">
 
     <EditText
-        android:id="@+id/emailBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:id="@+id/emailRegister"
+        android:layout_width="234dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/auth_input"
+        android:drawableStart="@drawable/ic_baseline_email_24"
+        android:drawablePadding="10dp"
         android:ems="10"
-        android:hint="Email"
+        android:hint="Email Address"
         android:inputType="textPersonName"
+        android:paddingStart="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerHeader" />
 
     <EditText
-        android:id="@+id/passwordBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:id="@+id/passwordRegister"
+        android:layout_width="234dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/auth_input"
+        android:drawableStart="@drawable/ic_baseline_lock_24"
+        android:drawablePadding="10dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
+        android:paddingStart="10dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailBox" />
+        app:layout_constraintTop_toBottomOf="@+id/emailRegister" />
 
     <EditText
-        android:id="@+id/Username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
+        android:id="@+id/usernameRegister"
+        android:layout_width="234dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/auth_input"
+        android:drawableStart="@drawable/ic_baseline_person_24"
+        android:drawablePadding="10dp"
         android:ems="10"
         android:hint="Username"
         android:inputType="textPassword"
+        android:paddingStart="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailBox" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordRegister" />
 
     <TextView
         android:id="@+id/registerHeader"
@@ -66,7 +78,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Username" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameRegister" />
 
     <TextView
         android:id="@+id/loginPrompt"
@@ -89,4 +101,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.166"
         app:srcCompat="@drawable/logo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
