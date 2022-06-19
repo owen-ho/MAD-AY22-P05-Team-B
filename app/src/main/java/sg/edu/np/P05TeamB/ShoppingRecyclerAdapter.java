@@ -123,8 +123,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                         .getReference("user");
                 FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
 
-                databaseRefUser.child(usr.getUid().toString()).child("wishlist").setValue(p);//add product
-
+                databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(p.getImageUrl().substring(p.getImageUrl().length()-15)).setValue(p);//add product
 
                 /*
                 databaseRefUser.child(usr.getUid().toString()).addValueEventListener(new ValueEventListener() {
