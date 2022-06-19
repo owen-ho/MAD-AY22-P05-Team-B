@@ -7,21 +7,17 @@
     android:background="#F9C980"
     tools:context=".UserInputPrice">
 
-    <ImageView
-        android:id="@+id/ImageofItem"
-        android:layout_width="342dp"
-        android:layout_height="218dp"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="49dp"
-        tools:srcCompat="@tools:sample/avatars" />
-
     <androidx.cardview.widget.CardView
         android:layout_width="396dp"
         android:layout_height="404dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="10dp"
         app:cardBackgroundColor="#CBEBEB"
         app:cardCornerRadius="20dp"
-        tools:layout_editor_absoluteX="10dp"
-        tools:layout_editor_absoluteY="274dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addProductImage">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -31,14 +27,17 @@
                 android:id="@+id/LisingTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
                 android:text="Listing Title"
                 android:textColor="#040404"
                 android:textSize="16sp"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="29dp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.051"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/Title"
+                android:id="@+id/titleProduct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -46,21 +45,26 @@
                 android:inputType="textPersonName"
                 android:textColor="#000000"
                 android:textColorHint="#000000"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="51dp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.086"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/LisingTitle" />
 
             <TextView
                 android:id="@+id/PriceTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:text="Price"
                 android:textColor="#000000"
                 android:textSize="16sp"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="121dp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.044"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/titleProduct" />
 
             <EditText
-                android:id="@+id/Price"
+                android:id="@+id/priceProduct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -68,31 +72,81 @@
                 android:inputType="textPersonName"
                 android:textColor="#000000"
                 android:textColorHint="#000000"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="143dp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.086"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/PriceTextView" />
 
             <TextView
                 android:id="@+id/URLText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
                 android:hint="URL"
                 android:textColor="#000000"
                 android:textColorHint="#000000"
                 android:textSize="16sp"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="214dp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.043"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/priceProduct" />
 
             <EditText
-                android:id="@+id/Website"
+                android:id="@+id/websiteProduct"
                 android:layout_width="213dp"
                 android:layout_height="42dp"
                 android:ems="10"
                 android:hint="Website"
                 android:inputType="textPersonName"
                 android:textColorHint="#000000"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="236dp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.087"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/URLText" />
 
+            <Button
+                android:id="@+id/submitProductButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="Submit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/websiteProduct" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/addProductImage"
+        android:layout_width="356dp"
+        android:layout_height="208dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="25dp"
+        app:cardCornerRadius="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/addproductbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="162dp"
+                android:layout_marginTop="88dp"
+                android:layout_marginEnd="162dp"
+                android:layout_marginBottom="88dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/ic_menu_add" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

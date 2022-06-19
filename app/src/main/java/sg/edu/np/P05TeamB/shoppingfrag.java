@@ -2,6 +2,7 @@ package sg.edu.np.P05TeamB;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,6 +51,8 @@ public class shoppingfrag extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,6 +63,15 @@ public class shoppingfrag extends Fragment {
         //recyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);
+        FloatingActionButton uploadbutton = view.findViewById(R.id.uploadproductbutton);
+
+        uploadbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), UserInputPrice.class);
+                startActivity(i);
+            }
+        });
         return view;
     }
 
@@ -97,7 +111,7 @@ public class shoppingfrag extends Fragment {
             public boolean onQueryTextSubmit(String s) {
                 productList.clear();
                 new getProducts(s,productList,view).execute();
-                return false;
+                return true;
             }
             @Override
             public boolean onQueryTextChange(String s) {
