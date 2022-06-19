@@ -4,13 +4,13 @@ import java.io.Serializable;
 
 public class Product implements Serializable {
     private String asin;
-    private String title;
+    public String title;
     private String category;
-    private Double price;
+    public Double price;
     private String image;
     private String link;
     private Float rating;
-    private String website;
+    public String website;
 
     public Product() {//default constructors
     }
