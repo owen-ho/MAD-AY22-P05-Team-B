@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -22,6 +24,8 @@ public class wishlistfrag extends Fragment {
     RecyclerView recyclerViewFilter;
     RecyclerView recyclerViewWishlist;
     ArrayList<String> filterList = initFilterList();
+    DatabaseReference databaseRefUser = FirebaseDatabase.getInstance().getReference("user");
+    FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
 
     public wishlistfrag() {
         // Required empty public constructor
@@ -80,10 +84,7 @@ public class wishlistfrag extends Fragment {
     //Testing ONly
     public ArrayList<Product> initProductTesting(){
         ArrayList<Product> prodListTesting = new ArrayList<>();
-        while (prodListTesting.size()<20){
-            Product p = new Product("asin","title","category",4.6,"https://i.imgur.com/DvpvklR.png","https://www.amazon.com/gp/slredirect/picassoRedirect.html/ref=pa_sp_atf_aps_sr_pg1_1?ie=UTF8&adId=A08416792YSYH46XF8REP&url=%2FWypAll-05927-Foodservice-Towels-Fold%2Fdp%2FB0040ZODJK%2Fref%3Dsr_1_1_sspa%3Fkeywords%3DItem%26qid%3D1655408302%26sr%3D8-1-spons%26psc%3D1&qualifier=1655408302&id=159521374554180&widgetName=sp_atf",4.5f,"Amazon");
-            prodListTesting.add(p);
-        }
+        //databaseRefUser.child(usr.getUid().toString())
         return prodListTesting;
     }
 }

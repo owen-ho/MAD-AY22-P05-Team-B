@@ -237,7 +237,6 @@ public class shoppingfrag extends Fragment {
                             link = jsonObject1.getString("link");
                             Double ratingD = jsonObject1.getDouble("rating");
                             ratingF = ratingD.floatValue();
-                            Log.i("knn", String.valueOf(ratingF));
 
                             //JSONObject categoryObject = jsonObject1.getJSONArray("categories").getJSONObject(0); //deleted because ebay API does not have product categories
                             //String category = categoryObject.getString("name");
