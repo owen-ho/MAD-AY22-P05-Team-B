@@ -57,23 +57,29 @@ public class UserInputPrice extends AppCompatActivity {
                     Double pp = Double.parseDouble(productPrice.getText().toString());
                     String pw = productWebsite.getText().toString();
 
-                    productRef.child(key).child("title").setValue(pt);
-                    productRef.child(key).child("price").setValue(pp);
-                    productRef.child(key).child("website").setValue(pw);
-                    storageRef.child("productpics/" + key + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            productRef.child(key).child("image").setValue(uri.toString());
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {//file does not exist
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                        }
-                    });
+                    if(pt.length()>=5){
+                        productRef.child(key).child("title").setValue(pt);
+                        productRef.child(key).child("price").setValue(pp);
+                        productRef.child(key).child("website").setValue(pw);
+                        storageRef.child("productpics/" + key + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                productRef.child(key).child("image").setValue(uri.toString());
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {//file does not exist
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                            }
+                        });
 
-                    Intent i = new Intent(UserInputPrice.this,MainActivity.class);
-                    i.putExtra("frgToLoad",0);
-                    startActivity(i);
+                        Intent i = new Intent(UserInputPrice.this,MainActivity.class);
+                        i.putExtra("frgToLoad",0);
+                        startActivity(i);
+                    }else{
+                        Toast.makeText(UserInputPrice.this,"Please be more descriptive in your title",Toast.LENGTH_SHORT).show();
+                    }
+
+
                 }else{
                     Toast.makeText(UserInputPrice.this,"Please fill in all boxes",Toast.LENGTH_SHORT).show();
                 }
