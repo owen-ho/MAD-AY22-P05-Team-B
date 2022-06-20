@@ -107,9 +107,6 @@ public class SelectProfilePic extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading Image....");
-        progressDialog.show();
 
         StorageReference pfpRef = storageReference.child("productpics/" + key+".png");//use unique uid to link to image
         //no need to delete previous image as the new image will replace the old
@@ -117,22 +114,16 @@ public class SelectProfilePic extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        progressDialog.dismiss();
                         Toast.makeText(SelectProfilePic.this,"Upload Success!",Toast.LENGTH_SHORT).show();//to show at the bottom of the screen when pic uploaded
+//                        Intent i = new Intent(SelectProfilePic.this, UserInputPrice.class);
+//                        i.putExtra("image",uri);
+//                        startActivity(i);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
                         Toast.makeText(SelectProfilePic.this,"Upload failed, try again later",Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                        double percentage = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                        progressDialog.setMessage("Progress: " + (int) percentage + "%");
                     }
                 });
     }//end of upload pic
