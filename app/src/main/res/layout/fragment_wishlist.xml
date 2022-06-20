@@ -33,10 +33,7 @@
 
             <SearchView
                 android:layout_width="match_parent"
-                app:theme="@style/AppSearchView"
-                android:layout_height="match_parent"
-                android:iconifiedByDefault="false"
-                android:queryHint="Type Amazon/Walmart/Ebay for demo data" />
+                android:layout_height="match_parent"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView
