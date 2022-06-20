@@ -174,29 +174,40 @@ public class shoppingfrag extends Fragment {
             String apikey;
             query = query.replace(" ","+");
 
-            if(website.toLowerCase().equals("amazon")){
-                //apikey = "4487B79AE90342968E9E30B71F25913D";
-                //url = "https://api.rainforestapi.com/request?api_key="+apikey+"&type=search&amazon_domain=amazon.sg&search_term="+query;
-
-                //TEMPORARY DEMO API FOR TESTING
+            if(query.toLowerCase().contains("walmart")){  //Allow use of demo APIs for demo purposes
+                url = "https://api.bluecartapi.com/request?api_key=demo&type=search&search_term=highlighter+pens&sort_by=best_seller";
+            }
+            else if(query.toLowerCase().contains("amazon")){
                 url = "https://api.rainforestapi.com/request?api_key=demo&amazon_domain=amazon.com&type=search&search_term=memory+cards";
             }
-            else if(website.toLowerCase().equals("walmart")){
-                apikey = "83B616CC6FAD4A6FBE7A739483C2C741";
-                url = "https://api.bluecartapi.com/request?api_key="+apikey+"&type=search&search_term="+query+"&sort_by=best_seller";
-
-                //TEMPORARY DEMO API FOR TESTING
-                //url = "https://api.bluecartapi.com/request?api_key=demo&type=search&search_term=highlighter+pens&sort_by=best_seller";
-            }
-            else if(website.toLowerCase().equals("ebay")){
-                apikey = "A00A8C31BBF84303A82C2EE40B02A6FF";
-                url = "https://api.countdownapi.com/request?api_key="+apikey+"&type=search&ebay_domain=ebay.com&search_term="+query+"&sort_by=price_high_to_low";
-
-                //TEMPORARY DEMO API FOR TESTING
-                //url = "https://api.countdownapi.com/request?api_key=demo&type=search&ebay_domain=ebay.com&search_term=memory+cards&sort_by=price_high_to_low";
+            else if(query.toLowerCase().contains("ebay")){
+                url = "https://api.countdownapi.com/request?api_key=demo&type=search&ebay_domain=ebay.com&search_term=memory+cards&sort_by=price_high_to_low";
             }
             else{
-                Toast.makeText(getContext(),"We do not have APIs to that website yet!",Toast.LENGTH_SHORT).show();
+                if(website.toLowerCase().equals("amazon")){
+                    //apikey = "4487B79AE90342968E9E30B71F25913D";
+                    //url = "https://api.rainforestapi.com/request?api_key="+apikey+"&type=search&amazon_domain=amazon.sg&search_term="+query;
+
+                    //TEMPORARY DEMO API FOR TESTING
+                    url = "https://api.rainforestapi.com/request?api_key=demo&amazon_domain=amazon.com&type=search&search_term=memory+cards";
+                }
+                else if(website.toLowerCase().equals("walmart")){
+                    apikey = "83B616CC6FAD4A6FBE7A739483C2C741";
+                    url = "https://api.bluecartapi.com/request?api_key="+apikey+"&type=search&search_term="+query+"&sort_by=best_seller";
+
+                    //TEMPORARY DEMO API FOR TESTING
+                    //url = "https://api.bluecartapi.com/request?api_key=demo&type=search&search_term=highlighter+pens&sort_by=best_seller";
+                }
+                else if(website.toLowerCase().equals("ebay")){
+                    apikey = "A00A8C31BBF84303A82C2EE40B02A6FF";
+                    url = "https://api.countdownapi.com/request?api_key="+apikey+"&type=search&ebay_domain=ebay.com&search_term="+query+"&sort_by=price_high_to_low";
+
+                    //TEMPORARY DEMO API FOR TESTING
+                    //url = "https://api.countdownapi.com/request?api_key=demo&type=search&ebay_domain=ebay.com&search_term=memory+cards&sort_by=price_high_to_low";
+                }
+                else{
+                    Toast.makeText(getContext(),"We do not have APIs to that website yet!",Toast.LENGTH_SHORT).show();
+                }
             }
             return url;
         }

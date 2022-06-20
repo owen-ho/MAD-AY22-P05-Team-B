@@ -112,7 +112,15 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             }
         });
 
-        String wishlistUnique = p.getTitle().concat(p.getImageUrl().substring(p.getImageUrl().length()-15));//use title and last 15 characters of image as a unique key
+        String wishlistUnique = p.getTitle()
+                .concat(p.getImageUrl().substring(p.getImageUrl().length()-15))//use title and last 15 characters of image as a unique key
+                .replace(".","")
+                .replace("#","")
+                .replace("$","")
+                .replace("[","")
+                .replace("]","");//to ensure ID of product is a valid firebase database path
+
+
 
         DatabaseReference databaseRefUser = FirebaseDatabase
                 .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
