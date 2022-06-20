@@ -147,13 +147,28 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if(task.getResult().hasChild(wishlistUnique)){
-                            databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).removeValue();
-                            holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_gray));//use custom gray color
+                            new AlertDialog.Builder(holder.itemView.getContext()).setTitle("Confirm item removal").setMessage("Remove: \n" + p.getTitle() + "?")
+                                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {//confirm remove item from wishlist
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).removeValue();
+                                            holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_gray));//use custom gray color
+                                            data.remove(holder.getAdapterPosition());
+                                        }
+                                    })
+                                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {//dismiss
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    }).show();
+
                         }
                         else{
                             databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).setValue(p);//add product if the product does not exist in the database
                             holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_red));//use custom red color
                         }
+                        notifyDataSetChanged();
                     }
                 });
 
