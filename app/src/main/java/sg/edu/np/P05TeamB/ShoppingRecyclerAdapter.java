@@ -115,28 +115,51 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             }
         });
 
+        String wishlistUnique = p.getImageUrl().substring(p.getImageUrl().length()-15);//use last 15 characters as a unique key
+
+        DatabaseReference databaseRefUser = FirebaseDatabase
+                .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference("user");
+        FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
+
+        databaseRefUser.child(usr.getUid().toString()).child("wishlist").addValueEventListener(new ValueEventListener() {//show if item is liked first
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild(wishlistUnique)){
+                    holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_red));//use custom red color
+                }
+                else{
+                    holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_gray));//use custom gray color
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         holder.prodFavourite.setOnClickListener(new View.OnClickListener() {//on click listener for favourite button in searching of product
             @Override
             public void onClick(View view) {
-                DatabaseReference databaseRefUser = FirebaseDatabase
-                        .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
-                        .getReference("user");
-                FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
-
-                databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(p.getImageUrl().substring(p.getImageUrl().length()-15)).setValue(p);//add product
-
-                /*
-                databaseRefUser.child(usr.getUid().toString()).addValueEventListener(new ValueEventListener() {
+                databaseRefUser.child(usr.getUid().toString()).child("wishlist").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                        if(snapshot.hasChild(wishlistUnique)){
+                            databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).removeValue();
+                            holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_gray));//use custom gray color
+                        }
+                        else{
+                            databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).setValue(p);//add product if the product does not exist in the database
+                            holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_red));//use custom red color
+                        }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
-                })*/
+                });
 
                 // showing favourite
                 holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_red));//use custom red color

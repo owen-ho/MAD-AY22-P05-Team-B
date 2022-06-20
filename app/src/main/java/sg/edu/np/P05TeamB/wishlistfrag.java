@@ -76,7 +76,23 @@ public class wishlistfrag extends Fragment {
 
         }
         recyclerViewWishlist = view.findViewById(R.id.recyclerWishlist);
-        ShoppingRecyclerAdapter wishlistAdapter = new ShoppingRecyclerAdapter(initWishlist(), getContext(),2);//testing only
+        ArrayList<Product> wProdList = new ArrayList<>();
+        ShoppingRecyclerAdapter wishlistAdapter = new ShoppingRecyclerAdapter(wProdList, getContext(),2);//testing only
+        databaseRefUser.child(usr.getUid().toString()).child("wishlist").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ss : snapshot.getChildren()){
+                    Product product = ss.getValue(Product.class);
+                    wProdList.add(product);
+                }
+                wishlistAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("error", "loadPost:onCancelled", error.toException());
+            }
+        });
         LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         recyclerViewWishlist.setLayoutManager(vLayoutManager);
         recyclerViewWishlist.setItemAnimator(new DefaultItemAnimator());
@@ -88,29 +104,6 @@ public class wishlistfrag extends Fragment {
     private ArrayList<String> initFilterList(){
         ArrayList<String> filterList = new ArrayList<>(Arrays.asList("Listing Date", "Price Low - High","Price High - Low","Name"));
         return filterList;
-    }
-
-    //Testing ONly
-    public ArrayList<Product> initWishlist(){
-        ArrayList<Product> wProdList = new ArrayList<>();
-        /*databaseRefUser.child(usr.getUid().toString()).child("wishlist").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ss : snapshot.getChildren()){
-                    Product product = ss.getValue(Product.class);
-                    wProdList.add(product);
-                    Log.i("knn",product.getTitle());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.w("error", "loadPost:onCancelled", error.toException());
-            }
-        });*/
-
-        //Log.i("knn", String.valueOf(wProdList.size()));
-        return wProdList;
     }
 
 }
