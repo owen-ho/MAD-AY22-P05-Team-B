@@ -1,10 +1,40 @@
 {
   "project_info": {
     "project_number": "930762199570",
+    "firebase_url": "https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "mad-ay22-p05-team-b",
     "storage_bucket": "mad-ay22-p05-team-b.appspot.com"
   },
   "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930762199570:android:63a7e6db94c9b0f9a6fecb",
+        "android_client_info": {
+          "package_name": "sg.edu.np.MulaSave"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930762199570-habsrr3gt6p0vf0n9nnonvh7rbhs3qpn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMx_HOvn1s-7sSnRXFZcdqYXVhMP38wjQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930762199570-habsrr3gt6p0vf0n9nnonvh7rbhs3qpn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:930762199570:android:7add98cfaed19208a6fecb",

@@ -1,4 +1,4 @@
-package sg.edu.np.P05TeamB;
+package sg.edu.np.MulaSave;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
 
-import sg.edu.np.P05TeamB.databinding.ActivityMainBinding;
+import sg.edu.np.MulaSave.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 

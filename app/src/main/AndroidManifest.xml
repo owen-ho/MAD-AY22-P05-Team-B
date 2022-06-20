@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="sg.edu.np.P05TeamB">
+    package="sg.edu.np.MulaSave">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,22 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.P05TeamB">
         <activity
-            android:name=".ForgetPassword"
+            android:name="sg.edu.np.MulaSave.ForgetPassword"
             android:exported="false" />
         <activity
-            android:name=".UserInputPrice"
+            android:name="sg.edu.np.MulaSave.UserInputPrice"
             android:exported="false" />
         <activity
-            android:name=".SelectProfilePic"
+            android:name="sg.edu.np.MulaSave.SelectProfilePic"
             android:exported="false" />
         <activity
-            android:name=".changinginfo"
+            android:name="sg.edu.np.MulaSave.changinginfo"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name="sg.edu.np.MulaSave.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name="sg.edu.np.MulaSave.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="sg.edu.np.MulaSave.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
