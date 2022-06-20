@@ -70,7 +70,8 @@ public class profilefrag extends Fragment {
 
         TextView email1 = view.findViewById(R.id.emailbox);
         TextView usertext = view.findViewById(R.id.usernamebox);
-        ImageView profilepic = view.findViewById(R.id.imageView3);
+        ImageView profilepic = view.findViewById(R.id.pfpbox);
+        profilepic.setVisibility(View.INVISIBLE);
 
         TextView infobutton = view.findViewById(R.id.changeinfo);
         Button logoutbutton = view.findViewById(R.id.logoutBtn);
@@ -95,6 +96,7 @@ public class profilefrag extends Fragment {
                             Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").into(profilepic);
                         }
                     });
+                    profilepic.setVisibility(View.VISIBLE);//set to visible from deafault of invisible
                 }
 
                 @Override

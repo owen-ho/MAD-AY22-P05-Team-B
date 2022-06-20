@@ -74,7 +74,7 @@ public class wishlistfrag extends Fragment {
         }
         recyclerViewWishlist = view.findViewById(R.id.recyclerWishlist);
         ArrayList<Product> wProdList = new ArrayList<>();
-        ShoppingRecyclerAdapter wishlistAdapter = new ShoppingRecyclerAdapter(wProdList, getContext(),2);//testing only
+        ShoppingRecyclerAdapter wishlistAdapter = new ShoppingRecyclerAdapter(wProdList, getContext(),2);//wishlist layout
         databaseRefUser.child(usr.getUid().toString()).child("wishlist").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

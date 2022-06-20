@@ -26,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 
 public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHolder> {
@@ -112,14 +113,10 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             }
         });
 
-        String wishlistUnique = p.getTitle()
-                .concat(p.getImageUrl().substring(p.getImageUrl().length()-15))//use title and last 15 characters of image as a unique key
-                .replace(".","")
-                .replace("#","")
-                .replace("$","")
-                .replace("[","")
-                .replace("]","");//to ensure ID of product is a valid firebase database path
-
+        /*String wishlistUnique = (p.getTitle()
+                .concat(p.getImageUrl().substring(p.getImageUrl().length()-15))).replaceAll("[^a-zA-Z0-9]", "");//use title and last 15 characters of image as a unique key*/
+                //to ensure ID of product is a valid firebase database path
+        String wishlistUnique = (p.getTitle() + (p.getImageUrl().substring(p.getImageUrl().length()-15))+ p.getWebsite()).replaceAll("[^a-zA-Z0-9]", "");
 
 
         DatabaseReference databaseRefUser = FirebaseDatabase
@@ -150,23 +147,33 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if(task.getResult().hasChild(wishlistUnique)){
-                            databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).removeValue();
-                            holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_gray));//use custom gray color
+                            new AlertDialog.Builder(holder.itemView.getContext()).setTitle("Confirm Remove Item").setMessage("Remove: \n" + (p.getTitle()).substring(0, Math.min(p.getTitle().length(), 50)) + " .....")
+                                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {//confirm remove item from wishlist
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).removeValue();
+                                            holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_gray));//use custom gray color
+                                            data.remove(holder.getAdapterPosition());
+                                        }
+                                    })
+                                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {//dismiss
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    }).show();
+
                         }
                         else{
                             databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).setValue(p);//add product if the product does not exist in the database
                             holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_red));//use custom red color
                         }
+                        notifyDataSetChanged();
                     }
                 });
 
                 // showing favourite
                 holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_red));//use custom red color
-                /*
-                Drawable unwrappedDrawable = AppCompatResources.getDrawable(holder.prodFavourite.getContext(), R.drawable.favourate_button);
-                Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
-                DrawableCompat.setTint(wrappedDrawable, Color.RED);*/
-
             }
         });
     }//end of onBindViewHolder
