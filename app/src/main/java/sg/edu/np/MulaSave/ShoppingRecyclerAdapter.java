@@ -26,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 
 public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHolder> {
@@ -112,14 +113,10 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             }
         });
 
-        String wishlistUnique = p.getTitle()
-                .concat(p.getImageUrl().substring(p.getImageUrl().length()-15))//use title and last 15 characters of image as a unique key
-                .replace(".","")
-                .replace("#","")
-                .replace("$","")
-                .replace("[","")
-                .replace("]","");//to ensure ID of product is a valid firebase database path
-
+        /*String wishlistUnique = (p.getTitle()
+                .concat(p.getImageUrl().substring(p.getImageUrl().length()-15))).replaceAll("[^a-zA-Z0-9]", "");//use title and last 15 characters of image as a unique key*/
+                //to ensure ID of product is a valid firebase database path
+        String wishlistUnique = (p.getTitle() + (p.getImageUrl().substring(p.getImageUrl().length()-15))+ p.getWebsite()).replaceAll("[^a-zA-Z0-9]", "");
 
 
         DatabaseReference databaseRefUser = FirebaseDatabase
@@ -162,11 +159,6 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
 
                 // showing favourite
                 holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_red));//use custom red color
-                /*
-                Drawable unwrappedDrawable = AppCompatResources.getDrawable(holder.prodFavourite.getContext(), R.drawable.favourate_button);
-                Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
-                DrawableCompat.setTint(wrappedDrawable, Color.RED);*/
-
             }
         });
     }//end of onBindViewHolder

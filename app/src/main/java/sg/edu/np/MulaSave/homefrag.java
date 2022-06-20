@@ -103,7 +103,7 @@ public class homefrag extends Fragment {
 
         //loading of image using picasso
         ImageView imageView = getView().findViewById(R.id.largeImage);
-        Picasso.get().load("https://i.imgur.com/DvpvklR.png").into(imageView);
+        //Picasso.get().load("https://i.imgur.com/DvpvklR.png").into(imageView);
         new getProducts().execute();
     }//end of onview created method
 
@@ -124,6 +124,7 @@ public class homefrag extends Fragment {
                         .load(p.getImageUrl())
                         .fit()
                         .into(iv);
+                iv.setVisibility(View.VISIBLE);//set to visible -- default is invisible before picasso loads
 
                 iv.setOnClickListener(new View.OnClickListener() {
                     @Override
