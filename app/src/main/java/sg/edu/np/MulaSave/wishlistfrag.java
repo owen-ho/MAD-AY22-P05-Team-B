@@ -58,18 +58,6 @@ public class wishlistfrag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view  = inflater.inflate(R.layout.fragment_wishlist, container, false);
-
-        //WishList Filters
-        recyclerViewFilter = view.findViewById(R.id.recyclerFilter);
-        wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(filterList);
-
-        //Layout manager
-        LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);//set horizontal layout
-        recyclerViewFilter.setLayoutManager(hLayoutManager);
-        recyclerViewFilter.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewFilter.setAdapter(wFilterAdapter);//set adapter for wishlist filters
-
-
         return view;
     }
 
@@ -100,8 +88,6 @@ public class wishlistfrag extends Fragment {
         recyclerViewWishlist.setLayoutManager(vLayoutManager);
         recyclerViewWishlist.setItemAnimator(new DefaultItemAnimator());
         recyclerViewWishlist.setAdapter(wishlistAdapter);
-
-
 
         SearchView search = view.findViewById(R.id.wishSearch);//wishlist searchbar
         int id = search.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
@@ -145,10 +131,20 @@ public class wishlistfrag extends Fragment {
                 return false;
             }
         });
+
+        //WishList Filters
+        recyclerViewFilter = view.findViewById(R.id.recyclerFilter);
+        wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(filterList,wishlistAdapter,wProdList);
+
+        //Layout manager
+        LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);//set horizontal layout
+        recyclerViewFilter.setLayoutManager(hLayoutManager);
+        recyclerViewFilter.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewFilter.setAdapter(wFilterAdapter);//set adapter for wishlist filters
     }
 
     private ArrayList<String> initFilterList(){
-        ArrayList<String> filterList = new ArrayList<>(Arrays.asList("Listing Date", "Price Low - High","Price High - Low","Name"));
+        ArrayList<String> filterList = new ArrayList<>(Arrays.asList("Price [Low - High]","Price [High - Low]","Name [a - z]","Name [z - a]"));
         return filterList;
     }
 }
