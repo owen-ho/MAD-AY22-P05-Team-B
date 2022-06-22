@@ -100,10 +100,6 @@ public class homefrag extends Fragment {
             }
         });
         search.setSubmitButtonEnabled(true);
-
-        //loading of image using picasso
-        ImageView imageView = getView().findViewById(R.id.largeImage);
-        //Picasso.get().load("https://i.imgur.com/DvpvklR.png").into(imageView);
         new getProducts().execute();
     }//end of onview created method
 
@@ -192,7 +188,7 @@ public class homefrag extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getContext(),"Json Parsing Error",Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getContext(),"Json Parsing Error",Toast.LENGTH_LONG).show();
                             e.printStackTrace();
                         }
                     });

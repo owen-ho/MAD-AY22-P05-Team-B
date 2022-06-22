@@ -92,9 +92,8 @@ public class UserInputPrice extends AppCompatActivity {
                         }
                     });
 
-                    Intent i = new Intent(UserInputPrice.this,MainActivity.class);
-                    i.putExtra("frgToLoad",0);
-                    startActivity(i);
+                    finish();//finish the upload activity
+                    Toast.makeText(UserInputPrice.this,"Product uploaded",Toast.LENGTH_SHORT).show();
 
                 }else{
                     Toast.makeText(UserInputPrice.this,"Please fill in all boxes",Toast.LENGTH_SHORT).show();
