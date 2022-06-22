@@ -73,7 +73,7 @@ public class profilefrag extends Fragment {
         ImageView profilepic = view.findViewById(R.id.pfpbox);
         profilepic.setVisibility(View.INVISIBLE);
 
-        TextView infobutton = view.findViewById(R.id.changeinfo);
+        ImageView infobutton = view.findViewById(R.id.changeinfo);
         Button logoutbutton = view.findViewById(R.id.logoutBtn);
 
         if (user!=null){

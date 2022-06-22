@@ -49,7 +49,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="product name"
-                android:textColor="#020202"
+                android:textColor="#454545"
                 app:layout_constraintBottom_toTopOf="@+id/sProdPrice"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -60,7 +60,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="price"
-                android:textColor="#8F0B0B"
+                android:textColor="#FF0000"
                 app:layout_constraintBottom_toTopOf="@+id/sProdRating"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -81,6 +81,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="website name"
+                android:textColor="#3E73F8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 

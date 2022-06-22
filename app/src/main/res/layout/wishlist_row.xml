@@ -45,6 +45,7 @@
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="8dp"
                 android:text="Product Title"
+                android:textColor="#454545"
                 app:layout_constraintBottom_toTopOf="@+id/wPrice"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/wImage"
@@ -58,6 +59,7 @@
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="8dp"
                 android:text="Price"
+                android:textColor="#FF0000"
                 app:layout_constraintBottom_toTopOf="@+id/wRatingBar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/wImage"
@@ -81,6 +83,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="website"
+                android:textColor="#3E73F8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/wImage"
                 app:layout_constraintTop_toBottomOf="@+id/wRatingBar" />

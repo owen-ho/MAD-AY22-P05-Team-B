@@ -58,6 +58,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void createAccount(String email, String password,String Username){
+        //check if input is valid
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -78,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             //Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                            Toast.makeText(RegisterActivity.this, "Authentication Failed. Please try again",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
