@@ -46,12 +46,13 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.Wishlist:
                     replacefragment(new wishlistfrag());
                     break;
-                case R.id.profile:
-                    replacefragment(new profilefrag());
-                    break;
                 case R.id.fifth:
                     replacefragment(new fifthfrag());
                     break;
+                case R.id.profile:
+                    replacefragment(new profilefrag());
+                    break;
+
             }
             return true;
         });
