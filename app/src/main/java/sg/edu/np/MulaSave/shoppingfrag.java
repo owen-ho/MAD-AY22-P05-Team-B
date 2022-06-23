@@ -80,6 +80,8 @@ public class shoppingfrag extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         SearchView query = view.findViewById(R.id.searchQuery);
         query.setSubmitButtonEnabled(true);
+
+        //to navigate user from homefrag to shoppingfrag
         Bundle bundle = this.getArguments();
         if(bundle!= null){
             Boolean search = bundle.getBoolean("condition",false);
@@ -97,7 +99,6 @@ public class shoppingfrag extends Fragment {
             }
         }
 
-        //Button searchBtn = view.findViewById(R.id.searchBtn);
         //make the whole search bar clickable
         query.setOnClickListener(new View.OnClickListener() {
             @Override
