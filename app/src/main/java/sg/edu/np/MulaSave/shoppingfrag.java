@@ -3,6 +3,7 @@ package sg.edu.np.MulaSave;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -80,6 +82,10 @@ public class shoppingfrag extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         SearchView query = view.findViewById(R.id.searchQuery);
         query.setSubmitButtonEnabled(true);
+
+        int id = query.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        EditText searchEdit = query.findViewById(id);
+        searchEdit.setTextColor(Color.BLACK);
 
         //to navigate user from homefrag to shoppingfrag
         Bundle bundle = this.getArguments();

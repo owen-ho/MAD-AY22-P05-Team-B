@@ -20,10 +20,11 @@ public class ShoppingViewHolder extends RecyclerView.ViewHolder {
     TextView prodNoRating;
     RatingBar prodRating;
     ImageView prodFavourite;
+    Boolean remove;//condition to tell adapter if remove item on unlike, to ensure adapter only removes the item when the wishlist fragment is using
 
     public ShoppingViewHolder(@NonNull View itemView, int viewType) {
         super(itemView);
-        if (viewType == 1){//shopping search view
+        if (viewType == 1){//shopping search view, uploads view
             productListing = itemView.findViewById(R.id.sProdListing);
             productImage = itemView.findViewById(R.id.sProdImage);
             productTitle = itemView.findViewById(R.id.sProdTitle);
@@ -31,6 +32,7 @@ public class ShoppingViewHolder extends RecyclerView.ViewHolder {
             productWebsite = itemView.findViewById(R.id.sProdWebsite);
             prodRating = itemView.findViewById(R.id.sProdRating);
             prodFavourite = itemView.findViewById(R.id.sProdFavourite);
+            remove = false;
         }
         else{//wishlistview
             productListing = itemView.findViewById(R.id.wishlistListing);
@@ -40,6 +42,7 @@ public class ShoppingViewHolder extends RecyclerView.ViewHolder {
             productWebsite = itemView.findViewById(R.id.wWebsite);
             prodRating = itemView.findViewById(R.id.wRatingBar);
             prodFavourite = itemView.findViewById(R.id.wFavourite);
+            remove = true;
         }
 
     }

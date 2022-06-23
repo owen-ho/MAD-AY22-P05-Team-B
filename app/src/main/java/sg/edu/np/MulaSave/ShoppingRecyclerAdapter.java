@@ -151,7 +151,9 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                                 public void onClick(View view) {
                                     databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).removeValue();
                                     holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_gray));//use custom gray color
-                                    data.clear();
+                                    if(holder.remove == true){//remove, because the wishlist is using the adapter
+                                        data.clear();
+                                    }//but if shopping or upload fragments are using, do not remove the item from the recyclerview
                                     alertDialog.dismiss();
                                 }
                             });
