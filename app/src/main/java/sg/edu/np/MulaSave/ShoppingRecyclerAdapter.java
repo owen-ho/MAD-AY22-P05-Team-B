@@ -196,7 +196,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         //load information
         ImageView pic = view.findViewById(R.id.dialogPic);
         Uri picU = Uri.parse(picUri);
-        Picasso.get().load(picU).into(pic);
+        Picasso.get().load(picU).resize(200,200).into(pic);
         ((TextView) view.findViewById(R.id.dialogPrice)).setText(String.format("$ %.2f",price));
         ((TextView) view.findViewById(R.id.dialogWebsite)).setText(website);
 
