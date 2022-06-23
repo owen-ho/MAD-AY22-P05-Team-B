@@ -8,26 +8,28 @@
     tools:context=".UserInputPrice">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="396dp"
-        android:layout_height="404dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="16dp"
         app:cardBackgroundColor="#CBEBEB"
         app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addProductImage">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="425dp">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/LisingTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="24dp"
                 android:text="Listing Title"
                 android:textColor="#040404"
                 android:textSize="16sp"
@@ -79,7 +81,7 @@
                 android:id="@+id/URLText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="24dp"
                 android:text="Website Name"
                 android:textColor="#000000"
                 android:textColorHint="#000000"
@@ -101,16 +103,43 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/URLText" />
 
+            <TextView
+                android:id="@+id/ratingText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Rating"
+                android:textColor="#000000"
+                android:textColorHint="#000000"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.055"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/websiteProduct" />
+
+            <EditText
+                android:id="@+id/productRating"
+                android:layout_width="213dp"
+                android:layout_height="42dp"
+                android:ems="10"
+                android:hint="0 - 5, Enter 0 if N.A"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.089"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ratingText" />
+
             <Button
                 android:id="@+id/submitProductButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="24dp"
                 android:backgroundTint="#69B4DC"
                 android:text="Submit"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.534"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/websiteProduct" />
+                app:layout_constraintTop_toBottomOf="@+id/productRating" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -142,7 +142,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                             builder.setView(v);
                             ImageView pic = v.findViewById(R.id.wishlistPic);
                             Uri newUri = Uri.parse(p.getImageUrl());
-                            Picasso.get().load(newUri).into(pic);
+                            Picasso.get().load(newUri).resize(200,200).into(pic);
                             final AlertDialog alertDialog = builder.create();
 
                             //positive button (remove item)
@@ -151,7 +151,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                                 public void onClick(View view) {
                                     databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).removeValue();
                                     holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_gray));//use custom gray color
-                                    data.remove(holder.getAdapterPosition());
+                                    data.clear();
                                     alertDialog.dismiss();
                                 }
                             });

@@ -3,6 +3,7 @@ package sg.edu.np.MulaSave;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import java.net.URLEncoder;
+import java.util.UUID;
 
 public class UserInputPrice extends AppCompatActivity {
 
@@ -38,6 +42,7 @@ public class UserInputPrice extends AppCompatActivity {
         EditText productTitle = findViewById(R.id.titleProduct);
         EditText productPrice = findViewById(R.id.priceProduct);
         EditText productWebsite = findViewById(R.id.websiteProduct);
+        EditText productRating = findViewById(R.id.productRating);
         ImageView productPic = findViewById(R.id.addproductbutton);
         Button submitProductbtn = findViewById(R.id.submitProductButton);
 
@@ -68,36 +73,51 @@ public class UserInputPrice extends AppCompatActivity {
             }
         });
 
-
-
         submitProductbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!productTitle.getText().toString().equals("") && !productPrice.getText().toString().equals("") && !productWebsite.getText().toString().equals("")){
-                    String pt = productTitle.getText().toString();
-                    Double pp = Double.parseDouble(productPrice.getText().toString());
-                    String pw = productWebsite.getText().toString();
-
-                    productRef.child(key).child("title").setValue(pt);
-                    productRef.child(key).child("price").setValue(pp);
-                    productRef.child(key).child("website").setValue(pw);
-                    storageRef.child("productpics/" + key + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            productRef.child(key).child("image").setValue(uri.toString());
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {//file does not exist
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                        }
-                    });
-
-                    finish();//finish the upload activity
-                    Toast.makeText(UserInputPrice.this,"Product uploaded",Toast.LENGTH_SHORT).show();
-
-                }else{
+                //check for invalid input
+                if (productTitle.getText().toString().equals("") || productPrice.getText().toString().equals("")
+                        || productWebsite.getText().toString().equals("") || productRating.getText().toString().equals("")){
                     Toast.makeText(UserInputPrice.this,"Please fill in all boxes",Toast.LENGTH_SHORT).show();
+
                 }
+                //check for valid numeric\decimal inputs
+                else if((!productRating.getText().toString().matches("\\d*\\.?\\d+")) || (!productPrice.getText().toString().matches("\\d*\\.?\\d+"))){
+                    Toast.makeText(UserInputPrice.this,"Please enter valid fields",Toast.LENGTH_SHORT).show();
+                }
+                else{//primary validation completed
+                    try{//use try to catch all other invalid inputs
+                        String pt = productTitle.getText().toString();
+                        Double pp = Double.parseDouble(productPrice.getText().toString());
+                        String pw = productWebsite.getText().toString();
+                        Double ratingD = Double.parseDouble(productRating.getText().toString());
+                        Float rating = ratingD.floatValue();
+                        if (rating > 5){//throw to exception if rating is less than 5, this is to ensure that app does not crash if unable to convert to float due to invalid inputs
+                            throw new Exception();
+                        }
+                        storageRef.child("productpics/" + key + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String productLink = "https://www.google.com/search?q=" + pw + "+" + pt;
+                                Product p = new Product(UUID.randomUUID().toString(), pt,"category", pp, uri.toString(),productLink, rating, pw);
+                                productRef.child(key).setValue(p);//add product obj to the realtime database
+
+                                finish();//finish the upload activity
+                                Toast.makeText(UserInputPrice.this,"Product uploaded",Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {//file does not exist
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(UserInputPrice.this,"Please ensure picture is uploaded",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    catch (Exception e){
+                        Toast.makeText(UserInputPrice.this,"Please enter valid inputs",Toast.LENGTH_SHORT).show();
+                        Log.i("UserInputPrice", String.valueOf(e));
+                    }
+                }//end of if else
             }
         });
     }
