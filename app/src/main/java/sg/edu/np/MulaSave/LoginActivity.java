@@ -2,6 +2,8 @@ package sg.edu.np.MulaSave;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,9 +26,18 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
-
+        FirebaseUser usr = mAuth.getCurrentUser();
+        if(usr!=null){
+            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+            assert usr != null;
+            i.putExtra("email",usr.getEmail());
+            i.putExtra("uid",usr.getUid());
+            startActivity(i);
+            finish();
+        }
         TextView registerPrompt = findViewById(R.id.registerPrompt);
         EditText email = findViewById(R.id.emailBox);
         EditText password = findViewById(R.id.passwordBox);
@@ -44,7 +55,16 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn(email.getText().toString(),password.getText().toString());
+                if (email.getText().toString().matches("") || password.getText().toString().matches("")){//check for empty inputs
+                    Toast.makeText(LoginActivity.this,"Please ensure all fields are filled",Toast.LENGTH_SHORT).show();
+                }
+                else if ((Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) == false){//check if email is in proper format
+                    Toast.makeText(LoginActivity.this,"Please enter a valid email",Toast.LENGTH_SHORT).show();
+                    email.setText("");//clear email text
+                }
+                else{//basic validation done, try creating new account
+                    signIn(email.getText().toString(),password.getText().toString());
+                }
             }
         });
 
@@ -81,17 +101,24 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             //Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                // User is signed in
 
-                            Intent i = new Intent(LoginActivity.this,MainActivity.class);
-                            assert user != null;
-                            i.putExtra("email",user.getEmail());
-                            i.putExtra("uid",user.getUid());
-                            startActivity(i);
+                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                assert user != null;
+                                i.putExtra("email",user.getEmail());
+                                i.putExtra("uid",user.getUid());
+                                startActivity(i);
+                                finish();
+                            } else {
+                                // User is signed out
+                                Log.d("signout", "onAuthStateChanged:signed_out");
+                            }
                         }
                         else {
                             // If sign in fails, display a message to the user.
                             //Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, "Authentication failed. Try again",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }

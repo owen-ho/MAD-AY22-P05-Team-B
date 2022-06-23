@@ -90,20 +90,10 @@ public class homefrag extends Fragment {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                View view1 = getActivity().getCurrentFocus();//to hide keyboard in the home fragment
-                if (view1 != null){
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
-                }*/
                 search.setIconified(false); // cannot be placed under setOnSearchListener because it will cause listener to be informed
             }
         });
         search.setSubmitButtonEnabled(true);
-
-        //loading of image using picasso
-        ImageView imageView = getView().findViewById(R.id.largeImage);
-        //Picasso.get().load("https://i.imgur.com/DvpvklR.png").into(imageView);
         new getProducts().execute();
     }//end of onview created method
 
@@ -192,7 +182,7 @@ public class homefrag extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getContext(),"Json Parsing Error",Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getContext(),"Json Parsing Error",Toast.LENGTH_LONG).show();
                             e.printStackTrace();
                         }
                     });

@@ -32,8 +32,13 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <SearchView
+                android:id="@+id/wishSearch"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:background="#FFE6E6E6"
+                android:iconifiedByDefault="false"
+                android:queryHint="Search product name in wishlist..."
+                app:theme="@style/AppSearchView" />
         </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView

@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintSet;
@@ -23,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.internal.InternalTokenProvider;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -92,6 +95,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         holder.productListing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showProductDialog(holder.productListing.getContext(), p.getImageUrl(),p.getPrice(),p.getWebsite(),p.getLink());/*
                 AlertDialog.Builder builder = new AlertDialog.Builder(holder.productListing.getContext());
                 builder.setTitle("Product Details");
                 //builder.setMessage("Title: "+p.getTitle()+'\n'+'\n'+"Category: "+p.getCategory()+'\n'+'\n'+String.format("Price: $%.2f",p.getPrice()));
@@ -109,7 +113,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
 
                     }
                 });
-                builder.show();
+                builder.show();*/
             }
         });
 
@@ -147,8 +151,8 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if(task.getResult().hasChild(wishlistUnique)){
-                            new AlertDialog.Builder(holder.itemView.getContext()).setTitle("Confirm Remove Item").setMessage("Remove: \n" + (p.getTitle()).substring(0, Math.min(p.getTitle().length(), 50)) + " .....")
-                                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {//confirm remove item from wishlist
+                            new AlertDialog.Builder(holder.itemView.getContext()).setTitle("Remove Item from Wishlist").setMessage((p.getTitle()).substring(0, Math.min(p.getTitle().length(), 50)) + " .....\n")
+                                    .setPositiveButton("Remove", new DialogInterface.OnClickListener() {//confirm remove item from wishlist
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).removeValue();
@@ -183,4 +187,38 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         return data.size();
     }
 
+    //custom product dialog
+    private void showProductDialog(Context context,String picUri, Double price, String website, String link) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View view = LayoutInflater.from(context).inflate(R.layout.product_dialog,null,false);
+        builder.setView(view);
+        //load information
+        ImageView pic = view.findViewById(R.id.dialogPic);
+        Uri picU = Uri.parse(picUri);
+        Picasso.get().load(picU).into(pic);
+        ((TextView) view.findViewById(R.id.dialogPrice)).setText("$ " + String.format("$ %.2f",price));
+        ((TextView) view.findViewById(R.id.dialogWebsite)).setText(website);
+
+        final AlertDialog alertDialog = builder.create();
+        //open browser
+        view.findViewById(R.id.dialogOpen).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+                context.startActivity(browserIntent);
+            }
+        });
+
+        //close browser
+        view.findViewById(R.id.dialogClose).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();//close
+            }
+        });
+
+        alertDialog.show();
+    }
 }
+
+

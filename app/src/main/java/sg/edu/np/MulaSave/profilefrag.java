@@ -73,8 +73,11 @@ public class profilefrag extends Fragment {
         ImageView profilepic = view.findViewById(R.id.pfpbox);
         profilepic.setVisibility(View.INVISIBLE);
 
-        TextView infobutton = view.findViewById(R.id.changeinfo);
+        ImageView infobutton = view.findViewById(R.id.changeinfo);
         Button logoutbutton = view.findViewById(R.id.logoutBtn);
+
+        //load this as the default picture first
+        Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").into(profilepic);
 
         if (user!=null){
             userRef.addValueEventListener(new ValueEventListener() {
@@ -93,7 +96,7 @@ public class profilefrag extends Fragment {
                     }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
                         @Override
                         public void onFailure(@NonNull Exception e) {//set default picture
-                            Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").into(profilepic);
+
                         }
                     });
                     profilepic.setVisibility(View.VISIBLE);//set to visible from deafault of invisible

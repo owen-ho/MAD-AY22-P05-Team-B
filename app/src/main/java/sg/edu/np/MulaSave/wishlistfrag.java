@@ -1,8 +1,10 @@
 package sg.edu.np.MulaSave;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.SearchView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,24 +58,17 @@ public class wishlistfrag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view  = inflater.inflate(R.layout.fragment_wishlist, container, false);
-
-        //WishList Filters
-        recyclerViewFilter = view.findViewById(R.id.recyclerFilter);
-        wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(filterList);
-
-        //Layout manager
-        LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);//set horizontal layout
-        recyclerViewFilter.setLayoutManager(hLayoutManager);
-        recyclerViewFilter.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewFilter.setAdapter(wFilterAdapter);//set adapter for wishlist filters
-
-
-        //WishList List
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null){
-            String uid = user.getUid();
+        if(savedInstanceState != null){
 
         }
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //WishList List
         recyclerViewWishlist = view.findViewById(R.id.recyclerWishlist);
         ArrayList<Product> wProdList = new ArrayList<>();
         ShoppingRecyclerAdapter wishlistAdapter = new ShoppingRecyclerAdapter(wProdList, getContext(),2);//wishlist layout
@@ -95,12 +92,64 @@ public class wishlistfrag extends Fragment {
         recyclerViewWishlist.setItemAnimator(new DefaultItemAnimator());
         recyclerViewWishlist.setAdapter(wishlistAdapter);
 
-        return view;
+        SearchView search = view.findViewById(R.id.wishSearch);//wishlist searchbar
+        int id = search.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        EditText searchEdit = search.findViewById(id);
+        searchEdit.setTextColor(Color.BLACK);
+
+        search.setSubmitButtonEnabled(true);//enable submit button
+        search.setOnClickListener(new View.OnClickListener() {//make the whole searchview avaialble for input
+            @Override
+            public void onClick(View view) {
+                search.setIconified(false);
+            }
+        });
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {//searchview listener
+            @Override
+            public boolean onQueryTextSubmit(String s) {//user submitted
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                wProdList.clear();//clear list
+                databaseRefUser.child(usr.getUid().toString()).child("wishlist").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ss : snapshot.getChildren()){
+                            Product product = ss.getValue(Product.class);
+                            if (product.getTitle().toString().toLowerCase().contains(s)){//see if product title contains seach
+                                wProdList.add(product);
+                            }
+                        }
+                        wishlistAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.w("error", "loadPost:onCancelled", error.toException());
+                    }
+                });
+                return false;
+            }
+        });
+
+        //WishList Filters
+        recyclerViewFilter = view.findViewById(R.id.recyclerFilter);
+        wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(filterList,wishlistAdapter,wProdList);
+
+        //Layout manager
+        LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);//set horizontal layout
+        recyclerViewFilter.setLayoutManager(hLayoutManager);
+        recyclerViewFilter.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewFilter.setAdapter(wFilterAdapter);//set adapter for wishlist filters
     }
+
+
 
     private ArrayList<String> initFilterList(){
-        ArrayList<String> filterList = new ArrayList<>(Arrays.asList("Listing Date", "Price Low - High","Price High - Low","Name"));
+        ArrayList<String> filterList = new ArrayList<>(Arrays.asList("Default" ,"Price [Low - High]","Price [High - Low]","Name [a - z]","Name [z - a]"));
         return filterList;
     }
-
 }

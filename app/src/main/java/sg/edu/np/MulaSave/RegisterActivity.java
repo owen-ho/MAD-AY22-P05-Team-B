@@ -2,6 +2,7 @@ package sg.edu.np.MulaSave;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
         TextView loginPrompt = findViewById(R.id.loginPrompt);
         EditText email = findViewById(R.id.emailRegister);
         EditText password = findViewById(R.id.passwordRegister);
+        EditText passwordRe = findViewById(R.id.passwordRegisterRe);
         Button registerBtn = findViewById(R.id.registerButton);
         EditText Username = findViewById(R.id.usernameRegister);
 
@@ -47,7 +49,25 @@ public class RegisterActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createAccount(email.getText().toString(),password.getText().toString(),Username.getText().toString());
+                if (email.getText().toString().matches("") || password.getText().toString().matches("") || Username.getText().toString().matches("")){//check for empty inputs
+                    Toast.makeText(RegisterActivity.this,"Please ensure all fields are filled",Toast.LENGTH_SHORT).show();
+                }
+                else if ((Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) == false){//check if email is in proper format
+                    Toast.makeText(RegisterActivity.this,"Please enter a valid email",Toast.LENGTH_SHORT).show();
+                    email.setText("");//clear email text
+                }
+                else if((password.getText().toString().equals(passwordRe.getText().toString()))== false){//passwords do not matct
+                    Toast.makeText(RegisterActivity.this,"Passwords do not match",Toast.LENGTH_SHORT).show();
+                    //clear passwords
+                    password.setText("");
+                    passwordRe.setText("");
+                }
+                else if (password.getText().toString().length() < 6){//password too short (lower than 6 char)
+                    Toast.makeText(RegisterActivity.this,"Please ensure password is at least 6 characters",Toast.LENGTH_SHORT).show();
+                }
+                else{//basic validation done, try creating new account
+                    createAccount(email.getText().toString(),password.getText().toString(),Username.getText().toString());
+                }
             }
         });
     }
@@ -73,13 +93,18 @@ public class RegisterActivity extends AppCompatActivity {
                             u.username = Username;
                             userRef.child(u.uid).setValue(u);
 
-                            Intent i = new Intent(RegisterActivity.this,LoginActivity.class);
+                            Intent i = new Intent(RegisterActivity.this,MainActivity.class);
+                            assert user != null;
+                            i.putExtra("email",user.getEmail());
+                            i.putExtra("uid",user.getUid());
                             startActivity(i);
-                        } else {
+                        } else {//sign in fail, likely due to email
                             // If sign in fails, display a message to the user.
                             //Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                            Toast.makeText(RegisterActivity.this, "Authentication Failed. Try another email",
                                     Toast.LENGTH_SHORT).show();
+                            EditText rEmail = findViewById(R.id.emailRegister);
+                            rEmail.setText("");
                         }
                     }
                 });

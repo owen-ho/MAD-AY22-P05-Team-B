@@ -28,7 +28,9 @@
             <SearchView
                 android:id="@+id/goSearch"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="#FFE6E6E6"
+                android:clickable="false" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -57,6 +59,19 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="57dp"
+                    android:layout_height="33dp"
+                    android:layout_marginStart="16dp"
+                    android:background="#FFE500"
+                    android:gravity="center"
+                    android:text="Top Item"
+                    android:textAlignment="center"
+                    android:textColor="#FF0C0C"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
@@ -183,6 +198,16 @@
                 android:src="@android:drawable/sym_def_app_icon"
                 android:visibility="invisible" />
         </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Other trending items"
+            android:textColor="#5C5C5C"
+            app:layout_constraintBottom_toTopOf="@+id/cardView6"
+            app:layout_constraintStart_toStartOf="@+id/cardView6" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
