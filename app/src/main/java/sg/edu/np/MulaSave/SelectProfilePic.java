@@ -41,16 +41,19 @@ public class SelectProfilePic extends AppCompatActivity {
         Uri pfpUri = Uri.parse(uri);
         preview.setImageURI(pfpUri);
 
-        confirm.setOnClickListener(new View.OnClickListener() {//save image to firebase and go back to profile page
+        confirm.setOnClickListener(new View.OnClickListener() {//save image to firebase and go back to previous page
             @Override
             public void onClick(View view) {
                 //upload to firebase
-                if(type.equals("product")){
-                    uploadProductPic(pfpUri, key);
-                }else{
+                if(type != null){
+                    if(type.equals("product")) {
+                        uploadProductPic(pfpUri, key);
+                    }
+                }
+                else{
                     uploadPic(pfpUri);
                 }
-                //go back to profile page
+                //go back to page
                 finish();
             }
         });
@@ -80,7 +83,7 @@ public class SelectProfilePic extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
-                            Toast.makeText(SelectProfilePic.this,"Upload Success!",Toast.LENGTH_SHORT).show();//to show at the bottom of the screen when pic uploaded
+                            Toast.makeText(SelectProfilePic.this,"Upload Success! Refresh to see changes",Toast.LENGTH_SHORT).show();//to show at the bottom of the screen when pic uploaded
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -114,7 +117,7 @@ public class SelectProfilePic extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(SelectProfilePic.this,"Upload Success!",Toast.LENGTH_SHORT).show();//to show at the bottom of the screen when pic uploaded
+                        Toast.makeText(SelectProfilePic.this,"Upload Success! Refresh to see changes",Toast.LENGTH_SHORT).show();//to show at the bottom of the screen when pic uploaded
 //                        Intent i = new Intent(SelectProfilePic.this, UserInputPrice.class);
 //                        i.putExtra("image",uri);
 //                        startActivity(i);

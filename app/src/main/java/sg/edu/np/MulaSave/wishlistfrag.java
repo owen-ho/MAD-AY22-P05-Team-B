@@ -58,6 +58,9 @@ public class wishlistfrag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view  = inflater.inflate(R.layout.fragment_wishlist, container, false);
+        if(savedInstanceState != null){
+
+        }
         return view;
     }
 
@@ -142,6 +145,8 @@ public class wishlistfrag extends Fragment {
         recyclerViewFilter.setItemAnimator(new DefaultItemAnimator());
         recyclerViewFilter.setAdapter(wFilterAdapter);//set adapter for wishlist filters
     }
+
+
 
     private ArrayList<String> initFilterList(){
         ArrayList<String> filterList = new ArrayList<>(Arrays.asList("Default" ,"Price [Low - High]","Price [High - Low]","Name [a - z]","Name [z - a]"));

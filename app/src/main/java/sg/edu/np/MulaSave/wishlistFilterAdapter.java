@@ -92,7 +92,6 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
                         }
                         //index = holder.getAdapterPosition();
                         for(CardView cardView : cardList){
-                            Log.d("knn", String.valueOf(cardList.size()));
                             cardView.setCardBackgroundColor(Color.parseColor("#D8D8D8"));//set inactive (gray)
                         }
                         holder.filterCard.setCardBackgroundColor(Color.parseColor("#4CAF50"));//set active
