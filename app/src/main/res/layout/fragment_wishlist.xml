@@ -37,7 +37,7 @@
                 android:layout_height="match_parent"
                 android:background="#FFE6E6E6"
                 android:iconifiedByDefault="false"
-                android:queryHint="Search wishlist"
+                android:queryHint="Search product name in wishlist..."
                 app:theme="@style/AppSearchView" />
         </androidx.cardview.widget.CardView>
 

@@ -144,7 +144,7 @@ public class wishlistfrag extends Fragment {
     }
 
     private ArrayList<String> initFilterList(){
-        ArrayList<String> filterList = new ArrayList<>(Arrays.asList("Price [Low - High]","Price [High - Low]","Name [a - z]","Name [z - a]"));
+        ArrayList<String> filterList = new ArrayList<>(Arrays.asList("Default" ,"Price [Low - High]","Price [High - Low]","Name [a - z]","Name [z - a]"));
         return filterList;
     }
 }

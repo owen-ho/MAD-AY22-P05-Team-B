@@ -59,6 +59,11 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
 
         cardList.add(holder.filterCard);
 
+        //once user enters the view, it will be set to default
+        if (s.equals("Default")){
+            holder.filterCard.setCardBackgroundColor(Color.parseColor("#4CAF50"));//set active
+        }
+
         holder.filterText.setOnClickListener(new View.OnClickListener() {//filter set on click
             @Override
             public void onClick(View view) {
@@ -70,7 +75,10 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
                             Product product = ss.getValue(Product.class);
                             wProdList.add(product);
                         }
-                        if (s.equals("Price [Low - High]")){//sorting price low to high
+                        if (s.equals("Default")){
+                            //dont sort
+                        }
+                        else if (s.equals("Price [Low - High]")){//sorting price low to high
                             Collections.sort(wProdList,productPriceLowHigh);
                         }
                         else if (s.equals("Price [High - Low]")){//sorting price high to low
@@ -108,6 +116,7 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
     public class wishlistFilterViewHolder extends RecyclerView.ViewHolder {
         TextView filterText;
         CardView filterCard;
+        CardView clearCard;
         public wishlistFilterViewHolder(View itemView){
             super(itemView);
             filterCard = itemView.findViewById(R.id.filterCard);

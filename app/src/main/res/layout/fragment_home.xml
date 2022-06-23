@@ -28,7 +28,9 @@
             <SearchView
                 android:id="@+id/goSearch"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="#FFE6E6E6"
+                android:clickable="false" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -203,6 +205,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="Other trending items"
+            android:textColor="#5C5C5C"
             app:layout_constraintBottom_toTopOf="@+id/cardView6"
             app:layout_constraintStart_toStartOf="@+id/cardView6" />
 
