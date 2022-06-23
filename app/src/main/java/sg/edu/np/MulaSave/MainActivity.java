@@ -49,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.profile:
                     replacefragment(new profilefrag());
                     break;
+                case R.id.fifth:
+                    replacefragment(new fifthfrag());
+                    break;
             }
             return true;
         });
