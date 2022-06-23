@@ -138,15 +138,15 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
 
                             //custom dialog for removing of wishlist item
                             AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext());
-                            View view = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.remove_wislist,null, false);
-                            builder.setView(view);
-                            ImageView pic = view.findViewById(R.id.wishlistPic);
+                            View v = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.remove_wislist,null, false);
+                            builder.setView(v);
+                            ImageView pic = v.findViewById(R.id.wishlistPic);
                             Uri newUri = Uri.parse(p.getImageUrl());
                             Picasso.get().load(newUri).into(pic);
                             final AlertDialog alertDialog = builder.create();
 
                             //positive button (remove item)
-                            view.findViewById(R.id.wishlistRemove).setOnClickListener(new View.OnClickListener() {
+                            v.findViewById(R.id.wishlistRemove).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).removeValue();
@@ -156,7 +156,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                                 }
                             });
                             //negative button (cancel removal)
-                            view.findViewById(R.id.wishlistCancel).setOnClickListener(new View.OnClickListener() {
+                            v.findViewById(R.id.wishlistCancel).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     alertDialog.dismiss();
@@ -207,6 +207,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             public void onClick(View view) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
                 context.startActivity(browserIntent);
+                alertDialog.dismiss();
             }
         });
 

@@ -3,6 +3,8 @@ package sg.edu.np.MulaSave;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.media.Rating;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,14 +13,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -120,6 +135,124 @@ public class homefrag extends Fragment {
                     @Override
                     public void onClick(View view) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        View v = LayoutInflater.from(getContext()).inflate(R.layout.homefrag_product_dialog,null,false);
+                        builder.setView(v);
+                        ImageView prodImg = v.findViewById(R.id.hProductPic);
+                        Picasso.get().load(Uri.parse(p.getImageUrl())).into(prodImg);
+                        ((TextView) v.findViewById(R.id.hProductName)).setText(p.getTitle());
+                        ((TextView) v.findViewById(R.id.hProductPrice)).setText(String.format("$ %.2f",p.getPrice()));
+                        RatingBar bar = v.findViewById(R.id.hProductRating);
+                        ((TextView) v.findViewById(R.id.hProductWebsite)).setText(p.getWebsite());
+                        ImageView pWish = v.findViewById(R.id.hProductWish);
+                        if(Math.signum(p.getRating()) == 0){
+                            bar.setVisibility(View.GONE);
+                        }
+                        else{
+                            bar.setVisibility(View.VISIBLE);
+                            bar.setRating(p.getRating());
+                        }
+
+                        String wishlistUnique = (p.getTitle() + (p.getImageUrl().substring(p.getImageUrl().length()-15))+ p.getWebsite()).replaceAll("[^a-zA-Z0-9]", "");
+                        DatabaseReference databaseRefUser = FirebaseDatabase
+                                .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                                .getReference("user");
+                        FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
+
+                        //check if user has the item added to wishlist, if added, turn the button red and gray if otherwise
+                        databaseRefUser.child(usr.getUid().toString()).child("wishlist").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.hasChild(wishlistUnique)){
+                                    pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_red));//use custom red color
+                                }
+                                else{
+                                    pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_gray));//use custom gray color
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                        pWish.setOnClickListener(new View.OnClickListener() {//on click listener for favourite button in searching of product
+                            @Override
+                            public void onClick(View view) {
+                                databaseRefUser.child(usr.getUid().toString()).child("wishlist").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                        if(task.getResult().hasChild(wishlistUnique)){
+
+                                            //custom dialog for removing of wishlist item
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                            View vw = LayoutInflater.from(getContext()).inflate(R.layout.remove_wislist,null, false);
+                                            builder.setView(vw);
+                                            ImageView pic = vw.findViewById(R.id.wishlistPic);
+                                            Uri newUri = Uri.parse(p.getImageUrl());
+                                            Picasso.get().load(newUri).into(pic);
+                                            final AlertDialog alertDialog = builder.create();
+
+                                            //positive button (remove item)
+                                            vw.findViewById(R.id.wishlistRemove).setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).removeValue();
+                                                    pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_gray));//use custom gray color
+                                                    alertDialog.dismiss();
+                                                }
+                                            });
+                                            //negative button (cancel removal)
+                                            vw.findViewById(R.id.wishlistCancel).setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    alertDialog.dismiss();
+                                                }
+                                            });
+
+                                            //remove the extra parts outside of the cardview
+                                            if (alertDialog.getWindow() != null){
+                                                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
+                                            }
+                                            alertDialog.show();
+                                        }
+                                        else{
+                                            databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).setValue(p);//add product if the product does not exist in the database
+                                            pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_red));//use custom red color
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                        final AlertDialog alertDialog = builder.create();
+
+                        //open the product
+                        v.findViewById(R.id.hProductOpen).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                //Opens store page for item
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(p.getLink()));
+                                getContext().startActivity(browserIntent);
+                                alertDialog.dismiss();
+                            }
+                        });
+                        //close the dialog
+                        v.findViewById(R.id.hProductBack).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                alertDialog.dismiss();
+                            }
+                        });
+
+                        if (alertDialog.getWindow() != null){
+                            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
+                        }
+                        alertDialog.show();
+
+
+
+                        /*
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setTitle("Product Details");
                         builder.setMessage("Title: "+p.getTitle()+'\n'+'\n'+String.format("Price: $%.2f",p.getPrice()));
                         builder.setCancelable(false);
@@ -134,7 +267,7 @@ public class homefrag extends Fragment {
                             public void onClick(DialogInterface dialog, int id){
                             }
                         });
-                        builder.show();
+                        builder.show();*/
                     }
                 });
                 count+=1;

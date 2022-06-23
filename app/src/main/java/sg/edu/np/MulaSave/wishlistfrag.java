@@ -58,9 +58,6 @@ public class wishlistfrag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view  = inflater.inflate(R.layout.fragment_wishlist, container, false);
-        if(savedInstanceState != null){
-
-        }
         return view;
     }
 
