@@ -147,7 +147,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if(task.getResult().hasChild(wishlistUnique)){
-                            new AlertDialog.Builder(holder.itemView.getContext()).setTitle("Remove Item").setMessage((p.getTitle()).substring(0, Math.min(p.getTitle().length(), 50)) + " .....\n")
+                            new AlertDialog.Builder(holder.itemView.getContext()).setTitle("Remove Item from Wishlist").setMessage((p.getTitle()).substring(0, Math.min(p.getTitle().length(), 50)) + " .....\n")
                                     .setPositiveButton("Remove", new DialogInterface.OnClickListener() {//confirm remove item from wishlist
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {

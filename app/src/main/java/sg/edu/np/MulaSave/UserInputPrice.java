@@ -115,7 +115,7 @@ public class UserInputPrice extends AppCompatActivity {
                 // Uh-oh, an error occurred!
             }
         });
-        startActivity(new Intent(UserInputPrice.this,MainActivity.class));
+        finish();//close activity
     }
 
     private void chooseImg(){
