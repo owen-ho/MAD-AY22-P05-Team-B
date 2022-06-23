@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -95,25 +96,8 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         holder.productListing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showProductDialog(holder.productListing.getContext(), p.getImageUrl(),p.getPrice(),p.getWebsite(),p.getLink());/*
-                AlertDialog.Builder builder = new AlertDialog.Builder(holder.productListing.getContext());
-                builder.setTitle("Product Details");
-                //builder.setMessage("Title: "+p.getTitle()+'\n'+'\n'+"Category: "+p.getCategory()+'\n'+'\n'+String.format("Price: $%.2f",p.getPrice()));
-                builder.setMessage("Title: "+p.getTitle()+'\n'+String.format("Price: $%.2f",p.getPrice()));
-                builder.setCancelable(false);
-                builder.setPositiveButton("Open", new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int id){
-                        //Opens store page for item
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(p.getLink()));
-                        holder.productListing.getContext().startActivity(browserIntent);
-                    }
-                });
-                builder.setNegativeButton("Close", new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int id){
-
-                    }
-                });
-                builder.show();*/
+                //dialog box
+                showProductDialog(holder.productListing.getContext(), p.getImageUrl(),p.getPrice(),p.getWebsite(),p.getLink());
             }
         });
 
@@ -151,22 +135,39 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if(task.getResult().hasChild(wishlistUnique)){
-                            new AlertDialog.Builder(holder.itemView.getContext()).setTitle("Remove Item from Wishlist").setMessage((p.getTitle()).substring(0, Math.min(p.getTitle().length(), 50)) + " .....\n")
-                                    .setPositiveButton("Remove", new DialogInterface.OnClickListener() {//confirm remove item from wishlist
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).removeValue();
-                                            holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_gray));//use custom gray color
-                                            data.remove(holder.getAdapterPosition());
-                                        }
-                                    })
-                                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {//dismiss
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
 
-                                        }
-                                    }).show();
+                            //custom dialog for removing of wishlist item
+                            AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext());
+                            View view = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.remove_wislist,null, false);
+                            builder.setView(view);
+                            ImageView pic = view.findViewById(R.id.wishlistPic);
+                            Uri newUri = Uri.parse(p.getImageUrl());
+                            Picasso.get().load(newUri).into(pic);
+                            final AlertDialog alertDialog = builder.create();
 
+                            //positive button (remove item)
+                            view.findViewById(R.id.wishlistRemove).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).removeValue();
+                                    holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_gray));//use custom gray color
+                                    data.remove(holder.getAdapterPosition());
+                                    alertDialog.dismiss();
+                                }
+                            });
+                            //negative button (cancel removal)
+                            view.findViewById(R.id.wishlistCancel).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    alertDialog.dismiss();
+                                }
+                            });
+
+                            //remove the extra parts outside of the cardview
+                            if (alertDialog.getWindow() != null){
+                                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
+                            }
+                            alertDialog.show();
                         }
                         else{
                             databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).setValue(p);//add product if the product does not exist in the database
@@ -196,7 +197,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         ImageView pic = view.findViewById(R.id.dialogPic);
         Uri picU = Uri.parse(picUri);
         Picasso.get().load(picU).into(pic);
-        ((TextView) view.findViewById(R.id.dialogPrice)).setText("$ " + String.format("$ %.2f",price));
+        ((TextView) view.findViewById(R.id.dialogPrice)).setText(String.format("$ %.2f",price));
         ((TextView) view.findViewById(R.id.dialogWebsite)).setText(website);
 
         final AlertDialog alertDialog = builder.create();
@@ -217,6 +218,10 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             }
         });
 
+        //remove the extra parts outside of the cardview
+        if (alertDialog.getWindow() != null){
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
+        }
         alertDialog.show();
     }
 }
