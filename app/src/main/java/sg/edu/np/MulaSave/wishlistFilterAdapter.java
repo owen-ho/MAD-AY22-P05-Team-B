@@ -23,27 +23,42 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
 public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAdapter.wishlistFilterViewHolder> {
-    ArrayList<String> filters;
+    ArrayList<String> filters = new ArrayList<>(Arrays.asList("Default" ,"Price [Low - High]","Price [High - Low]","Name [a - z]","Name [z - a]"));
     Context context;
     ShoppingRecyclerAdapter wishlistAdapter;
     ArrayList<Product> wProdList;
-    DatabaseReference databaseRefUser = FirebaseDatabase
-            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
-            .getReference("user");
+    FirebaseDatabase database = FirebaseDatabase
+            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
+            //.getReference("user");
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     ArrayList<CardView> cardList = new ArrayList<CardView>();
 
-    public wishlistFilterAdapter(ArrayList<String> input, ShoppingRecyclerAdapter _wishlistAdapter, ArrayList<Product> _wProdList){
+    int wishOrCom;
+    //1 = wishlist view
+    //2 = uploads view
+
+    public wishlistFilterAdapter( ShoppingRecyclerAdapter _wishlistAdapter, ArrayList<Product> _wProdList,int _wishOrCom){
         this.context = context;
-        this.filters = input;
         this.wishlistAdapter = _wishlistAdapter;
         this.wProdList = _wProdList;
+        this.wishOrCom = _wishOrCom;
     }
+
+    @Override
+    public int getItemViewType(final int position) {
+        if (this.wishOrCom == 1){
+            return 1;//wishlist view
+        }
+        else{
+            return 2;//community upload view
+        }
+    }//
 
     @NonNull
     @Override
@@ -59,6 +74,18 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
 
         cardList.add(holder.filterCard);
 
+        //determine path to access, since adapter is used by wishlist fragment and the community fragment
+        String path;
+        if(wishOrCom == 1){
+            Log.i("knn", "onBindViewHolder: wishlist");
+            path = "/user/" + usr.getUid().toString()+"/wishlist";
+        }
+        else{
+            Log.i("knn", "onBindViewHolder: uploads");
+            path = "/product";
+        }
+
+
         //once user enters the view, it will be set to default
         if (s.equals("Default")){
             holder.filterCard.setCardBackgroundColor(Color.parseColor("#4CAF50"));//set active
@@ -68,7 +95,7 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
             @Override
             public void onClick(View view) {
                 wProdList.clear();//clear list
-                databaseRefUser.child(usr.getUid().toString()).child("wishlist").addValueEventListener(new ValueEventListener() {
+                database.getReference(path).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot ss : snapshot.getChildren()){
@@ -115,7 +142,6 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
     public class wishlistFilterViewHolder extends RecyclerView.ViewHolder {
         TextView filterText;
         CardView filterCard;
-        CardView clearCard;
         public wishlistFilterViewHolder(View itemView){
             super(itemView);
             filterCard = itemView.findViewById(R.id.filterCard);

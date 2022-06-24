@@ -1,4 +1,4 @@
-package sg.edu.np.MulaSave;
+package sg.edu.np.MulaSave.Fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -28,18 +28,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class shoppingfrag extends Fragment {
+import sg.edu.np.MulaSave.APIHandler;
+import sg.edu.np.MulaSave.MainActivity;
+import sg.edu.np.MulaSave.Product;
+import sg.edu.np.MulaSave.R;
+import sg.edu.np.MulaSave.ShoppingRecyclerAdapter;
+
+public class ShoppingFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ProgressDialog progressDialog;
     private ProgressDialog pd;
     private ArrayList<Product> productList = MainActivity.productList;
 
-    public shoppingfrag() {
+    public ShoppingFragment() {
     }
 
-    public static shoppingfrag newInstance(String param1, String param2) {
-        shoppingfrag fragment = new shoppingfrag();
+    public static ShoppingFragment newInstance(String param1, String param2) {
+        ShoppingFragment fragment = new ShoppingFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;

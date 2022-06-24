@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F9C980"
-    tools:context=".fifthfrag">
+    tools:context=".Fragments.CommunityFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,7 +20,6 @@
             android:layout_marginEnd="24dp"
             app:cardCornerRadius="50dp"
             app:cardElevation="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/uploadsRecycler"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -32,21 +31,19 @@
                 android:background="#E6E6E6"
                 android:iconifiedByDefault="false"
                 android:queryHint="Search product names (community effort)"
-                app:theme="@style/AppSearchView"/>
+                app:theme="@style/AppSearchView" />
         </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/uploadsRecycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView18" />
+            app:layout_constraintTop_toBottomOf="@+id/uploadsFilter" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/uploadproductbutton"
@@ -59,6 +56,16 @@
             app:backgroundTint="#2EC0CD"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/uploadsFilter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView18" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

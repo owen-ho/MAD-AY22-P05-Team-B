@@ -1,4 +1,4 @@
-package sg.edu.np.MulaSave;
+package sg.edu.np.MulaSave.Fragments;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,19 +27,27 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class fifthfrag extends Fragment {
+import sg.edu.np.MulaSave.Product;
+import sg.edu.np.MulaSave.R;
+import sg.edu.np.MulaSave.ShoppingRecyclerAdapter;
+import sg.edu.np.MulaSave.UserInputPrice;
+import sg.edu.np.MulaSave.wishlistFilterAdapter;
+
+public class CommunityFragment extends Fragment {
     RecyclerView recyclerViewUploads;
+    RecyclerView recyclerViewFilterUploads;
     DatabaseReference databaseRefProduct = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
             .getReference("product");//get firebase instance to all uploaded products
     ArrayList<Product> productList;
+    ArrayList<Product> filterList;
 
-    public fifthfrag() {
+    public CommunityFragment() {
         // Required empty public constructor
     }
 
-    public static fifthfrag newInstance() {
-        fifthfrag fragment = new fifthfrag();
+    public static CommunityFragment newInstance() {
+        CommunityFragment fragment = new CommunityFragment();
         return fragment;
     }
 
@@ -52,7 +61,7 @@ public class fifthfrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_fifthfrag, container, false);
+        View view = inflater.inflate(R.layout.fragment_community, container, false);
         return view;
     }
 
@@ -65,6 +74,7 @@ public class fifthfrag extends Fragment {
         databaseRefProduct.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                productList.clear();
                 for (DataSnapshot ss : snapshot.getChildren()){
                     Product p = ss.getValue(Product.class);//get all uploaded products and convert to product objects
                     productList.add(p);//add products
@@ -135,5 +145,14 @@ public class fifthfrag extends Fragment {
                 startActivity(i);
             }
         });
+        //WishList Filters
+        recyclerViewFilterUploads = view.findViewById(R.id.uploadsFilter);
+        wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(prodAdapter,productList,2);
+
+        //Layout manager for filters recyclerview
+        LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);//set horizontal layout
+        recyclerViewFilterUploads.setLayoutManager(hLayoutManager);
+        recyclerViewFilterUploads.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewFilterUploads.setAdapter(wFilterAdapter);//set adapter for wishlist filters
     }
 }

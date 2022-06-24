@@ -10,6 +10,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
 
+import sg.edu.np.MulaSave.Fragments.CommunityFragment;
+import sg.edu.np.MulaSave.Fragments.HomeFragment;
+import sg.edu.np.MulaSave.Fragments.ShoppingFragment;
+import sg.edu.np.MulaSave.Fragments.WishlishFragment;
 import sg.edu.np.MulaSave.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         //so that fragment starts at home when user enters (instead of no fragment)
-        replacefragment(new homefrag());
+        replacefragment(new HomeFragment());
 
         int intentFragment = getIntent().getExtras().getInt("frgToLoad");
         if(intentFragment==3){
@@ -38,16 +42,16 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.home:
-                    replacefragment(new homefrag());
+                    replacefragment(new HomeFragment());
                     break;
                 case R.id.Shop:
-                    replacefragment(new shoppingfrag());
+                    replacefragment(new ShoppingFragment());
                     break;
                 case R.id.Wishlist:
-                    replacefragment(new wishlistfrag());
+                    replacefragment(new WishlishFragment());
                     break;
-                case R.id.fifth:
-                    replacefragment(new fifthfrag());
+                case R.id.Community:
+                    replacefragment(new CommunityFragment());
                     break;
                 case R.id.profile:
                     replacefragment(new profilefrag());
