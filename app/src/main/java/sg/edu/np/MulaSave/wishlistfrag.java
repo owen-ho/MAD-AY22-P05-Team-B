@@ -31,7 +31,6 @@ import java.util.Arrays;
 public class wishlistfrag extends Fragment {
     RecyclerView recyclerViewFilter;
     RecyclerView recyclerViewWishlist;
-    ArrayList<String> filterList = initFilterList();
     DatabaseReference databaseRefUser = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
             .getReference("user");
@@ -134,17 +133,12 @@ public class wishlistfrag extends Fragment {
 
         //WishList Filters
         recyclerViewFilter = view.findViewById(R.id.recyclerFilter);
-        wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(filterList,wishlistAdapter,wProdList);
+        wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(wishlistAdapter,wProdList,1);
 
         //Layout manager for filters recyclerview
         LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);//set horizontal layout
         recyclerViewFilter.setLayoutManager(hLayoutManager);
         recyclerViewFilter.setItemAnimator(new DefaultItemAnimator());
         recyclerViewFilter.setAdapter(wFilterAdapter);//set adapter for wishlist filters
-    }
-
-    private ArrayList<String> initFilterList(){//initialise list of filters
-        ArrayList<String> filterList = new ArrayList<>(Arrays.asList("Default" ,"Price [Low - High]","Price [High - Low]","Name [a - z]","Name [z - a]"));
-        return filterList;
     }
 }
