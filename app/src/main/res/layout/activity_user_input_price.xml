@@ -195,7 +195,7 @@
     </androidx.cardview.widget.CardView>
 
     <ImageView
-        android:id="@+id/backButton"
+        android:id="@+id/backButtonInputPrice"
         android:layout_width="38dp"
         android:layout_height="37dp"
         app:layout_constraintStart_toStartOf="parent"
