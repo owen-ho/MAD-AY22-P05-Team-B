@@ -1,4 +1,4 @@
-package sg.edu.np.MulaSave;
+package sg.edu.np.MulaSave.Fragments;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -26,9 +26,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class fifthfrag extends Fragment {
+import sg.edu.np.MulaSave.Product;
+import sg.edu.np.MulaSave.R;
+import sg.edu.np.MulaSave.ShoppingRecyclerAdapter;
+import sg.edu.np.MulaSave.UserInputPrice;
+import sg.edu.np.MulaSave.wishlistFilterAdapter;
+
+public class CommunityFragment extends Fragment {
     RecyclerView recyclerViewUploads;
     RecyclerView recyclerViewFilterUploads;
     DatabaseReference databaseRefProduct = FirebaseDatabase
@@ -37,12 +42,12 @@ public class fifthfrag extends Fragment {
     ArrayList<Product> productList;
     ArrayList<Product> filterList;
 
-    public fifthfrag() {
+    public CommunityFragment() {
         // Required empty public constructor
     }
 
-    public static fifthfrag newInstance() {
-        fifthfrag fragment = new fifthfrag();
+    public static CommunityFragment newInstance() {
+        CommunityFragment fragment = new CommunityFragment();
         return fragment;
     }
 
@@ -56,7 +61,7 @@ public class fifthfrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_fifthfrag, container, false);
+        View view = inflater.inflate(R.layout.fragment_community, container, false);
         return view;
     }
 

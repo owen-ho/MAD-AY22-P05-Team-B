@@ -1,4 +1,4 @@
-package sg.edu.np.MulaSave;
+package sg.edu.np.MulaSave.Fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -26,9 +26,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class wishlistfrag extends Fragment {
+import sg.edu.np.MulaSave.Product;
+import sg.edu.np.MulaSave.R;
+import sg.edu.np.MulaSave.ShoppingRecyclerAdapter;
+import sg.edu.np.MulaSave.wishlistFilterAdapter;
+
+public class WishlishFragment extends Fragment {
     RecyclerView recyclerViewFilter;
     RecyclerView recyclerViewWishlist;
     DatabaseReference databaseRefUser = FirebaseDatabase
@@ -36,12 +40,12 @@ public class wishlistfrag extends Fragment {
             .getReference("user");
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
 
-    public wishlistfrag() {
+    public WishlishFragment() {
         // Required empty public constructor
     }
 
-    public static wishlistfrag newInstance(String param1, String param2) {
-        wishlistfrag fragment = new wishlistfrag();
+    public static WishlishFragment newInstance(String param1, String param2) {
+        WishlishFragment fragment = new WishlishFragment();
         Bundle args = new Bundle();
         return fragment;
     }

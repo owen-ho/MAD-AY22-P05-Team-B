@@ -1,4 +1,4 @@
-package sg.edu.np.MulaSave;
+package sg.edu.np.MulaSave.Fragments;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -40,14 +40,18 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class homefrag extends Fragment {
+import sg.edu.np.MulaSave.APIHandler;
+import sg.edu.np.MulaSave.Product;
+import sg.edu.np.MulaSave.R;
+
+public class HomeFragment extends Fragment {
     private ArrayList<Product> homeproductList = new ArrayList<Product>();
     private ImageView[] imArray;
-    public homefrag() {
+    public HomeFragment() {
         // Required empty public constructor
     }
-    public static homefrag newInstance(String param1, String param2) {
-        homefrag fragment = new homefrag();
+    public static HomeFragment newInstance(String param1, String param2) {
+        HomeFragment fragment = new HomeFragment();
         return fragment;
     }
 
@@ -84,7 +88,7 @@ public class homefrag extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Fragment fragment = new shoppingfrag();
+                Fragment fragment = new ShoppingFragment();
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("condition", true);//inform shopping fragment that this method is passed
                 fragment.setArguments(bundle);
