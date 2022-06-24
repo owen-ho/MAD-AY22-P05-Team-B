@@ -21,7 +21,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import java.net.URLEncoder;
 import java.util.UUID;
 
 public class UserInputPrice extends AppCompatActivity {
@@ -44,8 +43,8 @@ public class UserInputPrice extends AppCompatActivity {
         EditText productWebsite = findViewById(R.id.websiteProduct);
         EditText productRating = findViewById(R.id.productRating);
         ImageView productPic = findViewById(R.id.addproductbutton);
-        Button submitProductbtn = findViewById(R.id.submitProductButton);
-
+        Button submitProductbtn = findViewById(R.id.submitProductButton2);
+        Button back = findViewById(R.id.Backbutton);
         ImageView refreshBtn = findViewById(R.id.refresh);
 
         //ImageView upload = findViewById(R.id.addproductbutton);
@@ -73,6 +72,12 @@ public class UserInputPrice extends AppCompatActivity {
             }
         });
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         submitProductbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
