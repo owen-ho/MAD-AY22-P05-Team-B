@@ -82,8 +82,14 @@ public class profilefrag extends Fragment {
         if (user!=null){
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String username = snapshot.child(user.getUid()).child("username").getValue().toString();
+                public void onDataChange(DataSnapshot snapshot) {
+                    String username;
+                    if(snapshot.child(user.getUid()).child("username").exists()){ //Check if username exists to prevent crash
+                        username = snapshot.child(user.getUid()).child("username").getValue().toString();
+                    }else{
+                        username = "";
+                    }
+
                     String email3 = snapshot.child(user.getUid()).child("email").getValue().toString();
 
                     email1.setText(email3);
@@ -103,7 +109,7 @@ public class profilefrag extends Fragment {
                 }
 
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                public void onCancelled(DatabaseError error) {
 
                 }
             });
