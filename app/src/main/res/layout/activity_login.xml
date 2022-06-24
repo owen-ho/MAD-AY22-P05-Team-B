@@ -20,6 +20,7 @@
         android:inputType="textPersonName"
         android:paddingStart="10dp"
         android:textColor="#FF000000"
+        android:textColorHint="#A8A8A8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginHeader" />
@@ -37,6 +38,7 @@
         android:inputType="textPassword"
         android:paddingStart="10dp"
         android:textColor="#FF000000"
+        android:textColorHint="#A8A8A8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailBox" />
