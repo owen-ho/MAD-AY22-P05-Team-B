@@ -8,8 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
 
 import sg.edu.np.MulaSave.databinding.ActivityMainBinding;
@@ -17,7 +15,7 @@ import sg.edu.np.MulaSave.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-    private ArrayList<Product> productList;
+    public static ArrayList<Product> productList;
     private ProgressDialog progressDialog;
 
     @Override
