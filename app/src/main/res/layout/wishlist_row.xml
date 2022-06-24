@@ -73,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
+                android:theme="@style/RatingBar"
                 app:layout_constraintBottom_toTopOf="@+id/wWebsite"
                 app:layout_constraintStart_toEndOf="@+id/wImage"
                 app:layout_constraintTop_toBottomOf="@+id/wPrice" />

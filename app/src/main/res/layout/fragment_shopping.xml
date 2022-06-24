@@ -70,6 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Search for Items from major websites"
+            android:textColor="#454545"
             app:layout_constraintBottom_toTopOf="@+id/shoppingrecyclerview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

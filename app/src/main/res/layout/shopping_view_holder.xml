@@ -45,20 +45,22 @@
 
             <TextView
                 android:id="@+id/sProdTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="product name"
                 android:textColor="#454545"
                 app:layout_constraintBottom_toTopOf="@+id/sProdPrice"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/sProdPrice"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="price"
                 android:textColor="#FF0000"
@@ -70,8 +72,10 @@
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
+                android:progressTint="#FBC02D"
+                android:theme="@style/RatingBar"
                 app:layout_constraintBottom_toTopOf="@+id/sProdWebsite"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -79,7 +83,7 @@
                 android:id="@+id/sProdWebsite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="website name"
                 android:textColor="#3E73F8"
