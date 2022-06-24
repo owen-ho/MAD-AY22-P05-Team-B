@@ -1,21 +1,26 @@
 package sg.edu.np.MulaSave.Fragments;
 
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,9 +49,8 @@ public class WishlishFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static WishlishFragment newInstance(String param1, String param2) {
+    public static WishlishFragment newInstance() {
         WishlishFragment fragment = new WishlishFragment();
-        Bundle args = new Bundle();
         return fragment;
     }
 
@@ -98,12 +102,53 @@ public class WishlishFragment extends Fragment {
         searchEdit.setTextColor(Color.BLACK);
 
         search.setSubmitButtonEnabled(true);//enable submit button
-        search.setOnClickListener(new View.OnClickListener() {//make the whole searchview avaialble for input
+        search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                search.setIconified(false);
+                search.setIconified(false);//make the whole searchview available for input
             }
         });
+
+        //set on searchview open listener for searchview
+        search.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((TextView)getActivity().findViewById(R.id.wishlistTitle)).setVisibility(View.GONE);//set the title to be gone
+                ConstraintLayout layout = (ConstraintLayout) getActivity().findViewById(R.id.wishlistConstraintLayout);//get constraintlayout
+                ConstraintSet set = new ConstraintSet();
+                set.clone(layout);
+                //set constraints
+                set.connect(R.id.searchCard, ConstraintSet.START,R.id.wishlistConstraintLayout,ConstraintSet.START,0);
+                set.connect(R.id.searchCard, ConstraintSet.END,R.id.wishlistConstraintLayout,ConstraintSet.END,0);
+                set.applyTo(layout);
+            }
+        });
+        search.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                ((TextView)getActivity().findViewById(R.id.wishlistTitle)).setVisibility(View.VISIBLE);
+
+                //to convert margin to dp
+                Resources r = getActivity().getResources();
+                int px = (int) TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        24,
+                        r.getDisplayMetrics()
+                );
+
+                //set layout
+                ConstraintLayout layout = (ConstraintLayout) getActivity().findViewById(R.id.wishlistConstraintLayout);
+                ConstraintSet set = new ConstraintSet();
+                set.clone(layout);
+                //clear constraints
+                set.clear(R.id.searchCard, ConstraintSet.START);
+                set.connect(R.id.searchCard, ConstraintSet.END,R.id.wishlistConstraintLayout,ConstraintSet.END,px);
+                set.applyTo(layout);
+                return false;//return false so that icon closes back on close
+            }
+        });
+
+
 
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {//searchview listener
             @Override

@@ -1,17 +1,22 @@
 package sg.edu.np.MulaSave.Fragments;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -103,6 +108,45 @@ public class CommunityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 search.setIconified(false);
+            }
+        });
+
+        //set on searchview open listener for searchview
+        search.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((TextView)getActivity().findViewById(R.id.communityTitle)).setVisibility(View.GONE);//set the title to be gone
+                ConstraintLayout layout = (ConstraintLayout) getActivity().findViewById(R.id.communityConstraintLayout);//get constraintlayout
+                ConstraintSet set = new ConstraintSet();
+                set.clone(layout);
+                //set constraints
+                set.connect(R.id.communitySearchCard, ConstraintSet.START,R.id.communityConstraintLayout,ConstraintSet.START,0);
+                set.connect(R.id.communitySearchCard, ConstraintSet.END,R.id.communityConstraintLayout,ConstraintSet.END,0);
+                set.applyTo(layout);
+            }
+        });
+        search.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                ((TextView)getActivity().findViewById(R.id.communityTitle)).setVisibility(View.VISIBLE);
+
+                //to convert margin to dp
+                Resources r = getActivity().getResources();
+                int px = (int) TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        24,
+                        r.getDisplayMetrics()
+                );
+
+                //set layout
+                ConstraintLayout layout = (ConstraintLayout) getActivity().findViewById(R.id.communityConstraintLayout);
+                ConstraintSet set = new ConstraintSet();
+                set.clone(layout);
+                //clear constraints
+                set.clear(R.id.communitySearchCard, ConstraintSet.START);
+                set.connect(R.id.communitySearchCard, ConstraintSet.END,R.id.communityConstraintLayout,ConstraintSet.END,px);
+                set.applyTo(layout);
+                return false;//return false so that icon closes back on close
             }
         });
 

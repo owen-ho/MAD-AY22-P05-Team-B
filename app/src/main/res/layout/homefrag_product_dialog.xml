@@ -24,7 +24,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/communityTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -44,7 +44,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13"
+                app:layout_constraintTop_toBottomOf="@+id/communityTitle"
                 app:srcCompat="@android:drawable/sym_def_app_icon" />
 
             <TextView
@@ -58,7 +58,7 @@
                 android:textColor="#454545"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/hProductPic"
-                app:layout_constraintTop_toBottomOf="@+id/textView13" />
+                app:layout_constraintTop_toBottomOf="@+id/communityTitle" />
 
             <TextView
                 android:id="@+id/hProductPrice"
