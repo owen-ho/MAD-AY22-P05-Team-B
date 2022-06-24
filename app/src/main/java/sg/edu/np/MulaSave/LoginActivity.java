@@ -20,6 +20,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import sg.edu.np.MulaSave.Fragments.ProfileFragment;
+
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
@@ -125,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
     private void openfrag(){
-        profilefrag frag = new profilefrag();
+        ProfileFragment frag = new ProfileFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
         //bundle.putString("email",);

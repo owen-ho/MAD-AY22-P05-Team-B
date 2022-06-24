@@ -20,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
-public class changinginfo extends AppCompatActivity {
+public class ProfileEdit extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +97,7 @@ public class changinginfo extends AppCompatActivity {
                         changePassword(user,password.getText().toString());
                     }
                 }
-                Intent intent = new Intent(changinginfo.this,MainActivity.class);
+                Intent intent = new Intent(ProfileEdit.this,MainActivity.class);
                 intent.putExtra("frgToLoad",3); //Profile frag is the 4th fragment
                 startActivity(intent);
             }

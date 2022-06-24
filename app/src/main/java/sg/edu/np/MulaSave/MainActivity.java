@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import sg.edu.np.MulaSave.Fragments.CommunityFragment;
 import sg.edu.np.MulaSave.Fragments.HomeFragment;
+import sg.edu.np.MulaSave.Fragments.ProfileFragment;
 import sg.edu.np.MulaSave.Fragments.ShoppingFragment;
 import sg.edu.np.MulaSave.Fragments.WishlishFragment;
 import sg.edu.np.MulaSave.databinding.ActivityMainBinding;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         int intentFragment = getIntent().getExtras().getInt("frgToLoad");
         if(intentFragment==3){
-            replacefragment(new profilefrag());
+            replacefragment(new ProfileFragment());
             binding.bottomNavigationView.getMenu().getItem(3).setChecked(true);
         }else{
 
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     replacefragment(new CommunityFragment());
                     break;
                 case R.id.profile:
-                    replacefragment(new profilefrag());
+                    replacefragment(new ProfileFragment());
                     break;
 
             }

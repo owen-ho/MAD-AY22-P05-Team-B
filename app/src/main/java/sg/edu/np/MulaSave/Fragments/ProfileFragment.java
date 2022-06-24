@@ -1,4 +1,4 @@
-package sg.edu.np.MulaSave;
+package sg.edu.np.MulaSave.Fragments;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -29,15 +29,20 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-public class profilefrag extends Fragment {
+import sg.edu.np.MulaSave.LoginActivity;
+import sg.edu.np.MulaSave.R;
+import sg.edu.np.MulaSave.SelectProfilePic;
+import sg.edu.np.MulaSave.ProfileEdit;
+
+public class ProfileFragment extends Fragment {
 
     int SELECT_PICTURE = 200;
-    public profilefrag() {
+    public ProfileFragment() {
         // Required empty public constructor
     }
 
-    public static profilefrag newInstance(String param1, String param2) {
-        profilefrag fragment = new profilefrag();
+    public static ProfileFragment newInstance(String param1, String param2) {
+        ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -120,7 +125,7 @@ public class profilefrag extends Fragment {
         infobutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),changinginfo.class);
+                Intent intent = new Intent(getActivity(), ProfileEdit.class);
                 startActivity(intent);
             }
         });
@@ -129,7 +134,7 @@ public class profilefrag extends Fragment {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                Intent i = new Intent(getActivity(),LoginActivity.class);
+                Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
                 getActivity().finish();
             }
@@ -160,7 +165,7 @@ public class profilefrag extends Fragment {
                 Uri pfpUri = data.getData();
                 if (null != pfpUri) {
                     //upload to firebase
-                    Intent i = new Intent(getActivity(),SelectProfilePic.class);
+                    Intent i = new Intent(getActivity(), SelectProfilePic.class);
                     i.putExtra("path",pfpUri.toString());
                     startActivity(i);
                 }

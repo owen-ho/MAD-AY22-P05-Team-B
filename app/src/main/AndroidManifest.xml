@@ -21,7 +21,7 @@
             android:name="sg.edu.np.MulaSave.SelectProfilePic"
             android:exported="false" />
         <activity
-            android:name="sg.edu.np.MulaSave.changinginfo"
+            android:name="sg.edu.np.MulaSave.ProfileEdit"
             android:exported="false" />
         <activity
             android:name="sg.edu.np.MulaSave.RegisterActivity"

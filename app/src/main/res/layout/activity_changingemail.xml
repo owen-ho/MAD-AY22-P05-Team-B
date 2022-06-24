@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F9C980"
-    tools:context=".changinginfo">
+    tools:context=".ProfileEdit">
 
     <ImageView
         android:id="@+id/imageView4"
