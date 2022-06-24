@@ -1,10 +1,8 @@
 package sg.edu.np.MulaSave;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Rating;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -311,23 +309,28 @@ public class homefrag extends Fragment {
                         homeproductList.add(p);
                     }
                 } catch (JSONException e) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Toast.makeText(getContext(),"Json Parsing Error",Toast.LENGTH_LONG).show();
-                            e.printStackTrace();
-                        }
-                    });
+                    if(isAdded()){
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Toast.makeText(getContext(),"Json Parsing Error",Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
+                            }
+                        });
+                    }
                 }
             }
             else{
                 Toast.makeText(getContext(),"Server error",Toast.LENGTH_LONG).show();
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getContext(),"Server Error",Toast.LENGTH_LONG).show();
-                    }
-                });
+                if(isAdded()){
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getContext(),"Server Error",Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
             }
             return null;
         }
