@@ -77,11 +77,9 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
         //determine path to access, since adapter is used by wishlist fragment and the community fragment
         String path;
         if(wishOrCom == 1){
-            Log.i("knn", "onBindViewHolder: wishlist");
             path = "/user/" + usr.getUid().toString()+"/wishlist";
         }
         else{
-            Log.i("knn", "onBindViewHolder: uploads");
             path = "/product";
         }
 
@@ -94,10 +92,10 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
         holder.filterText.setOnClickListener(new View.OnClickListener() {//filter set on click
             @Override
             public void onClick(View view) {
-                wProdList.clear();//clear list
                 database.getReference(path).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        wProdList.clear();//clear list
                         for (DataSnapshot ss : snapshot.getChildren()){
                             Product product = ss.getValue(Product.class);
                             wProdList.add(product);
@@ -123,6 +121,7 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
                         }
                         holder.filterCard.setCardBackgroundColor(Color.parseColor("#4CAF50"));//set active
                         wishlistAdapter.notifyDataSetChanged();
+
                     }
 
                     @Override
