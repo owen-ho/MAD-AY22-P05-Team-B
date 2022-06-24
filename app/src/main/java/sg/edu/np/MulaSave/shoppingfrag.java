@@ -33,7 +33,7 @@ public class shoppingfrag extends Fragment {
     private RecyclerView recyclerView;
     private ProgressDialog progressDialog;
     private ProgressDialog pd;
-    private ArrayList<Product> productList;
+    private ArrayList<Product> productList = MainActivity.productList;
 
     public shoppingfrag() {
     }
@@ -50,18 +50,38 @@ public class shoppingfrag extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shopping, container, false);
-        productList = new ArrayList<Product>();
+
         recyclerView = view.findViewById(R.id.shoppingrecyclerview);
         //recyclerView.setHasFixedSize(true);
+
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);
+
+        //productList = new ArrayList<Product>();
+        SearchView query = view.findViewById(R.id.searchQuery);
+        if (productList!=null) {
+            if(productList.size()!=0){
+                ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),1);
+                recyclerView.setAdapter(pAdapter);
+            }
+        }
+        query.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                productList = new ArrayList<Product>();
+                new getProducts(s,productList,view).execute();
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
 
         return view;
     }
@@ -102,18 +122,25 @@ public class shoppingfrag extends Fragment {
             }
         });
 
-        query.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                productList.clear();
-                new getProducts(s,productList,view).execute();
-                return true;
-            }
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
+//        query.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                productList.clear();
+//                new getProducts(s,productList,view).execute();
+//                return true;
+//            }
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                return false;
+//            }
+//        });
+    }
+
+    private void showInputMethod(View view) {
+        InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (mgr != null) {
+            mgr.showSoftInput(view, 0);
+        }
     }
 
     class getProducts extends AsyncTask<Void, Void, Void> {
@@ -133,7 +160,6 @@ public class shoppingfrag extends Fragment {
             if(progressDialog.isShowing()){
                 progressDialog.dismiss();
             }
-            //recyclerView.setAdapter(new ShoppingRecyclerAdapter(productList));
 
             Collections.sort(productList, new Comparator<Product>() {
                 @Override
@@ -141,6 +167,8 @@ public class shoppingfrag extends Fragment {
                     return Double.valueOf(prod1.getPrice()).compareTo(Double.valueOf(prod2.getPrice()));
                 }
             });
+
+            MainActivity.productList = productList;
 
             ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),1);
             recyclerView.setAdapter(pAdapter);
@@ -216,7 +244,6 @@ public class shoppingfrag extends Fragment {
                 try {
                     JSONObject jsonObject = new JSONObject(jsonString);
                     JSONArray products = jsonObject.getJSONArray("search_results");
-
                     for(int i=0;i<products.length();i++) {
                         JSONObject jsonObject1 = products.getJSONObject(i);
 
@@ -276,10 +303,6 @@ public class shoppingfrag extends Fragment {
         }
 
     }
-    private void showInputMethod(View view) {
-        InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (mgr != null) {
-            mgr.showSoftInput(view, 0);
-        }
-    }
+
+
 }

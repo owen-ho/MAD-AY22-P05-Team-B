@@ -145,18 +145,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ratingText" />
 
-            <Button
-                android:id="@+id/Backbutton"
-                android:layout_width="79dp"
-                android:layout_height="39dp"
-                android:layout_marginTop="52dp"
-                android:backgroundTint="#69B4DC"
-                android:text="Back"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.897"
-                app:layout_constraintStart_toEndOf="@+id/submitProductButton2"
-                app:layout_constraintTop_toBottomOf="@+id/productRating" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
@@ -201,8 +189,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_menu_refresh" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/backButtonInputPrice"
+        android:layout_width="38dp"
+        android:layout_height="37dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/left" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

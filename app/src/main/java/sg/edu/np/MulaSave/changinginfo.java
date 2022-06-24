@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,8 +31,16 @@ public class changinginfo extends AppCompatActivity {
         EditText email = findViewById(R.id.changeemail);
         EditText password = findViewById(R.id.changepass);
         Button confirmation = findViewById(R.id.confirmation);
+        ImageView back = findViewById(R.id.backButtonProfile);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference userRef = database.getReference("user");
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         confirmation.setOnClickListener(new View.OnClickListener() {
             @Override

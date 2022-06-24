@@ -44,7 +44,7 @@ public class UserInputPrice extends AppCompatActivity {
         EditText productRating = findViewById(R.id.productRating);
         ImageView productPic = findViewById(R.id.addproductbutton);
         Button submitProductbtn = findViewById(R.id.submitProductButton2);
-        Button back = findViewById(R.id.Backbutton);
+        ImageView back = findViewById(R.id.backButtonInputPrice);
         ImageView refreshBtn = findViewById(R.id.refresh);
 
         //ImageView upload = findViewById(R.id.addproductbutton);

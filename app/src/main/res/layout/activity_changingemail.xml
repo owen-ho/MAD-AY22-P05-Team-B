@@ -144,4 +144,12 @@
 
     </androidx.cardview.widget.CardView>
 
+    <ImageView
+        android:id="@+id/backButtonProfile"
+        android:layout_width="38dp"
+        android:layout_height="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/left" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
