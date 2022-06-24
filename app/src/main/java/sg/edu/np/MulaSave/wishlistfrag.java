@@ -69,28 +69,28 @@ public class wishlistfrag extends Fragment {
         recyclerViewWishlist = view.findViewById(R.id.recyclerWishlist);
         ArrayList<Product> wProdList = new ArrayList<>();
         ShoppingRecyclerAdapter wishlistAdapter = new ShoppingRecyclerAdapter(wProdList, getContext(),2);//wishlist layout
-        databaseRefUser.child(usr.getUid().toString()).child("wishlist").addValueEventListener(new ValueEventListener() {
+        databaseRefUser.child(usr.getUid().toString()).child("wishlist").addValueEventListener(new ValueEventListener() {//access user wishlist and add to list
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ss : snapshot.getChildren()){
                     Product product = ss.getValue(Product.class);
-                    wProdList.add(product);
+                    wProdList.add(product);//add product to list
                 }
-                wishlistAdapter.notifyDataSetChanged();
+                wishlistAdapter.notifyDataSetChanged();//update the adapter
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {//log error
                 Log.w("error", "loadPost:onCancelled", error.toException());
             }
         });
-        LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
         recyclerViewWishlist.setLayoutManager(vLayoutManager);
         recyclerViewWishlist.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewWishlist.setAdapter(wishlistAdapter);
+        recyclerViewWishlist.setAdapter(wishlistAdapter);//set adapter
 
         SearchView search = view.findViewById(R.id.wishSearch);//wishlist searchbar
-        int id = search.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        int id = search.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);//to make the input text black color
         EditText searchEdit = search.findViewById(id);
         searchEdit.setTextColor(Color.BLACK);
 
@@ -109,7 +109,7 @@ public class wishlistfrag extends Fragment {
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
+            public boolean onQueryTextChange(String s) {//use this to update the item without the need for submitting
                 wProdList.clear();//clear list
                 databaseRefUser.child(usr.getUid().toString()).child("wishlist").addValueEventListener(new ValueEventListener() {
                     @Override
@@ -120,7 +120,7 @@ public class wishlistfrag extends Fragment {
                                 wProdList.add(product);
                             }
                         }
-                        wishlistAdapter.notifyDataSetChanged();
+                        wishlistAdapter.notifyDataSetChanged();//update adapter
                     }
 
                     @Override
@@ -136,16 +136,14 @@ public class wishlistfrag extends Fragment {
         recyclerViewFilter = view.findViewById(R.id.recyclerFilter);
         wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(filterList,wishlistAdapter,wProdList);
 
-        //Layout manager
+        //Layout manager for filters recyclerview
         LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);//set horizontal layout
         recyclerViewFilter.setLayoutManager(hLayoutManager);
         recyclerViewFilter.setItemAnimator(new DefaultItemAnimator());
         recyclerViewFilter.setAdapter(wFilterAdapter);//set adapter for wishlist filters
     }
 
-
-
-    private ArrayList<String> initFilterList(){
+    private ArrayList<String> initFilterList(){//initialise list of filters
         ArrayList<String> filterList = new ArrayList<>(Arrays.asList("Default" ,"Price [Low - High]","Price [High - Low]","Name [a - z]","Name [z - a]"));
         return filterList;
     }

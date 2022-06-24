@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import java.util.stream.Stream;
 
 
 public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHolder> {
+    //adapter shared by shopping, wishlist and uploads
     private ArrayList<Product> data;
 
     LayoutInflater inflater;
@@ -100,10 +102,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                 showProductDialog(holder.productListing.getContext(), p.getImageUrl(),p.getPrice(),p.getWebsite(),p.getLink());
             }
         });
-
-        /*String wishlistUnique = (p.getTitle()
-                .concat(p.getImageUrl().substring(p.getImageUrl().length()-15))).replaceAll("[^a-zA-Z0-9]", "");//use title and last 15 characters of image as a unique key*/
-                //to ensure ID of product is a valid firebase database path
+        //use title, imageurl and website name as unique id for the listing - replacing all characters except for alphabets and numbers
         String wishlistUnique = (p.getTitle() + (p.getImageUrl().substring(p.getImageUrl().length()-15))+ p.getWebsite()).replaceAll("[^a-zA-Z0-9]", "");
 
 
@@ -112,19 +111,19 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                 .getReference("user");
         FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
 
-        databaseRefUser.child(usr.getUid().toString()).child("wishlist").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseRefUser.child(usr.getUid().toString()).child("wishlist").addListenerForSingleValueEvent(new ValueEventListener() {//access users wishlist
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(wishlistUnique)){
-                    holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_red));//use custom red color
+                    holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_red));//use custom red color if product is in wishlist
                 }
                 else{
-                    holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_gray));//use custom gray color
+                    holder.prodFavourite.setColorFilter(ContextCompat.getColor(holder.prodFavourite.getContext(), R.color.custom_gray));//use custom gray color if product is not in wishlist
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.w("DatabaseError", String.valueOf(error));
             }
         });
 
@@ -190,7 +189,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         return data.size();
     }
 
-    //custom product dialog
+    //custom product dialog information message
     private void showProductDialog(Context context,String picUri, Double price, String website, String link) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = LayoutInflater.from(context).inflate(R.layout.product_dialog,null,false);

@@ -119,8 +119,6 @@ public class homefrag extends Fragment {
             super.onPostExecute(unused);
             //recyclerView.setAdapter(new ShoppingRecyclerAdapter(productList));
 
-
-
             Integer count=0;
             for(ImageView iv:imArray){
                 Product p = homeproductList.get(count);
@@ -134,6 +132,7 @@ public class homefrag extends Fragment {
                 iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        //custom alert dialog for product information
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         View v = LayoutInflater.from(getContext()).inflate(R.layout.homefrag_product_dialog,null,false);
                         builder.setView(v);
@@ -144,34 +143,34 @@ public class homefrag extends Fragment {
                         RatingBar bar = v.findViewById(R.id.hProductRating);
                         ((TextView) v.findViewById(R.id.hProductWebsite)).setText(p.getWebsite());
                         ImageView pWish = v.findViewById(R.id.hProductWish);
-                        if(Math.signum(p.getRating()) == 0){
+                        if(Math.signum(p.getRating()) == 0){//check if rating is 0, if rating is 0, set the visibility to GONE
                             bar.setVisibility(View.GONE);
                         }
                         else{
-                            bar.setVisibility(View.VISIBLE);
+                            bar.setVisibility(View.VISIBLE);//else set visible and set rating
                             bar.setRating(p.getRating());
                         }
 
                         String wishlistUnique = (p.getTitle() + (p.getImageUrl().substring(p.getImageUrl().length()-15))+ p.getWebsite()).replaceAll("[^a-zA-Z0-9]", "");
                         DatabaseReference databaseRefUser = FirebaseDatabase
                                 .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
-                                .getReference("user");
-                        FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
+                                .getReference("user");//get users path
+                        FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();//identify current user
 
                         //check if user has the item added to wishlist, if added, turn the button red and gray if otherwise
                         databaseRefUser.child(usr.getUid().toString()).child("wishlist").addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if(snapshot.hasChild(wishlistUnique)){
-                                    pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_red));//use custom red color
+                                    pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_red));//use custom red color if item is in wishlist
                                 }
                                 else{
-                                    pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_gray));//use custom gray color
+                                    pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_gray));//use custom gray color if item is not in wishlist
                                 }
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-
+                                Log.w("databaseError", "onCancelled: " + String.valueOf(error));
                             }
                         });
 
@@ -198,14 +197,14 @@ public class homefrag extends Fragment {
                                                 public void onClick(View view) {
                                                     databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).removeValue();
                                                     pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_gray));//use custom gray color
-                                                    alertDialog.dismiss();
+                                                    alertDialog.dismiss();//dismiss dialog
                                                 }
                                             });
                                             //negative button (cancel removal)
                                             vw.findViewById(R.id.wishlistCancel).setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    alertDialog.dismiss();
+                                                    alertDialog.dismiss();//dismiss dialog
                                                 }
                                             });
 
@@ -215,7 +214,7 @@ public class homefrag extends Fragment {
                                             }
                                             alertDialog.show();
                                         }
-                                        else{
+                                        else{//the item does not exist in wishlist, add the item
                                             databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).setValue(p);//add product if the product does not exist in the database
                                             pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_red));//use custom red color
                                         }

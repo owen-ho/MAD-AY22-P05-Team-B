@@ -30,14 +30,14 @@ public class fifthfrag extends Fragment {
     RecyclerView recyclerViewUploads;
     DatabaseReference databaseRefProduct = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
-            .getReference("product");
+            .getReference("product");//get firebase instance to all uploaded products
     ArrayList<Product> productList;
 
     public fifthfrag() {
         // Required empty public constructor
     }
 
-    public static fifthfrag newInstance(String param1, String param2) {
+    public static fifthfrag newInstance() {
         fifthfrag fragment = new fifthfrag();
         return fragment;
     }
@@ -66,8 +66,8 @@ public class fifthfrag extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ss : snapshot.getChildren()){
-                    Product p = ss.getValue(Product.class);
-                    productList.add(p);
+                    Product p = ss.getValue(Product.class);//get all uploaded products and convert to product objects
+                    productList.add(p);//add products
                 }
                 prodAdapter.notifyDataSetChanged();
             }
@@ -78,17 +78,17 @@ public class fifthfrag extends Fragment {
             }
         });
         //set the layout
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2,GridLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2,GridLayoutManager.VERTICAL,false);//layout with 2 items per row
         recyclerViewUploads.setLayoutManager(gridLayoutManager);
         recyclerViewUploads.setItemAnimator(new DefaultItemAnimator());
         recyclerViewUploads.setAdapter(prodAdapter);
 
         SearchView search = view.findViewById(R.id.uploadSearch);
-        int id = search.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        int id = search.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);//make the input text black
         EditText searchEdit = search.findViewById(id);
         searchEdit.setTextColor(Color.BLACK);
 
-        search.setSubmitButtonEnabled(true);//enable submit
+        search.setSubmitButtonEnabled(true);//enable submit button on search bar
         search.setOnClickListener(new View.OnClickListener() {//make the whole searchview avaialble for input
             @Override
             public void onClick(View view) {
@@ -104,27 +104,27 @@ public class fifthfrag extends Fragment {
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
-                productList.clear();
+            public boolean onQueryTextChange(String s) {//so that the search can be updated everytime user enters words, not just onSubmit
+                productList.clear();//clear list of products
                 databaseRefProduct.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot ss : snapshot.getChildren()){
                             Product p = ss.getValue(Product.class);
                             if(p.getTitle().toString().toLowerCase().contains(s)){
-                                productList.add(p);
+                                productList.add(p);//add all the products from search
                             }
                         }
-                        prodAdapter.notifyDataSetChanged();
+                        prodAdapter.notifyDataSetChanged();//update adapter after all required products are added
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
+                        Log.w("DatabaseError", String.valueOf(error));
                     }
                 });
-                return true;
+                return true;//view is handled by us
             }
-        });
+        });//end of search on query text listener
     }
 }
