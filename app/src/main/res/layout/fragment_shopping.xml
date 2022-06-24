@@ -9,23 +9,35 @@
     tools:context=".Fragments.ShoppingFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
+        android:id="@+id/shoppingConstraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Fragments.ShoppingFragment">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView2"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/shoppingTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="SHOPPING"
+            android:textColor="#1976D2"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/shoppingSearchCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/shoppingSearchCard"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             app:cardBackgroundColor="#E6E6E6"
-            app:cardCornerRadius="50dp"
+            app:cardCornerRadius="15dp"
             app:cardElevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,7 +49,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#E6E6E6"
-                    android:iconifiedByDefault="false"
                     android:queryHint="Type Amazon/Walmart/Ebay for demo data"
                     app:theme="@style/AppSearchView" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -48,13 +59,21 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/placeholderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search for Items from major websites"
+            app:layout_constraintBottom_toTopOf="@+id/shoppingrecyclerview"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

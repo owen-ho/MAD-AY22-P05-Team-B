@@ -1,5 +1,6 @@
 package sg.edu.np.MulaSave.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -115,8 +117,8 @@ public class CommunityFragment extends Fragment {
         search.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((TextView)getActivity().findViewById(R.id.communityTitle)).setVisibility(View.GONE);//set the title to be gone
-                ConstraintLayout layout = (ConstraintLayout) getActivity().findViewById(R.id.communityConstraintLayout);//get constraintlayout
+                ((TextView)getView().findViewById(R.id.communityTitle)).setVisibility(View.GONE);//set the title to be gone
+                ConstraintLayout layout = (ConstraintLayout) getView().findViewById(R.id.communityConstraintLayout);//get constraintlayout
                 ConstraintSet set = new ConstraintSet();
                 set.clone(layout);
                 //set constraints
@@ -128,7 +130,7 @@ public class CommunityFragment extends Fragment {
         search.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                ((TextView)getActivity().findViewById(R.id.communityTitle)).setVisibility(View.VISIBLE);
+                ((TextView)getView().findViewById(R.id.communityTitle)).setVisibility(View.VISIBLE);
 
                 //to convert margin to dp
                 Resources r = getActivity().getResources();
@@ -139,7 +141,7 @@ public class CommunityFragment extends Fragment {
                 );
 
                 //set layout
-                ConstraintLayout layout = (ConstraintLayout) getActivity().findViewById(R.id.communityConstraintLayout);
+                ConstraintLayout layout = (ConstraintLayout) getView().findViewById(R.id.communityConstraintLayout);
                 ConstraintSet set = new ConstraintSet();
                 set.clone(layout);
                 //clear constraints
@@ -181,6 +183,26 @@ public class CommunityFragment extends Fragment {
             }
         });//end of search on query text listener
 
+        //to navigate user from homefrag to community frag
+        Bundle bundle = this.getArguments();
+        if(bundle!= null){
+            Boolean srch = bundle.getBoolean("condition",false);
+            if(srch){//condition passed from the homefrag
+                //set the click
+                search.performClick();
+                search.requestFocus();
+                //focus and show keyboard for inputs from user
+                search.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean hasFocus) {
+                        if (hasFocus) {
+                            showInputMethod(view.findFocus());
+                        }
+                    }
+                });
+            }
+        }
+
         FloatingActionButton uploadbutton = view.findViewById(R.id.uploadproductbutton);
         uploadbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,5 +220,11 @@ public class CommunityFragment extends Fragment {
         recyclerViewFilterUploads.setLayoutManager(hLayoutManager);
         recyclerViewFilterUploads.setItemAnimator(new DefaultItemAnimator());
         recyclerViewFilterUploads.setAdapter(wFilterAdapter);//set adapter for wishlist filters
+    }
+    private void showInputMethod(View view) {
+        InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (mgr != null) {
+            mgr.showSoftInput(view, 0);
+        }
     }
 }

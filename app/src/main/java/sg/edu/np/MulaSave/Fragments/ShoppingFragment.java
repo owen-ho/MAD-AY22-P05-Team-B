@@ -2,20 +2,26 @@ package sg.edu.np.MulaSave.Fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -102,13 +108,72 @@ public class ShoppingFragment extends Fragment {
         EditText searchEdit = query.findViewById(id);
         searchEdit.setTextColor(Color.BLACK);
 
+        //make the whole search bar clickable
+        query.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                query.setIconified(false);
+            }
+        });
+
+        //set on searchview open listener for searchview
+        query.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((TextView)getView().findViewById(R.id.placeholderText)).setVisibility(View.GONE);//hide the placeholder text
+
+                ((TextView)getView().findViewById(R.id.shoppingTitle)).setVisibility(View.GONE);//set the title to be gone
+                ConstraintLayout layout = (ConstraintLayout) getView().findViewById(R.id.shoppingConstraintLayout);//get constraintlayout
+                ConstraintSet set = new ConstraintSet();
+                set.clone(layout);
+                //set constraints for the title and searchview
+                set.connect(R.id.shoppingSearchCard, ConstraintSet.START,R.id.shoppingConstraintLayout,ConstraintSet.START,0);
+                set.connect(R.id.shoppingSearchCard, ConstraintSet.END,R.id.shoppingConstraintLayout,ConstraintSet.END,0);
+
+                Resources r = getView().getResources();
+                int dp = (int) TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        8,
+                        r.getDisplayMetrics()
+                );
+                //to connect the recyclerview back up after the placeholder text has disappeared
+                set.connect(R.id.shoppingrecyclerview,ConstraintSet.TOP, R.id.shoppingSearchCard,ConstraintSet.BOTTOM,dp);
+                set.applyTo(layout);
+            }
+        });
+        query.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                ((TextView)getView().findViewById(R.id.shoppingTitle)).setVisibility(View.VISIBLE);
+
+                //to convert margin to dp
+                Resources r = getView().getResources();
+                int px = (int) TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        24,
+                        r.getDisplayMetrics()
+                );
+
+                //set layout
+                ConstraintLayout layout = (ConstraintLayout) getView().findViewById(R.id.shoppingConstraintLayout);
+                ConstraintSet set = new ConstraintSet();
+                set.clone(layout);
+                //clear constraints
+                set.clear(R.id.shoppingSearchCard, ConstraintSet.START);
+                set.connect(R.id.shoppingSearchCard, ConstraintSet.END,R.id.shoppingConstraintLayout,ConstraintSet.END,px);
+                set.applyTo(layout);
+                return false;//return false so that icon closes back on close
+            }
+        });
+
         //to navigate user from homefrag to shoppingfrag
         Bundle bundle = this.getArguments();
         if(bundle!= null){
             Boolean search = bundle.getBoolean("condition",false);
-            if(search){
-                query.setIconifiedByDefault(false);//set the searchbar to focus
-                query.requestFocusFromTouch();//set the searchbar to focus
+            if(search){//if search == true, which means set searchview to active
+                query.performClick();
+                query.requestFocus();
+                //to show the keyboard
                 query.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View view, boolean hasFocus) {
@@ -119,27 +184,20 @@ public class ShoppingFragment extends Fragment {
                 });
             }
         }
+    }
 
-        //make the whole search bar clickable
-        query.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                query.setIconified(false);
+    @Override
+    public void onResume() {
+        super.onResume();
+        try{//try catch because the product list may not be initialised
+            if (MainActivity.productList.isEmpty() == false){//if there are items in the list
+                ((SearchView)getView().findViewById(R.id.searchQuery)).performClick();//click the searchview to show the previous state
+                ((SearchView)getView().findViewById(R.id.searchQuery)).setIconified(true);//onresume, hide the keyboard
             }
-        });
-
-//        query.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                productList.clear();
-//                new getProducts(s,productList,view).execute();
-//                return true;
-//            }
-//            @Override
-//            public boolean onQueryTextChange(String s) {
-//                return false;
-//            }
-//        });
+        }
+        catch (Exception e){
+            Log.e("error", "onResume: " + String.valueOf(e));
+        }
     }
 
     private void showInputMethod(View view) {

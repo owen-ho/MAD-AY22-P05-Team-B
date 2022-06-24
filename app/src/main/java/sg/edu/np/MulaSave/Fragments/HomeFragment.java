@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -82,12 +83,13 @@ public class HomeFragment extends Fragment {
         ImageView small5 = getView().findViewById(R.id.smallImage5);
         ImageView small6 = getView().findViewById(R.id.smallImage6);
         imArray = new ImageView[] {large,small1,small2,small3,small4,small5,small6};
-        SearchView search = getView().findViewById(R.id.goSearch);
+        //SearchView search = getView().findViewById(R.id.goSearch);
+        CardView cardShop = getView().findViewById(R.id.cardViewGoShop);
+        CardView cardCom = getView().findViewById(R.id.cardViewGoCom);
         //transition to the shopping fragment
-        search.setOnSearchClickListener(new View.OnClickListener() {
+        cardShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Fragment fragment = new ShoppingFragment();
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("condition", true);//inform shopping fragment that this method is passed
@@ -103,14 +105,24 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        //to make the whole searchbar clickable
-        search.setOnClickListener(new View.OnClickListener() {
+        cardCom.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                search.setIconified(false); // cannot be placed under setOnSearchListener because it will cause listener to be informed
+            public void onClick(View v) {
+                Fragment fragment = new CommunityFragment();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("condition", true);//inform community fragment that this method is passed
+                fragment.setArguments(bundle);
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frameLayout, fragment );
+                transaction.addToBackStack(null);  //this transaction will be added to backstack
+
+                //set the shop menu item active
+                BottomNavigationView navigationView = (BottomNavigationView) getActivity().findViewById(R.id.bottomNavigationView);
+                navigationView.setSelectedItemId(R.id.Community);
+                transaction.commit();
             }
         });
-        search.setSubmitButtonEnabled(true);
+
         new getProducts().execute();
     }//end of onview created method
 
