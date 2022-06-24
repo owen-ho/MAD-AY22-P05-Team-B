@@ -7,10 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -26,17 +28,29 @@ public class ForgetPassword extends AppCompatActivity {
         forgetbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                auth.sendPasswordResetEmail(email.getText().toString())
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d("ForgottenPasswordEmail", "Email sent.");
+                try{
+                    auth.sendPasswordResetEmail(email.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d("ForgottenPasswordEmail", "Email sent.");
+                                        finish();
+                                    }
                                 }
-                                Intent i = new Intent(ForgetPassword.this,LoginActivity.class);
-                                startActivity(i);
-                            }
-                        });
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@androidx.annotation.NonNull Exception e) {
+                                    Toast.makeText(ForgetPassword.this, "Enter a valid email",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+                catch(Exception e){
+                    Log.w("forget password", String.valueOf(e));
+                    Toast.makeText(ForgetPassword.this, "Enter a valid email",Toast.LENGTH_SHORT).show();
+                }
+                //line will not be reached if email is correct as user will be directed to the login page
+                email.setText("");//reset the email text for user to input agn
             }
         });
     }
