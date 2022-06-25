@@ -123,22 +123,26 @@
                     android:id="@+id/largeImage"
                     android:layout_width="0dp"
                     android:layout_height="200dp"
+                    android:alpha="0.3"
                     android:src="@android:drawable/sym_def_app_icon"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/textView4"
-                    android:layout_width="57dp"
-                    android:layout_height="33dp"
-                    android:layout_marginStart="16dp"
-                    android:background="#FFE500"
+                    android:layout_width="334dp"
+                    android:layout_height="49dp"
+                    android:layout_marginTop="64dp"
                     android:gravity="center"
-                    android:text="Top Item"
-                    android:textAlignment="center"
-                    android:textColor="#FF0C0C"
+                    android:text="Best of MulaSave"
+                    android:textAlignment="viewStart"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="@+id/largeImage"
+                    app:layout_constraintHorizontal_bias="0.355"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
