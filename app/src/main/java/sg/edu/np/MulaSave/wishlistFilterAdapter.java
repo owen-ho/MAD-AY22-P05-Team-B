@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,8 +30,8 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAdapter.wishlistFilterViewHolder> {
-    ArrayList<String> filters = new ArrayList<>(Arrays.asList("Default" ,"Price [Low - High]","Price [High - Low]","Name [a - z]","Name [z - a]"));
-    Context context;
+    ArrayList<String> filters = new ArrayList<>(Arrays.asList("Default" ,"Price [Low - High]","Price [High - Low]","Name [a - z]","Name [z - a]","Rating [Low - High]","Rating [High - Low]"));
+    View view;
     ShoppingRecyclerAdapter wishlistAdapter;
     ArrayList<Product> wProdList;
     FirebaseDatabase database = FirebaseDatabase
@@ -43,55 +44,64 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
     //1 = wishlist view
     //2 = uploads view
 
-    public wishlistFilterAdapter( ShoppingRecyclerAdapter _wishlistAdapter, ArrayList<Product> _wProdList,int _wishOrCom){
-        this.context = context;
+    public wishlistFilterAdapter(View _view, ShoppingRecyclerAdapter _wishlistAdapter, ArrayList<Product> _wProdList,int _wishOrCom){
+        this.view = _view;
         this.wishlistAdapter = _wishlistAdapter;
         this.wProdList = _wProdList;
         this.wishOrCom = _wishOrCom;
     }
 
-    @Override
-    public int getItemViewType(final int position) {
-        if (this.wishOrCom == 1){
-            return 1;//wishlist view
-        }
-        else{
-            return 2;//community upload view
-        }
-    }//
 
     @NonNull
     @Override
     public wishlistFilterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.wishlist_filter,parent,false);
-        return new wishlistFilterViewHolder(view);
+        return new wishlistFilterViewHolder(view, viewType);
     }
 
     @Override
     public void onBindViewHolder(@NonNull wishlistFilterViewHolder holder, int position) {
         String s = filters.get(position);
         holder.filterText.setText(s);
-
         cardList.add(holder.filterCard);
 
         //determine path to access, since adapter is used by wishlist fragment and the community fragment
+        SearchView searchView;
         String path;
         if(wishOrCom == 1){
-            path = "/user/" + usr.getUid().toString()+"/wishlist";
+            path = "/user/" + usr.getUid().toString()+"/wishlist";//get the path to database
+            searchView = view.findViewById(R.id.wishSearch);//get the corresponding searchview
         }
         else{
             path = "/product";
+            searchView = view.findViewById(R.id.uploadSearch);
         }
 
 
-        //once user enters the view, it will be set to default
-        if (s.equals("Default")){
+
+        //check if any filters are active
+        Boolean allGray = true;
+        for(CardView cardView : cardList){
+            if (cardView.getCardBackgroundColor().getDefaultColor()== Color.parseColor("#4CAF50")){
+                allGray = false;
+            }
+        }
+
+        //if none of the filters are active, set the first filter ("Default") to be active
+        if (allGray == true){
+            if (s.equals("Default")){
             holder.filterCard.setCardBackgroundColor(Color.parseColor("#4CAF50"));//set active
+            }
         }
+
 
         holder.filterText.setOnClickListener(new View.OnClickListener() {//filter set on click
             @Override
             public void onClick(View view) {
+                searchView.setIconified(true);//first time is to clear the inputs from user
+                searchView.setIconified(true);//second time is to close the searchview
+                //if there are no inputs, the first line will close the searchview but the second line will not crash
+
                 database.getReference(path).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -114,6 +124,12 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
                         }
                         else if (s.equals("Name [z - a]")){//sorting title z to a
                             Collections.sort(wProdList,productNameZAComparator);
+                        }
+                        else if (s.equals("Rating [Low - High]")){//sort rating from low to high
+                            Collections.sort(wProdList,productRatingLowHigh);
+                        }
+                        else if (s.equals("Rating [High - Low]")){//sort rating from high to low
+                            Collections.sort(wProdList,productRatingHighLow);
                         }
                         //index = holder.getAdapterPosition();
                         for(CardView cardView : cardList){
@@ -141,12 +157,12 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
     public class wishlistFilterViewHolder extends RecyclerView.ViewHolder {
         TextView filterText;
         CardView filterCard;
-        public wishlistFilterViewHolder(View itemView){
+        public wishlistFilterViewHolder(View itemView, int viewType){
             super(itemView);
             filterCard = itemView.findViewById(R.id.filterCard);
             filterText = itemView.findViewById(R.id.filterText);
         }
-    }
+    }//end of wishlistFilterViewHolder
 
     //custom comparator for ascending order name
     public Comparator<Product> productNameAZComparator = new Comparator<Product>() {
@@ -177,6 +193,22 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
         @Override
         public int compare(Product p1, Product p2) {
             return Double.compare(p2.getPrice(),p1.getPrice());
+        }
+    };
+
+    //custom comparator for low to high product rating
+    public Comparator<Product> productRatingLowHigh = new Comparator<Product>() {
+        @Override
+        public int compare(Product p1, Product p2) {
+            return Float.compare(p1.getRating(),p2.getRating());
+        }
+    };
+
+    //custom comparator for high to low product rating
+    public Comparator<Product> productRatingHighLow = new Comparator<Product>() {
+        @Override
+        public int compare(Product p1, Product p2) {
+            return Float.compare(p2.getRating(),p1.getRating());
         }
     };
 }

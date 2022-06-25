@@ -2,6 +2,7 @@ package sg.edu.np.MulaSave.Fragments;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -48,6 +49,7 @@ import sg.edu.np.MulaSave.R;
 public class HomeFragment extends Fragment {
     private ArrayList<Product> homeproductList = new ArrayList<Product>();
     private ImageView[] imArray;
+    private CardView[] cardArray;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -140,6 +142,7 @@ public class HomeFragment extends Fragment {
                         .get()
                         .load(p.getImageUrl())
                         .fit()
+                        .centerCrop()
                         .into(iv);
                 iv.setVisibility(View.VISIBLE);//set to visible -- default is invisible before picasso loads
 
@@ -264,6 +267,18 @@ public class HomeFragment extends Fragment {
                     }
                 });
                 count+=1;
+            }
+
+            //set cardview colors to match the image with padding
+            CardView csmall1 = getView().findViewById(R.id.cardView6);
+            CardView csmall2 = getView().findViewById(R.id.cardView5);
+            CardView csmall3 = getView().findViewById(R.id.cardView7);
+            CardView csmall4 = getView().findViewById(R.id.cardView9);
+            CardView csmall5 = getView().findViewById(R.id.cardView8);
+            CardView csmall6 = getView().findViewById(R.id.cardView10);
+            cardArray = new CardView[]{csmall1,csmall2,csmall3,csmall4,csmall5,csmall6};
+            for(CardView card:cardArray){
+                card.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
             }
         }
 

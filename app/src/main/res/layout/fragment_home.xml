@@ -13,7 +13,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewGoShop"
-            android:layout_width="178dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
@@ -45,11 +45,13 @@
                     android:id="@+id/textView12"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:gravity="center"
                     android:text="Online Shops"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView7"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1.0" />
 
@@ -59,7 +61,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewGoCom"
-            android:layout_width="171dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
@@ -92,11 +94,13 @@
                     android:id="@+id/textView13"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:gravity="center"
                     android:text="Community"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView8"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -162,8 +166,9 @@
 
             <ImageView
                 android:id="@+id/smallImage1"
-                android:layout_width="125dp"
-                android:layout_height="100dp"
+                android:layout_width="100dp"
+                android:layout_height="130dp"
+                android:padding="10dp"
                 android:src="@android:drawable/sym_def_app_icon"
                 android:visibility="invisible" />
         </androidx.cardview.widget.CardView>
@@ -182,8 +187,9 @@
 
             <ImageView
                 android:id="@+id/smallImage2"
-                android:layout_width="125dp"
-                android:layout_height="100dp"
+                android:layout_width="100dp"
+                android:layout_height="130dp"
+                android:padding="10dp"
                 android:src="@android:drawable/sym_def_app_icon"
                 android:visibility="invisible" />
 
@@ -203,8 +209,9 @@
 
             <ImageView
                 android:id="@+id/smallImage3"
-                android:layout_width="125dp"
-                android:layout_height="100dp"
+                android:layout_width="100dp"
+                android:layout_height="130dp"
+                android:padding="10dp"
                 android:src="@android:drawable/sym_def_app_icon"
                 android:visibility="invisible" />
         </androidx.cardview.widget.CardView>
@@ -225,6 +232,7 @@
                 android:id="@+id/smallImage6"
                 android:layout_width="100dp"
                 android:layout_height="130dp"
+                android:padding="10dp"
                 android:src="@android:drawable/sym_def_app_icon"
                 android:visibility="invisible" />
         </androidx.cardview.widget.CardView>
@@ -245,6 +253,7 @@
                 android:id="@+id/smallImage4"
                 android:layout_width="100dp"
                 android:layout_height="130dp"
+                android:padding="10dp"
                 android:src="@android:drawable/sym_def_app_icon"
                 android:visibility="invisible" />
         </androidx.cardview.widget.CardView>
@@ -265,6 +274,7 @@
                 android:id="@+id/smallImage5"
                 android:layout_width="100dp"
                 android:layout_height="130dp"
+                android:padding="10dp"
                 android:src="@android:drawable/sym_def_app_icon"
                 android:visibility="invisible" />
         </androidx.cardview.widget.CardView>

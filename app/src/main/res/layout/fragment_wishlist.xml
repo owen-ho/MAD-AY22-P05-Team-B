@@ -71,7 +71,7 @@
             android:id="@+id/wishlistTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:fontFamily="sans-serif-medium"
             android:text="MY WISHLISTS"
             android:textColor="#333435"

@@ -213,7 +213,7 @@ public class CommunityFragment extends Fragment {
         });
         //WishList Filters
         recyclerViewFilterUploads = view.findViewById(R.id.uploadsFilter);
-        wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(prodAdapter,productList,2);
+        wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(getView(),prodAdapter,productList,2);
 
         //Layout manager for filters recyclerview
         LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);//set horizontal layout
