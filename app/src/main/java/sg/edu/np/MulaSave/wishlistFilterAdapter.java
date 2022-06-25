@@ -49,16 +49,7 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
         this.wProdList = _wProdList;
         this.wishOrCom = _wishOrCom;
     }
-
-    @Override
-    public int getItemViewType(final int position) {
-        if (this.wishOrCom == 1){
-            return 1;//wishlist view
-        }
-        else{
-            return 2;//community upload view
-        }
-    }//
+    
 
     @NonNull
     @Override
