@@ -66,6 +66,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="304dp"
+            android:layout_height="73dp"
+            android:layout_marginTop="200dp"
+            android:alpha="0.3"
+            android:src="@drawable/logo"
+            app:layout_constraintBottom_toTopOf="@+id/shoppingrecyclerview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/shoppingTitle"
+            app:layout_constraintVertical_bias="0.0" />
+
         <TextView
             android:id="@+id/placeholderText"
             android:layout_width="wrap_content"
@@ -75,7 +89,8 @@
             app:layout_constraintBottom_toTopOf="@+id/shoppingrecyclerview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView6"
+            app:layout_constraintVertical_bias="0.029" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
