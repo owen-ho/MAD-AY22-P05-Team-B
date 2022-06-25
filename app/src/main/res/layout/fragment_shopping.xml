@@ -21,10 +21,11 @@
             android:layout_marginTop="24dp"
             android:fontFamily="sans-serif-medium"
             android:text="SHOPPING"
-            android:textColor="#1976D2"
+            android:textColor="#38393A"
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/shoppingSearchCard"
+            app:layout_constraintHorizontal_bias="0.657"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
