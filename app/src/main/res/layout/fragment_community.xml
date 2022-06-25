@@ -29,7 +29,7 @@
                 android:layout_height="match_parent"
                 android:background="#E6E6E6"
                 android:backgroundTint="#FFFFFF"
-                android:queryHint="Search product names (community effort)"
+                android:queryHint="Search community products"
                 app:theme="@style/AppSearchView" />
         </androidx.cardview.widget.CardView>
 
