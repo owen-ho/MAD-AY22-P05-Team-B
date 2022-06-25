@@ -82,7 +82,7 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
         //check if any filters are active
         Boolean allGray = true;
         for(CardView cardView : cardList){
-            if (cardView.getCardBackgroundColor().getDefaultColor()== Color.parseColor("#4CAF50")){
+            if (cardView.getCardBackgroundColor().getDefaultColor()== Color.parseColor("#fdb915")){
                 allGray = false;
             }
         }
@@ -90,7 +90,7 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
         //if none of the filters are active, set the first filter ("Default") to be active
         if (allGray == true){
             if (s.equals("Default")){
-            holder.filterCard.setCardBackgroundColor(Color.parseColor("#4CAF50"));//set active
+            holder.filterCard.setCardBackgroundColor(Color.parseColor("#fdb915"));//set active
             }
         }
 
@@ -135,7 +135,7 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
                         for(CardView cardView : cardList){
                             cardView.setCardBackgroundColor(Color.parseColor("#D8D8D8"));//set inactive (gray)
                         }
-                        holder.filterCard.setCardBackgroundColor(Color.parseColor("#4CAF50"));//set active
+                        holder.filterCard.setCardBackgroundColor(Color.parseColor("#fdb915"));//set active
                         wishlistAdapter.notifyDataSetChanged();
 
                     }
