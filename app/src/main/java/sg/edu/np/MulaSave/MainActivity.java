@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     public static ArrayList<Product> productList;
+    public static ArrayList<Product> homeproductList;
     private ProgressDialog progressDialog;
 
     @Override

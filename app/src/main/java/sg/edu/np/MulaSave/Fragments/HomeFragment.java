@@ -42,11 +42,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import sg.edu.np.MulaSave.APIHandler;
+import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.Product;
 import sg.edu.np.MulaSave.R;
 
 public class HomeFragment extends Fragment {
-    private ArrayList<Product> homeproductList = new ArrayList<Product>();
+    private ArrayList<Product> homeproductList = MainActivity.homeproductList;
     private ImageView[] imArray;
     private CardView[] cardArray;
     public HomeFragment() {
@@ -95,6 +96,16 @@ public class HomeFragment extends Fragment {
         CardView csmall5 = getView().findViewById(R.id.cardView8);
         CardView csmall6 = getView().findViewById(R.id.cardView10);
         cardArray = new CardView[]{csmall1,csmall2,csmall3,csmall4,csmall5,csmall6};
+
+        if (homeproductList!=null) {
+            if(homeproductList.size()!=0){
+                displayAdapter(homeproductList);
+            }
+        }else{
+            homeproductList = new ArrayList<Product>();
+            new getProducts().execute();
+        }
+
         //transition to the shopping fragment
         cardShop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,8 +143,146 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        new getProducts().execute();
     }//end of onview created method
+
+    private void displayAdapter(ArrayList<Product> homeproductList){
+        Integer count=0;
+        for(ImageView iv:imArray){
+            Product p = homeproductList.get(count);
+            Picasso
+                    .get()
+                    .load(p.getImageUrl())
+                    .fit()
+                    .centerCrop()
+                    .into(iv);
+            iv.setVisibility(View.VISIBLE);//set to visible -- default is invisible before picasso loads
+
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //custom alert dialog for product information
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    View v = LayoutInflater.from(getContext()).inflate(R.layout.homefrag_product_dialog,null,false);
+                    builder.setView(v);
+                    ImageView prodImg = v.findViewById(R.id.hProductPic);
+                    Picasso.get().load(Uri.parse(p.getImageUrl())).into(prodImg);
+                    ((TextView) v.findViewById(R.id.hProductName)).setText(p.getTitle());
+                    ((TextView) v.findViewById(R.id.hProductPrice)).setText(String.format("$ %.2f",p.getPrice()));
+                    RatingBar bar = v.findViewById(R.id.hProductRating);
+                    ((TextView) v.findViewById(R.id.hProductWebsite)).setText(p.getWebsite());
+                    ImageView pWish = v.findViewById(R.id.hProductWish);
+                    if(Math.signum(p.getRating()) == 0){//check if rating is 0, if rating is 0, set the visibility to GONE
+                        bar.setVisibility(View.GONE);
+                    }
+                    else{
+                        bar.setVisibility(View.VISIBLE);//else set visible and set rating
+                        bar.setRating(p.getRating());
+                    }
+
+                    String wishlistUnique = (p.getTitle() + (p.getImageUrl().substring(p.getImageUrl().length()-15))+ p.getWebsite()).replaceAll("[^a-zA-Z0-9]", "");
+                    DatabaseReference databaseRefUser = FirebaseDatabase
+                            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                            .getReference("user");//get users path
+                    FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();//identify current user
+
+                    //check if user has the item added to wishlist, if added, turn the button red and gray if otherwise
+                    databaseRefUser.child(usr.getUid().toString()).child("wishlist").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.hasChild(wishlistUnique)){
+                                pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_red));//use custom red color if item is in wishlist
+                            }
+                            else{
+                                pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_gray));//use custom gray color if item is not in wishlist
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.w("databaseError", "onCancelled: " + String.valueOf(error));
+                        }
+                    });
+
+                    pWish.setOnClickListener(new View.OnClickListener() {//on click listener for favourite button in searching of product
+                        @Override
+                        public void onClick(View view) {
+                            databaseRefUser.child(usr.getUid().toString()).child("wishlist").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                    if(task.getResult().hasChild(wishlistUnique)){
+
+                                        //custom dialog for removing of wishlist item
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                        View vw = LayoutInflater.from(getContext()).inflate(R.layout.remove_wislist,null, false);
+                                        builder.setView(vw);
+                                        ImageView pic = vw.findViewById(R.id.wishlistPic);
+                                        Uri newUri = Uri.parse(p.getImageUrl());
+                                        Picasso.get().load(newUri).into(pic);
+                                        final AlertDialog alertDialog = builder.create();
+
+                                        //positive button (remove item)
+                                        vw.findViewById(R.id.wishlistRemove).setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).removeValue();
+                                                pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_gray));//use custom gray color
+                                                alertDialog.dismiss();//dismiss dialog
+                                            }
+                                        });
+                                        //negative button (cancel removal)
+                                        vw.findViewById(R.id.wishlistCancel).setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                alertDialog.dismiss();//dismiss dialog
+                                            }
+                                        });
+
+                                        //remove the extra parts outside of the cardview
+                                        if (alertDialog.getWindow() != null){
+                                            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
+                                        }
+                                        alertDialog.show();
+                                    }
+                                    else{//the item does not exist in wishlist, add the item
+                                        databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).setValue(p);//add product if the product does not exist in the database
+                                        pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_red));//use custom red color
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+                    final AlertDialog alertDialog = builder.create();
+
+                    //open the product
+                    v.findViewById(R.id.hProductOpen).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //Opens store page for item
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(p.getLink()));
+                            getContext().startActivity(browserIntent);
+                            alertDialog.dismiss();
+                        }
+                    });
+                    //close the dialog
+                    v.findViewById(R.id.hProductBack).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            alertDialog.dismiss();
+                        }
+                    });
+
+                    if (alertDialog.getWindow() != null){
+                        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
+                    }
+                    alertDialog.show();
+                }
+            });
+            count+=1;
+        }
+        for(CardView card:cardArray){
+            card.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
+    }
 
 
     class getProducts extends AsyncTask<Void, Void, Void> {
@@ -141,152 +290,8 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
             //recyclerView.setAdapter(new ShoppingRecyclerAdapter(productList));
-
-            Integer count=0;
-            for(ImageView iv:imArray){
-                Product p = homeproductList.get(count);
-                Picasso
-                        .get()
-                        .load(p.getImageUrl())
-                        .fit()
-                        .centerCrop()
-                        .into(iv);
-                iv.setVisibility(View.VISIBLE);//set to visible -- default is invisible before picasso loads
-
-                iv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //custom alert dialog for product information
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        View v = LayoutInflater.from(getContext()).inflate(R.layout.homefrag_product_dialog,null,false);
-                        builder.setView(v);
-                        ImageView prodImg = v.findViewById(R.id.hProductPic);
-                        Picasso.get().load(Uri.parse(p.getImageUrl())).into(prodImg);
-                        ((TextView) v.findViewById(R.id.hProductName)).setText(p.getTitle());
-                        ((TextView) v.findViewById(R.id.hProductPrice)).setText(String.format("$ %.2f",p.getPrice()));
-                        RatingBar bar = v.findViewById(R.id.hProductRating);
-                        ((TextView) v.findViewById(R.id.hProductWebsite)).setText(p.getWebsite());
-                        ImageView pWish = v.findViewById(R.id.hProductWish);
-                        if(Math.signum(p.getRating()) == 0){//check if rating is 0, if rating is 0, set the visibility to GONE
-                            bar.setVisibility(View.GONE);
-                        }
-                        else{
-                            bar.setVisibility(View.VISIBLE);//else set visible and set rating
-                            bar.setRating(p.getRating());
-                        }
-
-                        String wishlistUnique = (p.getTitle() + (p.getImageUrl().substring(p.getImageUrl().length()-15))+ p.getWebsite()).replaceAll("[^a-zA-Z0-9]", "");
-                        DatabaseReference databaseRefUser = FirebaseDatabase
-                                .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
-                                .getReference("user");//get users path
-                        FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();//identify current user
-
-                        //check if user has the item added to wishlist, if added, turn the button red and gray if otherwise
-                        databaseRefUser.child(usr.getUid().toString()).child("wishlist").addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.hasChild(wishlistUnique)){
-                                    pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_red));//use custom red color if item is in wishlist
-                                }
-                                else{
-                                    pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_gray));//use custom gray color if item is not in wishlist
-                                }
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                Log.w("databaseError", "onCancelled: " + String.valueOf(error));
-                            }
-                        });
-
-                        pWish.setOnClickListener(new View.OnClickListener() {//on click listener for favourite button in searching of product
-                            @Override
-                            public void onClick(View view) {
-                                databaseRefUser.child(usr.getUid().toString()).child("wishlist").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                        if(task.getResult().hasChild(wishlistUnique)){
-
-                                            //custom dialog for removing of wishlist item
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                            View vw = LayoutInflater.from(getContext()).inflate(R.layout.remove_wislist,null, false);
-                                            builder.setView(vw);
-                                            ImageView pic = vw.findViewById(R.id.wishlistPic);
-                                            Uri newUri = Uri.parse(p.getImageUrl());
-                                            Picasso.get().load(newUri).into(pic);
-                                            final AlertDialog alertDialog = builder.create();
-
-                                            //positive button (remove item)
-                                            vw.findViewById(R.id.wishlistRemove).setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).removeValue();
-                                                    pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_gray));//use custom gray color
-                                                    alertDialog.dismiss();//dismiss dialog
-                                                }
-                                            });
-                                            //negative button (cancel removal)
-                                            vw.findViewById(R.id.wishlistCancel).setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    alertDialog.dismiss();//dismiss dialog
-                                                }
-                                            });
-
-                                            //remove the extra parts outside of the cardview
-                                            if (alertDialog.getWindow() != null){
-                                                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
-                                            }
-                                            alertDialog.show();
-                                        }
-                                        else{//the item does not exist in wishlist, add the item
-                                            databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).setValue(p);//add product if the product does not exist in the database
-                                            pWish.setColorFilter(ContextCompat.getColor(getContext(), R.color.custom_red));//use custom red color
-                                        }
-                                    }
-                                });
-                            }
-                        });
-
-                        final AlertDialog alertDialog = builder.create();
-
-                        //open the product
-                        v.findViewById(R.id.hProductOpen).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                //Opens store page for item
-                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(p.getLink()));
-                                getContext().startActivity(browserIntent);
-                                alertDialog.dismiss();
-                            }
-                        });
-                        //close the dialog
-                        v.findViewById(R.id.hProductBack).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                alertDialog.dismiss();
-                            }
-                        });
-
-                        if (alertDialog.getWindow() != null){
-                            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
-                        }
-                        alertDialog.show();
-                    }
-                });
-                count+=1;
-            }
-
-            //set cardview colors to match the image with padding
-//            CardView csmall1 = getView().findViewById(R.id.cardView6);
-//            CardView csmall2 = getView().findViewById(R.id.cardView5);
-//            CardView csmall3 = getView().findViewById(R.id.cardView7);
-//            CardView csmall4 = getView().findViewById(R.id.cardView9);
-//            CardView csmall5 = getView().findViewById(R.id.cardView8);
-//            CardView csmall6 = getView().findViewById(R.id.cardView10);
-//            cardArray = new CardView[]{csmall1,csmall2,csmall3,csmall4,csmall5,csmall6};
-            for(CardView card:cardArray){
-                card.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-            }
+            MainActivity.homeproductList = homeproductList;
+            displayAdapter(homeproductList);
         }//end of onPostExecute in AsyncTask
 
         @Override
