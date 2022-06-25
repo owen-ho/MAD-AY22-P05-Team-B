@@ -183,7 +183,7 @@ public class WishlishFragment extends Fragment {
 
         //WishList Filters
         recyclerViewFilter = view.findViewById(R.id.recyclerFilter);
-        wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(wishlistAdapter,wProdList,1);
+        wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(getView(),wishlistAdapter,wProdList,1);
 
         //Layout manager for filters recyclerview
         LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);//set horizontal layout
