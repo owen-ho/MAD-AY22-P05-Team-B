@@ -30,6 +30,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import sg.edu.np.MulaSave.LoginActivity;
+import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.SelectProfilePic;
 import sg.edu.np.MulaSave.ProfileEdit;
@@ -37,6 +38,8 @@ import sg.edu.np.MulaSave.ProfileEdit;
 public class ProfileFragment extends Fragment {
 
     int SELECT_PICTURE = 200;
+    private String profilePicLink = MainActivity.profilePicLink;
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -82,7 +85,12 @@ public class ProfileFragment extends Fragment {
         Button logoutbutton = view.findViewById(R.id.logoutBtn);
 
         //load this as the default picture first
-        Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").into(profilepic);
+        if (profilePicLink!=null) {
+            Picasso.get().load(profilePicLink).into(profilepic);
+        }else{
+            Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").into(profilepic);
+        }
+
 
         if (user!=null){
             userRef.addValueEventListener(new ValueEventListener() {
@@ -103,6 +111,7 @@ public class ProfileFragment extends Fragment {
                         @Override
                         public void onSuccess(Uri uri) {//user has set a profile picture before
                             Picasso.get().load(uri).into(profilepic);
+                            MainActivity.profilePicLink = uri.toString();
                         }
                     }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
                         @Override
@@ -110,7 +119,7 @@ public class ProfileFragment extends Fragment {
 
                         }
                     });
-                    profilepic.setVisibility(View.VISIBLE);//set to visible from deafault of invisible
+                    profilepic.setVisibility(View.VISIBLE);//set to visible from default of invisible
                 }
 
                 @Override
