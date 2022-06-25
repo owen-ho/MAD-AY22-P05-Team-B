@@ -95,6 +95,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void signIn(String email, String password){
+        Button loginBtnn = findViewById(R.id.loginButton);
+        loginBtnn.setEnabled(false);
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -125,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+        loginBtnn.setEnabled(true);
     }
     private void openfrag(){
         ProfileFragment frag = new ProfileFragment();
