@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F9C980"
+    android:background="#FFFFFF"
     tools:context=".UserInputPrice">
 
     <androidx.cardview.widget.CardView
@@ -14,7 +14,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="16dp"
-        app:cardBackgroundColor="#CBEBEB"
+        app:cardBackgroundColor="#70747C"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -156,6 +156,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="26dp"
         android:layout_marginEnd="25dp"
+        app:cardBackgroundColor="#D8D3D3"
         app:cardCornerRadius="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

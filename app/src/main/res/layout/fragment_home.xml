@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F9C980">
+        android:background="#FFFFFF">
 
         <TextView
             android:id="@+id/homeTitle"
@@ -18,7 +18,7 @@
             android:layout_marginTop="20dp"
             android:fontFamily="sans-serif-medium"
             android:text="HOME"
-            android:textColor="#1976D2"
+            android:textColor="#333333"
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/cardViewGoCom"

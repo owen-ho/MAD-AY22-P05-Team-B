@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F9C980"
+    android:background="#FFFFFF"
     tools:context=".Fragments.WishlishFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +38,7 @@
                 android:background="#FFE6E6E6"
                 android:iconifiedByDefault="true"
                 android:queryHint="Search by wishlist product name"
-                app:theme="@style/AppSearchView"/>
+                app:theme="@style/AppSearchView" />
         </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView

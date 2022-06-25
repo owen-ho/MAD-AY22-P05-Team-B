@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F9C980"
+    android:background="#FFFFFF"
     tools:context=".Fragments.CommunityFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,9 +37,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:fontFamily="sans-serif-medium"
+            android:fontFamily="@font/lato"
             android:text="COMMUNITY UPLOADS"
-            android:textColor="#1976D2"
+            android:textColor="#393939"
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/communitySearchCard"

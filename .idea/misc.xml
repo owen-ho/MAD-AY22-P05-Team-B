@@ -3,27 +3,30 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.3635" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/activity_changingemail.xml" value="0.3625" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/activity_forget_password.xml" value="0.3625" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/activity_login.xml" value="0.3625" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/activity_main.xml" value="0.3625" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/activity_register.xml" value="0.3625" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/activity_select_profile_pic.xml" value="0.3625" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/activity_user_input_price.xml" value="0.4" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/fragment_community.xml" value="0.4" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/fragment_fifthfrag.xml" value="0.4" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_changingemail.xml" value="0.3473731884057971" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_forget_password.xml" value="0.3473731884057971" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_login.xml" value="0.3473731884057971" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_main.xml" value="0.3473731884057971" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_register.xml" value="0.3473731884057971" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_select_profile_pic.xml" value="0.3625" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_user_input_price.xml" value="0.3473731884057971" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/fragment_community.xml" value="0.3473731884057971" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/fragment_fifthfrag.xml" value="0.3473731884057971" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/fragment_home.xml" value="0.3473731884057971" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/fragment_profile.xml" value="0.3473731884057971" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/fragment_shopping.xml" value="0.3473731884057971" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/fragment_wishlist.xml" value="0.3473731884057971" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/homefrag_product_dialog.xml" value="0.3473731884057971" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/product_dialog.xml" value="0.3473731884057971" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/remove_wislist.xml" value="0.3473731884057971" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/shopping_view_holder.xml" value="0.3473731884057971" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/wishlist_filter.xml" value="0.3473731884057971" />
+        <entry key="..\:/Poly Year 3/Sem 1/Android Studio files/MAD-AY22-P05-Team-B/app/src/main/res/layout/wishlist_row.xml" value="0.3473731884057971" />
+        <entry key="..\:/Users/icyfl/AndroidStudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1955" />
+        <entry key="..\:/Users/icyfl/AndroidStudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_user_input_price.xml" value="0.4" />
         <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/fragment_home.xml" value="0.4" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/fragment_profile.xml" value="0.46986089644513135" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/fragment_shopping.xml" value="0.3625" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/fragment_wishlist.xml" value="0.3625" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/homefrag_product_dialog.xml" value="0.4" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/product_dialog.xml" value="0.4" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/remove_wislist.xml" value="0.3614583333333333" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/shopping_view_holder.xml" value="0.3625" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/wishlist_filter.xml" value="0.3625" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/wishlist_row.xml" value="0.264" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/menu/bottom_navbar.xml" value="0.4" />
+        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/fragment_profile.xml" value="0.34556159420289856" />
+        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/wishlist_row.xml" value="0.3625" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/fragment_profile.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/fragment_shopping.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/fragment_wishlist.xml" value="0.36666666666666664" />
