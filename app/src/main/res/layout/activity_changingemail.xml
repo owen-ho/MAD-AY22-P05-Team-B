@@ -25,7 +25,7 @@
         android:layout_marginEnd="38dp"
         android:text="Note: Only change the one you need to change. "
         android:textAlignment="center"
-        android:textColor="@color/material_dynamic_neutral50"
+        android:textColor="#FF747679"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="592dp">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/UsernameChange"
@@ -53,7 +53,7 @@
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="92dp"
                 android:text="Enter your new Username:"
-                android:textColor="@color/material_dynamic_neutral50"
+                android:textColor="#FF747679"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="56dp"
-                android:backgroundTint="@color/material_dynamic_neutral50"
+                android:backgroundTint="#FF747679"
                 android:ems="10"
                 android:hint="New email"
                 android:inputType="textPersonName"
@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="72dp"
-                android:backgroundTint="@color/material_dynamic_neutral50"
+                android:backgroundTint="#FF747679"
                 android:ems="10"
                 android:hint="New username"
                 android:inputType="textPersonName"
@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="52dp"
-                android:backgroundTint="@color/material_dynamic_neutral50"
+                android:backgroundTint="#FF747679"
                 android:ems="10"
                 android:hint="New password"
                 android:inputType="textPersonName"
@@ -125,7 +125,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="125dp"
                 android:text="Enter your new Email:"
-                android:textColor="@color/material_dynamic_neutral50"
+                android:textColor="#FF747679"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -140,7 +140,7 @@
                 android:layout_marginTop="28dp"
                 android:layout_marginEnd="94dp"
                 android:text="Enter your new Password:"
-                android:textColor="@color/material_dynamic_neutral50"
+                android:textColor="#FF747679"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
