@@ -19,6 +19,7 @@
         android:hint="Email Address"
         android:inputType="textPersonName"
         android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:textColor="#FF000000"
         android:textColorHint="#A8A8A8"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,6 +38,7 @@
         android:hint="Password"
         android:inputType="textPassword"
         android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:textColor="#FF000000"
         android:textColorHint="#A8A8A8"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,13 +49,13 @@
         android:id="@+id/loginHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="SIGN IN "
+        android:textColor="#000000"
         android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.32" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <Button
         android:id="@+id/loginButton"
@@ -73,6 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="No account? Click here to create one!"
+        android:textColor="#5C5C5C"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
