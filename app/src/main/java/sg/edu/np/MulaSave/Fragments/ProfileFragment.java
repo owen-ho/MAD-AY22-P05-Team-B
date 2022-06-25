@@ -142,6 +142,14 @@ public class ProfileFragment extends Fragment {
         logoutbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MainActivity.profilePicLink = null;
+                if (MainActivity.productList != null) {
+                    MainActivity.productList.clear();
+                }
+//                if (MainActivity.homeproductList != null) {
+//                    MainActivity.homeproductList.clear();
+//                    MainActivity.homeproductList = null;
+//                }
                 FirebaseAuth.getInstance().signOut();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
