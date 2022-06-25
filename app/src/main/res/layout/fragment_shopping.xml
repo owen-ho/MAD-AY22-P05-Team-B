@@ -50,6 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#E6E6E6"
+                    android:backgroundTint="#FFFFFF"
                     android:queryHint="Type Amazon/Walmart/Ebay for demo data"
                     app:theme="@style/AppSearchView" />
             </androidx.constraintlayout.widget.ConstraintLayout>

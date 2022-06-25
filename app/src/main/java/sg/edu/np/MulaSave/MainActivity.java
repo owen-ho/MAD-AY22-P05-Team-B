@@ -34,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
         replacefragment(new HomeFragment());
 
         int intentFragment = getIntent().getExtras().getInt("frgToLoad");
-        if(intentFragment==3){
+        if(intentFragment==4){
             replacefragment(new ProfileFragment());
-            binding.bottomNavigationView.getMenu().getItem(3).setChecked(true);
+            binding.bottomNavigationView.getMenu().getItem(4).setChecked(true);
         }else{
 
         }
