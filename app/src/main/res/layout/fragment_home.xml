@@ -15,11 +15,13 @@
             android:id="@+id/cardViewGoShop"
             android:layout_width="64dp"
             android:layout_height="39dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             app:cardBackgroundColor="#E6E6E6"
             app:cardCornerRadius="15dp"
             app:cardElevation="10dp"
-            tools:layout_editor_absoluteX="24dp"
-            tools:layout_editor_absoluteY="16dp">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardViewLarge">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -46,7 +48,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView7"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="#FF0303" />
+                    app:tint="#000000" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
@@ -56,12 +58,12 @@
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="24dp"
             app:cardBackgroundColor="#E6E6E6"
             app:cardCornerRadius="15dp"
             app:cardElevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/cardViewLarge">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -98,13 +100,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             app:cardBackgroundColor="#E3E3E3"
             app:cardCornerRadius="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardViewGoShop">
+            app:layout_constraintTop_toBottomOf="@+id/imageView3">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -263,7 +265,8 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="112dp"
+            android:layout_marginBottom="12dp"
             android:text="Other trending items"
             android:textColor="#5C5C5C"
             app:layout_constraintBottom_toTopOf="@+id/cardView6"
@@ -275,8 +278,8 @@
             android:layout_height="51dp"
             android:layout_marginTop="16dp"
             android:src="@drawable/logo"
-            app:layout_constraintEnd_toStartOf="@+id/cardViewGoCom"
-            app:layout_constraintStart_toEndOf="@+id/cardViewGoShop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
