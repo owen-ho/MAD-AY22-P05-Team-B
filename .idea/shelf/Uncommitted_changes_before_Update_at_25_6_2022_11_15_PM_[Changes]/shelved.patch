@@ -1,0 +1,53 @@
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_25_6_2022_10_16_PM__Changes_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_25_6_2022_10_16_PM__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_25_6_2022_10_16_PM__Changes_.xml
+new file mode 100644
+--- /dev/null	(date 1656166618486)
++++ b/.idea/shelf/Uncommitted_changes_before_Update_at_25_6_2022_10_16_PM__Changes_.xml	(date 1656166618486)
+@@ -0,0 +1,4 @@
++<changelist name="Uncommitted_changes_before_Update_at_25_6_2022_10_16_PM_[Changes]" date="1656166613947" recycled="true" deleted="true">
++  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_25_6_2022_10_16_PM_[Changes]/shelved.patch" />
++  <option name="DESCRIPTION" value="Uncommitted changes before Update at 25/6/2022 10:16 PM [Changes]" />
++</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_25_6_2022_10_16_PM_[Changes]/shelved.patch
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_25_6_2022_10_16_PM_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_25_6_2022_10_16_PM_[Changes]/shelved.patch
+new file mode 100644
+--- /dev/null	(date 1656166613238)
++++ b/.idea/shelf/Uncommitted_changes_before_Update_at_25_6_2022_10_16_PM_[Changes]/shelved.patch	(date 1656166613238)
+@@ -0,0 +1,28 @@
++Index: .idea/deploymentTargetDropDown.xml
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/.idea/deploymentTargetDropDown.xml b/.idea/deploymentTargetDropDown.xml
++new file mode 100644
++--- /dev/null	(date 1656165586952)
+++++ b/.idea/deploymentTargetDropDown.xml	(date 1656165586952)
++@@ -0,0 +1,17 @@
+++<?xml version="1.0" encoding="UTF-8"?>
+++<project version="4">
+++  <component name="deploymentTargetDropDown">
+++    <runningDeviceTargetSelectedWithDropDown>
+++      <Target>
+++        <type value="RUNNING_DEVICE_TARGET" />
+++        <deviceKey>
+++          <Key>
+++            <type value="VIRTUAL_DEVICE_PATH" />
+++            <value value="C:\Users\qiren\.android\avd\3a_API_31-2.avd" />
+++          </Key>
+++        </deviceKey>
+++      </Target>
+++    </runningDeviceTargetSelectedWithDropDown>
+++    <timeTargetWasSelectedWithDropDown value="2022-06-25T13:59:35.627275900Z" />
+++  </component>
+++</project>
++\ No newline at end of file
