@@ -36,6 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#FFE6E6E6"
+                android:backgroundTint="#FFFFFF"
                 android:iconifiedByDefault="true"
                 android:queryHint="Search by wishlist product name"
                 app:theme="@style/AppSearchView" />

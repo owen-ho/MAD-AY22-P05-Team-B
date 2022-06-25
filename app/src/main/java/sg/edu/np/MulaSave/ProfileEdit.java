@@ -98,7 +98,7 @@ public class ProfileEdit extends AppCompatActivity {
                     }
                 }
                 Intent intent = new Intent(ProfileEdit.this,MainActivity.class);
-                intent.putExtra("frgToLoad",3); //Profile frag is the 4th fragment
+                intent.putExtra("frgToLoad",4); //Profile frag is the last fragment
                 startActivity(intent);
             }
         });

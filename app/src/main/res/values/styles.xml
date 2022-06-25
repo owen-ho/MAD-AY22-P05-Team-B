@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="AppSearchView" parent="Widget.AppCompat.SearchView" >
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">9sp</item>
+        <!--This line changes the color of text in Toolbar-->
+        <item name="android:textColorPrimary">@color/custom_gray</item>
+        <!--This line changes the color of icons in toolbar (back, overflow menu icons)-->
+        <item name="android:textColorSecondary">@color/custom_gray</item>
+        <item name="android:textColorHint">@color/custom_gray</item>
     </style>
 
 </resources>
