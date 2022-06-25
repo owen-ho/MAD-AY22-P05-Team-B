@@ -261,26 +261,6 @@ public class HomeFragment extends Fragment {
                             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
                         }
                         alertDialog.show();
-
-
-
-                        /*
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setTitle("Product Details");
-                        builder.setMessage("Title: "+p.getTitle()+'\n'+'\n'+String.format("Price: $%.2f",p.getPrice()));
-                        builder.setCancelable(false);
-                        builder.setPositiveButton("Open", new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface dialog, int id){
-                                //Opens store page for item
-                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(p.getLink()));
-                                getContext().startActivity(browserIntent);
-                            }
-                        });
-                        builder.setNegativeButton("Close", new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface dialog, int id){
-                            }
-                        });
-                        builder.show();*/
                     }
                 });
                 count+=1;

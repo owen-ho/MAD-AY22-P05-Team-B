@@ -14,12 +14,14 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewGoShop"
             android:layout_width="178dp"
-            android:layout_height="23dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             app:cardBackgroundColor="#E6E6E6"
             app:cardCornerRadius="15dp"
             app:cardElevation="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/cardViewGoCom"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardViewLarge">
 
@@ -30,11 +32,10 @@
                 <ImageView
                     android:id="@+id/imageView7"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:src="@drawable/ic_baseline_search_24"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/textView12"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"
@@ -43,11 +44,12 @@
                 <TextView
                     android:id="@+id/textView12"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:gravity="center"
                     android:text="Online Shops"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imageView7"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1.0" />
 
@@ -58,13 +60,16 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewGoCom"
             android:layout_width="171dp"
-            android:layout_height="22dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             app:cardBackgroundColor="#E6E6E6"
             app:cardCornerRadius="15dp"
             app:cardElevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/cardViewGoShop"
             app:layout_constraintTop_toBottomOf="@+id/cardViewLarge">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -74,23 +79,24 @@
                 <ImageView
                     android:id="@+id/imageView8"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="4dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:src="@drawable/ic_baseline_search_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"
-                    app:tint="#353434" />
+                    app:tint="#494444" />
 
                 <TextView
                     android:id="@+id/textView13"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:gravity="center"
                     android:text="Community"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imageView8"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -142,19 +148,18 @@
             android:id="@+id/cardView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             app:cardBackgroundColor="#E3E3E3"
             app:cardCornerRadius="15dp"
             app:layout_constraintBottom_toTopOf="@+id/cardView9"
             app:layout_constraintEnd_toStartOf="@+id/cardView5"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardViewLarge">
+            app:layout_constraintTop_toBottomOf="@+id/textView3">
 
             <ImageView
                 android:id="@+id/smallImage1"
-                android:layout_width="100dp"
-                android:layout_height="130dp"
+                android:layout_width="125dp"
+                android:layout_height="100dp"
                 android:src="@android:drawable/sym_def_app_icon"
                 android:visibility="invisible" />
         </androidx.cardview.widget.CardView>
@@ -163,19 +168,18 @@
             android:id="@+id/cardView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             app:cardBackgroundColor="#E3E3E3"
             app:cardCornerRadius="15dp"
             app:layout_constraintBottom_toTopOf="@+id/cardView8"
             app:layout_constraintEnd_toStartOf="@+id/cardView7"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/cardView6"
-            app:layout_constraintTop_toBottomOf="@+id/cardViewLarge">
+            app:layout_constraintTop_toBottomOf="@+id/textView3">
 
             <ImageView
                 android:id="@+id/smallImage2"
-                android:layout_width="100dp"
-                android:layout_height="130dp"
+                android:layout_width="125dp"
+                android:layout_height="100dp"
                 android:src="@android:drawable/sym_def_app_icon"
                 android:visibility="invisible" />
 
@@ -185,19 +189,18 @@
             android:id="@+id/cardView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             app:cardBackgroundColor="#E3E3E3"
             app:cardCornerRadius="15dp"
             app:layout_constraintBottom_toTopOf="@+id/cardView10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/cardView5"
-            app:layout_constraintTop_toBottomOf="@+id/cardViewLarge">
+            app:layout_constraintTop_toBottomOf="@+id/textView3">
 
             <ImageView
                 android:id="@+id/smallImage3"
-                android:layout_width="100dp"
-                android:layout_height="130dp"
+                android:layout_width="125dp"
+                android:layout_height="100dp"
                 android:src="@android:drawable/sym_def_app_icon"
                 android:visibility="invisible" />
         </androidx.cardview.widget.CardView>
@@ -266,12 +269,12 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="112dp"
-            android:layout_marginBottom="12dp"
-            android:text="Other trending items"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:text="Popular"
             android:textColor="#5C5C5C"
-            app:layout_constraintBottom_toTopOf="@+id/cardView6"
-            app:layout_constraintStart_toStartOf="@+id/cardView6" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardViewGoShop" />
 
         <ImageView
             android:id="@+id/imageView3"
