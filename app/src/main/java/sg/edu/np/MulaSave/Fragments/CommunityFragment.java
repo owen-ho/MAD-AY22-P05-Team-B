@@ -95,7 +95,7 @@ public class CommunityFragment extends Fragment {
             }
         });
         //set the layout
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2,GridLayoutManager.VERTICAL,false);//layout with 2 items per row
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1,GridLayoutManager.VERTICAL,false);//layout with 2 items per row
         recyclerViewUploads.setLayoutManager(gridLayoutManager);
         recyclerViewUploads.setItemAnimator(new DefaultItemAnimator());
         recyclerViewUploads.setAdapter(prodAdapter);
