@@ -78,6 +78,7 @@ public class UserInputPrice extends AppCompatActivity {
                 finish();
             }
         });
+
         submitProductbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,7 +86,6 @@ public class UserInputPrice extends AppCompatActivity {
                 if (productTitle.getText().toString().equals("") || productPrice.getText().toString().equals("")
                         || productWebsite.getText().toString().equals("") || productRating.getText().toString().equals("")){
                     Toast.makeText(UserInputPrice.this,"Please fill in all boxes",Toast.LENGTH_SHORT).show();
-
                 }
                 //check for valid numeric\decimal inputs
                 else if((!productRating.getText().toString().matches("\\d*\\.?\\d+")) || (!productPrice.getText().toString().matches("\\d*\\.?\\d+"))){
@@ -104,6 +104,8 @@ public class UserInputPrice extends AppCompatActivity {
                         storageRef.child("productpics/" + key + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
+                                submitProductbtn.setEnabled(false);
+                                submitProductbtn.setClickable(false);
                                 String productLink = "https://www.google.com/search?q=" + pw + "+" + pt;
                                 Product p = new Product(UUID.randomUUID().toString(), pt,"category", pp, uri.toString(),productLink, rating, pw);
                                 productRef.child(key).setValue(p);//add product obj to the realtime database

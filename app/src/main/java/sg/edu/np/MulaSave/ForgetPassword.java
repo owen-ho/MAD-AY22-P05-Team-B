@@ -1,6 +1,5 @@
 package sg.edu.np.MulaSave;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -44,6 +43,8 @@ public class ForgetPassword extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
+                                        forgetbutton.setEnabled(false);
+                                        forgetbutton.setClickable(false);
                                         Log.d("ForgottenPasswordEmail", "Email sent.");
                                         finish();
                                     }

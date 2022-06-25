@@ -65,6 +65,8 @@ public class LoginActivity extends AppCompatActivity {
                     email.setText("");//clear email text
                 }
                 else{//basic validation done, try creating new account
+                    loginBtn.setEnabled(false);
+                    loginBtn.setClickable(false);
                     signIn(email.getText().toString(),password.getText().toString());
                 }
             }
