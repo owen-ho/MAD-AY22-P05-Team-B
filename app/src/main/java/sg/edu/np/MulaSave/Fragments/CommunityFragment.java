@@ -167,7 +167,7 @@ public class CommunityFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot ss : snapshot.getChildren()){
                             Product p = ss.getValue(Product.class);
-                            if(p.getTitle().toString().toLowerCase().contains(s)){
+                            if(p.getTitle().toString().toLowerCase().contains(s.toLowerCase())){
                                 productList.add(p);//add all the products from search
                             }
                         }

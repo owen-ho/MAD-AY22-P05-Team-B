@@ -31,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import sg.edu.np.MulaSave.Product;
 import sg.edu.np.MulaSave.R;
@@ -164,7 +165,7 @@ public class WishlishFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot ss : snapshot.getChildren()){
                             Product product = ss.getValue(Product.class);
-                            if (product.getTitle().toString().toLowerCase().contains(s)){//see if product title contains seach
+                            if (product.getTitle().toString().toLowerCase().contains(s.toLowerCase())){//see if product title contains seach
                                 wProdList.add(product);
                             }
                         }
