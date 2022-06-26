@@ -212,7 +212,7 @@ public class HomeFragment extends Fragment {
 
                                         //custom dialog for removing of wishlist item
                                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                        View vw = LayoutInflater.from(getContext()).inflate(R.layout.remove_wislist,null, false);
+                                        View vw = LayoutInflater.from(getContext()).inflate(R.layout.remove_wislist,null, false);//inflate view
                                         builder.setView(vw);
                                         ImageView pic = vw.findViewById(R.id.wishlistPic);
                                         Uri newUri = Uri.parse(p.getImageUrl());

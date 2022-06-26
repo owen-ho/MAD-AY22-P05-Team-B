@@ -44,13 +44,12 @@ public class ShoppingFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ProgressDialog progressDialog;
-    private ProgressDialog pd;
     private ArrayList<Product> productList = MainActivity.productList;
 
     public ShoppingFragment() {
     }
 
-    public static ShoppingFragment newInstance(String param1, String param2) {
+    public static ShoppingFragment newInstance() {
         ShoppingFragment fragment = new ShoppingFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -130,7 +129,7 @@ public class ShoppingFragment extends Fragment {
                 set.connect(R.id.shoppingSearchCard, ConstraintSet.START,R.id.shoppingConstraintLayout,ConstraintSet.START,0);
                 set.connect(R.id.shoppingSearchCard, ConstraintSet.END,R.id.shoppingConstraintLayout,ConstraintSet.END,0);
 
-                Resources r = getView().getResources();
+                Resources r = getView().getResources();//set margin in dp
                 int dp = (int) TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         8,
@@ -183,7 +182,7 @@ public class ShoppingFragment extends Fragment {
                     }
                 });
             }
-        }
+        }//end of bundle
     }
 
     @Override
