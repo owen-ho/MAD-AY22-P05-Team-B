@@ -66,8 +66,6 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this,"Please ensure password is at least 6 characters",Toast.LENGTH_SHORT).show();
                 }
                 else{//basic validation done, try creating new account
-                    registerBtn.setEnabled(false);
-                    registerBtn.setClickable(false);
                     createAccount(email.getText().toString(),password.getText().toString(),Username.getText().toString());
                 }
             }
