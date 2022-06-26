@@ -1,6 +1,5 @@
 package sg.edu.np.MulaSave;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -46,7 +45,8 @@ public class ProfileEdit extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(user!=null){
-                    if(!username.getText().toString().equals("")){
+                    if(!username.getText().toString().equals("")){//Check if username is changed
+                        //Changes username in realtime db
                         userRef.child(user.getUid()).child("username").setValue(username.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -68,7 +68,7 @@ public class ProfileEdit extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    if(!password.getText().toString().equals("")){
+                                    if(!password.getText().toString().equals("")){//Change password after changing the email if user wants to change both, put under onComplete as this is async task
                                         changePassword(user,password.getText().toString());
                                     }
                                     //Toast.makeText(changinginfo.this, "email updated", Toast.LENGTH_SHORT).show();
@@ -97,13 +97,12 @@ public class ProfileEdit extends AppCompatActivity {
                         changePassword(user,password.getText().toString());
                     }
                 }
-                Intent intent = new Intent(ProfileEdit.this,MainActivity.class);
-                intent.putExtra("frgToLoad",4); //Profile frag is the last fragment
-                startActivity(intent);
+                finish();//To send the user back to the profile fragment after updating details
             }
         });
     }
     private void changePassword(FirebaseUser user, String newPassword){
+        //Changes password in firebase auth
         user.updatePassword(newPassword)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

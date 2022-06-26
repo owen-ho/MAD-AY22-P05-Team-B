@@ -1,6 +1,5 @@
 package sg.edu.np.MulaSave;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -47,7 +45,7 @@ public class SelectProfilePic extends AppCompatActivity {
                 //upload to firebase
                 if(type != null){
                     if(type.equals("product")) {
-                        uploadProductPic(pfpUri, key);
+                        uploadProductPic(pfpUri, key);//Upload product images to a different path in firebase storage
                     }
                 }
                 else{

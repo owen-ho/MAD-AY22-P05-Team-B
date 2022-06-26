@@ -30,7 +30,7 @@ public class UserInputPrice extends AppCompatActivity {
     FirebaseStorage storage = FirebaseStorage.getInstance("gs://mad-ay22-p05-team-b.appspot.com/");
     StorageReference storageRef = storage.getReference();
     int SELECT_PICTURE = 200;
-    String key = productRef.push().getKey();
+    String key = productRef.push().getKey();//To get a unique key to identify products uploaded
 
     String imagelink;
 
@@ -55,7 +55,7 @@ public class UserInputPrice extends AppCompatActivity {
             }
         });
 
-        refreshBtn.setOnClickListener(new View.OnClickListener() {
+        refreshBtn.setOnClickListener(new View.OnClickListener() { //Click to check if image is uploaded by loading it from firebase storage
             @Override
             public void onClick(View view) {
                 storageRef.child("productpics/" + key + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -63,7 +63,7 @@ public class UserInputPrice extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         Picasso.get().load(uri).into(productPic);
                     }
-                }).addOnFailureListener(new OnFailureListener() {//file does not exist
+                }).addOnFailureListener(new OnFailureListener() {//Happens when file does not exist
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(UserInputPrice.this, "You have not uploaded a photo yet!",Toast.LENGTH_SHORT).show();
@@ -104,7 +104,7 @@ public class UserInputPrice extends AppCompatActivity {
                         storageRef.child("productpics/" + key + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                submitProductbtn.setEnabled(false);
+                                submitProductbtn.setEnabled(false);//Prevent uploading of repeated products
                                 submitProductbtn.setClickable(false);
                                 String productLink = "https://www.google.com/search?q=" + pw + "+" + pt;
                                 Product p = new Product(UUID.randomUUID().toString(), pt,"category", pp, uri.toString(),productLink, rating, pw);
@@ -162,7 +162,7 @@ public class UserInputPrice extends AppCompatActivity {
                     Intent i = new Intent(this,SelectProfilePic.class);
                     i.putExtra("path",pfpUri.toString());
                     i.putExtra("type","product");
-                    i.putExtra("key",key);
+                    i.putExtra("key",key);//To identify the image when uploading
                     startActivity(i);
                 }
             }

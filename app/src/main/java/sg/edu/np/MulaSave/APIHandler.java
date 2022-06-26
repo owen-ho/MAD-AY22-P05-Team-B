@@ -20,9 +20,11 @@ public class APIHandler {
     public String httpServiceCall(String requestUrl){
         String result=null;
         try{
+            //Reads inputted URL based on API chosen and establishes connection
             URL url = new URL(requestUrl);
             URLConnection connection = url.openConnection();
 
+            //Use InputStream to read information from URL
             InputStream inputStream = new BufferedInputStream(connection.getInputStream());
             result = convertResultToString(inputStream);
         }catch (MalformedURLException e){
@@ -43,7 +45,7 @@ public class APIHandler {
 
         while (true){
             try{
-                if ((li = bufferedReader.readLine()) != null){
+                if ((li = bufferedReader.readLine()) != null){//Reads data line by line to add to a string
                     stringBuilder.append(li);
                 }
             }catch (IOException e){

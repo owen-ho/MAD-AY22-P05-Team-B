@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
@@ -45,7 +44,7 @@ public class ShoppingFragment extends Fragment {
     private RecyclerView recyclerView;
     private ProgressDialog progressDialog;
     private ProgressDialog pd;
-    private ArrayList<Product> productList = MainActivity.productList;
+    private ArrayList<Product> productList = MainActivity.productList;//Take previously loaded productList
 
     public ShoppingFragment() {
     }
@@ -76,16 +75,16 @@ public class ShoppingFragment extends Fragment {
 
         //productList = new ArrayList<Product>();
         SearchView query = view.findViewById(R.id.searchQuery);
-        if (productList!=null) {
+        if (productList!=null) {//Checks for previously loaded productList to display
             if(productList.size()!=0){
                 ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),1);
                 recyclerView.setAdapter(pAdapter);
             }
         }
-        query.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        query.setOnQueryTextListener(new SearchView.OnQueryTextListener() { //Grab products from API whenever a query is submitted
             @Override
             public boolean onQueryTextSubmit(String s) {
-                productList = new ArrayList<Product>();
+                productList = new ArrayList<Product>();//Create new list to clear previously loaded products for new query
                 new getProducts(s,productList,view).execute();
                 return true;
             }
@@ -225,6 +224,7 @@ public class ShoppingFragment extends Fragment {
                 progressDialog.dismiss();
             }
 
+            //Sorts products by price from lowest to highest
             Collections.sort(productList, new Comparator<Product>() {
                 @Override
                 public int compare(Product prod1, Product prod2) {
@@ -232,8 +232,10 @@ public class ShoppingFragment extends Fragment {
                 }
             });
 
+            //Updates MainActivity's productList so that the list will not be destroyed alongside fragment and stays persistent
             MainActivity.productList = productList;
 
+            //Display products with productList generated based on user's query
             ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),1);
             recyclerView.setAdapter(pAdapter);
         }
@@ -251,7 +253,7 @@ public class ShoppingFragment extends Fragment {
         protected Void doInBackground(Void... voids) {
             String[] apiList = new String[] {"walmart","amazon","ebay"};//Amazon API uses demo as our API has expired, it will only query for memory cards
             for (String i:apiList){
-                String url = getAPIlink(query,i); //Find URL link by processing through template based on online shopping site used, this is so the correct API & API keys are used
+                String url = getAPIlink(query,i); //Finds URL link by processing through template based on online shopping site used, this is so the correct API & API keys are used
                 loadJsonfromUrl(url,i); //Loads json using URL query and extracts Product details from Json
             }
             return null;
@@ -262,7 +264,7 @@ public class ShoppingFragment extends Fragment {
             String apikey;
             query = query.replace(" ","+");
 
-            if(query.toLowerCase().contains("walmart")){  //Allow use of demo APIs for demo purposes
+            if(query.toLowerCase().contains("walmart")){  //Allow use of demo APIs for demo purposes so that API requests are not wasted in testing
                 url = "https://api.bluecartapi.com/request?api_key=demo&type=search&search_term=highlighter+pens&sort_by=best_seller";
             }
             else if(query.toLowerCase().contains("amazon")){
@@ -302,11 +304,11 @@ public class ShoppingFragment extends Fragment {
 
         private void loadJsonfromUrl(String url, String website){
             APIHandler handler = new APIHandler();
-            String jsonString = handler.httpServiceCall(url);
-            Log.d("JSONInput",jsonString);
+            String jsonString = handler.httpServiceCall(url);//Loads API Json into a string
+            Log.d("JSONInput",jsonString);//Check for success of pulling products from API and also number of requests left
             if (jsonString!=null){
                 try {
-                    JSONObject jsonObject = new JSONObject(jsonString);
+                    JSONObject jsonObject = new JSONObject(jsonString);//Convert string to JSONObject to extract specific data
                     JSONArray products = jsonObject.getJSONArray("search_results");
                     for(int i=0;i<products.length();i++) {
                         JSONObject jsonObject1 = products.getJSONObject(i);
@@ -317,7 +319,7 @@ public class ShoppingFragment extends Fragment {
                         Double price = 0.0;
 
                         float ratingF = 0;
-                        if (website.toLowerCase().equals("walmart")) {
+                        if (website.toLowerCase().equals("walmart")) {//Product Json format of Walmart API is different from Amazon & Ebay, so it is done separately
                             JSONObject productObject = jsonObject1.getJSONObject("product");
                             title = productObject.getString("title");
                             image = productObject.getString("main_image");
@@ -346,23 +348,27 @@ public class ShoppingFragment extends Fragment {
                         productList.add(new Product("asin", title, "category", price, image, link, ratingF, website));
                     }
                 } catch (JSONException e) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Toast.makeText(getContext(),"Json Parsing Error",Toast.LENGTH_LONG).show();
-                            Log.i("error","Json Parsing Error");
-                        }
-                    });
+                    if(isAdded()){
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Toast.makeText(getContext(),"Json Parsing Error",Toast.LENGTH_LONG).show();
+                                Log.i("error","Json Parsing Error");
+                            }
+                        });
+                    }
                 }
             }
             else{
                 Toast.makeText(getContext(),"Server error",Toast.LENGTH_LONG).show();
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getContext(),"Server Error",Toast.LENGTH_LONG).show();
-                    }
-                });
+                if(isAdded()){
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getContext(),"Server Error",Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
             }
         }
 

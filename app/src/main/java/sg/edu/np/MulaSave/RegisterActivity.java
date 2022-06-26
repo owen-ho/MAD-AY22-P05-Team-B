@@ -91,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                             u.uid = user.getUid();
                             u.email = user.getEmail();
                             u.username = Username;
-                            userRef.child(u.uid).setValue(u);
+                            userRef.child(u.uid).setValue(u);//Write user into realtime db
 
                             Intent i = new Intent(RegisterActivity.this,MainActivity.class);
                             assert user != null;
