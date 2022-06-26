@@ -30,12 +30,18 @@ A shopping guide app that lets users look up and compare prices of what they wan
 
 ## Relevant appendices
 
-### Screenshots![Screenshot 2022-06-27 003011](https://user-images.githubusercontent.com/104065272/175824341-aff0db17-b35f-4231-95aa-bbf86f975fc4.png)
+### Screenshots!
 
-![login](https://user-images.githubusercontent.com/93632887/174599715-160faacc-4feb-4abb-8c21-34d30d8eaf98.png)
+Login & Register
+![login](https://user-images.githubusercontent.com/104065272/175824760-c2f77125-2f83-4613-9ac9-d7ebdfa7b67d.png)
 
-![home](https://user-images.githubusercontent.com/93632887/174599666-c1a9f7ad-ea64-4ccf-94ba-5fd361320416.png)
+![register](https://user-images.githubusercontent.com/104065272/175824765-e0455aeb-c7bb-41c8-8785-18b30b013e38.png)
 
-![shopping](https://user-images.githubusercontent.com/93632887/174599740-c806167d-6add-468d-b018-54288e88f8a6.png)
+Forget Password
+![forgotPassword](https://user-images.githubusercontent.com/104065272/175824801-43a08b4b-27a5-411f-ae87-c627a5f05dc1.png)
 
-![wishlist](https://user-images.githubusercontent.com/93632887/174599747-a9f3b04a-4bbd-4eb9-9637-9fabcf8f3647.png)
+
+
+Home Page
+![homePage](https://user-images.githubusercontent.com/104065272/175824791-53e72d79-0741-44ef-b745-ef862397f3c7.png)
+
