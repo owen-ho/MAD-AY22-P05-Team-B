@@ -24,7 +24,7 @@ A shopping guide app that lets users look up and compare prices of what they wan
 | Ho Shang Luen Owen  | Developer/Team Leader | Delegation of tasks, Integrations of product APIs and Firebase |
 | Phua Cheng Ann  | Developer/UI Designer  | Designing of sign in and sign out layouts, Coding of Product input by users and forgot password |
 | Chong Ke Wei Joby | Developer/UI Designer | Designing and coding of Profile fragment and Product input by users|
-| Ho Qi Ren | Developer | Wishlist fragment, SearchView, CardView RecyclerViews, Custom Dialogs & Layouts |
+| Ho Qi Ren | Developer | Wishlist fragment, SearchView, CardView RecyclerViews & Filters, Custom Dialogs & Layouts |
 | Owg Jun Xian | Developer | Implementation of fragments and editing of profile page |
 
 
