@@ -32,7 +32,7 @@ A shopping guide app that lets users look up and compare prices of what they wan
 
 ### Screenshots!
 
-##### Login & Register
+#### Login & Register
 ![login](https://user-images.githubusercontent.com/104065272/175824760-c2f77125-2f83-4613-9ac9-d7ebdfa7b67d.png)
 ![register](https://user-images.githubusercontent.com/104065272/175824765-e0455aeb-c7bb-41c8-8785-18b30b013e38.png)
 
