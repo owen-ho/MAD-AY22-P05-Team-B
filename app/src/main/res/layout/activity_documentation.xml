@@ -33,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
+                android:textColor="#5C5C5C"
                 android:text="Shopping Page"
                 android:textAllCaps="true"
                 android:textSize="16sp"
