@@ -29,6 +29,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import sg.edu.np.MulaSave.Documentation;
 import sg.edu.np.MulaSave.LoginActivity;
 import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.R;
@@ -84,6 +85,8 @@ public class ProfileFragment extends Fragment {
         ImageView infobutton = view.findViewById(R.id.changeinfo);
         Button logoutbutton = view.findViewById(R.id.logoutBtn);
 
+        ImageView documentation = view.findViewById(R.id.infoDocumentation);
+
         //load this as the default picture first
         if (profilePicLink!=null) {
             Picasso.get().load(profilePicLink).into(profilepic);
@@ -130,6 +133,14 @@ public class ProfileFragment extends Fragment {
         }else{
 
         }
+
+        documentation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), Documentation.class);
+                startActivity(intent);
+            }
+        });
 
         infobutton.setOnClickListener(new View.OnClickListener() {
             @Override
