@@ -43,8 +43,6 @@ public class ForgetPassword extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        forgetbutton.setEnabled(false);
-                                        forgetbutton.setClickable(false);
                                         Log.d("ForgottenPasswordEmail", "Email sent.");
                                         finish();
                                     }
