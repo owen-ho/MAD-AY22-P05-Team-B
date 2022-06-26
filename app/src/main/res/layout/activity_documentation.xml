@@ -378,9 +378,9 @@
 
             <ImageView
                 android:id="@+id/imageView9"
-                android:layout_width="221dp"
-                android:layout_height="41dp"
-                android:layout_marginTop="4dp"
+                android:layout_width="273dp"
+                android:layout_height="49dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -394,7 +394,7 @@
                 android:text="User Guide"
                 android:textAllCaps="true"
                 android:textColor="#404040"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.476"
