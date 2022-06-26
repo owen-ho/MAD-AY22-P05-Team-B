@@ -30,7 +30,8 @@ A shopping guide app that lets users look up and compare prices of what they wan
 
 ## Relevant appendices
 
-### Screenshots
+### Screenshots![Screenshot 2022-06-27 003011](https://user-images.githubusercontent.com/104065272/175824341-aff0db17-b35f-4231-95aa-bbf86f975fc4.png)
+
 ![login](https://user-images.githubusercontent.com/93632887/174599715-160faacc-4feb-4abb-8c21-34d30d8eaf98.png)
 
 ![home](https://user-images.githubusercontent.com/93632887/174599666-c1a9f7ad-ea64-4ccf-94ba-5fd361320416.png)
