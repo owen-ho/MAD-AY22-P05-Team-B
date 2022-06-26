@@ -69,9 +69,6 @@ public class SelectProfilePic extends AppCompatActivity {
     private void uploadPic(Uri uri){
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading Image....");
-        progressDialog.show();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user!=null){
@@ -82,22 +79,13 @@ public class SelectProfilePic extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressDialog.dismiss();
                             Toast.makeText(SelectProfilePic.this,"Upload Success! Refresh to see changes",Toast.LENGTH_SHORT).show();//to show at the bottom of the screen when pic uploaded
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
                             Toast.makeText(SelectProfilePic.this,"Upload failed, try again later",Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                            double percentage = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                            progressDialog.setMessage("Progress: " + (int) percentage + "%");
                         }
                     });
         }

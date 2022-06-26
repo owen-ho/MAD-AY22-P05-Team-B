@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     public static ArrayList<Product> productList;
     public static ArrayList<Product> homeproductList;
+    public static String profilePicLink;
     private ProgressDialog progressDialog;
 
     @Override

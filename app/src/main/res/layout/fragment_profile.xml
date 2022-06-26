@@ -182,6 +182,15 @@
 
         </androidx.cardview.widget.CardView>
 
+        <ImageView
+            android:id="@+id/infoDocumentation"
+            android:layout_width="44dp"
+            android:layout_height="39dp"
+            android:layout_marginStart="2dp"
+            android:src="@android:drawable/ic_menu_info_details"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

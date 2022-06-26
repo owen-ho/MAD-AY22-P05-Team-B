@@ -12,22 +12,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.P05TeamB">
         <activity
-            android:name="sg.edu.np.MulaSave.ForgetPassword"
+            android:name=".Documentation"
             android:exported="false" />
         <activity
-            android:name="sg.edu.np.MulaSave.UserInputPrice"
+            android:name=".ForgetPassword"
             android:exported="false" />
         <activity
-            android:name="sg.edu.np.MulaSave.SelectProfilePic"
+            android:name=".UserInputPrice"
             android:exported="false" />
         <activity
-            android:name="sg.edu.np.MulaSave.ProfileEdit"
+            android:name=".SelectProfilePic"
             android:exported="false" />
         <activity
-            android:name="sg.edu.np.MulaSave.RegisterActivity"
+            android:name=".ProfileEdit"
             android:exported="false" />
         <activity
-            android:name="sg.edu.np.MulaSave.LoginActivity"
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="sg.edu.np.MulaSave.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -29,7 +29,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import sg.edu.np.MulaSave.Documentation;
 import sg.edu.np.MulaSave.LoginActivity;
+import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.SelectProfilePic;
 import sg.edu.np.MulaSave.ProfileEdit;
@@ -37,6 +39,8 @@ import sg.edu.np.MulaSave.ProfileEdit;
 public class ProfileFragment extends Fragment {
 
     int SELECT_PICTURE = 200;
+    private String profilePicLink = MainActivity.profilePicLink;
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -81,8 +85,15 @@ public class ProfileFragment extends Fragment {
         ImageView infobutton = view.findViewById(R.id.changeinfo);
         Button logoutbutton = view.findViewById(R.id.logoutBtn);
 
+        ImageView documentation = view.findViewById(R.id.infoDocumentation);
+
         //load this as the default picture first
-        Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").into(profilepic);
+        if (profilePicLink!=null) {
+            Picasso.get().load(profilePicLink).into(profilepic);
+        }else{
+            Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").into(profilepic);
+        }
+
 
         if (user!=null){
             userRef.addValueEventListener(new ValueEventListener() {
@@ -103,6 +114,7 @@ public class ProfileFragment extends Fragment {
                         @Override
                         public void onSuccess(Uri uri) {//user has set a profile picture before
                             Picasso.get().load(uri).into(profilepic);
+                            MainActivity.profilePicLink = uri.toString();
                         }
                     }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
                         @Override
@@ -110,7 +122,7 @@ public class ProfileFragment extends Fragment {
 
                         }
                     });
-                    profilepic.setVisibility(View.VISIBLE);//set to visible from deafault of invisible
+                    profilepic.setVisibility(View.VISIBLE);//set to visible from default of invisible
                 }
 
                 @Override
@@ -121,6 +133,14 @@ public class ProfileFragment extends Fragment {
         }else{
 
         }
+
+        documentation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), Documentation.class);
+                startActivity(intent);
+            }
+        });
 
         infobutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +153,14 @@ public class ProfileFragment extends Fragment {
         logoutbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MainActivity.profilePicLink = null;
+                if (MainActivity.productList != null) {
+                    MainActivity.productList.clear();
+                }
+//                if (MainActivity.homeproductList != null) {
+//                    MainActivity.homeproductList.clear();
+//                    MainActivity.homeproductList = null;
+//                }
                 FirebaseAuth.getInstance().signOut();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
