@@ -37,7 +37,7 @@ public class ForgetPassword extends AppCompatActivity {
         forgetbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try{
+                try{//For input validation
                     auth.sendPasswordResetEmail(email.getText().toString())
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

@@ -153,8 +153,8 @@ public class ProfileFragment extends Fragment {
         logoutbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.profilePicLink = null;
-                if (MainActivity.productList != null) {
+                MainActivity.profilePicLink = null;//Clear profilepic so that new user's profilepic is loaded instead
+                if (MainActivity.productList != null) {//Clear productist so that previous user's queries are not seen
                     MainActivity.productList.clear();
                 }
 //                if (MainActivity.homeproductList != null) {
