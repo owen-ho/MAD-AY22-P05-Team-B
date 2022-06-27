@@ -50,7 +50,7 @@ public class ProfileEdit extends AppCompatActivity {
             public void onClick(View view) {
                 finishAct = true; //condition to determine the activity finishes, if user inputs are valid, activity will finish
                 if(user!=null){//ensure user is logged in
-                    if(!username.getText().toString().equals("")){
+                    if(!username.getText().toString().equals("")){//check for changes in username
                         userRef.child(user.getUid()).child("username").setValue(username.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -66,7 +66,7 @@ public class ProfileEdit extends AppCompatActivity {
                             }
                         });
                     }
-                    if (!email.getText().toString().equals("")){
+                    if (!email.getText().toString().equals("")){//check for changes in email
                         if ((Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches())){//ensure format is email
                             //update email in firebase auth
                             user.updateEmail(email.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -75,7 +75,7 @@ public class ProfileEdit extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         if(!password.getText().toString().equals("")){
                                             changePassword(user,password.getText().toString());
-                                            finishAct = false;
+                                            finishAct = false;//set the condition to false since there are errors with changes
                                         }
                                         //Toast.makeText(changinginfo.this, "email updated", Toast.LENGTH_SHORT).show();
                                     }
@@ -104,23 +104,23 @@ public class ProfileEdit extends AppCompatActivity {
                             Toast.makeText(ProfileEdit.this,"Enter a valid email",Toast.LENGTH_SHORT).show();
                         }
                     }//end of change email
-                    if (!password.getText().toString().equals("")){
+                    if (!password.getText().toString().equals("")){//if user wants to change password
                         changePassword(user,password.getText().toString());
                     }
                 }
                 //ensure that there are fields changed
                 if (finishAct == true && !username.getText().toString().equals("") && !email.getText().toString().equals("") && !password.getText().toString().equals("")){
                     Toast.makeText(ProfileEdit.this, "Changes Updated!", Toast.LENGTH_SHORT).show();
-                    finish();
+                    finish();//To send the user back to the profile fragment after updating details
                 }
                 //no inputs at all
                 if (username.getText().toString().equals("") && email.getText().toString().equals("") && password.getText().toString().equals("")){
-                    Toast.makeText(ProfileEdit.this, "No changes found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileEdit.this, "No changes found", Toast.LENGTH_SHORT).show();//toast message to notify no inputs
                 }
             }
-        });
+        });//end of onclick
     }
-    private void changePassword(FirebaseUser user, String newPassword){
+    private void changePassword(FirebaseUser user, String newPassword){//change password in firebase auth
         user.updatePassword(newPassword)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
