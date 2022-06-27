@@ -80,7 +80,7 @@ public class ShoppingFragment extends Fragment {
             if(productList.size()!=0){
                 ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),1);
                 //WishList Filters
-                recyclerViewFilter = view.findViewById(R.id.recyclerFilter);
+                recyclerViewFilter = view.findViewById(R.id.shoppingFilter);
                 wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(getView(),pAdapter,productList,3);
 
                 //Layout manager for filters recyclerview
