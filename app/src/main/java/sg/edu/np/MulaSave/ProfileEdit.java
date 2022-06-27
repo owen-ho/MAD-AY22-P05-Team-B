@@ -1,6 +1,5 @@
 package sg.edu.np.MulaSave;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -77,24 +76,23 @@ public class ProfileEdit extends AppCompatActivity {
                                             changePassword(user,password.getText().toString());
                                             finishAct = false;//set the condition to false since there are errors with changes
                                         }
+                                        //update email in realtime db
+                                        userRef.child(user.getUid()).child("email").setValue(email.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    //Toast.makeText(changinginfo.this, "realtime db email updated", Toast.LENGTH_SHORT).show();
+                                                    finish();
+                                                }else{
+                                                    try{
+                                                        throw Objects.requireNonNull(task.getException());
+                                                    }catch(Exception e){
+                                                        Log.e("email",e.toString());
+                                                    }
+                                                }
+                                            }
+                                        });
                                         //Toast.makeText(changinginfo.this, "email updated", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-
-                            //update email in realtime db
-                            userRef.child(user.getUid()).child("email").setValue(email.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        //Toast.makeText(changinginfo.this, "realtime db email updated", Toast.LENGTH_SHORT).show();
-
-                                    }else{
-                                        try{
-                                            throw Objects.requireNonNull(task.getException());
-                                        }catch(Exception e){
-                                            Log.e("email",e.toString());
-                                        }
                                     }
                                 }
                             });
@@ -104,7 +102,7 @@ public class ProfileEdit extends AppCompatActivity {
                             Toast.makeText(ProfileEdit.this,"Enter a valid email",Toast.LENGTH_SHORT).show();
                         }
                     }//end of change email
-                    if (!password.getText().toString().equals("")){//if user wants to change password
+                    else if (!password.getText().toString().equals("")){//if user wants to change password
                         changePassword(user,password.getText().toString());
                     }
                 }
