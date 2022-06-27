@@ -82,7 +82,6 @@ public class ProfileEdit extends AppCompatActivity {
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
                                                     //Toast.makeText(changinginfo.this, "realtime db email updated", Toast.LENGTH_SHORT).show();
-                                                    finish();
                                                 }else{
                                                     try{
                                                         throw Objects.requireNonNull(task.getException());
@@ -107,7 +106,10 @@ public class ProfileEdit extends AppCompatActivity {
                     }
                 }
                 //ensure that there are fields changed
-                if (finishAct == true && !username.getText().toString().equals("") && !email.getText().toString().equals("") && !password.getText().toString().equals("")){
+                if (!username.getText().toString().equals("") && !email.getText().toString().equals("") && !password.getText().toString().equals("")){
+                    finishAct = true;
+                }
+                if (finishAct == true){
                     Toast.makeText(ProfileEdit.this, "Changes Updated!", Toast.LENGTH_SHORT).show();
                     finish();//To send the user back to the profile fragment after updating details
                 }
