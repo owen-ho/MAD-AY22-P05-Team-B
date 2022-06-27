@@ -212,7 +212,7 @@ public class CommunityFragment extends Fragment {
             }
         });
         //WishList Filters
-        recyclerViewFilterUploads = view.findViewById(R.id.uploadsFilter);
+        recyclerViewFilterUploads = view.findViewById(R.id.communityFilter);
         wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(getView(),prodAdapter,productList,2);
 
         //Layout manager for filters recyclerview

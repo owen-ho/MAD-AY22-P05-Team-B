@@ -22,7 +22,9 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
@@ -30,19 +32,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import sg.edu.np.MulaSave.APIHandler;
 import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.Product;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.ShoppingRecyclerAdapter;
+import sg.edu.np.MulaSave.wishlistFilterAdapter;
 
 public class ShoppingFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ProgressDialog progressDialog;
+    RecyclerView recyclerViewFilter;
     private ArrayList<Product> productList = MainActivity.productList;//Take previously loaded productList
 
     public ShoppingFragment() {
@@ -77,6 +79,15 @@ public class ShoppingFragment extends Fragment {
         if (productList!=null) {//Checks for previously loaded productList to display
             if(productList.size()!=0){
                 ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),1);
+                //WishList Filters
+                recyclerViewFilter = view.findViewById(R.id.recyclerFilter);
+                wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(getView(),pAdapter,productList,3);
+
+                //Layout manager for filters recyclerview
+                LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);//set horizontal layout
+                recyclerViewFilter.setLayoutManager(hLayoutManager);
+                recyclerViewFilter.setItemAnimator(new DefaultItemAnimator());
+                recyclerViewFilter.setAdapter(wFilterAdapter);//set adapter for wishlist filters
                 recyclerView.setAdapter(pAdapter);
             }
         }
@@ -214,19 +225,20 @@ public class ShoppingFragment extends Fragment {
                 progressDialog.dismiss();
             }
 
-            //Sorts products by price from lowest to highest
-            Collections.sort(productList, new Comparator<Product>() {
-                @Override
-                public int compare(Product prod1, Product prod2) {
-                    return Double.valueOf(prod1.getPrice()).compareTo(Double.valueOf(prod2.getPrice()));
-                }
-            });
-
             //Updates MainActivity's productList so that the list will not be destroyed alongside fragment and stays persistent
             MainActivity.productList = productList;
 
             //Display products with productList generated based on user's query
             ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),1);
+            //WishList Filters
+            recyclerViewFilter = view.findViewById(R.id.shoppingFilter);
+            wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(getView(),pAdapter,productList,3);
+
+            //Layout manager for filters recyclerview
+            LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);//set horizontal layout
+            recyclerViewFilter.setLayoutManager(hLayoutManager);
+            recyclerViewFilter.setItemAnimator(new DefaultItemAnimator());
+            recyclerViewFilter.setAdapter(wFilterAdapter);//set adapter for wishlist filters
             recyclerView.setAdapter(pAdapter);
         }
 

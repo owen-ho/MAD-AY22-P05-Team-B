@@ -1,6 +1,5 @@
 package sg.edu.np.MulaSave;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,21 +10,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -43,6 +38,7 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
     int wishOrCom;
     //1 = wishlist view
     //2 = uploads view
+    //3 = shopping view
 
     public wishlistFilterAdapter(View _view, ShoppingRecyclerAdapter _wishlistAdapter, ArrayList<Product> _wProdList,int _wishOrCom){
         this.view = _view;
@@ -71,6 +67,10 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
         if(wishOrCom == 1){
             path = "/user/" + usr.getUid().toString()+"/wishlist";//get the path to database
             searchView = view.findViewById(R.id.wishSearch);//get the corresponding searchview
+        }
+        else if(wishOrCom == 3){
+            path = "shopping";
+            searchView = view.findViewById(R.id.searchQuery);
         }
         else{
             path = "/product";
@@ -102,49 +102,80 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
                 searchView.setIconified(true);//second time is to close the searchview
                 //if there are no inputs, the first line will close the searchview but the second line will not crash
 
-                database.getReference(path).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        wProdList.clear();//clear list
-                        for (DataSnapshot ss : snapshot.getChildren()){
-                            Product product = ss.getValue(Product.class);
-                            wProdList.add(product);
-                        }
-                        if (s.equals("Default")){
-                            //dont sort
-                        }
-                        else if (s.equals("Price [Low - High]")){//sorting price low to high
-                            Collections.sort(wProdList,productPriceLowHigh);
-                        }
-                        else if (s.equals("Price [High - Low]")){//sorting price high to low
-                            Collections.sort(wProdList,productPriceHighLow);
-                        }
-                        else if (s.equals("Name [a - z]")){//sorting title a to z
-                            Collections.sort(wProdList,productNameAZComparator);
-                        }
-                        else if (s.equals("Name [z - a]")){//sorting title z to a
-                            Collections.sort(wProdList,productNameZAComparator);
-                        }
-                        else if (s.equals("Rating [Low - High]")){//sort rating from low to high
-                            Collections.sort(wProdList,productRatingLowHigh);
-                        }
-                        else if (s.equals("Rating [High - Low]")){//sort rating from high to low
-                            Collections.sort(wProdList,productRatingHighLow);
-                        }
-                        //index = holder.getAdapterPosition();
-                        for(CardView cardView : cardList){
-                            cardView.setCardBackgroundColor(Color.parseColor("#D8D8D8"));//set inactive (gray)
-                        }
-                        holder.filterCard.setCardBackgroundColor(Color.parseColor("#fdb915"));//set active
-                        wishlistAdapter.notifyDataSetChanged();
-
+                if (path=="shopping"){
+                    if (s.equals("Default")){
+                        //dont sort
                     }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.w("error", "loadPost:onCancelled", error.toException());
+                    else if (s.equals("Price [Low - High]")){//sorting price low to high
+                        Collections.sort(wProdList,productPriceLowHigh);
                     }
-                });
+                    else if (s.equals("Price [High - Low]")){//sorting price high to low
+                        Collections.sort(wProdList,productPriceHighLow);
+                    }
+                    else if (s.equals("Name [a - z]")){//sorting title a to z
+                        Collections.sort(wProdList,productNameAZComparator);
+                    }
+                    else if (s.equals("Name [z - a]")){//sorting title z to a
+                        Collections.sort(wProdList,productNameZAComparator);
+                    }
+                    else if (s.equals("Rating [Low - High]")){//sort rating from low to high
+                        Collections.sort(wProdList,productRatingLowHigh);
+                    }
+                    else if (s.equals("Rating [High - Low]")){//sort rating from high to low
+                        Collections.sort(wProdList,productRatingHighLow);
+                    }
+                    //index = holder.getAdapterPosition();
+                    for(CardView cardView : cardList){
+                        cardView.setCardBackgroundColor(Color.parseColor("#D8D8D8"));//set inactive (gray)
+                    }
+                    holder.filterCard.setCardBackgroundColor(Color.parseColor("#fdb915"));//set active
+                    wishlistAdapter.notifyDataSetChanged();
+                }
+                else{
+                    database.getReference(path).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            wProdList.clear();//clear list
+                            for (DataSnapshot ss : snapshot.getChildren()){
+                                Product product = ss.getValue(Product.class);
+                                wProdList.add(product);
+                            }
+                            if (s.equals("Default")){
+                                //dont sort
+                            }
+                            else if (s.equals("Price [Low - High]")){//sorting price low to high
+                                Collections.sort(wProdList,productPriceLowHigh);
+                            }
+                            else if (s.equals("Price [High - Low]")){//sorting price high to low
+                                Collections.sort(wProdList,productPriceHighLow);
+                            }
+                            else if (s.equals("Name [a - z]")){//sorting title a to z
+                                Collections.sort(wProdList,productNameAZComparator);
+                            }
+                            else if (s.equals("Name [z - a]")){//sorting title z to a
+                                Collections.sort(wProdList,productNameZAComparator);
+                            }
+                            else if (s.equals("Rating [Low - High]")){//sort rating from low to high
+                                Collections.sort(wProdList,productRatingLowHigh);
+                            }
+                            else if (s.equals("Rating [High - Low]")){//sort rating from high to low
+                                Collections.sort(wProdList,productRatingHighLow);
+                            }
+                            //index = holder.getAdapterPosition();
+                            for(CardView cardView : cardList){
+                                cardView.setCardBackgroundColor(Color.parseColor("#D8D8D8"));//set inactive (gray)
+                            }
+                            holder.filterCard.setCardBackgroundColor(Color.parseColor("#fdb915"));//set active
+                            wishlistAdapter.notifyDataSetChanged();
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.w("error", "loadPost:onCancelled", error.toException());
+                        }
+                    });
+                }
             }
         });
     }
