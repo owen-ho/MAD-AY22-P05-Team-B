@@ -119,7 +119,7 @@ public class ShoppingFragment extends Fragment {
         query.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((TextView)getView().findViewById(R.id.placeholderText)).setVisibility(View.GONE);//hide the placeholder text
+                //((TextView)getView().findViewById(R.id.placeholderText)).setVisibility(View.GONE);//hide the placeholder text
 
                 ((TextView)getView().findViewById(R.id.shoppingTitle)).setVisibility(View.GONE);//set the title to be gone
                 ConstraintLayout layout = (ConstraintLayout) getView().findViewById(R.id.shoppingConstraintLayout);//get constraintlayout
@@ -128,15 +128,6 @@ public class ShoppingFragment extends Fragment {
                 //set constraints for the title and searchview
                 set.connect(R.id.shoppingSearchCard, ConstraintSet.START,R.id.shoppingConstraintLayout,ConstraintSet.START,0);
                 set.connect(R.id.shoppingSearchCard, ConstraintSet.END,R.id.shoppingConstraintLayout,ConstraintSet.END,0);
-
-                Resources r = getView().getResources();//set margin in dp
-                int dp = (int) TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        8,
-                        r.getDisplayMetrics()
-                );
-                //to connect the recyclerview back up after the placeholder text has disappeared
-                set.connect(R.id.shoppingrecyclerview,ConstraintSet.TOP, R.id.shoppingSearchCard,ConstraintSet.BOTTOM,dp);
                 set.applyTo(layout);
             }
         });
