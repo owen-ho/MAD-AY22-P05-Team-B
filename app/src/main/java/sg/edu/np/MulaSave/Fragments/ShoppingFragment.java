@@ -81,7 +81,7 @@ public class ShoppingFragment extends Fragment {
                 ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),1);
                 //WishList Filters
                 recyclerViewFilter = view.findViewById(R.id.shoppingFilter);
-                wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(getView(),pAdapter,productList,3);
+                wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(view,pAdapter,productList,3);
 
                 //Layout manager for filters recyclerview
                 LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);//set horizontal layout

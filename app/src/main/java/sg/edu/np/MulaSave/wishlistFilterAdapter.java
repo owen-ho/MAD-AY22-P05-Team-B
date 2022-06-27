@@ -61,7 +61,7 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
         holder.filterText.setText(s);
         cardList.add(holder.filterCard);
 
-        //determine path to access, since adapter is used by wishlist fragment and the community fragment
+        //determine path to access, since adapter is used by multiple fragments
         SearchView searchView;
         String path;
         if(wishOrCom == 1){
