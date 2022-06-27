@@ -98,6 +98,7 @@ public class ProfileEdit extends AppCompatActivity {
                         }
                         else{
                             //input is invalid
+                            finishAct = false;//set the condition to false since there are errors with changes
                             Toast.makeText(ProfileEdit.this,"Enter a valid email",Toast.LENGTH_SHORT).show();
                         }
                     }//end of change email
