@@ -102,8 +102,20 @@ public class ProfileEdit extends AppCompatActivity {
                         }
                     }//end of change email
                     else if (!password.getText().toString().equals("")){//if user wants to change password
-                        changePassword(user,password.getText().toString());
+                        if (password.getText().toString().length() < 6){
+                            finishAct = false;
+                            Toast.makeText(ProfileEdit.this, "Password needs to be at least 6 characters",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            changePassword(user,password.getText().toString());
+                        }
                     }
+                }
+
+                //no inputs at all
+                if (username.getText().toString().equals("") && email.getText().toString().equals("") && password.getText().toString().equals("")){
+                    finishAct = false;//dont end the activity
+                    Toast.makeText(ProfileEdit.this, "No changes found", Toast.LENGTH_SHORT).show();//toast message to notify no inputs
                 }
                 //ensure that there are fields changed
                 if (!username.getText().toString().equals("") && !email.getText().toString().equals("") && !password.getText().toString().equals("")){
@@ -112,10 +124,6 @@ public class ProfileEdit extends AppCompatActivity {
                 if (finishAct == true){
                     Toast.makeText(ProfileEdit.this, "Changes Updated!", Toast.LENGTH_SHORT).show();
                     finish();//To send the user back to the profile fragment after updating details
-                }
-                //no inputs at all
-                if (username.getText().toString().equals("") && email.getText().toString().equals("") && password.getText().toString().equals("")){
-                    Toast.makeText(ProfileEdit.this, "No changes found", Toast.LENGTH_SHORT).show();//toast message to notify no inputs
                 }
             }
         });//end of onclick
