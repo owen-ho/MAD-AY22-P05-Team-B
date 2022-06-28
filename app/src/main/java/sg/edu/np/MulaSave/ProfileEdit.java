@@ -1,12 +1,13 @@
 package sg.edu.np.MulaSave;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import java.util.Objects;
 
 public class ProfileEdit extends AppCompatActivity {
 
+    public Boolean finishAct;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +47,9 @@ public class ProfileEdit extends AppCompatActivity {
         confirmation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(user!=null){
-                    if(!username.getText().toString().equals("")){
+                finishAct = true; //condition to determine the activity finishes, if user inputs are valid, activity will finish
+                if(user!=null){//ensure user is logged in
+                    if(!username.getText().toString().equals("")){//check for changes in username
                         userRef.child(user.getUid()).child("username").setValue(username.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -62,48 +65,71 @@ public class ProfileEdit extends AppCompatActivity {
                             }
                         });
                     }
-                    if (!email.getText().toString().equals("")){
-                        //update email in firebase auth
-                        user.updateEmail(email.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    if(!password.getText().toString().equals("")){
-                                        changePassword(user,password.getText().toString());
+                    if (!email.getText().toString().equals("")){//check for changes in email
+                        if ((Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches())){//ensure format is email
+                            //update email in firebase auth
+                            user.updateEmail(email.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        if(!password.getText().toString().equals("")){
+                                            changePassword(user,password.getText().toString());
+                                            finishAct = false;//set the condition to false since there are errors with changes
+                                        }
+                                        //update email in realtime db
+                                        userRef.child(user.getUid()).child("email").setValue(email.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    //Toast.makeText(changinginfo.this, "realtime db email updated", Toast.LENGTH_SHORT).show();
+                                                }else{
+                                                    try{
+                                                        throw Objects.requireNonNull(task.getException());
+                                                    }catch(Exception e){
+                                                        Log.e("email",e.toString());
+                                                    }
+                                                }
+                                            }
+                                        });
+                                        //Toast.makeText(changinginfo.this, "email updated", Toast.LENGTH_SHORT).show();
                                     }
-                                    //Toast.makeText(changinginfo.this, "email updated", Toast.LENGTH_SHORT).show();
                                 }
-                            }
-                        });
-
-                        //update email in realtime db
-                        userRef.child(user.getUid()).child("email").setValue(email.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    //Toast.makeText(changinginfo.this, "realtime db email updated", Toast.LENGTH_SHORT).show();
-
-                                }else{
-                                    try{
-                                        throw Objects.requireNonNull(task.getException());
-                                    }catch(Exception e){
-                                        Log.e("email",e.toString());
-                                    }
-                                }
-                            }
-                        });
-                    }
-                    else if (!password.getText().toString().equals("")){
-                        changePassword(user,password.getText().toString());
+                            });
+                        }
+                        else{
+                            //input is invalid
+                            finishAct = false;//set the condition to false since there are errors with changes
+                            Toast.makeText(ProfileEdit.this,"Enter a valid email",Toast.LENGTH_SHORT).show();
+                        }
+                    }//end of change email
+                    else if (!password.getText().toString().equals("")){//if user wants to change password
+                        if (password.getText().toString().length() < 6){
+                            finishAct = false;
+                            Toast.makeText(ProfileEdit.this, "Password needs to be at least 6 characters",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            changePassword(user,password.getText().toString());
+                        }
                     }
                 }
-                Intent intent = new Intent(ProfileEdit.this,MainActivity.class);
-                intent.putExtra("frgToLoad",4); //Profile frag is the last fragment
-                startActivity(intent);
+
+                //no inputs at all
+                if (username.getText().toString().equals("") && email.getText().toString().equals("") && password.getText().toString().equals("")){
+                    finishAct = false;//dont end the activity
+                    Toast.makeText(ProfileEdit.this, "No changes found", Toast.LENGTH_SHORT).show();//toast message to notify no inputs
+                }
+                //ensure that there are fields changed
+                if (!username.getText().toString().equals("") && !email.getText().toString().equals("") && !password.getText().toString().equals("")){
+                    finishAct = true;
+                }
+                if (finishAct == true){
+                    Toast.makeText(ProfileEdit.this, "Changes Updated!", Toast.LENGTH_SHORT).show();
+                    finish();//To send the user back to the profile fragment after updating details
+                }
             }
-        });
+        });//end of onclick
     }
-    private void changePassword(FirebaseUser user, String newPassword){
+    private void changePassword(FirebaseUser user, String newPassword){//change password in firebase auth
         user.updatePassword(newPassword)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

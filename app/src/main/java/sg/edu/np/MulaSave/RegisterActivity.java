@@ -66,8 +66,6 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this,"Please ensure password is at least 6 characters",Toast.LENGTH_SHORT).show();
                 }
                 else{//basic validation done, try creating new account
-                    registerBtn.setEnabled(false);
-                    registerBtn.setClickable(false);
                     createAccount(email.getText().toString(),password.getText().toString(),Username.getText().toString());
                 }
             }
@@ -93,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                             u.uid = user.getUid();
                             u.email = user.getEmail();
                             u.username = Username;
-                            userRef.child(u.uid).setValue(u);
+                            userRef.child(u.uid).setValue(u);//Write user into realtime db
 
                             Intent i = new Intent(RegisterActivity.this,MainActivity.class);
                             assert user != null;

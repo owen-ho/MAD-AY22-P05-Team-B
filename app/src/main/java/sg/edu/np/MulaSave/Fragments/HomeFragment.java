@@ -212,7 +212,7 @@ public class HomeFragment extends Fragment {
 
                                         //custom dialog for removing of wishlist item
                                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                        View vw = LayoutInflater.from(getContext()).inflate(R.layout.remove_wislist,null, false);
+                                        View vw = LayoutInflater.from(getContext()).inflate(R.layout.remove_wislist,null, false);//inflate view
                                         builder.setView(vw);
                                         ImageView pic = vw.findViewById(R.id.wishlistPic);
                                         Uri newUri = Uri.parse(p.getImageUrl());
@@ -301,14 +301,15 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            //URL is static for now as users visit home page often which would use up API requests rapidly
             String url = "https://api.rainforestapi.com/request?api_key=demo&type=bestsellers&category_id=bestsellers_appliances&amazon_domain=amazon.com";
             APIHandler handler = new APIHandler();
-            String jsonString = handler.httpServiceCall(url);
-            Log.d("JSONInput",jsonString);
+            String jsonString = handler.httpServiceCall(url);//Loads API Json into a string
+            Log.d("JSONInput",jsonString);//Check for success of pulling products from API and also number of requests left
             if (jsonString!=null){
                 try {
                     JSONObject jsonObject = new JSONObject(jsonString);
-                    JSONArray products = jsonObject.getJSONArray("bestsellers");
+                    JSONArray products = jsonObject.getJSONArray("bestsellers");//Not search_results as search parameter is different
 
                     for(int i=0;i<products.length();i++){
                         JSONObject jsonObject1 = products.getJSONObject(i);
@@ -328,7 +329,7 @@ public class HomeFragment extends Fragment {
                         JSONObject priceObject = jsonObject1.getJSONObject("price");
                         price = priceObject.getDouble("value");
 
-                        Product p = new Product("asin",title,"category",price,image,link, rating.floatValue(), "Amazon");
+                        Product p = new Product("asin",title,"category",price,image,link, rating.floatValue(), "Amazon");//Website is hardcoded as API URL is static
                         homeproductList.add(p);
                     }
                 } catch (JSONException e) {

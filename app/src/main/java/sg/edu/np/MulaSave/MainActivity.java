@@ -20,9 +20,12 @@ import sg.edu.np.MulaSave.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+
+    //For use in making recyclerviews persistent
     public static ArrayList<Product> productList;
     public static ArrayList<Product> homeproductList;
     public static String profilePicLink;
+
     private ProgressDialog progressDialog;
 
     @Override

@@ -24,17 +24,38 @@ A shopping guide app that lets users look up and compare prices of what they wan
 | Ho Shang Luen Owen  | Developer/Team Leader | Delegation of tasks, Integrations of product APIs and Firebase |
 | Phua Cheng Ann  | Developer/UI Designer  | Designing of sign in and sign out layouts, Coding of Product input by users and forgot password |
 | Chong Ke Wei Joby | Developer/UI Designer | Designing and coding of Profile fragment and Product input by users|
-| Ho Qi Ren | Developer | Wishlist fragment, SearchView, CardView RecyclerViews, Custom Dialogs & Layouts |
+| Ho Qi Ren | Developer | Wishlist fragment, SearchView, CardView RecyclerViews & Filters, Custom Dialogs & Layouts |
 | Owg Jun Xian | Developer | Implementation of fragments and editing of profile page |
 
 
 ## Relevant appendices
 
-### Screenshots
-![login](https://user-images.githubusercontent.com/93632887/174599715-160faacc-4feb-4abb-8c21-34d30d8eaf98.png)
+### Screenshots!
 
-![home](https://user-images.githubusercontent.com/93632887/174599666-c1a9f7ad-ea64-4ccf-94ba-5fd361320416.png)
+#### Login & Register
+![login](https://user-images.githubusercontent.com/104065272/175824760-c2f77125-2f83-4613-9ac9-d7ebdfa7b67d.png)
+![register](https://user-images.githubusercontent.com/104065272/175824765-e0455aeb-c7bb-41c8-8785-18b30b013e38.png)
 
-![shopping](https://user-images.githubusercontent.com/93632887/174599740-c806167d-6add-468d-b018-54288e88f8a6.png)
+#### Forget Password
+![forgotPassword](https://user-images.githubusercontent.com/104065272/175824801-43a08b4b-27a5-411f-ae87-c627a5f05dc1.png)
 
-![wishlist](https://user-images.githubusercontent.com/93632887/174599747-a9f3b04a-4bbd-4eb9-9637-9fabcf8f3647.png)
+#### Home Page
+![homePage](https://user-images.githubusercontent.com/104065272/175824791-53e72d79-0741-44ef-b745-ef862397f3c7.png)
+![profilePageDialog](https://user-images.githubusercontent.com/104065272/175824835-76601a26-3cdc-4d82-bc00-36e16ce7125c.png)
+
+#### Shopping Page
+![shoppingPage](https://user-images.githubusercontent.com/104065272/175824984-419932e8-c473-4d67-b422-e58ce6b079e0.png)
+
+#### Community Page
+![communityPage](https://user-images.githubusercontent.com/104065272/175825008-0d0b9ae9-6421-481b-8236-e5f0579d644d.png)
+
+#### Wishlist Page
+![wishlistPage](https://user-images.githubusercontent.com/104065272/175825071-929f0aac-d1d0-40ac-96e5-8a958c525863.png)
+
+#### Profile Page
+![profilePage](https://user-images.githubusercontent.com/104065272/175825078-f15d1f49-4d66-49ab-a948-64a965ee23d8.png)
+
+#### Change User Information
+![changeUserInformation](https://user-images.githubusercontent.com/104065272/175825100-d0d259a1-36cd-4505-80c1-9623b92750e8.png)
+
+

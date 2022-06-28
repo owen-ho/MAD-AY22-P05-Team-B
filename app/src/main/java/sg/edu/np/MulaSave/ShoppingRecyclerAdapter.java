@@ -153,6 +153,9 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                                     if(holder.remove == true){//remove, because the wishlist is using the adapter
                                         data.clear();
                                     }//but if shopping or upload fragments are using, do not remove the item from the recyclerview
+                                    else{//notify if is shopping or community view
+                                        ShoppingRecyclerAdapter.this.notifyDataSetChanged();
+                                    }
                                     alertDialog.dismiss();
                                 }
                             });
