@@ -83,6 +83,7 @@ The “Wishlist” page lists all products which you have added from either “S
 
 #### Profile Page
 ![profilePage](https://user-images.githubusercontent.com/104065272/175825078-f15d1f49-4d66-49ab-a948-64a965ee23d8.png)
+
 ![changeUserInformation](https://user-images.githubusercontent.com/104065272/175825100-d0d259a1-36cd-4505-80c1-9623b92750e8.png)
 
 MulaSave stores information like username, email and password which can be found in the “Profile” page. The pencil icon on the top of the screen allows you to change any of these information.
