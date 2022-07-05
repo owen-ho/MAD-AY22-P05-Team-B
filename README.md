@@ -62,7 +62,7 @@ To search for products across online shops, click on the search icon next to “
 ![shoppingPage](https://user-images.githubusercontent.com/104065272/175824984-419932e8-c473-4d67-b422-e58ce6b079e0.png)
 
 In the “Shopping” page, you may search for any desired product by clicking on the search icon at the top right corner. Upon submitting the query, product listings of the item from multiple online shopping sites will be displayed from lowest to highest price.
-If any item catches your eye, you can click on the Heart icon to add it to your wishlist, which can be seen from the 4th tab. Clicking on the item itself and then clicking “Open” afterwards will bring you to the website store where you can complete your purchase of the item.The app currently supports products from Walmart, Amazon and Ebay.
+If any item catches your eye, you can click on the Heart icon to add it to your wishlist, which can be seen from the 4th tab. Clicking on the item itself and then clicking “Open” afterwards will bring you to the website store where you can complete your purchase of the item.The app currently supports products from Walmart, Amazon and Ebay. Users can also filter the product by their price, ratings and names.
 
 
 
@@ -71,14 +71,14 @@ If any item catches your eye, you can click on the Heart icon to add it to your 
 
 Unlike the “Shopping” tab, the “Community” tab lists products which have been purchased by other users. You can browse through to get an idea of how much your desired product should cost.
 To get a better experience browsing through others’ purchases, you may click on the available filters above, of which more can be found by swiping left.You can also search for the item directly by clicking on the search icon on the top right corner.
-You can contribute after your own purchases by clicking on the upload button on the bottom right to fill in the necessary details of your product purchase.
+You can contribute after your own purchases by clicking on the upload button on the bottom right to fill in the necessary details of your product purchase. Like the shopping page, users are able to sort/filter the products and also search for specific products within the Community Page
 
 
 
 #### Wishlist Page
 ![wishlistPage](https://user-images.githubusercontent.com/104065272/175825071-929f0aac-d1d0-40ac-96e5-8a958c525863.png)
 
-The “Wishlist” page lists all products which you have added from either “Shopping” or “Community” pages by clicking on the heart next to the product listing. By clicking on the heart-shaped icon on the bottom right of each item, you will be prompted to confirm if you would like to remove the product from your wishlist.
+The “Wishlist” page lists all products which you have added from either “Shopping” or “Community” pages by clicking on the heart next to the product listing. By clicking on the heart-shaped icon on the bottom right of each item, you will be prompted to confirm if you would like to remove the product from your wishlist. Like the shopping and commununity page, you can filter the products by their attributes and also search for specific products within the wishlist.
 
 
 #### Profile Page
