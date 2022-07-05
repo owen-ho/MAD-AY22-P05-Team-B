@@ -41,6 +41,8 @@ To use the app, you need to sign in using the email address and password of your
 On the “Register” page, insert your information, including your email, username and password, which must be at least 6 characters.
 By default you need to sign in only when you start the application for the first time.
 
+
+
 #### Forget Password
 ![forgotPassword](https://user-images.githubusercontent.com/104065272/175824801-43a08b4b-27a5-411f-ae87-c627a5f05dc1.png)
 
@@ -54,11 +56,15 @@ If you have forgotten your password, click on the “Forgot your password?” bu
 The “Home” screen displays best selling items from a particular store for the day. To find out more about each item, you can click on the image to view the item description, price, rating and the website it is available from.
 To search for products across online shops, click on the search icon next to “Online Shops”.To search for product prices from past customer purchases, click on the search icon next to “Community”.
 
+
+
 #### Shopping Page
 ![shoppingPage](https://user-images.githubusercontent.com/104065272/175824984-419932e8-c473-4d67-b422-e58ce6b079e0.png)
 
 In the “Shopping” page, you may search for any desired product by clicking on the search icon at the top right corner. Upon submitting the query, product listings of the item from multiple online shopping sites will be displayed from lowest to highest price.
 If any item catches your eye, you can click on the Heart icon to add it to your wishlist, which can be seen from the 4th tab. Clicking on the item itself and then clicking “Open” afterwards will bring you to the website store where you can complete your purchase of the item.The app currently supports products from Walmart, Amazon and Ebay.
+
+
 
 #### Community Page
 ![communityPage](https://user-images.githubusercontent.com/104065272/175825008-0d0b9ae9-6421-481b-8236-e5f0579d644d.png)
@@ -67,10 +73,13 @@ Unlike the “Shopping” tab, the “Community” tab lists products which have
 To get a better experience browsing through others’ purchases, you may click on the available filters above, of which more can be found by swiping left.You can also search for the item directly by clicking on the search icon on the top right corner.
 You can contribute after your own purchases by clicking on the upload button on the bottom right to fill in the necessary details of your product purchase.
 
+
+
 #### Wishlist Page
 ![wishlistPage](https://user-images.githubusercontent.com/104065272/175825071-929f0aac-d1d0-40ac-96e5-8a958c525863.png)
 
 The “Wishlist” page lists all products which you have added from either “Shopping” or “Community” pages by clicking on the heart next to the product listing. By clicking on the heart-shaped icon on the bottom right of each item, you will be prompted to confirm if you would like to remove the product from your wishlist.
+
 
 #### Profile Page
 ![profilePage](https://user-images.githubusercontent.com/104065272/175825078-f15d1f49-4d66-49ab-a948-64a965ee23d8.png)
