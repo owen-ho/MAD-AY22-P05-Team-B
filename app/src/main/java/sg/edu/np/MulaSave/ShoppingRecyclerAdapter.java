@@ -213,11 +213,11 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                 if (p.getLink().equals("link")){//products from community uploads have string link as the link var
                     Intent i = new Intent(context, descriptionpage.class);
                     i.putExtra("product",p);//pass product into desc
-                    context.startActivity(i);
+                    context.startActivity(i);//start the product desc activity
                 }
                 else{//start browser intent
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(p.getLink()));
-                    context.startActivity(browserIntent);
+                    context.startActivity(browserIntent);//start browser
                 }
                 alertDialog.dismiss();
             }
