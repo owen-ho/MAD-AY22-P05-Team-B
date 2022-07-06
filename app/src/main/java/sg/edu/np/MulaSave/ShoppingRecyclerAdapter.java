@@ -209,6 +209,9 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         view.findViewById(R.id.dialogOpen).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (link.equals("link")){//products from community uploads have string link as the link var
+
+                }
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
                 context.startActivity(browserIntent);
                 alertDialog.dismiss();
