@@ -347,7 +347,7 @@ public class ShoppingFragment extends Fragment {
                             price = priceObject.getDouble("value");
                         }
 
-                        productList.add(new Product("asin", title, "category", price, image, link, ratingF, website));
+                        productList.add(new Product("asin", title, "category", price, image, link, ratingF, website,"desc","condition","meetup","sellerUid"));
                     }
                 } catch (JSONException e) {
                     if(isAdded()){

@@ -329,7 +329,7 @@ public class HomeFragment extends Fragment {
                         JSONObject priceObject = jsonObject1.getJSONObject("price");
                         price = priceObject.getDouble("value");
 
-                        Product p = new Product("asin",title,"category",price,image,link, rating.floatValue(), "Amazon");//Website is hardcoded as API URL is static
+                        Product p = new Product("asin",title,"category",price,image,link, rating.floatValue(), "Amazon","desc","condition","meetup","sellerUid");//Website is hardcoded as API URL is static
                         homeproductList.add(p);
                     }
                 } catch (JSONException e) {

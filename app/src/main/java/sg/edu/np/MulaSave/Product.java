@@ -12,14 +12,14 @@ public class Product implements Serializable {
     private Float rating;
     private String website;
     private String desc;
-    private String brandNew;
+    private String condition;
     private String meetup;
     private String sellerUid;
 
     public Product() {//default constructors
     }
 
-    public Product(String _asin, String _title, String _category, Double _price, String _image, String _link, Float _rating, String _website){
+    public Product(String _asin, String _title, String _category, Double _price, String _image, String _link, Float _rating, String _website, String _desc, String _condition, String _meetup, String _sellerUid){
         this.asin = _asin;
         this.title = _title;
         this.category = _category;
@@ -28,7 +28,12 @@ public class Product implements Serializable {
         this.link = _link;
         this.rating = _rating;
         this.website = _website;
+        this.desc = _desc;
+        this.condition = _condition;
+        this.meetup = _meetup;
+        this.sellerUid = _sellerUid;
     }
+
 
     public void setAsin(String _asin){
         this.asin = _asin;
@@ -76,6 +81,30 @@ public class Product implements Serializable {
         this.website = _website;
     }
     public String getWebsite(){
-        return website;
+        return this.website;
+    }
+    public void setDesc(String _desc){
+        this.desc = _desc;
+    }
+    public String getDesc(){
+        return this.desc;
+    }
+    public void setCondition(String _condition){
+        this.condition = _condition;
+    }
+    public String getCondition(){
+        return this.condition;
+    }
+    public void setMeetup(String _meetup){
+        this.meetup = _meetup;
+    }
+    public String getMeetup(){
+        return this.meetup;
+    }
+    public void setSellerUid(String _sellerUid){
+        this.sellerUid = _sellerUid;
+    }
+    public String getSellerUid(){
+        return this.sellerUid;
     }
 }

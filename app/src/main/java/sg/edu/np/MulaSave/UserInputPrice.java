@@ -107,7 +107,7 @@ public class UserInputPrice extends AppCompatActivity {
                                 submitProductbtn.setEnabled(false);//Prevent uploading of repeated products
                                 submitProductbtn.setClickable(false);
                                 String productLink = "https://www.google.com/search?q=" + pw + "+" + pt;
-                                Product p = new Product(UUID.randomUUID().toString(), pt,"category", pp, uri.toString(),productLink, rating, pw);
+                                Product p = new Product(UUID.randomUUID().toString(), pt,"category", pp, uri.toString(),productLink, rating, pw,"desc","condition","meetup","sellerUid");
                                 productRef.child(key).setValue(p);//add product obj to the realtime database
 
                                 finish();//finish the upload activity
