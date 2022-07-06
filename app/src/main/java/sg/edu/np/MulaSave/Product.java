@@ -11,6 +11,10 @@ public class Product implements Serializable {
     private String link;
     private Float rating;
     private String website;
+    private String desc;
+    private String brandNew;
+    private String meetup;
+    private String sellerUid;
 
     public Product() {//default constructors
     }
