@@ -99,7 +99,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             @Override
             public void onClick(View view) {
                 //dialog box
-                showProductDialog(holder.productListing.getContext(), p.getImageUrl(),p.getPrice(),p.getWebsite(),p.getLink());
+                showProductDialog(holder.productListing.getContext(), p);
             }
         });
         //use title, imageurl and website name as unique id for the listing - replacing all characters except for alphabets and numbers
@@ -193,24 +193,32 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
     }
 
     //custom product dialog information message
-    private void showProductDialog(Context context,String picUri, Double price, String website, String link) {
+    private void showProductDialog(Context context,Product p) {
+        //String picUri, Double price, String website, String link
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = LayoutInflater.from(context).inflate(R.layout.product_dialog,null,false);
         builder.setView(view);
         //load information
         ImageView pic = view.findViewById(R.id.dialogPic);
-        Uri picU = Uri.parse(picUri);
+        Uri picU = Uri.parse(p.getImageUrl());
         Picasso.get().load(picU).resize(200,200).into(pic);
-        ((TextView) view.findViewById(R.id.dialogPrice)).setText(String.format("$ %.2f",price));
-        ((TextView) view.findViewById(R.id.dialogWebsite)).setText(website);
+        ((TextView) view.findViewById(R.id.dialogPrice)).setText(String.format("$ %.2f",p.getPrice()));
+        ((TextView) view.findViewById(R.id.dialogWebsite)).setText(p.getWebsite());
 
         final AlertDialog alertDialog = builder.create();
         //open browser
         view.findViewById(R.id.dialogOpen).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-                context.startActivity(browserIntent);
+                if (p.getLink().equals("link")){//products from community uploads have string link as the link var
+                    Intent i = new Intent(context, descriptionpage.class);
+                    i.putExtra("product",p);//pass product into desc
+                    context.startActivity(i);//start the product desc activity
+                }
+                else{//start browser intent
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(p.getLink()));
+                    context.startActivity(browserIntent);//start browser
+                }
                 alertDialog.dismiss();
             }
         });
