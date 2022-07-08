@@ -68,8 +68,6 @@ public class ProfileFragment extends Fragment {
         //return inflater.inflate(R.layout.fragment_profile, container, false);
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         addFragment(view);
-
-
         return  view;
     }
 
