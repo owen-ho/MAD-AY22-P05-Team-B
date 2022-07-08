@@ -83,7 +83,7 @@ public class ProfileFragment extends Fragment {
         profilepic.setVisibility(View.INVISIBLE);
 
         ImageView infobutton = view.findViewById(R.id.changeinfo);
-        Button logoutbutton = view.findViewById(R.id.logoutBtn);
+        ImageView logoutbutton = view.findViewById(R.id.logoutBtn);
 
         ImageView documentation = view.findViewById(R.id.infoDocumentation);
 
