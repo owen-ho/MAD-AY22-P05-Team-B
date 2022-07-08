@@ -15,9 +15,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +31,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import sg.edu.np.MulaSave.ChildUploadFragment;
 import sg.edu.np.MulaSave.Documentation;
 import sg.edu.np.MulaSave.LoginActivity;
 import sg.edu.np.MulaSave.MainActivity;
@@ -40,6 +43,8 @@ public class ProfileFragment extends Fragment {
 
     int SELECT_PICTURE = 200;
     private String profilePicLink = MainActivity.profilePicLink;
+    TabLayout tabLayout;
+    ViewPager viewPager;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -61,9 +66,21 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_profile, container, false);
-        View V = inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        addFragment(view);
 
-        return  V;
+
+        return  view;
+    }
+
+    private void addFragment(View view) {
+        tabLayout = view.findViewById(R.id.tabLayout);
+        viewPager = view.findViewById(R.id.viewPager);
+        NestedFragAdapter nestedFragAdapter = new NestedFragAdapter(getChildFragmentManager());
+        nestedFragAdapter.addFragment(new ChildPostFragment(), "Posts");
+        nestedFragAdapter.addFragment(new ChildUploadFragment(),"Uploads");
+        viewPager.setAdapter(nestedFragAdapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
