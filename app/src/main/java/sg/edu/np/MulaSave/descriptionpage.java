@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 public class descriptionpage extends AppCompatActivity {
 
@@ -21,6 +24,7 @@ public class descriptionpage extends AppCompatActivity {
         TextView meetup = findViewById(R.id.Meetup);
         TextView username = findViewById(R.id.Sellerusername);
 
+        ImageView pic = findViewById(R.id.imageView16);
         Button chat = findViewById(R.id.Chat);
         Button reserve = findViewById(R.id.Reserve);
 
@@ -31,7 +35,8 @@ public class descriptionpage extends AppCompatActivity {
         description.setText(product.getDesc());
         condition.setText(product.getCondition());
         meetup.setText(product.getMeetup());
-        username.setText(product.getSellerUid());
+        username.setText(product.getWebsite());
+        Picasso.get().load(product.getImageUrl()).into(pic);
 
 
 

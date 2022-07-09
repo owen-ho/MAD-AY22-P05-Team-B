@@ -89,7 +89,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/priceProduct" />
 
             <EditText
-                android:id="@+id/productDescription"
+                android:id="@+id/desc"
                 android:layout_width="363dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="16dp"
@@ -113,7 +113,7 @@
                 android:textColorHint="#000000"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/productDescription" />
+                app:layout_constraintTop_toBottomOf="@+id/desc" />
 
             <TextView
                 android:id="@+id/conditionText"
