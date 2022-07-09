@@ -47,9 +47,9 @@ import sg.edu.np.MulaSave.Product;
 import sg.edu.np.MulaSave.R;
 
 public class HomeFragment extends Fragment {
-    private ArrayList<Product> homeproductList = MainActivity.homeproductList;
-    private ImageView[] imArray;
-    private CardView[] cardArray;
+
+    ImageView addFriend, addPost;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -76,6 +76,15 @@ public class HomeFragment extends Fragment {
     //create this method because getView() only works after onCreateView()
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        addFriend = view.findViewById(R.id.hAddFirend);//get the add friend and post imageviews
+        addPost = view.findViewById(R.id.hAddPost);
+
+        addFriend.setOnClickListener(new View.OnClickListener() {//set on click listener
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
 
     }//end of onview created method
