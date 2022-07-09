@@ -7,62 +7,45 @@
     android:background="@color/white"
     tools:context=".UserInputPrice">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="16dp"
-        app:cardBackgroundColor="#70747C"
-        app:cardCornerRadius="20dp"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addProductImage">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#CBEBEB">
-
-            <Button
-                android:id="@+id/submitProductButton2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:backgroundTint="#69B4DC"
-                android:text="Submit"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.534"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/productRating" />
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/LisingTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
                 android:text="Listing Title"
                 android:textColor="#FF747679"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.051"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/addProductImage" />
 
             <EditText
                 android:id="@+id/titleProduct"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="363dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
                 android:backgroundTint="#FF747679"
                 android:ems="10"
                 android:hint="eg. PS5"
                 android:inputType="textPersonName"
                 android:textColor="#000000"
                 android:textColorHint="#A8A8A8"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.086"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/LisingTitle" />
 
@@ -74,138 +57,159 @@
                 android:text="Price"
                 android:textColor="#FF747679"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.044"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titleProduct" />
+                app:layout_constraintTop_toBottomOf="@+id/titleProduct"
+                tools:layout_editor_absoluteX="16dp" />
 
             <EditText
                 android:id="@+id/priceProduct"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="363dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
                 android:backgroundTint="#FF747679"
                 android:ems="10"
                 android:hint="eg. 10.20"
                 android:inputType="textPersonName"
                 android:textColor="#000000"
                 android:textColorHint="#A8A8A8"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.086"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/PriceTextView" />
 
             <TextView
-                android:id="@+id/URLText"
+                android:id="@+id/ProductDescriptionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:text="Website Name"
+                android:text="Product Description"
                 android:textColor="#FF747679"
                 android:textColorHint="#000000"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.054"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/priceProduct" />
 
             <EditText
-                android:id="@+id/websiteProduct"
-                android:layout_width="213dp"
-                android:layout_height="42dp"
+                android:id="@+id/productDescription"
+                android:layout_width="363dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
                 android:backgroundTint="#FF747679"
                 android:ems="10"
-                android:hint="eg. Carousell, Amazon"
+                android:hint="eg. 10.20"
                 android:inputType="textPersonName"
+                android:textColor="#000000"
                 android:textColorHint="#A8A8A8"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.087"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/URLText" />
+                app:layout_constraintTop_toBottomOf="@+id/ProductDescriptionText" />
 
             <TextView
-                android:id="@+id/ratingText"
+                android:id="@+id/ConditionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Rating"
+                android:text="Product Condition"
                 android:textColor="#FF747679"
                 android:textColorHint="#000000"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.055"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/websiteProduct" />
+                app:layout_constraintTop_toBottomOf="@+id/productDescription"
+                tools:layout_editor_absoluteX="16dp" />
 
-            <EditText
-                android:id="@+id/productRating"
-                android:layout_width="213dp"
-                android:layout_height="42dp"
-                android:backgroundTint="#FF747679"
-                android:ems="10"
-                android:hint="0 - 5, Enter 0 if N.A"
-                android:inputType="textPersonName"
-                android:textColorHint="#A8A8A8"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.089"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ratingText" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/addProductImage"
-        android:layout_width="356dp"
-        android:layout_height="208dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="26dp"
-        android:layout_marginEnd="25dp"
-        app:cardBackgroundColor="#D8D3D3"
-        app:cardCornerRadius="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/productPic"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/addproductbutton"
+            <TextView
+                android:id="@+id/conditionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="162dp"
-                android:layout_marginTop="88dp"
-                android:layout_marginEnd="162dp"
-                android:layout_marginBottom="88dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="Meet-up Location"
+                android:textColor="#FF747679"
+                android:textColorHint="#000000"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/ic_menu_add" />
+                app:layout_constraintTop_toBottomOf="@+id/productDescription2" />
+
+            <EditText
+                android:id="@+id/productDescription2"
+                android:layout_width="363dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:backgroundTint="#FF747679"
+                android:ems="10"
+                android:hint="eg. Brand New, Well Used"
+                android:inputType="textPersonName"
+                android:textColor="#000000"
+                android:textColorHint="#A8A8A8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ConditionText" />
+
+            <EditText
+                android:id="@+id/productDescription3"
+                android:layout_width="363dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:backgroundTint="#FF747679"
+                android:ems="10"
+                android:hint="eg. Tampines EW Mrt Station"
+                android:inputType="textPersonName"
+                android:textColor="#000000"
+                android:textColorHint="#A8A8A8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/conditionText" />
+
+            <Button
+                android:id="@+id/submitProductButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#69B4DC"
+                android:text="Submit"
+                tools:layout_editor_absoluteX="160dp"
+                tools:layout_editor_absoluteY="705dp" />
+
+            <ImageView
+                android:id="@+id/backButtonInputPrice"
+                android:layout_width="38dp"
+                android:layout_height="37dp"
+                app:srcCompat="@drawable/left"
+                tools:layout_editor_absoluteX="-2dp"
+                tools:layout_editor_absoluteY="2dp" />
 
             <ImageView
                 android:id="@+id/refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
+                app:srcCompat="@drawable/ic_menu_refresh"
+                tools:layout_editor_absoluteX="359dp"
+                tools:layout_editor_absoluteY="179dp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/addProductImage"
+                android:layout_width="307dp"
+                android:layout_height="171dp"
+                android:layout_marginTop="32dp"
+                app:cardBackgroundColor="#D8D3D3"
+                app:cardCornerRadius="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_menu_refresh" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/productPic"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/addproductbutton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.498"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@android:drawable/ic_menu_add" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <ImageView
-        android:id="@+id/backButtonInputPrice"
-        android:layout_width="38dp"
-        android:layout_height="37dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/left" />
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
