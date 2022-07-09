@@ -68,6 +68,9 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         else{//wishlist view
             view = inflater.inflate(R.layout.wishlist_row,parent,false);
         }
+//        else if(viewType == 3 ){//community upload view
+//
+//        }
         return new ShoppingViewHolder(view,viewType);
     }
 
