@@ -40,8 +40,9 @@ public class UserInputPrice extends AppCompatActivity {
         setContentView(R.layout.activity_user_input_price);
         EditText productTitle = findViewById(R.id.titleProduct);
         EditText productPrice = findViewById(R.id.priceProduct);
-        EditText productWebsite = findViewById(R.id.websiteProduct);
-        EditText productRating = findViewById(R.id.productRating);
+        EditText productDesc = findViewById(R.id.productDescription);
+        EditText productCond = findViewById(R.id.productCondition);
+        EditText productMeet = findViewById(R.id.productMeetUp);
         ImageView productPic = findViewById(R.id.addproductbutton);
         Button submitProductbtn = findViewById(R.id.submitProductButton2);
         ImageView back = findViewById(R.id.backButtonInputPrice);
@@ -84,30 +85,28 @@ public class UserInputPrice extends AppCompatActivity {
             public void onClick(View view) {
                 //check for invalid input
                 if (productTitle.getText().toString().equals("") || productPrice.getText().toString().equals("")
-                        || productWebsite.getText().toString().equals("") || productRating.getText().toString().equals("")){
+                        || productDesc.getText().toString().equals("") || productCond.getText().toString().equals("") || productMeet.getText().toString().equals("")){
                     Toast.makeText(UserInputPrice.this,"Please fill in all boxes",Toast.LENGTH_SHORT).show();
                 }
                 //check for valid numeric\decimal inputs
-                else if((!productRating.getText().toString().matches("\\d*\\.?\\d+")) || (!productPrice.getText().toString().matches("\\d*\\.?\\d+"))){
+                else if((!productPrice.getText().toString().matches("\\d*\\.?\\d+"))){
                     Toast.makeText(UserInputPrice.this,"Please enter valid fields",Toast.LENGTH_SHORT).show();
                 }
                 else{//primary validation completed
                     try{//use try to catch all other invalid inputs
                         String pt = productTitle.getText().toString();
                         Double pp = Double.parseDouble(productPrice.getText().toString());
-                        String pw = productWebsite.getText().toString();
-                        Double ratingD = Double.parseDouble(productRating.getText().toString());
-                        Float rating = ratingD.floatValue();
-                        if (rating > 5){//throw to exception if rating is less than 5, this is to ensure that app does not crash if unable to convert to float due to invalid inputs
-                            throw new Exception();
-                        }
+                        String pw = productDesc.getText().toString();
+                        String pc = productCond.getText().toString();
+                        String pm = productMeet.getText().toString();
+
                         storageRef.child("productpics/" + key + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
                                 submitProductbtn.setEnabled(false);//Prevent uploading of repeated products
                                 submitProductbtn.setClickable(false);
                                 String productLink = "https://www.google.com/search?q=" + pw + "+" + pt;
-                                Product p = new Product(UUID.randomUUID().toString(), pt,"category", pp, uri.toString(),productLink, rating, pw,"desc","condition","meetup","sellerUid");
+                                Product p = new Product(UUID.randomUUID().toString(), pt,"category", pp, uri.toString(),productLink, 0.0f, pw,"desc","condition","meetup","sellerUid");
                                 productRef.child(key).setValue(p);//add product obj to the realtime database
 
                                 finish();//finish the upload activity

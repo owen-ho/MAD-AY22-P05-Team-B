@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="40dp"
                 android:text="Listing Title"
                 android:textColor="#FF747679"
                 android:textSize="16sp"
@@ -53,12 +53,13 @@
                 android:id="@+id/PriceTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
                 android:text="Price"
                 android:textColor="#FF747679"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@+id/titleProduct"
-                tools:layout_editor_absoluteX="16dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/titleProduct" />
 
             <EditText
                 android:id="@+id/priceProduct"
@@ -79,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:text="Product Description"
                 android:textColor="#FF747679"
                 android:textColorHint="#000000"
@@ -105,29 +106,30 @@
                 android:id="@+id/ConditionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
                 android:text="Product Condition"
                 android:textColor="#FF747679"
                 android:textColorHint="#000000"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@+id/productDescription"
-                tools:layout_editor_absoluteX="16dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/productDescription" />
 
             <TextView
                 android:id="@+id/conditionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:text="Meet-up Location"
                 android:textColor="#FF747679"
                 android:textColorHint="#000000"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/productDescription2" />
+                app:layout_constraintTop_toBottomOf="@+id/productCondition" />
 
             <EditText
-                android:id="@+id/productDescription2"
+                android:id="@+id/productCondition"
                 android:layout_width="363dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="16dp"
@@ -141,7 +143,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/ConditionText" />
 
             <EditText
-                android:id="@+id/productDescription3"
+                android:id="@+id/productMeetUp"
                 android:layout_width="363dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
@@ -158,26 +160,29 @@
                 android:id="@+id/submitProductButton2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
                 android:backgroundTint="#69B4DC"
                 android:text="Submit"
-                tools:layout_editor_absoluteX="160dp"
-                tools:layout_editor_absoluteY="705dp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/productMeetUp" />
 
             <ImageView
                 android:id="@+id/backButtonInputPrice"
                 android:layout_width="38dp"
                 android:layout_height="37dp"
-                app:srcCompat="@drawable/left"
-                tools:layout_editor_absoluteX="-2dp"
-                tools:layout_editor_absoluteY="2dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/left" />
 
             <ImageView
                 android:id="@+id/refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_menu_refresh"
-                tools:layout_editor_absoluteX="359dp"
-                tools:layout_editor_absoluteY="179dp" />
+                android:layout_marginTop="179dp"
+                app:layout_constraintStart_toEndOf="@+id/addProductImage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_menu_refresh" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/addProductImage"
