@@ -31,6 +31,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import sg.edu.np.MulaSave.ChildReserveFragment;
 import sg.edu.np.MulaSave.ChildUploadFragment;
 import sg.edu.np.MulaSave.Documentation;
 import sg.edu.np.MulaSave.LoginActivity;
@@ -77,6 +78,7 @@ public class ProfileFragment extends Fragment {
         NestedFragAdapter nestedFragAdapter = new NestedFragAdapter(getChildFragmentManager());
         nestedFragAdapter.addFragment(new ChildPostFragment(), "Posts");
         nestedFragAdapter.addFragment(new ChildUploadFragment(),"Uploads");
+        nestedFragAdapter.addFragment(new ChildReserveFragment(), "Reserved");
         viewPager.setAdapter(nestedFragAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
