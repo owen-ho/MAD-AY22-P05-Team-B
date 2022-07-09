@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.P05TeamB">
         <activity
+            android:name=".WebActivity"
+            android:exported="false" />
+        <activity
             android:name=".descriptionpage"
             android:exported="false" />
         <activity
@@ -43,7 +46,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
 
         <meta-data
             android:name="preloaded_fonts"

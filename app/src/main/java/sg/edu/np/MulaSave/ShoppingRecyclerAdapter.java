@@ -27,16 +27,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.internal.InternalTokenProvider;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 
 public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHolder> {
     //adapter shared by shopping, wishlist and uploads
     private ArrayList<Product> data;
+    private FirebaseAuth mAuth;
 
     LayoutInflater inflater;
     int layoutType; //toggle between search product view and shopping list view
@@ -215,9 +214,25 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                     i.putExtra("product",p);//pass product into desc
                     context.startActivity(i);//start the product desc activity
                 }
-                else{//start browser intent
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(p.getLink()));
-                    context.startActivity(browserIntent);//start browser
+                else{//Intent to WebActivity for in app browser
+                    AlertDialog.Builder alertbuilder = new AlertDialog.Builder(context);
+                    alertbuilder.setTitle("Open Browser");
+                    alertbuilder.setMessage("Where would you like to open the product page?");
+                    alertbuilder.setPositiveButton("Open in app", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent browserIntent = new Intent(context, WebActivity.class);
+                            browserIntent.putExtra("url",p.getLink());
+                            context.startActivity(browserIntent);
+                        }
+                    });
+                    alertbuilder.setNegativeButton("Open in browser", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(p.getLink()));
+                            context.startActivity(browserIntent);//start browser
+                        }
+                    });
+                    alertbuilder.show();
+
                 }
                 alertDialog.dismiss();
             }
