@@ -16,6 +16,11 @@ public class descriptionpage extends AppCompatActivity {
         setContentView(R.layout.activity_descriptionpage);
         TextView title = findViewById(R.id.Title);
         TextView price = findViewById(R.id.Price);
+        TextView description =findViewById(R.id.Description);
+        TextView condition =findViewById(R.id.Condition);
+        TextView meetup = findViewById(R.id.Meetup);
+        TextView username = findViewById(R.id.Sellerusername);
+
         Button chat = findViewById(R.id.Chat);
         Button reserve = findViewById(R.id.Reserve);
 
@@ -23,6 +28,13 @@ public class descriptionpage extends AppCompatActivity {
         product = (Product) getIntent().getSerializableExtra("product");//get product from adapter
         title.setText(product.getTitle());
         price.setText("$" +String.valueOf(product.getPrice()));
+        description.setText(product.getDesc());
+        condition.setText(product.getCondition());
+        meetup.setText(product.getMeetup());
+        username.setText(product.getSellerUid());
+
+
+
 
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
