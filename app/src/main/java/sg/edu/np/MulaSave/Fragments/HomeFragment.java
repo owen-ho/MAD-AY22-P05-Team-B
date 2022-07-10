@@ -22,6 +22,9 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -45,12 +48,22 @@ import sg.edu.np.MulaSave.APIHandler;
 import sg.edu.np.MulaSave.AddFriends;
 import sg.edu.np.MulaSave.AddPostActivity;
 import sg.edu.np.MulaSave.MainActivity;
+import sg.edu.np.MulaSave.Post;
+import sg.edu.np.MulaSave.PostAdapter;
 import sg.edu.np.MulaSave.Product;
 import sg.edu.np.MulaSave.R;
 
 public class HomeFragment extends Fragment {
 
     ImageView addFriend, addPost;
+    RecyclerView postRecycler;
+    ArrayList<Post> postList;
+    PostAdapter postAdapter;
+
+    DatabaseReference databaseRefUser = FirebaseDatabase
+            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .getReference("user");
+    FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
 
     public HomeFragment() {
         // Required empty public constructor
@@ -96,6 +109,30 @@ public class HomeFragment extends Fragment {
                 startActivity(i);
             }
         });
+
+        postRecycler = view.findViewById(R.id.postRecycler);//set recycler
+        postList = new ArrayList<>();//create new arraylist
+        postAdapter = new PostAdapter(postList);//create new adapter
+        databaseRefUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ss : snapshot.getChildren()){
+                    for (DataSnapshot ds : ss.getChildren()){
+                        if (ds.getKey().toString().equals("posts")){
+                            postList.add(ds.getValue(Post.class));
+                        }postAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
+        postRecycler.setLayoutManager(vLayoutManager);
+        postRecycler.setItemAnimator(new DefaultItemAnimator());
+        postRecycler.setAdapter(postAdapter);//set adapter
 
 
     }//end of onview created method

@@ -23,8 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import sg.edu.np.MulaSave.AddFriends;
-import sg.edu.np.MulaSave.ExploreFriendAdapter;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 

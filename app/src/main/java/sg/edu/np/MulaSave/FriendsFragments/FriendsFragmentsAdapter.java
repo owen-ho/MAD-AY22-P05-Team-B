@@ -1,4 +1,4 @@
-package sg.edu.np.MulaSave;
+package sg.edu.np.MulaSave.FriendsFragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
