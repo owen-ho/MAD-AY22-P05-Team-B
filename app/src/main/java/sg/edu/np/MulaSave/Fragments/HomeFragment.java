@@ -43,6 +43,7 @@ import java.util.ArrayList;
 
 import sg.edu.np.MulaSave.APIHandler;
 import sg.edu.np.MulaSave.AddFriends;
+import sg.edu.np.MulaSave.AddPostActivity;
 import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.Product;
 import sg.edu.np.MulaSave.R;
@@ -83,7 +84,15 @@ public class HomeFragment extends Fragment {
         addFriend.setOnClickListener(new View.OnClickListener() {//set on click listener
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), AddFriends.class);
+                Intent i = new Intent(getActivity(), AddFriends.class);//go to add friends class
+                startActivity(i);
+            }
+        });
+
+        addPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {//go to add post activity
+                Intent i = new Intent(getActivity(), AddPostActivity.class);
                 startActivity(i);
             }
         });
