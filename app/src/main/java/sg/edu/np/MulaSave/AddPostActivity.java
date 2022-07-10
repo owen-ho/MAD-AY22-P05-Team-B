@@ -107,7 +107,7 @@ public class AddPostActivity extends AppCompatActivity {
 
                             }
                         });
-                databaseRefUser.child(usr.getUid().toString()).child("posts").setValue(post);//set the post into the user under posts
+                databaseRefUser.child(usr.getUid().toString()).child("posts").child(randomId).setValue(post);//set the post into the user under posts
                 //show success and exit
                 Toast.makeText(AddPostActivity.this,"Upload Success!",Toast.LENGTH_SHORT).show();
                 finish();

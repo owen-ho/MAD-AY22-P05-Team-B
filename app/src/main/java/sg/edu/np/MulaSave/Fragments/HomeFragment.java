@@ -116,11 +116,14 @@ public class HomeFragment extends Fragment {
         databaseRefUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                postList.clear();//so that the posts does not duplicate when user enters again
                 for (DataSnapshot ss : snapshot.getChildren()){
                     for (DataSnapshot ds : ss.getChildren()){
                         if (ds.getKey().toString().equals("posts")){
-                            postList.add(ds.getValue(Post.class));
-                        }postAdapter.notifyDataSetChanged();
+                            for (DataSnapshot postSnapshot : ds.getChildren()){
+                                postList.add(postSnapshot.getValue(Post.class));
+                            }postAdapter.notifyDataSetChanged();
+                        }
                     }
                 }
             }
@@ -129,8 +132,9 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
-        postRecycler.setLayoutManager(vLayoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
+        linearLayoutManager.setReverseLayout(true);
+        postRecycler.setLayoutManager(linearLayoutManager);
         postRecycler.setItemAnimator(new DefaultItemAnimator());
         postRecycler.setAdapter(postAdapter);//set adapter
 
