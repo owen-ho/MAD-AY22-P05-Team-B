@@ -9,7 +9,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import sg.edu.np.MulaSave.FriendsFragments.ExploreFragment;
 import sg.edu.np.MulaSave.FriendsFragments.FriendsFragment;
-import sg.edu.np.MulaSave.FriendsFragments.FriendsFragmentsAdapter;
+import sg.edu.np.MulaSave.FriendsFragments.FriendsActivityAdapter;
 import sg.edu.np.MulaSave.FriendsFragments.RequestsFragment;
 
 public class AddFriends extends AppCompatActivity {
@@ -28,7 +28,7 @@ public class AddFriends extends AppCompatActivity {
 
         tabLayout.setupWithViewPager(viewPager);
 
-        FriendsFragmentsAdapter adapter = new FriendsFragmentsAdapter(getSupportFragmentManager());
+        FriendsActivityAdapter adapter = new FriendsActivityAdapter(getSupportFragmentManager());
         adapter.addFragment(new FriendsFragment(), "Friends");
         adapter.addFragment(new RequestsFragment(), "Requests");
         adapter.addFragment(new ExploreFragment(), "Explore");

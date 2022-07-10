@@ -8,12 +8,12 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 
-public class FriendsFragmentsAdapter extends FragmentPagerAdapter {
+public class FriendsActivityAdapter extends FragmentPagerAdapter {
 
     private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     private final ArrayList<String> fragmentTitle = new ArrayList<>();
 
-    public FriendsFragmentsAdapter(@NonNull FragmentManager fm) {
+    public FriendsActivityAdapter(@NonNull FragmentManager fm) {
         super(fm);
     }
 
