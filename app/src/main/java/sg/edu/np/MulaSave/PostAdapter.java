@@ -1,5 +1,6 @@
 package sg.edu.np.MulaSave;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
     ArrayList<Post> postList;
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
 
     public PostAdapter(ArrayList<Post> postList) {
         this.postList = postList;
@@ -30,7 +40,28 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = postList.get(position);
-        holder.creatorUsername.setText("nbcb");
+        User creator = post.getCreator();
+        holder.creatorUsername.setText(creator.getUsername());
+        //set profile picture
+        storageRef.child("profilepics/" + creator.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {//user has set a profile picture before
+                Picasso.get().load(uri).fit().into(holder.creatorImage);
+            }
+        }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
+            @Override
+            public void onFailure(@NonNull Exception e) {//set default picture
+                Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").fit().into(holder.creatorImage);
+            }
+        });//end of get profile pic
+        storageRef.child("postpics/" + post.getPostUuid() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(holder.postImage);
+            }
+        });
+
+        holder.postCaption.setText(post.getPostDesc());
     }
 
     @Override
