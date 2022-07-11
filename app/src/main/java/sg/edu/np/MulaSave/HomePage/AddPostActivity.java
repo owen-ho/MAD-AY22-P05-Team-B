@@ -1,10 +1,12 @@
 package sg.edu.np.MulaSave.HomePage;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,6 +26,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import sg.edu.np.MulaSave.R;
@@ -85,12 +90,18 @@ public class AddPostActivity extends AppCompatActivity {
         });
 
         postButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
                 post.setCreator(user);//set the creator (user object)
                 String randomId = UUID.randomUUID().toString();//create uuid to be used as the post uuid and also the name of the imagefile
                 post.setPostUuid(randomId);
                 post.setPostDesc(postDesc.getText().toString());
+
+                DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+                String formattedDateTime = LocalDateTime.now().format(myFormatObj);
+                post.setPostDateTime(formattedDateTime);
                 //store the image to storage
                 storageRef.child("postpics/" + randomId + ".png").putFile(Uri.parse(post.getPostImageUrl()))
                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

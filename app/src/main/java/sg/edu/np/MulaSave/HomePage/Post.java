@@ -10,11 +10,11 @@ public class Post {
     private String postImageUrl;
     private String postDesc;
     private String postUuid;
-    private LocalDateTime postDateTime;
+    private String postDateTime;
 
     public Post(){};
 
-    public Post(User _creator, String _postImageUrl, String _postDesc, String _postUuid, LocalDateTime _postDateTime){
+    public Post(User _creator, String _postImageUrl, String _postDesc, String _postUuid, String _postDateTime){
         creator = _creator;
         postImageUrl = _postImageUrl;
         postDesc = _postDesc;
@@ -54,11 +54,11 @@ public class Post {
         this.postUuid = postUuid;
     }
 
-    public LocalDateTime getPostDateTime() {
+    public String getPostDateTime() {
         return postDateTime;
     }
 
-    public void setPostDateTime(LocalDateTime postDateTime) {
+    public void setPostDateTime(String postDateTime) {
         this.postDateTime = postDateTime;
     }
 }

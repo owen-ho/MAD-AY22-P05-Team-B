@@ -116,20 +116,21 @@
                         android:textColor="#000000"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/imageView19" />
+                        app:layout_constraintTop_toBottomOf="@+id/postLike" />
 
                     <ImageView
-                        android:id="@+id/imageView19"
+                        android:id="@+id/postLike"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_baseline_favorite_24" />
+                        app:srcCompat="@drawable/ic_baseline_favorite_24"
+                        app:tint="#B1B1B1" />
 
                     <TextView
-                        android:id="@+id/textView6"
+                        android:id="@+id/postDateTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
