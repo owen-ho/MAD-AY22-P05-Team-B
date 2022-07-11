@@ -35,6 +35,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,7 +57,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     StorageReference storageRef = storage.getReference();
 
     public PostAdapter(ArrayList<Post> _postList) {
-        Collections.sort(_postList,postComparator);
+        //Collections.sort(_postList,postComparator);
         this.postList = _postList;
     }
 
@@ -68,6 +69,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return new PostViewHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = postList.get(position);
@@ -91,6 +93,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 Picasso.get().load(uri).into(holder.postImage);
             }
         });
+
         holder.postDateTime.setText(post.getPostDateTime());
         holder.postCaption.setText(post.getPostDesc());
 
@@ -154,12 +157,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     //custom comparator for sorting the posts
-    public Comparator<Post> postComparator = new Comparator<Post>() {
+    /*public Comparator<Post> postComparator = new Comparator<Post>() {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public int compare(Post p1, Post p2) {
-            return LocalDateTime.parse(p1.getPostDateTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"))
-                    .compareTo(LocalDateTime.parse(p1.getPostDateTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+            return p1.getPostDateTime().compareTo(p2.getPostDateTime());
         }
-    };
+    };*/
 }
