@@ -29,7 +29,8 @@
             android:layout_marginEnd="24dp"
             android:src="@drawable/add_friends_vector"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#000000"/>
 
         <ImageView
             android:id="@+id/hAddPost"
@@ -39,18 +40,8 @@
             android:layout_marginEnd="24dp"
             android:src="@drawable/add_post_vector"
             app:layout_constraintEnd_toStartOf="@+id/hAddFirend"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nothing on your feed..."
-            android:textColor="#7C7C7C"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#000000"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/postRecycler"
@@ -64,6 +55,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+        <ImageView
+            android:id="@+id/hLikes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:src="@drawable/favourate_button"
+            app:layout_constraintEnd_toStartOf="@+id/hAddPost"
+            app:layout_constraintTop_toTopOf="@+id/hAddPost"
+            app:tint="#000000" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

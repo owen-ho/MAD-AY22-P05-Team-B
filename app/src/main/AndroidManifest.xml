@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.P05TeamB">
         <activity
-            android:name=".AddPostActivity"
+            android:name=".HomePage.AddPostActivity"
             android:exported="false" />
         <activity
-            android:name=".AddFriends"
+            android:name=".HomePage.AddFriends"
             android:exported="false" />
         <activity
             android:name=".descriptionpage"

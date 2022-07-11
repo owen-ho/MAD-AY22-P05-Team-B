@@ -1,4 +1,4 @@
-package sg.edu.np.MulaSave;
+package sg.edu.np.MulaSave.HomePage;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -11,6 +11,7 @@ import sg.edu.np.MulaSave.FriendsFragments.ExploreFragment;
 import sg.edu.np.MulaSave.FriendsFragments.FriendsFragment;
 import sg.edu.np.MulaSave.FriendsFragments.FriendsActivityAdapter;
 import sg.edu.np.MulaSave.FriendsFragments.RequestsFragment;
+import sg.edu.np.MulaSave.R;
 
 public class AddFriends extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package sg.edu.np.MulaSave;
+package sg.edu.np.MulaSave.HomePage;
 
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -14,10 +14,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
+import sg.edu.np.MulaSave.R;
+import sg.edu.np.MulaSave.User;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
@@ -25,8 +28,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
 
-    public PostAdapter(ArrayList<Post> postList) {
-        this.postList = postList;
+    public PostAdapter(ArrayList<Post> _postList) {
+        Collections.reverse(_postList);
+        this.postList = _postList;
     }
 
     @NonNull

@@ -1,34 +1,19 @@
 package sg.edu.np.MulaSave.Fragments;
 
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,21 +21,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import sg.edu.np.MulaSave.APIHandler;
-import sg.edu.np.MulaSave.AddFriends;
-import sg.edu.np.MulaSave.AddPostActivity;
-import sg.edu.np.MulaSave.MainActivity;
-import sg.edu.np.MulaSave.Post;
-import sg.edu.np.MulaSave.PostAdapter;
-import sg.edu.np.MulaSave.Product;
+import sg.edu.np.MulaSave.HomePage.AddFriends;
+import sg.edu.np.MulaSave.HomePage.AddPostActivity;
+import sg.edu.np.MulaSave.HomePage.Post;
+import sg.edu.np.MulaSave.HomePage.PostAdapter;
 import sg.edu.np.MulaSave.R;
 
 public class HomeFragment extends Fragment {
@@ -133,7 +110,7 @@ public class HomeFragment extends Fragment {
             }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
-        linearLayoutManager.setReverseLayout(true);
+
         postRecycler.setLayoutManager(linearLayoutManager);
         postRecycler.setItemAnimator(new DefaultItemAnimator());
         postRecycler.setAdapter(postAdapter);//set adapter
