@@ -27,6 +27,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import javax.sql.DataSource;
+
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 
@@ -54,8 +56,8 @@ public class ExploreFriendAdapter extends RecyclerView.Adapter<ExploreFriendAdap
     @Override
     public void onBindViewHolder(@NonNull ExploreFriendViewHolder holder, int position) {
         User u = exploreList.get(position);
-        holder.userName.setText(u.getUsername());//get texts
 
+        holder.userName.setText(u.getUsername());//get texts
         holder.positiveText.setText("Add Friend");
         holder.negativeText.setText("Cancel");
         holder.negativeCard.setVisibility(View.GONE);//set the visibility of cancel request to be gone first
@@ -92,7 +94,7 @@ public class ExploreFriendAdapter extends RecyclerView.Adapter<ExploreFriendAdap
                 //u refers to the user in the explore list
                 //usr refers to the user currently logged in
                 databaseRefUser.child(u.getUid().toString()).child("requests").child(usr.getUid().toString()).setValue("requested");//add the current user under the requests of the user in explore list
-
+                //ExploreFriendAdapter.this.notifyDataSetChanged();
                 //do not need to change the ui and visibility here because since the code onbind will run again after setting the value
             }
         });
@@ -106,6 +108,7 @@ public class ExploreFriendAdapter extends RecyclerView.Adapter<ExploreFriendAdap
                 holder.positiveText.setText("Add Friend");
                 holder.positiveCard.setCardBackgroundColor(Color.parseColor("#8BC34A"));
                 holder.negativeCard.setVisibility(View.GONE);
+                //ExploreFriendAdapter.this.notifyDataSetChanged();
             }
         });
     }

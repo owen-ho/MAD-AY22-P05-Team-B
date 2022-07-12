@@ -82,7 +82,12 @@ public class ExploreFragment extends Fragment {
                             user.setUsername(username);
                         }
                     }
-                    exploreList.add(user);//add user to the list
+                    if (user.getUid().equals(usr.getUid())){
+                        //do nothing
+                    }
+                    else{
+                        exploreList.add(user);//add user to the list
+                    }
                 }
                 Eadapter.notifyDataSetChanged();
             }
