@@ -27,24 +27,38 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import javax.sql.DataSource;
-
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 
-public class ExploreFriendAdapter extends RecyclerView.Adapter<ExploreFriendAdapter.ExploreFriendViewHolder>{
+public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.ExploreFriendViewHolder>{
 
-    ArrayList<User> exploreList;
+    ArrayList<User> postList;
     DatabaseReference databaseRefUser = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
             .getReference("user");
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
+    int reqOrExplore;//choose the layout for requests or explore
+    //1 means requests
+    //2 means explore layout
 
-    public ExploreFriendAdapter(ArrayList<User> _exploreList){
-        this.exploreList = _exploreList;
+    public ViewFriendAdapter(ArrayList<User> _postList, int _reqOrExplore){
+        this.postList = _postList;
+        this.reqOrExplore = _reqOrExplore;
     }
+
+    @Override
+    public int getItemViewType(int position)
+    {
+        if(this.reqOrExplore == 1){
+            return 1;//requests page
+        }
+        else{
+            return  2;//explore page
+        }
+    }
+
     @NonNull
     @Override
     public ExploreFriendViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -55,24 +69,55 @@ public class ExploreFriendAdapter extends RecyclerView.Adapter<ExploreFriendAdap
 
     @Override
     public void onBindViewHolder(@NonNull ExploreFriendViewHolder holder, int position) {
-        User u = exploreList.get(position);
-
+        User u = postList.get(position);
         holder.userName.setText(u.getUsername());//get texts
-        holder.positiveText.setText("Add Friend");
-        holder.negativeText.setText("Cancel");
-        holder.negativeCard.setVisibility(View.GONE);//set the visibility of cancel request to be gone first
 
-        databaseRefUser.child(u.getUid().toString()).child("requests").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if(task.getResult().hasChild(usr.getUid().toString())){
-                    //change ui to show requested
-                    holder.positiveText.setText("Requested");
-                    holder.positiveCard.setCardBackgroundColor(Color.parseColor("#FF0288D1"));
-                    holder.negativeCard.setVisibility(View.VISIBLE);
+        if(holder.getItemViewType()==1){//requests page
+            holder.positiveText.setText("Accept");
+            holder.negativeText.setText("Cancel");
+        }//end of requests on bind methods
+
+        else{//2 which is explore page
+            holder.positiveText.setText("Add Friend");
+            holder.negativeText.setText("Cancel");
+            holder.negativeCard.setVisibility(View.GONE);//set the visibility of cancel request to be gone first
+            databaseRefUser.child(u.getUid().toString()).child("requests").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if(task.getResult().hasChild(usr.getUid().toString())){
+                        //change ui to show requested
+                        holder.positiveText.setText("Requested");
+                        holder.positiveCard.setCardBackgroundColor(Color.parseColor("#FF0288D1"));
+                        holder.negativeCard.setVisibility(View.VISIBLE);
+                    }
                 }
-            }
-        });//end of checking if the user has requested
+            });//end of checking if the user has requested
+
+            holder.positiveCard.setOnClickListener(new View.OnClickListener() {//request to add friend
+                @Override
+                public void onClick(View view) {
+                    //u refers to the user in the explore list
+                    //usr refers to the user currently logged in
+                    databaseRefUser.child(u.getUid().toString()).child("requests").child(usr.getUid().toString()).setValue(usr.getEmail());//add the current user under the requests of the user in explore list
+                    //ExploreFriendAdapter.this.notifyDataSetChanged();
+
+                    //do not need to change the ui and visibility here because since the code onbind will run again after setting the value
+                }
+            });
+
+            holder.negativeCard.setOnClickListener(new View.OnClickListener() {//cancel friend request
+                @Override
+                public void onClick(View view) {
+
+                    databaseRefUser.child(u.getUid().toString()).child("requests").child(usr.getUid().toString()).removeValue();
+
+                    holder.positiveText.setText("Add Friend");
+                    holder.positiveCard.setCardBackgroundColor(Color.parseColor("#8BC34A"));
+                    holder.negativeCard.setVisibility(View.GONE);
+                    //ExploreFriendAdapter.this.notifyDataSetChanged();
+                }
+            });
+        }//end of explore onbindmethods
 
 
         //set profile picture
@@ -88,34 +133,11 @@ public class ExploreFriendAdapter extends RecyclerView.Adapter<ExploreFriendAdap
             }
         });//end of get profile pic
 
-        holder.positiveCard.setOnClickListener(new View.OnClickListener() {//request to add friend
-            @Override
-            public void onClick(View view) {
-                //u refers to the user in the explore list
-                //usr refers to the user currently logged in
-                databaseRefUser.child(u.getUid().toString()).child("requests").child(usr.getUid().toString()).setValue("requested");//add the current user under the requests of the user in explore list
-                //ExploreFriendAdapter.this.notifyDataSetChanged();
-                //do not need to change the ui and visibility here because since the code onbind will run again after setting the value
-            }
-        });
-
-        holder.negativeCard.setOnClickListener(new View.OnClickListener() {//cancel friend request
-            @Override
-            public void onClick(View view) {
-
-                databaseRefUser.child(u.getUid().toString()).child("requests").child(usr.getUid().toString()).removeValue();
-
-                holder.positiveText.setText("Add Friend");
-                holder.positiveCard.setCardBackgroundColor(Color.parseColor("#8BC34A"));
-                holder.negativeCard.setVisibility(View.GONE);
-                //ExploreFriendAdapter.this.notifyDataSetChanged();
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
-        return exploreList.size();
+        return postList.size();
     }
 
     //viewholder

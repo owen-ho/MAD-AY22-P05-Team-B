@@ -27,7 +27,7 @@ import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 
 public class ExploreFragment extends Fragment {
-    RecyclerView requestsRecyclerView, exploreRecyclerView;
+    RecyclerView exploreRecyclerView;
     DatabaseReference databaseRefUser = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
             .getReference("user");
@@ -58,7 +58,7 @@ public class ExploreFragment extends Fragment {
         exploreRecyclerView = view.findViewById(R.id.exploreRecycler);
 
         exploreList = new ArrayList<>();
-        ExploreFriendAdapter Eadapter = new ExploreFriendAdapter(exploreList);
+        ViewFriendAdapter Eadapter = new ViewFriendAdapter(exploreList,2);
         databaseRefUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//get data on success
