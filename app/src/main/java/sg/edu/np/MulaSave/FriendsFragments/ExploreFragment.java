@@ -54,7 +54,12 @@ public class ExploreFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
+        return view;
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         exploreRecyclerView = view.findViewById(R.id.exploreRecycler);
 
         exploreList = new ArrayList<>();
@@ -101,11 +106,5 @@ public class ExploreFragment extends Fragment {
         exploreRecyclerView.setLayoutManager(vLayoutManager);
         exploreRecyclerView.setItemAnimator(new DefaultItemAnimator());
         exploreRecyclerView.setAdapter(Eadapter);//set adapter
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 }
