@@ -103,28 +103,38 @@ public class AddPostActivity extends AppCompatActivity {
 
                 String formattedDateTime = LocalDateTime.now().format(myFormatObj);
                 post.setPostDateTime(formattedDateTime);
-                //store the image to storage
-                storageRef.child("postpics/" + randomId + ".png").putFile(Uri.parse(post.getPostImageUrl()))
-                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                storageRef.child("postpics/" + randomId + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        post.setPostImageUrl(uri.toString());//set the image url in post object
-                                    }
-                                });
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
 
-                            }
-                        });
-                databaseRefUser.child(usr.getUid().toString()).child("posts").child(randomId).setValue(post);//set the post into the user under posts
-                //show success and exit
-                Toast.makeText(AddPostActivity.this,"Upload Success!",Toast.LENGTH_SHORT).show();
-                finish();
+                if (post.getPostImageUrl() == null){
+                    Toast.makeText(AddPostActivity.this,"Please upload an Image before proceeding",Toast.LENGTH_SHORT).show();
+                }
+                else if (post.getPostDesc().equals("")){
+                    Toast.makeText(AddPostActivity.this,"Please insert a description",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    //store the image to storage
+                    storageRef.child("postpics/" + randomId + ".png").putFile(Uri.parse(post.getPostImageUrl()))
+                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    storageRef.child("postpics/" + randomId + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            post.setPostImageUrl(uri.toString());//set the image url in post object
+                                        }
+                                    });
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+                    databaseRefUser.child(usr.getUid().toString()).child("posts").child(randomId).setValue(post);//set the post into the user under posts
+                    //show success and exit
+                    Toast.makeText(AddPostActivity.this,"Upload Success!",Toast.LENGTH_SHORT).show();
+                    finish();
+
+                }
             }
         });
 
