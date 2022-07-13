@@ -79,18 +79,24 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         Product p = data.get(position);
 
         holder.productTitle.setText(p.getTitle());
-        String price = String.format("$%.2f",p.getPrice());
+        String price = "0.0";
+        if (p.getPrice()!=null){
+            price = String.format("$%.2f",p.getPrice());
+        }
+
         holder.productPrice.setText(price);
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(holder.productListing);//close the constraint layout
+        if(p.getRating()!=null){
+            if(Math.signum(p.getRating()) == 0){//check if rating is 0 (rating is not available)
+                holder.prodRating.setVisibility(View.GONE);//rating bar gone
+            }
+            else {//rating is available (set rating)
+                holder.prodRating.setVisibility(View.VISIBLE);//rating bar visible
+                holder.prodRating.setRating(p.getRating());
+            }
+        }
 
-        if(Math.signum(p.getRating()) == 0){//check if rating is 0 (rating is not available)
-            holder.prodRating.setVisibility(View.GONE);//rating bar gone
-        }
-        else {//rating is available (set rating)
-            holder.prodRating.setVisibility(View.VISIBLE);//rating bar visible
-            holder.prodRating.setRating(p.getRating());
-        }
 
         holder.productWebsite.setText(p.getWebsite());
 
@@ -106,13 +112,13 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             }
         });
         //use title, imageurl and website name as unique id for the listing - replacing all characters except for alphabets and numbers
-        String wishlistUnique = (p.getTitle() + (p.getImageUrl().substring(p.getImageUrl().length()-15))+ p.getWebsite()).replaceAll("[^a-zA-Z0-9]", "");
-
 
         DatabaseReference databaseRefUser = FirebaseDatabase
                 .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .getReference("user");
         FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
+
+        String wishlistUnique = (p.getTitle() + (p.getImageUrl().substring(p.getImageUrl().length()-15))+ p.getWebsite()).replaceAll("[^a-zA-Z0-9]", "");
 
         databaseRefUser.child(usr.getUid().toString()).child("wishlist").addListenerForSingleValueEvent(new ValueEventListener() {//access users wishlist
             @Override

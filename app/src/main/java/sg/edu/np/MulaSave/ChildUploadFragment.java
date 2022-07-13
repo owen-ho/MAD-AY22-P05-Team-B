@@ -102,41 +102,45 @@ public class ChildUploadFragment extends Fragment {
         });
 
         recyclerViewUserUpload = view.findViewById(R.id.recyclerViewUserUpload);
-        UserUploadList = new ArrayList<>();
+        UserUploadList = new ArrayList<Product>();
         OnlyUsersUploadlist = new ArrayList<>();
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        for (Product p : UserUploadList) {
-            if (p.getSellerUid().equals(currentUser.getUid())) {
-                OnlyUsersUploadlist.add(p);
-            }
-            else{
-                OnlyUsersUploadlist.add(new Product());
-            }
-        }
-        if (OnlyUsersUploadlist.size() != 0){
-            ShoppingRecyclerAdapter prodAdapter = new ShoppingRecyclerAdapter(UserUploadList, getContext(), 1);//set adapter with  search layout (layout 1)
-            databaseRefProduct.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    UserUploadList.clear();
-                    for (DataSnapshot ss : snapshot.getChildren()) {
-                        Product p = ss.getValue(Product.class);//get all uploaded products and convert to product objects
-                        UserUploadList.add(p);//add products
+
+        ShoppingRecyclerAdapter prodAdapter = new ShoppingRecyclerAdapter(OnlyUsersUploadlist, getContext(), 1);//set adapter with  search layout (layout 1)
+        databaseRefProduct.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mAuth = FirebaseAuth.getInstance();
+                FirebaseUser currentUser = mAuth.getCurrentUser();
+                UserUploadList.clear();
+                for (DataSnapshot ss : snapshot.getChildren()) {
+                    Product p = ss.getValue(Product.class);//get all uploaded products and convert to product objects
+                    UserUploadList.add(p);//add products
+                }
+                if(currentUser!=null){
+                    for (Product p : UserUploadList) {
+                        if(p.getSellerUid()!=null){
+                            if (p.getSellerUid().equals(currentUser.getUid())) {
+                                OnlyUsersUploadlist.add(p);
+                            }
+                            else{
+                                OnlyUsersUploadlist.add(new Product());
+                            }
+                        }
                     }
-                    prodAdapter.notifyDataSetChanged();
                 }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Log.w("error", "loadPost:onCancelled", error.toException());
-                }
-            });
-            //set the layout
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);//layout with 2 items per row
-            recyclerViewUserUpload.setLayoutManager(gridLayoutManager);
-            recyclerViewUserUpload.setItemAnimator(new DefaultItemAnimator());
-            recyclerViewUserUpload.setAdapter(prodAdapter);
-        }
+                prodAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("error", "loadPost:onCancelled", error.toException());
+            }
+        });
+        //set the layout
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);//layout with 2 items per row
+        recyclerViewUserUpload.setLayoutManager(gridLayoutManager);
+        recyclerViewUserUpload.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewUserUpload.setAdapter(prodAdapter);
     }
 }
