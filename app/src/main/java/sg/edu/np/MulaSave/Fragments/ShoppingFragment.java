@@ -71,14 +71,14 @@ public class ShoppingFragment extends Fragment {
         recyclerView = view.findViewById(R.id.shoppingrecyclerview);
         //recyclerView.setHasFixedSize(true);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2,GridLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         //productList = new ArrayList<Product>();
         SearchView query = view.findViewById(R.id.searchQuery);
         if (productList!=null) {//Checks for previously loaded productList to display
             if(productList.size()!=0){
-                ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),1);
+                ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),2);
                 //WishList Filters
                 recyclerViewFilter = view.findViewById(R.id.shoppingFilter);
                 wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(view,pAdapter,productList,3);
@@ -229,7 +229,7 @@ public class ShoppingFragment extends Fragment {
             MainActivity.productList = productList;
 
             //Display products with productList generated based on user's query
-            ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),1);
+            ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),2);
             //WishList Filters
             recyclerViewFilter = view.findViewById(R.id.shoppingFilter);
             wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(getView(),pAdapter,productList,3);
