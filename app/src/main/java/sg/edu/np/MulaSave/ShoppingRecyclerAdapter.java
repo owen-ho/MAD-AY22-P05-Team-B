@@ -118,6 +118,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                 .getReference("user");
         FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
 
+        Log.d("ProductNullCheck"," "+position+" "+p.getTitle());
         String wishlistUnique = (p.getTitle() + (p.getImageUrl().substring(p.getImageUrl().length()-15))+ p.getWebsite()).replaceAll("[^a-zA-Z0-9]", "");
 
         databaseRefUser.child(usr.getUid().toString()).child("wishlist").addListenerForSingleValueEvent(new ValueEventListener() {//access users wishlist

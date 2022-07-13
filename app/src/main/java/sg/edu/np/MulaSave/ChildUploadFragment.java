@@ -104,7 +104,6 @@ public class ChildUploadFragment extends Fragment {
         recyclerViewUserUpload = view.findViewById(R.id.recyclerViewUserUpload);
         UserUploadList = new ArrayList<Product>();
         OnlyUsersUploadlist = new ArrayList<>();
-
         ShoppingRecyclerAdapter prodAdapter = new ShoppingRecyclerAdapter(OnlyUsersUploadlist, getContext(), 1);//set adapter with  search layout (layout 1)
         databaseRefProduct.addValueEventListener(new ValueEventListener() {
             @Override
@@ -122,13 +121,9 @@ public class ChildUploadFragment extends Fragment {
                             if (p.getSellerUid().equals(currentUser.getUid())) {
                                 OnlyUsersUploadlist.add(p);
                             }
-                            else{
-                                OnlyUsersUploadlist.add(new Product());
-                            }
                         }
                     }
                 }
-
                 prodAdapter.notifyDataSetChanged();
             }
 

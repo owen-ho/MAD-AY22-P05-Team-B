@@ -305,7 +305,7 @@ public class HomeFragment extends Fragment {
             String url = "https://api.rainforestapi.com/request?api_key=demo&type=bestsellers&category_id=bestsellers_appliances&amazon_domain=amazon.com";
             APIHandler handler = new APIHandler();
             String jsonString = handler.httpServiceCall(url);//Loads API Json into a string
-            Log.d("JSONInput",jsonString);//Check for success of pulling products from API and also number of requests left
+            Log.d("JSONInput"," "+jsonString);//Check for success of pulling products from API and also number of requests left
             if (jsonString!=null){
                 try {
                     JSONObject jsonObject = new JSONObject(jsonString);
