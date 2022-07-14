@@ -61,6 +61,7 @@ public class RequestsFragment extends Fragment {
         databaseRefUser.child(usr.getUid()).child("requests").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                requestList.clear();
                 if (snapshot.exists()){
                     for (DataSnapshot ss : snapshot.getChildren()){//get requester uid
                         databaseRefUser.child(ss.getKey().toString()).addValueEventListener(new ValueEventListener() {

@@ -41,9 +41,10 @@ public class AddPostActivity extends AppCompatActivity {
     TextView chooseImage, postButton, postDesc;
     int code = 200;
     Post post;
-    DatabaseReference databaseRefUser = FirebaseDatabase
-            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
-            .getReference("user");
+    FirebaseDatabase databaseRef = FirebaseDatabase
+            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    DatabaseReference databaseRefUser = databaseRef.getReference("user");
+    DatabaseReference databaseRefPost = databaseRef.getReference("post");
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
@@ -94,7 +95,7 @@ public class AddPostActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                post.setCreator(user);//set the creator (user object)
+                post.setCreatorUid(user.getUid());//set the creator uid (string object)
                 String randomId = UUID.randomUUID().toString();//create uuid to be used as the post uuid and also the name of the imagefile
                 post.setPostUuid(randomId);
                 post.setPostDesc(postDesc.getText().toString());
@@ -129,7 +130,7 @@ public class AddPostActivity extends AppCompatActivity {
 
                                 }
                             });
-                    databaseRefUser.child(usr.getUid().toString()).child("posts").child(randomId).setValue(post);//set the post into the user under posts
+                    databaseRefPost.child(randomId).setValue(post);//set the post into the user under posts
                     //show success and exit
                     Toast.makeText(AddPostActivity.this,"Upload Success!",Toast.LENGTH_SHORT).show();
                     finish();

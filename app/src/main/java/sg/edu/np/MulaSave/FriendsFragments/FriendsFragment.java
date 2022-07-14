@@ -57,6 +57,7 @@ public class FriendsFragment extends Fragment {
         databaseRefUser.child(usr.getUid()).child("friends").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                friendList.clear();
                 for (DataSnapshot ss : snapshot.getChildren()){//ss.getKey() is the uid of each friend
                     databaseRefUser.child(ss.getKey().toString()).addValueEventListener(new ValueEventListener() {
                         @Override

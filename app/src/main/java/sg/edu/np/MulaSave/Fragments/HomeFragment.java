@@ -37,9 +37,10 @@ public class HomeFragment extends Fragment {
     ArrayList<Post> postList;
     PostAdapter postAdapter;
 
-    DatabaseReference databaseRefUser = FirebaseDatabase
-            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
-            .getReference("user");
+    FirebaseDatabase databaseRef = FirebaseDatabase
+            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    DatabaseReference databaseRefUser = databaseRef.getReference("user");
+    DatabaseReference databaseRefPost = databaseRef.getReference("post");
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
 
     public HomeFragment() {
@@ -90,25 +91,23 @@ public class HomeFragment extends Fragment {
         postRecycler = view.findViewById(R.id.postRecycler);//set recycler
         postList = new ArrayList<>();//create new arraylist
         postAdapter = new PostAdapter(postList);//create new adapter
-        databaseRefUser.addValueEventListener(new ValueEventListener() {
+
+        databaseRefPost.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                postList.clear();//so that the posts does not duplicate when user enters again
+                postList.clear();
                 for (DataSnapshot ss : snapshot.getChildren()){
-                    for (DataSnapshot ds : ss.getChildren()){
-                        if (ds.getKey().toString().equals("posts")){
-                            for (DataSnapshot postSnapshot : ds.getChildren()){
-                                postList.add(postSnapshot.getValue(Post.class));
-                            }postAdapter.notifyDataSetChanged();
-                        }
-                    }
+                    postList.add(ss.getValue(Post.class));
                 }
+                postAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
 
         postRecycler.setLayoutManager(linearLayoutManager);

@@ -67,24 +67,19 @@ public class ExploreFragment extends Fragment {
         databaseRefUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//get data on success
+                exploreList.clear();
                 for (DataSnapshot ss : snapshot.getChildren()){
                     //User extractUser = ss.getValue(User.class);
-                    String uid = "uid";
-                    String email = "email";
-                    String username = "username";
                     User user = new User();
                     for (DataSnapshot ds : ss.getChildren()){//because the users may have wishlists, cannot extract directly to user class
                         if (ds.getKey().equals("uid")){
-                            uid = ds.getValue().toString();
-                            user.setUid(uid);
+                            user.setUid(ds.getValue().toString());
                         }
                         if(ds.getKey().equals("email")){
-                            email = ds.getValue().toString();
-                            user.setEmail(email);
+                            user.setEmail(ds.getValue().toString());
                         }
                         if(ds.getKey().equals("username")){
-                            username = ds.getValue().toString();
-                            user.setUsername(username);
+                            user.setUsername(ds.getValue().toString());
                         }
                     }
                     if (user.getUid().equals(usr.getUid())){

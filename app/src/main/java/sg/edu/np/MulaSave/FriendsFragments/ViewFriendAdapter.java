@@ -49,6 +49,16 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
     }
 
     @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
+    @Override
+    public void setHasStableIds(boolean hasStableIds) {
+        super.setHasStableIds(hasStableIds);
+    }
+
+    @Override
     public int getItemViewType(int position)
     {
         if(this.reqOrExplore == 1){
@@ -74,6 +84,8 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
     public void onBindViewHolder(@NonNull ExploreFriendViewHolder holder, int position) {
         User u = userList.get(position);
         holder.userName.setText(u.getUsername());//get texts
+        //holder.setIsRecyclable(false);
+
 
         //set profile picture
         storageRef.child("profilepics/" + u.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -84,7 +96,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
         }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
             @Override
             public void onFailure(@NonNull Exception e) {//set default picture
-                //Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").fit().into(holder.userPic);
+                Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").fit().into(holder.userPic);
             }
         });//end of get profile pic
 
@@ -99,10 +111,8 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
                     databaseRefUser.child(usr.getUid().toString()).child("friends").child(u.getUid()).setValue(u.getUid());//add the new friend under the current users friend list
                     databaseRefUser.child(u.getUid().toString()).child("friends").child(usr.getUid()).setValue(usr.getUid());
                     databaseRefUser.child(usr.getUid()).child("requests").child(u.getUid()).removeValue();//remove the user from requests like
-                    /*userList.remove(u);
-                    ViewFriendAdapter.this.notifyItemRemoved(holder.getAdapterPosition());*/
-                    userList.clear();
-                    ViewFriendAdapter.this.notifyDataSetChanged();
+                    userList.remove(u);
+                    ViewFriendAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
                 }
             });
 
@@ -135,6 +145,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
 
             holder.positiveText.setText("Add Friend");
             holder.negativeText.setText("Cancel");
+            holder.positiveCard.setCardBackgroundColor(Color.parseColor("#8BC34A"));//set to green
             holder.negativeCard.setVisibility(View.GONE);//set the visibility of cancel request to be gone first
             databaseRefUser.child(u.getUid().toString()).child("requests").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
@@ -142,7 +153,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
                     if(task.getResult().hasChild(usr.getUid().toString())){
                         //change ui to show requested
                         holder.positiveText.setText("Requested");
-                        holder.positiveCard.setCardBackgroundColor(Color.parseColor("#FF0288D1"));
+                        holder.positiveCard.setCardBackgroundColor(Color.parseColor("#FF0288D1"));//set to blue
                         holder.negativeCard.setVisibility(View.VISIBLE);
                     }
                 }
@@ -154,9 +165,9 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
                     //u refers to the user in the explore list
                     //usr refers to the user currently logged in
                     databaseRefUser.child(u.getUid().toString()).child("requests").child(usr.getUid().toString()).setValue("wants to add");//add the current user under the requests of the user in explore list
-                    //ViewFriendAdapter.this.notifyItemChanged(holder.getAdapterPosition(),User.class);
+                    ViewFriendAdapter.this.notifyDataSetChanged();
                     //userList.clear();
-                    notifyDataSetChanged();
+                    //notifyDataSetChanged();
                     //do not need to change the ui and visibility here because since the code onbind will run again after setting the value
                 }
             });
@@ -170,9 +181,9 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
                     holder.positiveText.setText("Add Friend");
                     holder.positiveCard.setCardBackgroundColor(Color.parseColor("#8BC34A"));
                     holder.negativeCard.setVisibility(View.GONE);
-                    //ViewFriendAdapter.this.notifyItemChanged(holder.getAdapterPosition(),User.class);
+                    ViewFriendAdapter.this.notifyDataSetChanged();
                     //userList.clear();
-                    notifyDataSetChanged();
+                    //notifyDataSetChanged();
                 }
             });
         }

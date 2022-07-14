@@ -49,9 +49,10 @@ import sg.edu.np.MulaSave.User;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
     ArrayList<Post> postList;
-    DatabaseReference databaseRefUser = FirebaseDatabase
-            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
-            .getReference("user");
+    FirebaseDatabase databaseRef = FirebaseDatabase
+            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    DatabaseReference databaseRefUser = databaseRef.getReference("user");
+    DatabaseReference databaseRefPost = databaseRef.getReference("post");
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
@@ -73,20 +74,47 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = postList.get(position);
-        User creator = post.getCreator();
-        holder.creatorUsername.setText(creator.getUsername());
-        //set profile picture
-        storageRef.child("profilepics/" + creator.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        String creatorUid = post.getCreatorUid();
+        databaseRefUser.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onSuccess(Uri uri) {//user has set a profile picture before
-                Picasso.get().load(uri).fit().into(holder.creatorImage);
-            }
-        }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ss : snapshot.getChildren()){
+                    User creator = new User();
+                    for (DataSnapshot ds : ss.getChildren()){//because the users may have wishlists, cannot extract directly to user class
+                        if (ds.getKey().equals("uid")){
+                            creator.setUid(ds.getValue().toString());
+                        }
+                        if(ds.getKey().equals("email")){
+                            creator.setEmail(ds.getValue().toString());
+                        }
+                        if(ds.getKey().equals("username")){
+                            creator.setUsername(ds.getValue().toString());
+                        }
+                    }
+                    if (creator.getUid().equals(creatorUid)){//if it is the creator as taken from the post object
+                        holder.creatorUsername.setText(creator.getUsername());
+                        //set profile picture
+                        storageRef.child("profilepics/" + creator.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {//user has set a profile picture before
+                                Picasso.get().load(uri).fit().into(holder.creatorImage);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
+                            @Override
+                            public void onFailure(@NonNull Exception e) {//set default picture
+                                Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").fit().into(holder.creatorImage);
+                            }
+                        });//end of get profile pic
+                        break;//break the loop since the creator is found, no point looping
+                    }
+                }
+            }//end of on data change
+
             @Override
-            public void onFailure(@NonNull Exception e) {//set default picture
-                Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").fit().into(holder.creatorImage);
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
-        });//end of get profile pic
+        });
         storageRef.child("postpics/" + post.getPostUuid() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {

@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import sg.edu.np.MulaSave.User;
 
 public class Post {
-    private User creator;
+    private String creatorUid;
     private String postImageUrl;
     private String postDesc;
     private String postUuid;
@@ -14,20 +14,20 @@ public class Post {
 
     public Post(){};
 
-    public Post(User _creator, String _postImageUrl, String _postDesc, String _postUuid, String _postDateTime){
-        creator = _creator;
+    public Post(String _creatorUid, String _postImageUrl, String _postDesc, String _postUuid, String _postDateTime){
+        creatorUid = _creatorUid;
         postImageUrl = _postImageUrl;
         postDesc = _postDesc;
         postUuid = _postUuid;
         postDateTime = _postDateTime;
     }
 
-    public User getCreator() {
-        return creator;
+    public String getCreatorUid() {
+        return creatorUid;
     }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
+    public void setCreatorUid(String creator) {
+        this.creatorUid = creator;
     }
 
     public String getPostImageUrl() {
