@@ -28,11 +28,12 @@ import sg.edu.np.MulaSave.HomePage.AddFriends;
 import sg.edu.np.MulaSave.HomePage.AddPostActivity;
 import sg.edu.np.MulaSave.HomePage.Post;
 import sg.edu.np.MulaSave.HomePage.PostAdapter;
+import sg.edu.np.MulaSave.LikedPostActivity;
 import sg.edu.np.MulaSave.R;
 
 public class HomeFragment extends Fragment {
 
-    ImageView addFriend, addPost;
+    ImageView addFriend, addPost, viewLikes;
     RecyclerView postRecycler;
     ArrayList<Post> postList;
     PostAdapter postAdapter;
@@ -71,6 +72,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         addFriend = view.findViewById(R.id.hAddFirend);//get the add friend and post imageviews
         addPost = view.findViewById(R.id.hAddPost);
+        viewLikes = view.findViewById(R.id.hLikes);
 
         addFriend.setOnClickListener(new View.OnClickListener() {//set on click listener
             @Override
@@ -84,6 +86,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {//go to add post activity
                 Intent i = new Intent(getActivity(), AddPostActivity.class);
+                startActivity(i);
+            }
+        });
+
+        viewLikes.setOnClickListener(new View.OnClickListener() {//start activity to see the liked posts
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), LikedPostActivity.class);
                 startActivity(i);
             }
         });
