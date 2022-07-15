@@ -1,7 +1,9 @@
 package sg.edu.np.MulaSave.HomePage;
 
 import android.app.AlertDialog;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
@@ -18,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -56,6 +59,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
+    AnimatedVectorDrawableCompat avd;
+    AnimatedVectorDrawable avd2;
 
     public PostAdapter(ArrayList<Post> _postList) {
         //Collections.sort(_postList,postComparator);
@@ -125,6 +130,22 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.postDateTime.setText(post.getPostDateTime());
         holder.postCaption.setText(post.getPostDesc());
 
+        final Drawable drawable = holder.postHeartAni.getDrawable();
+        holder.postImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.postHeartAni.setAlpha(0.70f);
+                if (drawable instanceof AnimatedVectorDrawableCompat){
+                    avd = (AnimatedVectorDrawableCompat) drawable;
+                    avd.start();
+                }
+                else if (drawable instanceof  AnimatedVectorDrawable){
+                    avd2 = (AnimatedVectorDrawable) drawable;
+                    avd2.start();
+                }
+            }
+        });
+
         //check if the post is liked, if liked, display as liked (red heart icon)
         databaseRefUser.child(usr.getUid().toString()).child("likedposts").addListenerForSingleValueEvent(new ValueEventListener() {//access users wishlist
             @Override
@@ -171,7 +192,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
-        ImageView creatorImage, postImage, postLike;
+        ImageView creatorImage, postImage, postLike,postHeartAni;
         TextView creatorUsername, postCaption, postDateTime;
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -181,6 +202,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             postCaption = itemView.findViewById(R.id.postCaption);
             postDateTime = itemView.findViewById(R.id.postDateTime);
             postLike = itemView.findViewById(R.id.postLike);
+            postHeartAni = itemView.findViewById(R.id.postHeartAni);
         }
     }
 
