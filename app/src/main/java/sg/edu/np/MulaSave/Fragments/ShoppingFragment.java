@@ -1,11 +1,14 @@
 package sg.edu.np.MulaSave.Fragments;
 
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -36,6 +39,7 @@ import java.util.ArrayList;
 import sg.edu.np.MulaSave.APIHandler;
 import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.Product;
+import sg.edu.np.MulaSave.ProductSuggestionProvider;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.ShoppingRecyclerAdapter;
 import sg.edu.np.MulaSave.wishlistFilterAdapter;
@@ -46,6 +50,7 @@ public class ShoppingFragment extends Fragment {
     private ProgressDialog progressDialog;
     RecyclerView recyclerViewFilter;
     private ArrayList<Product> productList = MainActivity.productList;//Take previously loaded productList
+    private String query = MainActivity.query;
 
     public ShoppingFragment() {
     }
@@ -75,7 +80,13 @@ public class ShoppingFragment extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         //productList = new ArrayList<Product>();
-        SearchView query = view.findViewById(R.id.searchQuery);
+        SearchView searchView = view.findViewById(R.id.searchQuery);
+
+        if (query!=null){//If suggestion has been clicked and intented, process the query which has been clicked
+            productList = new ArrayList<Product>();//Create new list to clear previously loaded products for new query
+            new getProducts(query,productList,view).execute();
+        }
+
         if (productList!=null) {//Checks for previously loaded productList to display
             if(productList.size()!=0){
                 ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),2);
@@ -91,9 +102,14 @@ public class ShoppingFragment extends Fragment {
                 recyclerView.setAdapter(pAdapter);
             }
         }
-        query.setOnQueryTextListener(new SearchView.OnQueryTextListener() { //Grab products from API whenever a query is submitted
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() { //Grab products from API whenever a query is submitted
             @Override
             public boolean onQueryTextSubmit(String s) {
+                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getContext(),
+                        ProductSuggestionProvider.AUTHORITY, ProductSuggestionProvider.MODE);
+                suggestions.saveRecentQuery(s, null); //Save query for search history suggestions in the future
+
                 productList = new ArrayList<Product>();//Create new list to clear previously loaded products for new query
                 new getProducts(s,productList,view).execute();
                 return true;
@@ -104,29 +120,47 @@ public class ShoppingFragment extends Fragment {
             }
         });
 
+        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionSelect(int i) {
+                return false;
+            }
+
+            @Override
+            public boolean onSuggestionClick(int i) {
+                Intent intent = new Intent();
+                intent.putExtra("shopping",1);
+                return false;
+            }
+        });
+
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        SearchView query = view.findViewById(R.id.searchQuery);
-        query.setSubmitButtonEnabled(true);
-
-        int id = query.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        EditText searchEdit = query.findViewById(id);
+        SearchView searchView = view.findViewById(R.id.searchQuery);
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        searchView.setSubmitButtonEnabled(true);
+        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        EditText searchEdit = searchView.findViewById(id);
         searchEdit.setTextColor(Color.BLACK);
 
+
+
         //make the whole search bar clickable
-        query.setOnClickListener(new View.OnClickListener() {
+        searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                query.setIconified(false);
+                searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+                searchView.setQueryRefinementEnabled(true);
+                searchView.setIconified(false);
             }
         });
 
         //set on searchview open listener for searchview
-        query.setOnSearchClickListener(new View.OnClickListener() {
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //((TextView)getView().findViewById(R.id.placeholderText)).setVisibility(View.GONE);//hide the placeholder text
@@ -141,7 +175,8 @@ public class ShoppingFragment extends Fragment {
                 set.applyTo(layout);
             }
         });
-        query.setOnCloseListener(new SearchView.OnCloseListener() {
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
                 ((TextView)getView().findViewById(R.id.shoppingTitle)).setVisibility(View.VISIBLE);
@@ -171,10 +206,10 @@ public class ShoppingFragment extends Fragment {
         if(bundle!= null){
             Boolean search = bundle.getBoolean("condition",false);
             if(search){//if search == true, which means set searchview to active
-                query.performClick();
-                query.requestFocus();
+                searchView.performClick();
+                searchView.requestFocus();
                 //to show the keyboard
-                query.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+                searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View view, boolean hasFocus) {
                         if (hasFocus) {
@@ -206,6 +241,8 @@ public class ShoppingFragment extends Fragment {
             mgr.showSoftInput(view, 0);
         }
     }
+
+
 
     class getProducts extends AsyncTask<Void, Void, Void> {
         String query;
@@ -375,6 +412,4 @@ public class ShoppingFragment extends Fragment {
         }
 
     }
-
-
 }

@@ -5,10 +5,10 @@ import static android.app.Activity.RESULT_OK;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,9 +36,10 @@ import sg.edu.np.MulaSave.ChildUploadFragment;
 import sg.edu.np.MulaSave.Documentation;
 import sg.edu.np.MulaSave.LoginActivity;
 import sg.edu.np.MulaSave.MainActivity;
+import sg.edu.np.MulaSave.ProductSuggestionProvider;
+import sg.edu.np.MulaSave.ProfileEdit;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.SelectProfilePic;
-import sg.edu.np.MulaSave.ProfileEdit;
 
 public class ProfileFragment extends Fragment {
 
@@ -178,6 +179,10 @@ public class ProfileFragment extends Fragment {
 //                    MainActivity.homeproductList.clear();
 //                    MainActivity.homeproductList = null;
 //                }
+                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
+                        ProductSuggestionProvider.AUTHORITY, ProductSuggestionProvider.MODE);
+                suggestions.clearHistory(); //Clear suggestion history
+
                 FirebaseAuth.getInstance().signOut();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
