@@ -31,13 +31,13 @@
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_centerInParent="true"/>
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="40dp"
             android:layout_centerVertical="true"
-            android:id="@+id/userprofilepic"
+            android:id="@+id/userprofilepic1"
             android:src="@drawable/ic_baseline_adb_24"
             android:layout_alignParentEnd="true"
             />

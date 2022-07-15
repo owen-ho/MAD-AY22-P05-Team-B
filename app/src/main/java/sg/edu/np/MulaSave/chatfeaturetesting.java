@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,6 +28,8 @@ public class chatfeaturetesting extends AppCompatActivity {
     private String uid;
     private String username;
     private RecyclerView messagerecycleview;
+    private ImageView userprofilepic;
+
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference userRef = database.getReference("user");
@@ -36,7 +39,7 @@ public class chatfeaturetesting extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final CircleImageView userprofilepic = findViewById(R.id.userprofilepic);
+
         super.onCreate(savedInstanceState);
         Product product = (Product)getIntent().getSerializableExtra("product");
         String sellerid = product.getSellerUid();
@@ -54,8 +57,9 @@ public class chatfeaturetesting extends AppCompatActivity {
                                                   storageRef.child("profilepics/" + user.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                       @Override
                                                       public void onSuccess(Uri uri) {//user has set a profile picture before
+                                                          userprofilepic = findViewById(R.id.userprofilepic1);
                                                           Picasso.get().load(uri).into(userprofilepic);
-                                                          MainActivity.profilePicLink = uri.toString();
+
                                                       }
                                                   }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
                                                       @Override
