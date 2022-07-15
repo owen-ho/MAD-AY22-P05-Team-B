@@ -1,14 +1,15 @@
 package sg.edu.np.MulaSave.messages;
 
 public class messagelistiner {
-    private String uid, lastmessage;
+    private String uid, lastmessage, profilepic;
 
     private int unseenMessages;
 
-    public messagelistiner(String uid, String lastmessage, int unseenMessages) {
+    public messagelistiner(String uid, String lastmessage, String profilepic,int unseenMessages) {
         this.uid = uid;
         this.lastmessage = lastmessage;
         this.unseenMessages = unseenMessages;
+        this.profilepic= profilepic;
     }
 
     public String getUid() {
@@ -21,5 +22,9 @@ public class messagelistiner {
 
     public int getUnseenMessages() {
         return unseenMessages;
+    }
+
+    public String getProfilepic() {
+        return profilepic;
     }
 }

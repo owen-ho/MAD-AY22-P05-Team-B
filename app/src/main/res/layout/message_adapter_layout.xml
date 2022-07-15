@@ -11,14 +11,15 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ImageView
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profilepic"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="40dp"
-                android:src="@drawable/ic_baseline_adb_24"
                 android:layout_marginStart="20dp"
-                android:id="@+id/profilepic"/>
+                android:layout_marginTop="40dp"
+                android:src="@drawable/ic_baseline_adb_24" />
             <LinearLayout
                 android:layout_toStartOf="@+id/unseenmessage"
                 android:layout_width="match_parent"

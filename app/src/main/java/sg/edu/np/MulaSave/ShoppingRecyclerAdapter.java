@@ -102,6 +102,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             @Override
             public void onClick(View view) {
                 //dialog box
+
                 showProductDialog(holder.productListing.getContext(), p);
             }
         });

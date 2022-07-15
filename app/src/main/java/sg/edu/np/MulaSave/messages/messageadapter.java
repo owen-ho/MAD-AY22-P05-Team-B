@@ -4,12 +4,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import sg.edu.np.MulaSave.R;
 
 public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHolder> {
@@ -36,9 +39,19 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
     public int getItemCount() {
         return messagelistiners.size();
     }
+
     static class MyViewHolder extends RecyclerView.ViewHolder {
+        private CircleImageView Profilepic;
+        private TextView name;
+        private TextView lastmessage;
+        private TextView unseenmessage;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            Profilepic = itemView.findViewById(R.id.profilepic);
+            name = itemView.findViewById(R.id.name);
+            lastmessage = itemView.findViewById(R.id.lastmessage);
+            unseenmessage = itemView.findViewById(R.id.unseenmessage);
         }
     }
 }

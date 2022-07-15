@@ -2,6 +2,7 @@ package sg.edu.np.MulaSave;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +45,10 @@ public class descriptionpage extends AppCompatActivity {
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Intent i = new Intent(descriptionpage.this, chatfeaturetesting.class);
+                i.putExtra("product",product);
+                startActivity(i);
 
             }
         });
