@@ -7,7 +7,9 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -130,10 +132,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.postDateTime.setText(post.getPostDateTime());
         holder.postCaption.setText(post.getPostDesc());
 
-        final Drawable drawable = holder.postHeartAni.getDrawable();
-        holder.postImage.setOnClickListener(new View.OnClickListener() {
+        final GestureDetector gDetector = new GestureDetector(holder.postImage.getContext(), new GestureDetector.SimpleOnGestureListener() {
+
             @Override
-            public void onClick(View view) {
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {//on double tap, like the post
+                //animation for the heart
+                final Drawable drawable = holder.postHeartAni.getDrawable();
                 holder.postHeartAni.setAlpha(0.70f);
                 if (drawable instanceof AnimatedVectorDrawableCompat){
                     avd = (AnimatedVectorDrawableCompat) drawable;
@@ -143,8 +152,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                     avd2 = (AnimatedVectorDrawable) drawable;
                     avd2.start();
                 }
+                databaseRefUser.child(usr.getUid()).child("likedposts").child(post.getPostUuid()).setValue(post);
+                holder.postLike.setColorFilter(ContextCompat.getColor(holder.postLike.getContext(), R.color.custom_red));//use custom red color
+                return true;
             }
         });
+
+        //on touch listener for the double tap
+        holder.postImage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return gDetector.onTouchEvent(motionEvent);
+            }
+        });
+
 
         //check if the post is liked, if liked, display as liked (red heart icon)
         databaseRefUser.child(usr.getUid().toString()).child("likedposts").addListenerForSingleValueEvent(new ValueEventListener() {//access users wishlist
@@ -171,12 +192,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 databaseRefUser.child(usr.getUid().toString()).child("likedposts").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
-                        if(task.getResult().hasChild(post.getPostUuid())){
-                            databaseRefUser.child(usr.getUid().toString()).child("likedposts").child(post.getPostUuid().toString()).removeValue();
+                        if(task.getResult().hasChild(post.getPostUuid())){//if post is liked before
+                            databaseRefUser.child(usr.getUid()).child("likedposts").child(post.getPostUuid().toString()).removeValue();
                             holder.postLike.setColorFilter(ContextCompat.getColor(holder.postLike.getContext(), R.color.custom_gray));//use custom gray color
                         }
-                        else{
-                            databaseRefUser.child(usr.getUid().toString()).child("likedposts").child(post.getPostUuid()).setValue(post);
+                        else{//post not liked before: so like the post
+                            databaseRefUser.child(usr.getUid()).child("likedposts").child(post.getPostUuid()).setValue(post);
                             holder.postLike.setColorFilter(ContextCompat.getColor(holder.postLike.getContext(), R.color.custom_red));//use custom red color
                         }
                         PostAdapter.this.notifyDataSetChanged();
