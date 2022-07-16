@@ -25,6 +25,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import sg.edu.np.MulaSave.messages.messagelistiner;
 
 public class chatfeaturetesting extends AppCompatActivity {
     private String uid;
@@ -87,6 +88,7 @@ public class chatfeaturetesting extends AppCompatActivity {
                 }
             });
         }
+
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -96,6 +98,7 @@ public class chatfeaturetesting extends AppCompatActivity {
                     if(!getuid.equals(uid)){
                         final String getname = dataSnapshot.child("username").getValue(String.class);
                         final String getprofilepic = storageRef.child("profilepics/" + user.getUid().toString() + ".png").getDownloadUrl().toString();
+
 
                     }
                 }
