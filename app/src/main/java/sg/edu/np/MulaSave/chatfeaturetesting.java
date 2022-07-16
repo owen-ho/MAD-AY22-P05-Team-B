@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -44,6 +46,14 @@ public class chatfeaturetesting extends AppCompatActivity {
         Product product = (Product)getIntent().getSerializableExtra("product");
         String sellerid = product.getSellerUid();
 
+
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Loading");
+        progressDialog.show();
+
+
+
         if (user!=null){
             userRef.addValueEventListener(new ValueEventListener() {
                                               @Override
@@ -59,11 +69,13 @@ public class chatfeaturetesting extends AppCompatActivity {
                                                       public void onSuccess(Uri uri) {//user has set a profile picture before
                                                           userprofilepic = findViewById(R.id.userprofilepic1);
                                                           Picasso.get().load(uri).into(userprofilepic);
+                                                          progressDialog.dismiss();
 
                                                       }
                                                   }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
                                                       @Override
                                                       public void onFailure(@NonNull Exception e) {//set default picture
+                                                          progressDialog.dismiss();
 
                                                       }
                                                   });
@@ -71,16 +83,29 @@ public class chatfeaturetesting extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    progressDialog.dismiss();
                 }
             });
         }
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        })
 
         setContentView(R.layout.activity_chatfeaturetesting);
         messagerecycleview=findViewById(R.id.messgaerecycleview);
         user.getUid(); //own uid
         messagerecycleview.setHasFixedSize(true);
         messagerecycleview.setLayoutManager(new LinearLayoutManager(this));
+
+
 
 
 
