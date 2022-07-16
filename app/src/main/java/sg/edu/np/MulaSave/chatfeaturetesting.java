@@ -90,14 +90,22 @@ public class chatfeaturetesting extends AppCompatActivity {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.child("user").getChildren()){
+                    final String getuid = dataSnapshot.getKey();
 
+                    if(!getuid.equals(uid)){
+                        final String getname = dataSnapshot.child("username").getValue(String.class);
+                        final String getprofilepic = storageRef.child("profilepics/" + user.getUid().toString() + ".png").getDownloadUrl().toString();
+
+                    }
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        })
+        });
 
         setContentView(R.layout.activity_chatfeaturetesting);
         messagerecycleview=findViewById(R.id.messgaerecycleview);
