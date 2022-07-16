@@ -103,6 +103,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
             }
         });//end of get profile pic
 
+
         if(holder.getItemViewType()==1){//friends page
             holder.negativeCard.setVisibility(View.GONE);
             holder.positiveText.setText("Friends");
@@ -240,6 +241,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
         positiveCard = view.findViewById(R.id.dPositiveCard);
 
         dTitle.setText("Remove Friend");
+
 
         storageRef.child("profilepics/" + friend.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
