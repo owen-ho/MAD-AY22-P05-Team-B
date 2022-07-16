@@ -87,7 +87,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ss : snapshot.getChildren()){
                     User creator = new User();
-                    for (DataSnapshot ds : ss.getChildren()){//because the users may have wishlists, cannot extract directly to user class
+                    for (DataSnapshot ds : ss.getChildren()){//because the users may have wishlists and other additional fields, cannot extract directly to user class
                         if (ds.getKey().equals("uid")){
                             creator.setUid(ds.getValue().toString());
                         }

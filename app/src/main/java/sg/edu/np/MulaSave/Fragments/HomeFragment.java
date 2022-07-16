@@ -107,9 +107,26 @@ public class HomeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 postList.clear();
                 for (DataSnapshot ss : snapshot.getChildren()){
-                    postList.add(ss.getValue(Post.class));
+                    Post post = ss.getValue(Post.class);
+                    if (post.getCreatorUid().equals(usr.getUid())){//add the post into the post list if the current user created it
+                        postList.add(post);
+                    }
+                    databaseRefUser.child(usr.getUid()).child("friends").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot ds : snapshot.getChildren()){
+                                if(post.getCreatorUid().equals(ds.getKey().toString())){//if the creator is friends with the current user
+                                    postList.add(post);//add if they are friends
+                                }
+                            }postAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
-                postAdapter.notifyDataSetChanged();
             }
 
             @Override
