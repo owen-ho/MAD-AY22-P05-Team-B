@@ -2,7 +2,6 @@ package sg.edu.np.MulaSave;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -27,11 +26,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.internal.InternalTokenProvider;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 
 public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHolder> {
@@ -217,7 +214,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
 
         final AlertDialog alertDialog = builder.create();
         //open browser
-        view.findViewById(R.id.dialogOpen).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.confirmReserve).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (p.getLink().equals("link")){//products from community uploads have string link as the link var
@@ -234,7 +231,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         });
 
         //close browser
-        view.findViewById(R.id.dialogClose).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.noReserve).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 alertDialog.dismiss();//close

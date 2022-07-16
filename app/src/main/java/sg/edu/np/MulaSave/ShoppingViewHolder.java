@@ -35,10 +35,10 @@ public class ShoppingViewHolder extends RecyclerView.ViewHolder {
         }
         else{//wishlistview
             productListing = itemView.findViewById(R.id.wishlistListing);
-            productImage = itemView.findViewById(R.id.wImage);
-            productTitle = itemView.findViewById(R.id.wTitle);
-            productPrice = itemView.findViewById(R.id.wPrice);
-            productWebsite = itemView.findViewById(R.id.wWebsite);
+            productImage = itemView.findViewById(R.id.rImage);
+            productTitle = itemView.findViewById(R.id.rTitle);
+            productPrice = itemView.findViewById(R.id.rPrice);
+            productWebsite = itemView.findViewById(R.id.rWebsite);
             prodRating = itemView.findViewById(R.id.wRatingBar);
             prodFavourite = itemView.findViewById(R.id.wFavourite);
             remove = true;//remove item from recyclerview when user unlikes the item

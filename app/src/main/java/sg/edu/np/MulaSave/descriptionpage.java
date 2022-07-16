@@ -2,15 +2,29 @@ package sg.edu.np.MulaSave;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 public class descriptionpage extends AppCompatActivity {
+    DatabaseReference databaseRefUser = FirebaseDatabase
+            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .getReference("user");
+    FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
 
     Product product;
     @Override
@@ -40,7 +54,6 @@ public class descriptionpage extends AppCompatActivity {
 
 
 
-
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,7 +64,27 @@ public class descriptionpage extends AppCompatActivity {
         reserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                AlertDialog.Builder builder = new AlertDialog.Builder(descriptionpage.this);
+                View v = LayoutInflater.from(descriptionpage.this).inflate(R.layout.reserve_dialog,null,false);
+                builder.setView(v);
+                final AlertDialog alertDialog = builder.create();
+                TextView noReserve = v.findViewById(R.id.noReserve);
+                TextView confirmResrve = v.findViewById(R.id.confirmReserve);
+                noReserve.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                    }
+                });
+                confirmResrve.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+                String ReserveUnique = ((product.getImageUrl()).replaceAll("[^a-zA-Z0-9]", ""));
+                databaseRefUser.child(usr.getUid().toString()).child("Reserve").child(ReserveUnique).setValue(product);//add product if the product does not exist in the database
             }
         });
 

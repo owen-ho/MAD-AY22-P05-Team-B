@@ -2,11 +2,27 @@ package sg.edu.np.MulaSave;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +30,11 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class ChildReserveFragment extends Fragment {
+    RecyclerView recyclerViewReserve;
+    DatabaseReference databaseRefUser = FirebaseDatabase
+            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .getReference("user");
+    FirebaseUser usrReserve = FirebaseAuth.getInstance().getCurrentUser();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,5 +81,33 @@ public class ChildReserveFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_child_reserve, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // Reserved List
+        recyclerViewReserve = view.findViewById(R.id.recyclerReserve);
+        ArrayList<Product> ReserveProdList = new ArrayList<>();
+        ReserveAdapter ReserveAdapter = new ReserveAdapter(ReserveProdList);//Reserve layout
+        databaseRefUser.child(usrReserve.getUid().toString()).child("Reserve").addValueEventListener(new ValueEventListener() {  //access user Reservelist and add to list
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ss : snapshot.getChildren()) {
+                    Product product = ss.getValue(Product.class);
+                    ReserveProdList.add(product);//add product to list
+                }
+                ReserveAdapter.notifyDataSetChanged(); // to update the adapter
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("error","LoadPost:onCancelled", error.toException());
+
+            }
+        });
+        LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
+        recyclerViewReserve.setLayoutManager(vLayoutManager);
+        recyclerViewReserve.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewReserve.setAdapter(ReserveAdapter);//set adapter
     }
 }
