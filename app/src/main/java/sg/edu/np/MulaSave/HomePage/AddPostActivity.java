@@ -37,8 +37,8 @@ import sg.edu.np.MulaSave.User;
 
 public class AddPostActivity extends AppCompatActivity {
 
-    ImageView previewImage, closeButton;
-    TextView chooseImage, postButton, postDesc;
+    ImageView previewImage, closeButton, chooseImage;
+    TextView postButton, postDesc;
     int code = 200;
     Post post;
     FirebaseDatabase databaseRef = FirebaseDatabase

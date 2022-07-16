@@ -53,7 +53,7 @@ public class FriendsFragment extends Fragment {
         friendRecycler = view.findViewById(R.id.friendRecycler);
         friendList = new ArrayList<>();
 
-        ViewFriendAdapter fAdapter = new ViewFriendAdapter(friendList,3);//3 means friend list
+        ViewFriendAdapter fAdapter = new ViewFriendAdapter(friendList,1);//1 means friend list
         databaseRefUser.child(usr.getUid()).child("friends").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

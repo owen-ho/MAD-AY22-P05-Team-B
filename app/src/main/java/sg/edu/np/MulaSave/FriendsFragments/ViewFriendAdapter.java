@@ -1,6 +1,9 @@
 package sg.edu.np.MulaSave.FriendsFragments;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,13 +42,13 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
-    int reqOrExplore;//choose the layout for requests or explore
+    int viewType;//choose the layout for requests or explore
     //1 means requests
     //2 means explore layout
 
-    public ViewFriendAdapter(ArrayList<User> _userList, int _reqOrExplore){
+    public ViewFriendAdapter(ArrayList<User> _userList, int _viewType){
         this.userList = _userList;
-        this.reqOrExplore = _reqOrExplore;
+        this.viewType = _viewType;
     }
 
     @Override
@@ -61,14 +64,14 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
     @Override
     public int getItemViewType(int position)
     {
-        if(this.reqOrExplore == 1){
-            return 1;//requests page
+        if(this.viewType == 1){
+            return 1;//friends page - view user's friends
         }
-        else if (this.reqOrExplore == 2){
-            return  2;//explore page
+        else if (this.viewType == 2){
+            return  2;//requests page
         }
         else{
-            return 3;//friends page - view user's friends
+            return 3;//explore page
         }
     }
 
@@ -100,7 +103,19 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
             }
         });//end of get profile pic
 
-        if(holder.getItemViewType()==1){//requests page
+        if(holder.getItemViewType()==1){//friends page
+            holder.negativeCard.setVisibility(View.GONE);
+            holder.positiveText.setText("Friends");
+            holder.positiveCard.setOnClickListener(new View.OnClickListener() {//alertdialog to remove friend
+                @Override
+                public void onClick(View view) {
+                    removeFriendDialog(holder.itemView.getContext(),u);//set context and the friend (User object)
+                }
+            });
+        }//end of friends on bind methods
+
+        else if (holder.getItemViewType()==2){//2 which is requests page
+
             holder.positiveText.setText("Accept");
             holder.negativeText.setText("Cancel");
 
@@ -125,11 +140,9 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
                     ViewFriendAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
                 }
             });
+        }//end of onbind for requests view
 
-        }//end of requests on bind methods
-
-        else if (holder.getItemViewType()==2){//2 which is explore page
-
+        else{//explore view (3)
             //remove all friends from explore
             databaseRefUser.child(usr.getUid()).child("friends").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
@@ -188,10 +201,6 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
             });
         }
 
-        else{//friends view (3)
-
-        }
-
     }
 
     @Override
@@ -214,4 +223,65 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
             positiveCard = itemView.findViewById(R.id.positiveCard);
         }
     }
+
+    private void removeFriendDialog(Context context, User friend){
+        TextView dTitle,dNegativeText, dPositiveText;
+        ImageView pic;
+        CardView negativeCard, positiveCard;
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View view = LayoutInflater.from(context).inflate(R.layout.remove_wislist,null,false);
+        builder.setView(view);
+
+        dTitle = view.findViewById(R.id.dTitle);
+        dNegativeText = view.findViewById(R.id.dNegativeText);
+        dPositiveText = view.findViewById(R.id.dPositiveText);
+        pic = view.findViewById(R.id.wishlistPic);
+        negativeCard = view.findViewById(R.id.dNegativeCard);
+        positiveCard = view.findViewById(R.id.dPositiveCard);
+
+        dTitle.setText("Remove Friend");
+
+        storageRef.child("profilepics/" + friend.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {//user has set a profile picture before
+                Picasso.get().load(uri).resize(200,200).into(pic);
+            }
+        }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
+            @Override
+            public void onFailure(@NonNull Exception e) {//set default picture
+                Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").resize(200,200).into(pic);
+            }
+        });//end of get profile pic
+
+        final AlertDialog alertDialog = builder.create();
+
+        //confirm remove friend
+        positiveCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                databaseRefUser.child(usr.getUid()).child("friends").child(friend.getUid()).removeValue();//remove from current user friend list
+                databaseRefUser.child(friend.getUid()).child("friends").child(usr.getUid()).removeValue();//remove current user from the friend's friend list
+
+                alertDialog.dismiss();
+            }
+        });
+
+        //cancel removal
+        negativeCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+        //remove the extra parts outside of the cardview
+        if (alertDialog.getWindow() != null){
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
+        }
+        alertDialog.show();
+
+
+
+    }
+
 }

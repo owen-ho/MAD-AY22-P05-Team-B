@@ -63,7 +63,7 @@ public class ExploreFragment extends Fragment {
         exploreRecyclerView = view.findViewById(R.id.exploreRecycler);
 
         exploreList = new ArrayList<>();
-        ViewFriendAdapter Eadapter = new ViewFriendAdapter(exploreList,2);
+        ViewFriendAdapter Eadapter = new ViewFriendAdapter(exploreList,3);
         databaseRefUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//get data on success

@@ -57,7 +57,7 @@ public class RequestsFragment extends Fragment {
         requestRecycler = view.findViewById(R.id.requestRecycler);//set recycler
         requestList = new ArrayList<>();//init list
 
-        ViewFriendAdapter rAdapter = new ViewFriendAdapter(requestList,1);
+        ViewFriendAdapter rAdapter = new ViewFriendAdapter(requestList,2);//viewtype 2 is the requests view
         databaseRefUser.child(usr.getUid()).child("requests").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -2,7 +2,6 @@ package sg.edu.np.MulaSave;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -27,11 +26,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.internal.InternalTokenProvider;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 
 public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHolder> {
@@ -145,7 +142,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                             final AlertDialog alertDialog = builder.create();
 
                             //positive button (remove item)
-                            v.findViewById(R.id.wishlistRemove).setOnClickListener(new View.OnClickListener() {
+                            v.findViewById(R.id.dPositiveText).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).removeValue();
@@ -160,7 +157,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                                 }
                             });
                             //negative button (cancel removal)
-                            v.findViewById(R.id.wishlistCancel).setOnClickListener(new View.OnClickListener() {
+                            v.findViewById(R.id.dNegativeText).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     alertDialog.dismiss();
