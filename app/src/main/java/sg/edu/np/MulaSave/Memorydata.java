@@ -21,9 +21,9 @@ public final class Memorydata {
             e.printStackTrace();
         }
     }
-    public static void savelastmsgts(String data, Context context){
+    public static void savelastmsgts(String data,String chatid, Context context){
         try{
-            FileOutputStream fileOutputStream = context.openFileOutput("lastmsgts.txt",Context.MODE_PRIVATE);
+            FileOutputStream fileOutputStream = context.openFileOutput(chatid+".txt",Context.MODE_PRIVATE);
             fileOutputStream.write(data.getBytes());
             fileOutputStream.close();
 
@@ -78,10 +78,10 @@ public final class Memorydata {
         }
         return data;
     }
-    public static String getlastmsgts(Context context){
+    public static String getlastmsgts(Context context,String chatid){
         String data = "0";
         try{
-            FileInputStream fis = context.openFileInput("lastmsgts.txt");
+            FileInputStream fis = context.openFileInput(chatid+".txt");
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader bufferedReader = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();

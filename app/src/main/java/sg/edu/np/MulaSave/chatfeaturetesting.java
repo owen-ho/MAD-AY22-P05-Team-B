@@ -37,7 +37,12 @@ public class chatfeaturetesting extends AppCompatActivity {
     private String uid;
     private String username;
     private RecyclerView messagerecycleview;
+    private messageadapter messageadapter;
     private ImageView userprofilepic;
+    private int unseenmessage = 0;
+    private String chatkey="";
+    private String lastmessage = "";
+    private boolean dataset = false;
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -52,7 +57,12 @@ public class chatfeaturetesting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
+        messagerecycleview.setHasFixedSize(true);
+        messagerecycleview.setLayoutManager(new LinearLayoutManager(this));
 
+        //set adpater to recycleview
+        messageadapter = new messageadapter(messagelistinerList,chatfeaturetesting.this);
+        messagerecycleview.setAdapter( messageadapter);
 
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
@@ -101,12 +111,17 @@ public class chatfeaturetesting extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 messagelistinerList.clear();
+                unseenmessage = 0;
+                lastmessage = "";
+                chatkey="";
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+
+                    dataset = false;
                     final String getuid = dataSnapshot.getKey();
                     final String getname = dataSnapshot.child("username").getValue(String.class);
                     final String getprofilepic = storageRef.child("profilepics/" + user.getUid().toString() + ".png").getDownloadUrl().toString();
-                    String lassmessage = "";
-                    int unseenmessage = 0;
+
+
                     userRef.child("chat").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -114,33 +129,47 @@ public class chatfeaturetesting extends AppCompatActivity {
                             if(getchatcount >0){
                                 for (DataSnapshot dataSnapshot1 : snapshot.getChildren()){
                                     final String getkey = dataSnapshot1.getKey();
-                                    final String getuserone = dataSnapshot1.child("user_1").getValue(String.class);
-                                    final String getusertwo = dataSnapshot1.child("user_2").getValue(String.class);
-                                    if((getuserone.equals(getuid)&& getusertwo.equals(uid)) || (getuserone.equals(uid) && getusertwo.equals(getuid))){
+                                    chatkey = getkey;
+                                    if(dataSnapshot1.hasChild("user_1")&&dataSnapshot1.hasChild("user_2") && dataSnapshot1.hasChild("messages")){
+                                        final String getuserone = dataSnapshot1.child("user_1").getValue(String.class);
+                                        final String getusertwo = dataSnapshot1.child("user_2").getValue(String.class);
 
+                                        if((getuserone.equals(getuid)&& getusertwo.equals(uid)) || (getuserone.equals(uid) && getusertwo.equals(getuid))){
+                                            for(DataSnapshot chatdatasnapshot: dataSnapshot1.child("messages").getChildren()){
+                                                final long getmessagekey = Long.parseLong(chatdatasnapshot.getKey());
+
+                                                final long getlastseenmessage = Long.parseLong(Memorydata.getlastmsgts(chatfeaturetesting.this,getkey));
+                                                lastmessage = chatdatasnapshot.child("msg").getValue(String.class);
+                                                if(getmessagekey>getlastseenmessage){
+                                                    unseenmessage++;
+                                                }
+                                            }
+                                        }
                                     }
+
+                                }
+                            }
+                            if(!dataset){
+                                dataset = true;
+                                messagelistiner messagelistiners = new messagelistiner(getname,getuid,lastmessage,getprofilepic,unseenmessage,chatkey);
+
+                                if (messagelistiners.getLastmessage()!= ""){
+                                    messagelistinerList.add(messagelistiners);
+                                    messageadapter.updatedata(messagelistinerList);
+
                                 }
                             }
                         }
+
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
 
                         }
-                    })
+                    });
 
-
-
-
-                    //must chage lastmessage
-                    messagelistiner messagelistiners = new messagelistiner(getname,getuid,lassmessage,getprofilepic,unseenmessage);
-
-                    if (messagelistiners.getLastmessage()!= ""){
-                        messagelistinerList.add(messagelistiners);
-
-                    }
                 }
-                messagerecycleview.setAdapter(new messageadapter(messagelistinerList,chatfeaturetesting.this));
+
             }
 
             @Override
@@ -154,6 +183,8 @@ public class chatfeaturetesting extends AppCompatActivity {
         user.getUid(); //own uid
         messagerecycleview.setHasFixedSize(true);
         messagerecycleview.setLayoutManager(new LinearLayoutManager(this));
+        messagerecycleview.setAdapter(new messageadapter(messagelistinerList,chatfeaturetesting.this));
+
 
 
 

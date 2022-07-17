@@ -2,6 +2,7 @@ package sg.edu.np.MulaSave.messages;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.collection.LLRBNode;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -21,7 +23,7 @@ import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.chat.chat;
 
 public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHolder> {
-    private final List<messagelistiner> messagelistiners;
+    private List<messagelistiner> messagelistiners;
     private final Context context;
 
     public messageadapter(List<messagelistiner> messagelistiners, Context context) {
@@ -46,19 +48,30 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
         holder.lastmessage.setText(list2.getLastmessage());
         if(list2.getUnseenMessages()==0){
             holder.unseenmessage.setVisibility(View.GONE);
+            holder.lastmessage.setTextColor(Color.parseColor("#959595"));
         }
         else{
             holder.unseenmessage.setVisibility(View.VISIBLE);
+            holder.unseenmessage.setText(list2.getUnseenMessages()+"");
+            holder.lastmessage.setTextColor(context.getResources().getColor(R.color.theme_color_9));
         }
         holder.rootlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, chat.class);
+                intent.putExtra("uid",list2.getUid());
                 intent.putExtra("name",list2.getUsername());
                 intent.putExtra("Profilepic",list2.getProfilepic());
+                intent.putExtra("chatkey",list2.getChatkey());
                 context.startActivity(intent);
             }
         });
+    }
+    public void updatedata(List<messagelistiner> messagelistiners){
+        this.messagelistiners = messagelistiners;
+        notifyDataSetChanged();
+
+
     }
 
     @Override
