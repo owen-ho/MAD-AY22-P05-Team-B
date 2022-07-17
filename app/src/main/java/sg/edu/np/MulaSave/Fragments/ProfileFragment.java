@@ -179,11 +179,18 @@ public class ProfileFragment extends Fragment {
 //                    MainActivity.homeproductList.clear();
 //                    MainActivity.homeproductList = null;
 //                }
+                //Clear suggestion history
                 SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
                         ProductSuggestionProvider.AUTHORITY, ProductSuggestionProvider.MODE);
-                suggestions.clearHistory(); //Clear suggestion history
+                suggestions.clearHistory();
 
+                //Clear query history list stored in SharedPreferences
+                getContext().getSharedPreferences("Recent API queries", 0).edit().clear().commit();
+
+                //Sign out from firebase authentication
                 FirebaseAuth.getInstance().signOut();
+
+                //Send user back to login screen
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
                 getActivity().finish();

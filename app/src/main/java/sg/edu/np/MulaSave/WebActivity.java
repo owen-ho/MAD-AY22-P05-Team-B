@@ -1,6 +1,7 @@
 package sg.edu.np.MulaSave;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.GestureDetector;
@@ -50,12 +51,19 @@ public class WebActivity extends AppCompatActivity {
         customWebView= findViewById(R.id.webview);
 
         customWebView.setGestureDetector(new GestureDetector(new CustomeGestureDetector()));//Calls gesture detector class to hide toolbars
-
         progressBar.setMax(100);
 
         customWebView.setWebViewClient(new WebViewClient(){
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                linearLayout.setVisibility(View.VISIBLE); //Shows progress bar when loading another page
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                linearLayout.setVisibility(View.GONE); //Hides progress bar when page has finished loading
+
                 URI uri = null;
                 try {
                     uri = new URI(url); //Uses Java's URI to get domain name
@@ -65,11 +73,6 @@ public class WebActivity extends AppCompatActivity {
                 String domain = uri.getHost(); //Domain name is used as title
                 toolbarTitle.setText(domain.startsWith("www.") ? domain.substring(4) : domain);//Changes toolbar title to url of page after each page
 
-                return false;
-            }
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                linearLayout.setVisibility(View.GONE); //Hides progress bar when page has finished loading
                 super.onPageFinished(view, url);
             }
         });
