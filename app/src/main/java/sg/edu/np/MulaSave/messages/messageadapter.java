@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -32,7 +34,19 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull messageadapter.MyViewHolder holder, int position) {
+        messagelistiner list2 = messagelistiners.get(position);
+        if(list2.getProfilepic().isEmpty()){
+            Picasso.get().load(list2.getProfilepic()).into(holder.Profilepic);
 
+        }
+        holder.name.setText(list2.getUsername());
+        holder.lastmessage.setText(list2.getLastmessage());
+        if(list2.getUnseenMessages()==0){
+            holder.unseenmessage.setVisibility(View.GONE);
+        }
+        else{
+            holder.unseenmessage.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

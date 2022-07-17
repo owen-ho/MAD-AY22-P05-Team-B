@@ -46,9 +46,6 @@ public class descriptionpage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(descriptionpage.this, chatfeaturetesting.class);
-                i.putExtra("product",product);
-                startActivity(i);
 
             }
         });

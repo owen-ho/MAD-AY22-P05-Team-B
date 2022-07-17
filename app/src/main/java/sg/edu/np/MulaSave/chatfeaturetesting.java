@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,10 +25,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import sg.edu.np.MulaSave.messages.messageadapter;
 import sg.edu.np.MulaSave.messages.messagelistiner;
 
 public class chatfeaturetesting extends AppCompatActivity {
+    private final List<messagelistiner> messagelistinerList = new ArrayList<>();
     private String uid;
     private String username;
     private RecyclerView messagerecycleview;
@@ -44,8 +50,8 @@ public class chatfeaturetesting extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        Product product = (Product)getIntent().getSerializableExtra("product");
-        String sellerid = product.getSellerUid();
+
+
 
 
         ProgressDialog progressDialog = new ProgressDialog(this);
@@ -89,19 +95,28 @@ public class chatfeaturetesting extends AppCompatActivity {
             });
         }
 
+
+
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.child("user").getChildren()){
+                messagelistinerList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     final String getuid = dataSnapshot.getKey();
+                    Log.v("getuid; ", getuid);
+                    final String getname = dataSnapshot.child("username").getValue(String.class);
+                    final String getprofilepic = storageRef.child("profilepics/" + user.getUid().toString() + ".png").getDownloadUrl().toString();
 
-                    if(!getuid.equals(uid)){
-                        final String getname = dataSnapshot.child("username").getValue(String.class);
-                        final String getprofilepic = storageRef.child("profilepics/" + user.getUid().toString() + ".png").getDownloadUrl().toString();
 
+                    //must chage lastmessage
+                    messagelistiner messagelistiners = new messagelistiner(getname,getuid,"",getprofilepic,0);
+
+                    if (messagelistiners.getLastmessage()!= ""){
+                        messagelistinerList.add(messagelistiners);
 
                     }
                 }
+                messagerecycleview.setAdapter(new messageadapter(messagelistinerList,chatfeaturetesting.this));
             }
 
             @Override
