@@ -29,12 +29,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView8"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="#E4E4E4"
         app:cardCornerRadius="15dp"
         app:cardElevation="2dp"
         app:layout_constraintBottom_toTopOf="@+id/chooseImage"
@@ -42,17 +44,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/postButton">
 
-        <ImageView
-            android:id="@+id/previewImage"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:cropToPadding="false"
-            android:paddingLeft="16dp"
-            android:paddingTop="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="16dp"
-            android:scaleType="centerCrop"
-            android:src="@android:drawable/sym_def_app_icon" />
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/chooseBtn"
+                android:layout_width="29dp"
+                android:layout_height="28dp"
+                android:src="@android:drawable/ic_menu_add"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/previewImage" />
+
+            <ImageView
+                android:id="@+id/previewImage"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:cropToPadding="false"
+                android:paddingLeft="16dp"
+                android:paddingTop="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp"
+                android:scaleType="centerCrop"
+                android:src="@android:drawable/sym_def_app_icon"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -104,4 +128,5 @@
         app:layout_constraintBottom_toTopOf="@+id/cardView7"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_outline_change_circle_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

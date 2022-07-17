@@ -37,7 +37,7 @@ import sg.edu.np.MulaSave.User;
 
 public class AddPostActivity extends AppCompatActivity {
 
-    ImageView previewImage, closeButton, chooseImage;
+    ImageView previewImage, closeButton, chooseImage, chooseBtn;
     TextView postButton, postDesc;
     int code = 200;
     Post post;
@@ -79,12 +79,30 @@ public class AddPostActivity extends AppCompatActivity {
         post = new Post();//create new post object with no fields
 
         previewImage = findViewById(R.id.previewImage);
+        chooseBtn = findViewById(R.id.chooseBtn);
+        previewImage.setVisibility(View.INVISIBLE);//hide the preview first as it is the default android icon placeholder
+
         chooseImage = findViewById(R.id.chooseImage);
         closeButton = findViewById(R.id.closeButton);
         postButton = findViewById(R.id.postButton);
         postDesc = findViewById(R.id.postDesc);
 
-        chooseImage.setOnClickListener(new View.OnClickListener() {
+        //three onclick listeners so that users know to upload and change pic
+        chooseBtn.setOnClickListener(new View.OnClickListener() {//onclick for upload button
+            @Override
+            public void onClick(View view) {
+                imgChooser();
+            }
+        });
+
+        chooseImage.setOnClickListener(new View.OnClickListener() {//onclick to change by clicking on the button
+            @Override
+            public void onClick(View view) {
+                imgChooser();
+            }
+        });
+
+        previewImage.setOnClickListener(new View.OnClickListener() {//onclick to change pic by clicking on the image
             @Override
             public void onClick(View view) {
                 imgChooser();
@@ -165,6 +183,7 @@ public class AddPostActivity extends AppCompatActivity {
                     post.setPostImageUrl(selectedImgUri.toString());//set the post object image url
                     // update the preview image in the layout
                     previewImage.setImageURI(selectedImgUri);
+                    previewImage.setVisibility(View.VISIBLE);//set to visible
                 }
             }
         }

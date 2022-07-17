@@ -81,6 +81,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = postList.get(position);
+        holder.postImage.setVisibility(View.INVISIBLE);//set invisible
+        holder.creatorImage.setVisibility(View.INVISIBLE);
+
         String creatorUid = post.getCreatorUid();
         databaseRefUser.addValueEventListener(new ValueEventListener() {
             @Override
@@ -112,6 +115,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                                 Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").fit().into(holder.creatorImage);
                             }
                         });//end of get profile pic
+                        holder.creatorImage.setVisibility(View.VISIBLE);
                         break;//break the loop since the creator is found, no point looping
                     }
                 }
@@ -126,6 +130,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri).into(holder.postImage);
+                holder.postImage.setVisibility(View.VISIBLE);//make it visible
             }
         });
 
