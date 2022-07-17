@@ -1,10 +1,12 @@
 package sg.edu.np.MulaSave.messages;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +18,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import sg.edu.np.MulaSave.R;
+import sg.edu.np.MulaSave.chat.chat;
 
 public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHolder> {
     private final List<messagelistiner> messagelistiners;
@@ -47,6 +50,15 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
         else{
             holder.unseenmessage.setVisibility(View.VISIBLE);
         }
+        holder.rootlayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, chat.class);
+                intent.putExtra("name",list2.getUsername());
+                intent.putExtra("Profilepic",list2.getProfilepic());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -59,6 +71,7 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
         private TextView name;
         private TextView lastmessage;
         private TextView unseenmessage;
+        private LinearLayout rootlayout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,6 +79,8 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
             name = itemView.findViewById(R.id.name);
             lastmessage = itemView.findViewById(R.id.lastmessage);
             unseenmessage = itemView.findViewById(R.id.unseenmessage);
+            rootlayout = itemView.findViewById(R.id.rootlayout);
+
         }
     }
 }

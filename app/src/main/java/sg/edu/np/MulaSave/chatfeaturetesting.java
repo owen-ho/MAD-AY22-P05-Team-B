@@ -103,13 +103,37 @@ public class chatfeaturetesting extends AppCompatActivity {
                 messagelistinerList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     final String getuid = dataSnapshot.getKey();
-                    Log.v("getuid; ", getuid);
                     final String getname = dataSnapshot.child("username").getValue(String.class);
                     final String getprofilepic = storageRef.child("profilepics/" + user.getUid().toString() + ".png").getDownloadUrl().toString();
+                    String lassmessage = "";
+                    int unseenmessage = 0;
+                    userRef.child("chat").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            int getchatcount = (int)snapshot.getChildrenCount();
+                            if(getchatcount >0){
+                                for (DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                                    final String getkey = dataSnapshot1.getKey();
+                                    final String getuserone = dataSnapshot1.child("user_1").getValue(String.class);
+                                    final String getusertwo = dataSnapshot1.child("user_2").getValue(String.class);
+                                    if((getuserone.equals(getuid)&& getusertwo.equals(uid)) || (getuserone.equals(uid) && getusertwo.equals(getuid))){
+
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    })
+
+
 
 
                     //must chage lastmessage
-                    messagelistiner messagelistiners = new messagelistiner(getname,getuid,"",getprofilepic,0);
+                    messagelistiner messagelistiners = new messagelistiner(getname,getuid,lassmessage,getprofilepic,unseenmessage);
 
                     if (messagelistiners.getLastmessage()!= ""){
                         messagelistinerList.add(messagelistiners);
