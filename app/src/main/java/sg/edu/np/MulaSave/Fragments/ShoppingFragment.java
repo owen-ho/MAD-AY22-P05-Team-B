@@ -86,10 +86,14 @@ public class ShoppingFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //Get the SearchView and set the searchable configuration
         SearchView searchView = view.findViewById(R.id.searchQuery);
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        searchView.setSubmitButtonEnabled(true);
+        //Associate the searchable configuration with the SearchView
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        //Lets users click on the submit button rather than "Enter" or "Return" on their keyboards
+        searchView.setSubmitButtonEnabled(true);
+        //Enables query refinement from search suggestions
         searchView.setQueryRefinementEnabled(true);
 
         int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
@@ -105,7 +109,7 @@ public class ShoppingFragment extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         if (query!=null){//If suggestion has been clicked and intented, process the query which has been clicked(hence query will not be null)
-            productList=null;//Clear previously loaded products as a new one will be loaded
+            productList=null;//Clear previously loaded products as a new one will be loaded based on suggestion clicked
             List<Product> arrayItems;
             String serializedObject = sharedPreferences.getString(query, null);//Extract previously queried product list from SharedPreferences
             if (serializedObject != null) {//If list of previous query was saved into SharedPreferences, extract it and use it in recycler (This is to reduce API requests made)
@@ -146,11 +150,11 @@ public class ShoppingFragment extends Fragment {
                 recyclerView.setAdapter(pAdapter);
             }
         }
-        //make the whole search bar clickable
+
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchView.setIconified(false);
+                searchView.setIconified(false);//Displays entire search bar when clicked by user
             }
         });
 
