@@ -81,7 +81,6 @@ public class ShoppingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_shopping, container, false);
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("Recent API queries", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
 
         recyclerView = view.findViewById(R.id.shoppingrecyclerview);
         //recyclerView.setHasFixedSize(true);
@@ -94,11 +93,11 @@ public class ShoppingFragment extends Fragment {
 
         if (query!=null){//If suggestion has been clicked and intented, process the query which has been clicked(hence query will not be null)
             List<Product> arrayItems;
-            String serializedObject = sharedPreferences.getString(query, null);
+            String serializedObject = sharedPreferences.getString(query, null);//Extract previously queried product list from SharedPreferences
             if (serializedObject != null) {//If list of previous query was saved into SharedPreferences, extract it and use it in recycler (This is to reduce API requests made)
                 Gson gson = new Gson();
                 Type type = new TypeToken<List<Product>>() {}.getType();
-                arrayItems = gson.fromJson(serializedObject, type);
+                arrayItems = gson.fromJson(serializedObject, type);//Convert from Json to List<Product>
 
                 ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter((ArrayList<Product>) arrayItems, getContext(),2);
                 //WishList Filters
@@ -175,13 +174,13 @@ public class ShoppingFragment extends Fragment {
         int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
         EditText searchEdit = searchView.findViewById(id);
         searchEdit.setTextColor(Color.BLACK);
-
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setQueryRefinementEnabled(true);
         //make the whole search bar clickable
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-                searchView.setQueryRefinementEnabled(true);
+
                 searchView.setIconified(false);
             }
         });
