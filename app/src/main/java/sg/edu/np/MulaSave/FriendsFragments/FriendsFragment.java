@@ -98,4 +98,5 @@ public class FriendsFragment extends Fragment {
         friendRecycler.setAdapter(fAdapter);//set adapter
         return view;
     }
+
 }

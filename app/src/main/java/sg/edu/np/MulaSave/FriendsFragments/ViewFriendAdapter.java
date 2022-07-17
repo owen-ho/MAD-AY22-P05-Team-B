@@ -110,7 +110,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
             holder.positiveCard.setOnClickListener(new View.OnClickListener() {//alertdialog to remove friend
                 @Override
                 public void onClick(View view) {
-                    removeFriendDialog(holder.itemView.getContext(),u);//set context and the friend (User object)
+                    removeFriendDialog(holder.itemView.getContext(),u,holder.getAdapterPosition());//set context and the friend (User object)
                 }
             });
         }//end of friends on bind methods
@@ -225,7 +225,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
         }
     }
 
-    private void removeFriendDialog(Context context, User friend){
+    private void removeFriendDialog(Context context, User friend, int position){
         TextView dTitle,dNegativeText, dPositiveText;
         ImageView pic;
         CardView negativeCard, positiveCard;
@@ -263,7 +263,9 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
             public void onClick(View view) {
                 databaseRefUser.child(usr.getUid()).child("friends").child(friend.getUid()).removeValue();//remove from current user friend list
                 databaseRefUser.child(friend.getUid()).child("friends").child(usr.getUid()).removeValue();//remove current user from the friend's friend list
-
+                //ViewFriendAdapter.this.notifyItemRemoved(position);
+                userList.clear();
+                ViewFriendAdapter.this.notifyDataSetChanged();
                 alertDialog.dismiss();
             }
         });
