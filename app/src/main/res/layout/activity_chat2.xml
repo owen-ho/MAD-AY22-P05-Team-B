@@ -79,13 +79,14 @@
             android:hint="Type your message"
             android:layout_toStartOf="@id/sendbtn"
             android:id="@+id/messageedittxt"/>
+
         <ImageView
+            android:id="@+id/sendbtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
-            android:id="@+id/sendbtn"
-            android:src="@drawable/send"/>
+            android:src="@drawable/send" />
 
     </RelativeLayout>
 </RelativeLayout>

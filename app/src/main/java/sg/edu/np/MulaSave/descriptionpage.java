@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import sg.edu.np.MulaSave.chat.chat;
+
 public class descriptionpage extends AppCompatActivity {
 
     Product product;
@@ -45,7 +47,11 @@ public class descriptionpage extends AppCompatActivity {
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent i = new Intent(descriptionpage.this, sg.edu.np.MulaSave.chat.chat.class);
 
+                i.putExtra("product",product);
+
+                startActivity(i);
 
             }
         });

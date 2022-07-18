@@ -56,13 +56,21 @@ public class chatfeaturetesting extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-
+        setContentView(R.layout.activity_chatfeaturetesting);
+        messagerecycleview=findViewById(R.id.messgaerecycleview);
+        user.getUid(); //own uid
         messagerecycleview.setHasFixedSize(true);
         messagerecycleview.setLayoutManager(new LinearLayoutManager(this));
+        messagerecycleview.setAdapter(new messageadapter(messagelistinerList,chatfeaturetesting.this));
+
+
 
         //set adpater to recycleview
         messageadapter = new messageadapter(messagelistinerList,chatfeaturetesting.this);
         messagerecycleview.setAdapter( messageadapter);
+
+
+
 
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
@@ -129,12 +137,17 @@ public class chatfeaturetesting extends AppCompatActivity {
                             if(getchatcount >0){
                                 for (DataSnapshot dataSnapshot1 : snapshot.getChildren()){
                                     final String getkey = dataSnapshot1.getKey();
-                                    chatkey = getkey;
+                                    if (getkey != null){
+                                        chatkey = getkey;
+
+                                    }
+
                                     if(dataSnapshot1.hasChild("user_1")&&dataSnapshot1.hasChild("user_2") && dataSnapshot1.hasChild("messages")){
                                         final String getuserone = dataSnapshot1.child("user_1").getValue(String.class);
                                         final String getusertwo = dataSnapshot1.child("user_2").getValue(String.class);
-
+                                        Log.v("test","hi");
                                         if((getuserone.equals(getuid)&& getusertwo.equals(uid)) || (getuserone.equals(uid) && getusertwo.equals(getuid))){
+                                            Log.v("test","hi");
                                             for(DataSnapshot chatdatasnapshot: dataSnapshot1.child("messages").getChildren()){
                                                 final long getmessagekey = Long.parseLong(chatdatasnapshot.getKey());
 
@@ -149,10 +162,11 @@ public class chatfeaturetesting extends AppCompatActivity {
 
                                 }
                             }
+
                             if(!dataset){
                                 dataset = true;
                                 messagelistiner messagelistiners = new messagelistiner(getname,getuid,lastmessage,getprofilepic,unseenmessage,chatkey);
-
+                                Log.v("Lastmessage",lastmessage);
                                 if (messagelistiners.getLastmessage()!= ""){
                                     messagelistinerList.add(messagelistiners);
                                     messageadapter.updatedata(messagelistinerList);
@@ -178,12 +192,6 @@ public class chatfeaturetesting extends AppCompatActivity {
             }
         });
 
-        setContentView(R.layout.activity_chatfeaturetesting);
-        messagerecycleview=findViewById(R.id.messgaerecycleview);
-        user.getUid(); //own uid
-        messagerecycleview.setHasFixedSize(true);
-        messagerecycleview.setLayoutManager(new LinearLayoutManager(this));
-        messagerecycleview.setAdapter(new messageadapter(messagelistinerList,chatfeaturetesting.this));
 
 
 
