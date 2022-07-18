@@ -31,6 +31,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 import sg.edu.np.MulaSave.ChildReserveFragment;
 import sg.edu.np.MulaSave.ChildUploadFragment;
 import sg.edu.np.MulaSave.Documentation;
@@ -46,6 +48,7 @@ public class ProfileFragment extends Fragment {
     private String profilePicLink = MainActivity.profilePicLink;
     TabLayout tabLayout;
     ViewPager viewPager;
+    TextView noOfFriends, noOfPosts;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -89,6 +92,7 @@ public class ProfileFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference userRef = database.getReference("user");
+        DatabaseReference postRef = database.getReference("post");
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
@@ -103,6 +107,35 @@ public class ProfileFragment extends Fragment {
         ImageView logoutbutton = view.findViewById(R.id.logoutBtn);
 
         ImageView documentation = view.findViewById(R.id.infoDocumentation);
+
+        noOfFriends = view.findViewById(R.id.noOfFriends);
+        noOfPosts = view.findViewById(R.id.noOfPosts);
+
+        userRef.child(usr.getUid()).child("friends").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                noOfFriends.setText(String.valueOf(snapshot.getChildrenCount()));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        postRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot){
+                noOfPosts.setText(String.valueOf(snapshot.getChildrenCount()));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
         //load this as the default picture first
         if (profilePicLink!=null) {
