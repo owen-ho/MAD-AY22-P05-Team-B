@@ -43,10 +43,11 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
         messagelistiner list2 = messagelistiners.get(position);
         Log.v("trying",list2.getSellerid());
         if(list2.getProfilepic().isEmpty()){
-            Picasso.get().load(list2.getProfilepic()).into(holder.Profilepic);
+            //Picasso.get().load(list2.getProfilepic()).into(holder.Profilepic);
 
         }
-        holder.name.setText(list2.getUsername());
+
+        holder.name.setText("hi");
         holder.lastmessage.setText(list2.getLastmessage());
         if(list2.getUnseenMessages()==0){
             holder.unseenmessage.setVisibility(View.GONE);

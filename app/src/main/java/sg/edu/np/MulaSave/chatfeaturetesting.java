@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +60,7 @@ public class chatfeaturetesting extends AppCompatActivity {
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
+
 
 
 
@@ -181,6 +185,8 @@ public class chatfeaturetesting extends AppCompatActivity {
                                             dataset = false;
                                             if (dataSnapshot.getKey().toString().equals(sellerid)){
                                                 getname = dataSnapshot.child("username").getValue(String.class);
+
+
                                                 Log.v("namenamexd",getname);
 
                                             }
@@ -209,6 +215,8 @@ public class chatfeaturetesting extends AppCompatActivity {
                 if(!dataset){
                     dataset = true;
                     Log.v("testing1",sellerid);
+                    Log.v("nametest",getname);
+
                     messagelistiner messagelistiners = new messagelistiner(getname,user.getUid(),lastmessage,getprofilepic,unseenmessage,chatkey,sellerid);
                     Log.v("Lastmessage",lastmessage);
                     if (messagelistiners.getLastmessage()!= ""){
