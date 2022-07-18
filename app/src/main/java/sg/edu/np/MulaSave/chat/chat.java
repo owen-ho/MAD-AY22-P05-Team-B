@@ -4,11 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,17 +23,20 @@ import com.squareup.picasso.Picasso;
 import sg.edu.np.MulaSave.Memorydata;
 import sg.edu.np.MulaSave.Product;
 import sg.edu.np.MulaSave.R;
+import sg.edu.np.MulaSave.User;
 
 public class chat extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference chatRef = database.getReference("chat");
+    DatabaseReference userRef = database.getReference("user");
     private FirebaseAuth mAuth;
 
     private String chatkey;
     String getuid= "";
+    String username = "";
+    String sellerid ="";
 
 
-    Product product;
 
 
 
@@ -46,22 +52,55 @@ public class chat extends AppCompatActivity {
         final ImageView profilepic = findViewById(R.id.profilePic);
         final ImageView sendbtn = findViewById(R.id.sendbtn);
 
-
+        sellerid = getIntent().getStringExtra("sellerid");
         // Retrieving data from message adapater class
 
-        Product productclass = (Product) getIntent().getSerializableExtra("product");//get product from adapter
-        String sellerid = productclass.getSellerUid();
+//        Product productclass = (Product) getIntent().getSerializableExtra("product");//get product from adapter
+//        String sellerid = productclass.getSellerUid();
+        DatabaseReference mDatabase;
+        mDatabase = database.getReference("user");
+        Log.v("selleriddd",sellerid);
 
-        final String getName = getIntent().getStringExtra("name");
+
+
+        mDatabase.child(sellerid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                //Set User Username to Textview
+                else {
+                    User user = task.getResult().getValue(User.class);
+                    username=user.username;
+                    Log.v("username",username);
+                    nameTTv.setText(username);
+                    Log.d("Testing", String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+
+
+
+
         final String getprofilepic = getIntent().getStringExtra("Profilepic");
         chatkey = getIntent().getStringExtra("chatkey");
         final String uid = getIntent().getStringExtra("uid");
+
+
+
+
+
+
+
+
+
 
         //get user uid from memory
         //getuid = Memorydata.getdata(chat.this);
         getuid=mAuth.getCurrentUser().getUid();
 
-        nameTTv.setText(getName);
+
         Picasso.get().load(getprofilepic).into(profilepic);
         chatkey = "";
         if (chatkey!= null){

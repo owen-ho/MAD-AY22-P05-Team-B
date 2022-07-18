@@ -3,6 +3,7 @@ package sg.edu.np.MulaSave.messages;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull messageadapter.MyViewHolder holder, int position) {
         messagelistiner list2 = messagelistiners.get(position);
+        Log.v("trying",list2.getSellerid());
         if(list2.getProfilepic().isEmpty()){
             Picasso.get().load(list2.getProfilepic()).into(holder.Profilepic);
 
@@ -55,10 +57,13 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
             holder.unseenmessage.setText(list2.getUnseenMessages()+"");
             holder.lastmessage.setTextColor(context.getResources().getColor(R.color.theme_color_9));
         }
+
         holder.rootlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(context, chat.class);
+                intent.putExtra("sellerid",list2.getSellerid());
                 intent.putExtra("uid",list2.getUid());
                 intent.putExtra("name",list2.getUsername());
                 intent.putExtra("Profilepic",list2.getProfilepic());

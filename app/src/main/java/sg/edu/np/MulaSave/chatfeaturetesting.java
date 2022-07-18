@@ -44,6 +44,8 @@ public class chatfeaturetesting extends AppCompatActivity {
     private String lastmessage = "";
     private boolean dataset = false;
     String currentuser= "";
+    String sellerid="";
+    String getname="";
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -61,8 +63,8 @@ public class chatfeaturetesting extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Product productclass = (Product) getIntent().getSerializableExtra("product");//get product from adapter
-        Product products = (Product) getIntent().getSerializableExtra("product");//get product from adapter
-        String sellerid = products.getSellerUid();
+//        Product products = (Product) getIntent().getSerializableExtra("product");//get product from adapter
+//        String sellerid = products.getSellerUid();
         mAuth = FirebaseAuth.getInstance();
         currentuser=mAuth.getCurrentUser().getUid();
         super.onCreate(savedInstanceState);
@@ -136,8 +138,15 @@ public class chatfeaturetesting extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
 
                     dataset = false;
+
                     final String getuid = dataSnapshot.getKey();
-                    final String getname = dataSnapshot.child("username").getValue(String.class);
+                    Log.v("getuidddddd",user.getUid());
+
+                    if (dataSnapshot.getKey().toString().equals(sellerid)){
+                        getname = dataSnapshot.child("username").getValue(String.class);
+                        Log.v("namenamexd",getname);
+                    }
+
                     final String getprofilepic = storageRef.child("profilepics/" + user.getUid().toString() + ".png").getDownloadUrl().toString();
 
 
@@ -159,30 +168,39 @@ public class chatfeaturetesting extends AppCompatActivity {
                                     if(dataSnapshot1.hasChild("user_1")&&dataSnapshot1.hasChild("user_2") && dataSnapshot1.hasChild("messages")){
                                         final String getuserone = dataSnapshot1.child("user_1").getValue(String.class);
                                         final String getusertwo = dataSnapshot1.child("user_2").getValue(String.class);
-                                        Log.v("test",getuserone);
-                                        Log.v("test",getusertwo);
-                                        Log.v("sellerid",sellerid);
-                                        Log.v("uid",user.getUid());
-                                        if((getuserone.equals(user.getUid())&& getusertwo.equals(sellerid)) || (getuserone.equals(sellerid) && getusertwo.equals(user.getUid()))){
-                                            Log.v("test","hello");
-                                            for(DataSnapshot chatdatasnapshot: dataSnapshot1.child("messages").getChildren()){
-                                                final long getmessagekey = Long.parseLong(chatdatasnapshot.getKey());
 
-                                                final long getlastseenmessage = Long.parseLong(Memorydata.getlastmsgts(chatfeaturetesting.this,getkey));
-                                                lastmessage = chatdatasnapshot.child("msg").getValue(String.class);
-                                                if(getmessagekey>getlastseenmessage){
-                                                    unseenmessage++;
-                                                }
+                                        Log.v("test1",getuserone);
+                                        Log.v("test2",getusertwo);
+//                                        Log.v("sellerid",sellerid);
+                                        Log.v("uid",user.getUid());
+
+                                            if((getuserone.equals(user.getUid())|| getusertwo.equals(user.getUid()))){
+                                                sellerid = getuserone.equals(user.getUid())?getusertwo:getuserone;
+
+                                                Log.v("test","hello");
+                                                for(DataSnapshot chatdatasnapshot: dataSnapshot1.child("messages").getChildren()){
+                                                    final long getmessagekey = Long.parseLong(chatdatasnapshot.getKey());
+                                                    final long getlastseenmessage = Long.parseLong(Memorydata.getlastmsgts(chatfeaturetesting.this,getkey));
+                                                    lastmessage = chatdatasnapshot.child("msg").getValue(String.class);
+                                                    if(getmessagekey>getlastseenmessage){
+
+                                                        unseenmessage++;
+
+                                                    }
+
                                             }
+
                                         }
                                     }
+                                    Log.v("testing",sellerid);
 
                                 }
                             }
 
                             if(!dataset){
                                 dataset = true;
-                                messagelistiner messagelistiners = new messagelistiner(getname,getuid,lastmessage,getprofilepic,unseenmessage,chatkey);
+                                Log.v("testing1",sellerid);
+                                messagelistiner messagelistiners = new messagelistiner(getname,user.getUid(),lastmessage,getprofilepic,unseenmessage,chatkey,sellerid);
                                 Log.v("Lastmessage",lastmessage);
                                 if (messagelistiners.getLastmessage()!= ""){
                                     messagelistinerList.add(messagelistiners);

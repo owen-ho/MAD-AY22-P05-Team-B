@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -48,11 +49,8 @@ public class descriptionpage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(descriptionpage.this, sg.edu.np.MulaSave.chat.chat.class);
-
-                i.putExtra("product",product);
-
+                i.putExtra("sellerid",product.getSellerUid());
                 startActivity(i);
-
             }
         });
 
