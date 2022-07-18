@@ -3,6 +3,7 @@ package sg.edu.np.MulaSave.messages;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +15,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.collection.LLRBNode;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.chat.chat;
 
 public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHolder> {
     private List<messagelistiner> messagelistiners;
     private final Context context;
+    FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    DatabaseReference userRef = database.getReference("user");
 
     public messageadapter(List<messagelistiner> messagelistiners, Context context) {
         this.messagelistiners = messagelistiners;
@@ -46,8 +54,18 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
             //Picasso.get().load(list2.getProfilepic()).into(holder.Profilepic);
 
         }
+        userRef.child(list2.getSellerid()).child("username").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                holder.name.setText(snapshot.getValue().toString());
+            }
 
-        holder.name.setText("hi");
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         holder.lastmessage.setText(list2.getLastmessage());
         if(list2.getUnseenMessages()==0){
             holder.unseenmessage.setVisibility(View.GONE);
@@ -86,7 +104,7 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        private CircleImageView Profilepic;
+        private ImageView Profilepic;
         private TextView name;
         private TextView lastmessage;
         private TextView unseenmessage;

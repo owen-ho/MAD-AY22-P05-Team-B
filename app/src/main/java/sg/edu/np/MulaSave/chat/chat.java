@@ -101,7 +101,7 @@ public class chat extends AppCompatActivity {
         getuid=mAuth.getCurrentUser().getUid();
 
 
-        Picasso.get().load(getprofilepic).into(profilepic);
+        //Picasso.get().load(getprofilepic).into(profilepic);
         chatkey = "";
         if (chatkey!= null){
             if(chatkey.isEmpty()){
