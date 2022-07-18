@@ -1,17 +1,24 @@
 package sg.edu.np.MulaSave.FriendsFragments;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.ContactsContract;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,6 +41,7 @@ public class FriendsFragment extends Fragment {
             .getReference("user");
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     ArrayList<User> friendList;
+    SearchView searchFriendList;
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -49,7 +57,12 @@ public class FriendsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
+        return view;
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         friendRecycler = view.findViewById(R.id.friendRecycler);
         friendList = new ArrayList<>();
 
@@ -96,7 +109,96 @@ public class FriendsFragment extends Fragment {
         friendRecycler.setLayoutManager(vLayoutManager);
         friendRecycler.setItemAnimator(new DefaultItemAnimator());
         friendRecycler.setAdapter(fAdapter);//set adapter
-        return view;
-    }
 
+        searchFriendList = view.findViewById(R.id.searchFriendList);
+
+        searchFriendList.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                friendList.clear();
+                databaseRefUser.child(usr.getUid()).child("friends").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ss : snapshot.getChildren()){//ss.getKey() is the uid of each friend
+                            databaseRefUser.child(ss.getKey().toString()).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    User user = new User();
+                                    for (DataSnapshot ds : snapshot.getChildren()){
+                                        if (ds.getKey().equals("uid")){
+                                            user.setUid(ds.getValue().toString());
+                                        }
+                                        if(ds.getKey().equals("email")){
+                                            user.setEmail(ds.getValue().toString());
+                                        }
+                                        if(ds.getKey().equals("username")){
+                                            user.setUsername(ds.getValue().toString());
+                                        }
+                                    }
+                                    //add the user if the username is under the
+                                    if (user.getUsername().toLowerCase().contains(s.toLowerCase())){
+                                        friendList.add(user);
+                                        fAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                return false;
+            }
+        });
+
+        //layout setting for the searchview
+        searchFriendList.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConstraintLayout layout = (ConstraintLayout) getActivity().findViewById(R.id.friendListConstraint);//get constraintlayout
+                ConstraintSet set = new ConstraintSet();
+                set.clone(layout);
+
+                //set constraints for start and end
+                set.connect(R.id.searchFriendsCard,ConstraintSet.START, R.id.friendListConstraint,ConstraintSet.START,0);
+                set.connect(R.id.searchFriendsCard,ConstraintSet.END, R.id.friendListConstraint,ConstraintSet.END,0);
+                set.applyTo(layout);
+            }
+        });//end of onsearchclick listener
+
+        searchFriendList.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                //to convert margin to dp
+                Resources r = getActivity().getResources();
+                int px = (int) TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        24,
+                        r.getDisplayMetrics()
+                );
+
+                //set layout
+                ConstraintLayout layout = (ConstraintLayout) getActivity().findViewById(R.id.friendListConstraint);
+                ConstraintSet set = new ConstraintSet();
+                set.clone(layout);
+                //clear constraints
+                set.clear(R.id.searchFriendsCard, ConstraintSet.START);
+                set.connect(R.id.searchFriendsCard, ConstraintSet.END,R.id.friendListConstraint,ConstraintSet.END,px);
+                set.applyTo(layout);
+                return false;//return false so that icon closes back on close
+            }
+        });
+    }
 }
