@@ -43,17 +43,28 @@ public class chatfeaturetesting extends AppCompatActivity {
     private String chatkey="";
     private String lastmessage = "";
     private boolean dataset = false;
+    String currentuser= "";
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference userRef = database.getReference("user");
+    DatabaseReference chatRef = database.getReference("chat");
+    private FirebaseAuth mAuth;
+
+
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        //Product productclass = (Product) getIntent().getSerializableExtra("product");//get product from adapter
+        Product products = (Product) getIntent().getSerializableExtra("product");//get product from adapter
+        String sellerid = products.getSellerUid();
+        mAuth = FirebaseAuth.getInstance();
+        currentuser=mAuth.getCurrentUser().getUid();
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_chatfeaturetesting);
@@ -130,11 +141,14 @@ public class chatfeaturetesting extends AppCompatActivity {
                     final String getprofilepic = storageRef.child("profilepics/" + user.getUid().toString() + ".png").getDownloadUrl().toString();
 
 
-                    userRef.child("chat").addValueEventListener(new ValueEventListener() {
+                    chatRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             int getchatcount = (int)snapshot.getChildrenCount();
+                            Log.v("chatcount",String.valueOf(getchatcount));
+
                             if(getchatcount >0){
+                                Log.v("chatcount",String.valueOf(getchatcount));
                                 for (DataSnapshot dataSnapshot1 : snapshot.getChildren()){
                                     final String getkey = dataSnapshot1.getKey();
                                     if (getkey != null){
@@ -145,9 +159,12 @@ public class chatfeaturetesting extends AppCompatActivity {
                                     if(dataSnapshot1.hasChild("user_1")&&dataSnapshot1.hasChild("user_2") && dataSnapshot1.hasChild("messages")){
                                         final String getuserone = dataSnapshot1.child("user_1").getValue(String.class);
                                         final String getusertwo = dataSnapshot1.child("user_2").getValue(String.class);
-                                        Log.v("test","hi");
-                                        if((getuserone.equals(getuid)&& getusertwo.equals(uid)) || (getuserone.equals(uid) && getusertwo.equals(getuid))){
-                                            Log.v("test","hi");
+                                        Log.v("test",getuserone);
+                                        Log.v("test",getusertwo);
+                                        Log.v("sellerid",sellerid);
+                                        Log.v("uid",user.getUid());
+                                        if((getuserone.equals(user.getUid())&& getusertwo.equals(sellerid)) || (getuserone.equals(sellerid) && getusertwo.equals(user.getUid()))){
+                                            Log.v("test","hello");
                                             for(DataSnapshot chatdatasnapshot: dataSnapshot1.child("messages").getChildren()){
                                                 final long getmessagekey = Long.parseLong(chatdatasnapshot.getKey());
 
