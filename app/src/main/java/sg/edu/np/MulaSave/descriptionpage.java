@@ -77,9 +77,7 @@ public class descriptionpage extends AppCompatActivity {
                     for (DataSnapshot snapshot1 : dataSnapshot.getChildren()){
                         if (snapshot1.getKey().toString().equals("Reserve")){
                             for (DataSnapshot snapshot2 : snapshot1.getChildren()){
-                                Log.i("knn",snapshot2.getKey().toString());
                                 String ReserveUnique = ((product.getImageUrl()).replaceAll("[^a-zA-Z0-9]", ""));
-                                //Log.i("knn",snapshot1.getValue().toString());
                                 if(snapshot2.getKey().toString().equals(ReserveUnique)){
                                     reserve.setVisibility(View.INVISIBLE);
                                     break;

@@ -100,6 +100,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:srcCompat="@drawable/favourate_button" />
 
+            <ImageView
+                android:id="@+id/DeleteProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:background="#FFFFFF"
+                android:outlineProvider="none"
+                android:tint="#EC3131"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/ic_menu_delete" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
