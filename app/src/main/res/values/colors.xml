@@ -12,5 +12,6 @@
     <color name="custom_yellow">#FBC02D</color>
     <color name="theme_color">#2176FF</color>
     <color name="theme_color_9">#CC2176FF</color>
-    <color name="theme_color_8">#2176FF</color>
+    <color name="theme_color_8">#142176FF</color>
+    <color name="light_8">#14000000</color>
 </resources>

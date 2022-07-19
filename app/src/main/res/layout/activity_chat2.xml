@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".chat.chat">
     <RelativeLayout
+        android:id="@+id/toptop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
@@ -61,7 +63,15 @@
 
     </RelativeLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/toptop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/chattingrecycleview"
+        android:layout_above="@+id/bottombar"/>
+
     <RelativeLayout
+        android:id="@+id/bottombar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

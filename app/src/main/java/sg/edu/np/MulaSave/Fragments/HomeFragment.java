@@ -102,8 +102,8 @@ public class HomeFragment extends Fragment {
                 displayAdapter(homeproductList);
             }
         }else{
-            homeproductList = new ArrayList<Product>();
-            new getProducts().execute();
+            //homeproductList = new ArrayList<Product>();
+            //new getProducts().execute();
         }
 
         //transition to the shopping fragment

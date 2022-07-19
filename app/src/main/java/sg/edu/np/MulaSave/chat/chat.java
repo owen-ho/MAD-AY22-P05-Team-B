@@ -2,6 +2,8 @@ package sg.edu.np.MulaSave.chat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +37,8 @@ public class chat extends AppCompatActivity {
     String getuid= "";
     String username = "";
     String sellerid ="";
+    private RecyclerView chattingrecycleview;
+
 
 
 
@@ -51,6 +55,8 @@ public class chat extends AppCompatActivity {
         final EditText messageedittxt = findViewById(R.id.messageedittxt);
         final ImageView profilepic = findViewById(R.id.profilePic);
         final ImageView sendbtn = findViewById(R.id.sendbtn);
+        chattingrecycleview= findViewById(R.id.chattingrecycleview);
+
 
         sellerid = getIntent().getStringExtra("sellerid");
         // Retrieving data from message adapater class
@@ -102,6 +108,11 @@ public class chat extends AppCompatActivity {
 
 
         //Picasso.get().load(getprofilepic).into(profilepic);
+
+        chattingrecycleview.setHasFixedSize(true);
+        chattingrecycleview.setLayoutManager(new LinearLayoutManager(chat.this));
+
+
         chatkey = "";
         if (chatkey!= null){
             if(chatkey.isEmpty()){
@@ -124,6 +135,8 @@ public class chat extends AppCompatActivity {
                                 chatRef.child(chatkey).child("user_2").setValue(sellerid);
                                 chatRef.child(chatkey).child("messages").child(currenttimestamp).child("msg").setValue(gettextmessage);
                                 chatRef.child(chatkey).child("messages").child(currenttimestamp).child("uid").setValue(getuid);
+                                //clear edit text
+                                messageedittxt.setText("");
 
 
 
