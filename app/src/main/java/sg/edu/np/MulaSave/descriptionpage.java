@@ -21,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.time.Instant;
+
 public class descriptionpage extends AppCompatActivity {
     DatabaseReference databaseRefUser = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
@@ -62,6 +64,12 @@ public class descriptionpage extends AppCompatActivity {
 
             }
         });
+
+        if (product.getSellerUid().equals(usr.getUid())){
+            reserve.setVisibility(View.INVISIBLE);
+            chat.setVisibility(View.INVISIBLE);
+        }
+
         databaseRefUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
