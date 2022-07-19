@@ -18,7 +18,7 @@ public class ShoppingViewHolder extends RecyclerView.ViewHolder {
     TextView productPrice;
     TextView productWebsite;
     RatingBar prodRating;
-    ImageView prodFavourite;
+    ImageView prodFavourite, prodRemove;
     Boolean remove;//condition to tell adapter if remove item on unlike, to ensure adapter only removes the item when the wishlist fragment is using
 
     public ShoppingViewHolder(@NonNull View itemView, int viewType) {
@@ -31,6 +31,7 @@ public class ShoppingViewHolder extends RecyclerView.ViewHolder {
             productWebsite = itemView.findViewById(R.id.sProdWebsite);
             prodRating = itemView.findViewById(R.id.sProdRating);
             prodFavourite = itemView.findViewById(R.id.sProdFavourite);
+            prodRemove = itemView.findViewById(R.id.DeleteProduct);
             remove = false;//do not remove item from recyclerview when user unlikes the item
         }
         else{//wishlistview

@@ -39,6 +39,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
     int layoutType; //toggle between search product view and shopping list view
     // 1 = shopping search product view
     // 2 = wishlist view
+    FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
 
     public ShoppingRecyclerAdapter(ArrayList<Product> input, Context  context, int _layoutType) {
         this.data = input;
@@ -79,6 +80,13 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         String price = "0.0";
         if (p.getPrice()!=null){
             price = String.format("$%.2f",p.getPrice());
+        }
+
+        if(holder.getItemViewType() == 1){
+            holder.prodRemove.setVisibility(View.INVISIBLE);
+            if(p.getSellerUid().equals(usr.getUid().toString())){
+                holder.prodRemove.setVisibility(View.VISIBLE);//set visible if current user is creator
+            }
         }
 
         holder.productPrice.setText(price);
