@@ -3,6 +3,7 @@ package sg.edu.np.MulaSave;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.CountDownTimer;
+import android.view.InputDevice;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +91,7 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(holder.uploadpaymentBtn.getContext(), UploadPayment.class);
+                intent.putExtra("product",product);
                 holder.uploadpaymentBtn.getContext().startActivity(intent);
             }
         });
