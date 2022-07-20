@@ -71,7 +71,7 @@ public class ExploreFragment extends Fragment {
                 for (DataSnapshot ss : snapshot.getChildren()){
                     //User extractUser = ss.getValue(User.class);
                     User user = new User();
-                    for (DataSnapshot ds : ss.getChildren()){//because the users may have wishlists, cannot extract directly to user class
+                    for (DataSnapshot ds : ss.getChildren()){//because the users may have wishlists and other fields, cannot extract directly to user class
                         if (ds.getKey().equals("uid")){
                             user.setUid(ds.getValue().toString());
                         }

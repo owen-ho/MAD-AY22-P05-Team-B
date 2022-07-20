@@ -1,6 +1,7 @@
 package sg.edu.np.MulaSave.HomePage;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -39,6 +40,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -65,7 +67,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     AnimatedVectorDrawable avd2;
 
     public PostAdapter(ArrayList<Post> _postList) {
-        //Collections.sort(_postList,postComparator);
+        Collections.sort(_postList,postComparator);
         this.postList = _postList;
     }
 
@@ -232,12 +234,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         }
     }
 
+    /**
+     * desc
+     * Param
+     * return
+     */
     //custom comparator for sorting the posts
-    /*public Comparator<Post> postComparator = new Comparator<Post>() {
+    public Comparator<Post> postComparator = new Comparator<Post>() {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public int compare(Post p1, Post p2) {
-            return p1.getPostDateTime().compareTo(p2.getPostDateTime());
+            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            int l1 = LocalDateTime.parse(p1.getPostDateTime(),myFormatObj).compareTo(LocalDateTime.parse(p2.getPostDateTime(),myFormatObj));
+            return l1;
         }
-    };*/
+    };
 }

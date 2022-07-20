@@ -1,10 +1,12 @@
 package sg.edu.np.MulaSave.FriendsFragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,22 +86,30 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ExploreFriendViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ExploreFriendViewHolder holder, @SuppressLint("RecyclerView") int position) {
         User u = userList.get(position);
         holder.userName.setText(u.getUsername());//get texts
         //holder.setIsRecyclable(false);
+        holder.position = position;
 
 
         //set profile picture
         storageRef.child("profilepics/" + u.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            final int pos = position;
             @Override
             public void onSuccess(Uri uri) {//user has set a profile picture before
-                Picasso.get().load(uri).fit().into(holder.userPic);
+                Log.i("hihi",String.valueOf(pos));
+                Log.i("hihi",String.valueOf(holder.position)+"position");
+                if(pos == holder.position){
+                    holder.drawImg(uri);
+                }
+                //Picasso.get().load(uri).fit().into(holder.userPic);
+
             }
         }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
             @Override
             public void onFailure(@NonNull Exception e) {//set default picture
-                Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").fit().into(holder.userPic);
+                //Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").fit().into(holder.userPic);
             }
         });//end of get profile pic
 
@@ -211,6 +221,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
 
     //viewholder
     public class ExploreFriendViewHolder extends RecyclerView.ViewHolder{
+        int position;
         ImageView userPic;
         TextView userName, negativeText, positiveText;
         CardView negativeCard, positiveCard;
@@ -222,6 +233,10 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
             positiveText = itemView.findViewById(R.id.positiveText);
             negativeCard = itemView.findViewById(R.id.negativeCard);
             positiveCard = itemView.findViewById(R.id.positiveCard);
+        }
+
+        public void drawImg(Uri url){
+            Picasso.get().load(url).fit().into(userPic);
         }
     }
 
