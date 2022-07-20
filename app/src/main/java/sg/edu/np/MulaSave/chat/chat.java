@@ -22,6 +22,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 import sg.edu.np.MulaSave.Memorydata;
 import sg.edu.np.MulaSave.Product;
 import sg.edu.np.MulaSave.R;
@@ -30,19 +38,20 @@ import sg.edu.np.MulaSave.User;
 public class chat extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference chatRef = database.getReference("chat");
+    DatabaseReference cbRef = database.getReference();
     DatabaseReference userRef = database.getReference("user");
     private FirebaseAuth mAuth;
 
-    private String chatkey;
-    String getuid= "";
+    private final List<chatlistner> chatlistnerList = new ArrayList<>();
+    private chatadapter chatadapter;
+
+    String chatkey = "1";
+    String getuid = "";
     String username = "";
-    String sellerid ="";
+    String sellerid = "";
+    private boolean loadingfirsttime = true;
+
     private RecyclerView chattingrecycleview;
-
-
-
-
-
 
 
     @Override
@@ -55,7 +64,7 @@ public class chat extends AppCompatActivity {
         final EditText messageedittxt = findViewById(R.id.messageedittxt);
         final ImageView profilepic = findViewById(R.id.profilePic);
         final ImageView sendbtn = findViewById(R.id.sendbtn);
-        chattingrecycleview= findViewById(R.id.chattingrecycleview);
+        chattingrecycleview = findViewById(R.id.chattingrecycleview);
 
 
         sellerid = getIntent().getStringExtra("sellerid");
@@ -65,8 +74,7 @@ public class chat extends AppCompatActivity {
 //        String sellerid = productclass.getSellerUid();
         DatabaseReference mDatabase;
         mDatabase = database.getReference("user");
-        Log.v("selleriddd",sellerid);
-
+        Log.v("selleriddd", sellerid);
 
 
         mDatabase.child(sellerid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -78,33 +86,21 @@ public class chat extends AppCompatActivity {
                 //Set User Username to Textview
                 else {
                     User user = task.getResult().getValue(User.class);
-                    username=user.username;
-                    Log.v("username",username);
+                    username = user.username;
+                    Log.v("username", username);
                     nameTTv.setText(username);
                     Log.d("Testing", String.valueOf(task.getResult().getValue()));
                 }
             }
         });
 
-
-
-
         final String getprofilepic = getIntent().getStringExtra("Profilepic");
-        chatkey = getIntent().getStringExtra("chatkey");
+//        chatkey = getIntent().getStringExtra("chatkey");
         final String uid = getIntent().getStringExtra("uid");
-
-
-
-
-
-
-
-
-
 
         //get user uid from memory
         //getuid = Memorydata.getdata(chat.this);
-        getuid=mAuth.getCurrentUser().getUid();
+        getuid = mAuth.getCurrentUser().getUid();
 
 
         //Picasso.get().load(getprofilepic).into(profilepic);
@@ -112,63 +108,137 @@ public class chat extends AppCompatActivity {
         chattingrecycleview.setHasFixedSize(true);
         chattingrecycleview.setLayoutManager(new LinearLayoutManager(chat.this));
 
+        chatadapter = new chatadapter(chatlistnerList,chat.this);
+        chattingrecycleview.setAdapter(chatadapter);
 
-        chatkey = "";
-        if (chatkey!= null){
-            if(chatkey.isEmpty()){
 
-                chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+
+                cbRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                        //generating chatkey by default chatkey is 1
-                        chatkey = "1";
-                        sendbtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                                final String currenttimestamp = String.valueOf(System.currentTimeMillis()).substring(0,10);
-                                final String gettextmessage = messageedittxt.getText().toString();
-
-                                Memorydata.savelastmsgts(currenttimestamp,chatkey,chat.this);
-                                chatRef.child(chatkey).child("user_1").setValue(getuid);
-                                chatRef.child(chatkey).child("user_2").setValue(sellerid);
-                                chatRef.child(chatkey).child("messages").child(currenttimestamp).child("msg").setValue(gettextmessage);
-                                chatRef.child(chatkey).child("messages").child(currenttimestamp).child("uid").setValue(getuid);
-                                //clear edit text
-                                messageedittxt.setText("");
-
-
-
+                        if (chatkey != null) {
+                            Log.v("test1","hi");
+                            if (chatkey.isEmpty()) {
+                                Log.v("test1","hi");
+                                //generating chatkey by default chatkey is 1
+                                if (snapshot.hasChild("chat")) {
+                                    Log.v("test1","hi");
+                                    chatkey = (String.valueOf(snapshot.child("chat").getChildrenCount() + "1"));
+                                }
                             }
-                        });
-                        if(snapshot.hasChild("chat")){
-                            chatkey=(String.valueOf(snapshot.child("chat").getChildrenCount()+1));
+                        }
+
+                        if (snapshot.hasChild("chat")) {
+                            Log.v("test2","hi");
+                            if (snapshot.child("chat").child(chatkey).hasChild("messages")) {
+                                chatlistnerList.clear();
+                                Log.v("test3","hi");
+
+                                for (DataSnapshot messagesnapshot : snapshot.child("chat").child(chatkey).child("messages").getChildren()) {
+                                    if (messagesnapshot.hasChild("msg") && messagesnapshot.hasChild("uid")) {
+                                        Log.v("test4","hi");
+                                        final String messagetimestamp = messagesnapshot.getKey();
+                                        final String getuid = messagesnapshot.child("uid").getValue(String.class);
+                                        final String getmsg = messagesnapshot.child("msg").getValue(String.class);
+                                        Timestamp timestamp = new Timestamp(Long.parseLong(messagetimestamp));
+                                        Date date = new Date(timestamp.getTime());
+                                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                                        SimpleDateFormat simpletimeFormat = new SimpleDateFormat("hh:mm:aa", Locale.getDefault());
 
 
+                                        chatlistner Chatlistner = new chatlistner(getuid,username,getmsg,simpleDateFormat.format(date),simpletimeFormat.format(date));
+                                        chatlistnerList.add(Chatlistner);
 
+                                        if (loadingfirsttime || Long.parseLong(messagetimestamp) > Long.parseLong(Memorydata.getlastmsgts(chat.this, chatkey))) {
+                                            loadingfirsttime = false;
+                                            Memorydata.savelastmsgts(messagetimestamp, chatkey, chat.this);
+
+                                            chatadapter.updatechatlist(chatlistnerList);
+                                            chattingrecycleview.scrollToPosition(chatlistnerList.size() - 1);
+
+                                        }
+
+                                    }
+
+
+                                }
+                            }
 
 
                         }
+
+
                     }
+
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
-            }
-        }
 
 
+                sendbtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        final String currenttimestamp = String.valueOf(System.currentTimeMillis()).substring(0, 10);
+                        final String gettextmessage = messageedittxt.getText().toString();
+
+                        Memorydata.savelastmsgts(currenttimestamp, chatkey, chat.this);
+
+                        chatRef.child(chatkey).child("user_1").setValue(getuid);
+                        chatRef.child(chatkey).child("user_2").setValue(sellerid);
+                        chatRef.child(chatkey).child("messages").child(currenttimestamp).child("msg").setValue(gettextmessage);
+                        chatRef.child(chatkey).child("messages").child(currenttimestamp).child("uid").setValue(getuid);
+                        //clear edit text
+                        messageedittxt.setText("");
+//                        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                if (snapshot.hasChild(chatkey)) {
+//                                    chatkey = chatkey + chatkey;
+//                                    chatRef.child(chatkey).child("user_1").setValue(getuid);
+//                                    chatRef.child(chatkey).child("user_2").setValue(sellerid);
+//                                    chatRef.child(chatkey).child("messages").child(currenttimestamp).child("msg").setValue(gettextmessage);
+//                                    chatRef.child(chatkey).child("messages").child(currenttimestamp).child("uid").setValue(getuid);
+//                                    //clear edit text
+//                                    messageedittxt.setText("");
+//                                } else {
+//                                    chatRef.child(chatkey).child("user_1").setValue(getuid);
+//                                    chatRef.child(chatkey).child("user_2").setValue(sellerid);
+//                                    chatRef.child(chatkey).child("messages").child(currenttimestamp).child("msg").setValue(gettextmessage);
+//                                    chatRef.child(chatkey).child("messages").child(currenttimestamp).child("uid").setValue(getuid);
+//                                    //clear edit text
+//                                    messageedittxt.setText("");
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError error) {
+//
+//                            }
+                    //});
+
+//                chatkey = "1";
+
+//                chatRef.child(chatkey).child("user_1").setValue(getuid);
+//                chatRef.child(chatkey).child("user_2").setValue(sellerid);
+//                chatRef.child(chatkey).child("messages").child(currenttimestamp).child("msg").setValue(gettextmessage);
+//                chatRef.child(chatkey).child("messages").child(currenttimestamp).child("uid").setValue(getuid);
+//                //clear edit text
+//                messageedittxt.setText("");
+                    }
+                });
+                backbtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        finish();
+                    }
+                });
 
 
-
-        backbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
     }
 }
+

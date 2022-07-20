@@ -175,7 +175,7 @@ public class chatfeaturetesting extends AppCompatActivity {
                                 }   userRef.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        messagelistinerList.clear();
+                                        //messagelistinerList.clear();
                                         unseenmessage = 0;
                                         lastmessage = "";
                                         chatkey="";

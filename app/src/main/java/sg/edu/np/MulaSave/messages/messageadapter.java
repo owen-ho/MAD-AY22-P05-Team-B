@@ -49,7 +49,7 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull messageadapter.MyViewHolder holder, int position) {
         messagelistiner list2 = messagelistiners.get(position);
-        Log.v("trying",list2.getSellerid());
+        Log.v("trying", String.valueOf(messagelistiners.size()));
         if(list2.getProfilepic().isEmpty()){
             //Picasso.get().load(list2.getProfilepic()).into(holder.Profilepic);
 
