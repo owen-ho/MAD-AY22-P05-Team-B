@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.P05TeamB">
         <activity
+            android:name=".SellerPaymentView"
+            android:exported="false" />
+        <activity
             android:name=".UploadPayment"
             android:exported="false" />
         <activity

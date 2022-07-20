@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -27,10 +29,14 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
     //adapter shared by shopping, wishlist and uploads
     private ArrayList<Product> data;
 
+    StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+
     DatabaseReference databaseRefUser = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
             .getReference("user");
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
+
+
 
     public ReserveAdapter(ArrayList<Product> input){
         this.data = input;
@@ -93,6 +99,8 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
                 Intent intent = new Intent(holder.uploadpaymentBtn.getContext(), UploadPayment.class);
                 intent.putExtra("product",product);
                 holder.uploadpaymentBtn.getContext().startActivity(intent);
+
+
             }
         });
     }

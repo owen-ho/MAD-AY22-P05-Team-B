@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -45,9 +47,23 @@ public class UploadPayment extends AppCompatActivity {
             }
         });
 
+        ConfirmPaymentbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UploadPayment.this, ChildReserveFragment.class);
+                finish();
+            }
+        });
+
         NoSubmitPaymentbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                StorageReference paymentPic = storageRef.child("paymentpics/" + product.getAsin() +".png");
+                paymentPic.delete().addOnSuccessListener(new OnSuccessListener<Void>() { // to remove the image url from firebase storage
+                    @Override
+                    public void onSuccess(Void unused) {
+                    }
+                });
                 Intent intent = new Intent(UploadPayment.this, ChildReserveFragment.class);
                 finish();
             }

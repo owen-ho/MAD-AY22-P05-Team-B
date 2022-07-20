@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SellerPaymentView">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="265dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/proofofpayment"
+            android:layout_width="343dp"
+            android:layout_height="406dp"
+            android:layout_marginTop="60dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/textView55"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Proof of Payment"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textView53"
+        android:layout_width="90dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="56dp"
+        android:text="Decline"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="655dp" />
+
+    <TextView
+        android:id="@+id/textView54"
+        android:layout_width="90dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="68dp"
+        android:text="Accept"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="661dp" />
+
+    <ImageView
+        android:id="@+id/AcceptPaymentBtn"
+        android:layout_width="53dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/check_mark"
+        tools:layout_editor_absoluteY="582dp" />
+
+    <ImageView
+        android:id="@+id/DeclinePaymentBtn"
+        android:layout_width="44dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="92dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/close"
+        tools:layout_editor_absoluteY="602dp" />
+
+    <ImageView
+        android:id="@+id/SellerPaymentBack"
+        android:layout_width="42dp"
+        android:layout_height="44dp"
+        app:srcCompat="@drawable/left"
+        tools:layout_editor_absoluteX="162dp"
+        tools:layout_editor_absoluteY="582dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

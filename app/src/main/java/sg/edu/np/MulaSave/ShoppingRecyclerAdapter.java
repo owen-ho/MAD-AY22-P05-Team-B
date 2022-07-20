@@ -106,6 +106,14 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         }
 
         // The codes below are for the Payment Notification
+        holder.paymentMade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(holder.paymentMade.getContext(), SellerPaymentView.class);
+                holder.paymentMade.getContext().startActivity(intent);
+            }
+        });
+
         if(holder.getItemViewType() == 1){
             holder.paymentMade.setVisibility(View.INVISIBLE);
             if (p.getSellerUid().equals(usr.getUid().toString())){
