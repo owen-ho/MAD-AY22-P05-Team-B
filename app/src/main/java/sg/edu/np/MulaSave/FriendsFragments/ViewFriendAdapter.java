@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,7 @@ import java.util.ArrayList;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 
-public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.ExploreFriendViewHolder>{
+public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.FriendViewHolder>{
 
     ArrayList<User> userList;
     DatabaseReference databaseRefUser = FirebaseDatabase
@@ -79,39 +80,45 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
 
     @NonNull
     @Override
-    public ExploreFriendViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FriendViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;//find view and return the viewholder
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_view_row,parent,false);
-        return new ExploreFriendViewHolder(view);
+        return new FriendViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ExploreFriendViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull FriendViewHolder holder, @SuppressLint("RecyclerView") int position) {
         User u = userList.get(position);
+        u.setImg(ViewFriendAdapter.this, holder.userPic,holder.userPic.getContext(),position);
         holder.userName.setText(u.getUsername());//get texts
         //holder.setIsRecyclable(false);
         holder.position = position;
+        ImageView img = (ImageView) holder.userPic;
 
+        //holder.initializeAsync(position);
 
         //set profile picture
         storageRef.child("profilepics/" + u.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             final int pos = position;
             @Override
             public void onSuccess(Uri uri) {//user has set a profile picture before
-                Log.i("hihi",String.valueOf(pos));
+                /*Log.i("hihi",String.valueOf(pos));
                 Log.i("hihi",String.valueOf(holder.position)+"position");
                 if(pos == holder.position){
                     holder.drawImg(uri);
+                }*/
+                /*if(img == null){
+                    img = new ImageView(holder.userPic.getContext());
                 }
-                //Picasso.get().load(uri).fit().into(holder.userPic);
+                Picasso.get().load(uri).fit().into(img);*/
 
             }
-        }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
+        });/*.addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
             @Override
             public void onFailure(@NonNull Exception e) {//set default picture
                 //Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").fit().into(holder.userPic);
             }
-        });//end of get profile pic
+        });//end of get profile pic*/
 
 
         if(holder.getItemViewType()==1){//friends page
@@ -189,6 +196,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
                     //u refers to the user in the explore list
                     //usr refers to the user currently logged in
                     databaseRefUser.child(u.getUid().toString()).child("requests").child(usr.getUid().toString()).setValue("wants to add");//add the current user under the requests of the user in explore list
+                    //ViewFriendAdapter.this.notifyItemChanged(position);
                     ViewFriendAdapter.this.notifyDataSetChanged();
                     //userList.clear();
                     //notifyDataSetChanged();
@@ -205,6 +213,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
                     holder.positiveText.setText("Add Friend");
                     holder.positiveCard.setCardBackgroundColor(Color.parseColor("#8BC34A"));
                     holder.negativeCard.setVisibility(View.GONE);
+                    //ViewFriendAdapter.this.notifyItemChanged(position);
                     ViewFriendAdapter.this.notifyDataSetChanged();
                     //userList.clear();
                     //notifyDataSetChanged();
@@ -220,12 +229,12 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
     }
 
     //viewholder
-    public class ExploreFriendViewHolder extends RecyclerView.ViewHolder{
+    public class FriendViewHolder extends RecyclerView.ViewHolder{
         int position;
         ImageView userPic;
         TextView userName, negativeText, positiveText;
         CardView negativeCard, positiveCard;
-        public ExploreFriendViewHolder(View itemView){
+        public FriendViewHolder(View itemView){
             super(itemView);
             userPic = itemView.findViewById(R.id.userPic);
             userName = itemView.findViewById(R.id.userName);
@@ -237,6 +246,46 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Ex
 
         public void drawImg(Uri url){
             Picasso.get().load(url).fit().into(userPic);
+        }
+        public void initializeAsync(int position) {
+            Handler mHandler = new Handler();
+            new Thread(new Runnable() {
+
+                String songName, otherStuff;
+
+                @Override
+                public void run () {
+                    // here we are async.
+
+                    // Retrieve here your song informations, ie:
+                    //object myRetrievedObject = getSongInfoBasedOnPositionSomeHow();
+                    //songName = myRetrievedObject.retrievedSongName;
+                    //otherStuff = myRetrievedObject.retrievedOtherStuffs;
+
+                    User user = userList.get(position);
+
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run () {
+                            // make operation on UI
+                            //tvSongName.setText(songName);
+                            //...
+                            //...
+                            storageRef.child("profilepics/" + user.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Picasso.get().load(uri).fit().into(userPic);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    //Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").fit().into(userPic);
+                                }
+                            });
+                        }
+                    });
+                }
+            }).start();
         }
     }
 

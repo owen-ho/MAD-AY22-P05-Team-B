@@ -1,9 +1,11 @@
 package sg.edu.np.MulaSave.Fragments;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,7 +24,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import sg.edu.np.MulaSave.HomePage.Post;
 import sg.edu.np.MulaSave.HomePage.PostAdapter;
@@ -73,6 +79,7 @@ public class ChildPostFragment extends Fragment {
                     if (usr.getUid().equals(post.getCreatorUid())){//check if the creator uid is same as current uid
                         userPostList.add(post);//add post
                     }
+                    Collections.sort(userPostList,postComparator);
                     userPostAdapter.notifyDataSetChanged();//notifydataset changed
                 }
             }
@@ -88,4 +95,13 @@ public class ChildPostFragment extends Fragment {
         userPostRecycler.setItemAnimator(new DefaultItemAnimator());
         userPostRecycler.setAdapter(userPostAdapter);//set adapter
     }
+    public Comparator<Post> postComparator = new Comparator<Post>() {
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        public int compare(Post p1, Post p2) {
+            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            int l1 = LocalDateTime.parse(p2.getPostDateTime(),myFormatObj).compareTo(LocalDateTime.parse(p1.getPostDateTime(),myFormatObj));
+            return l1;
+        }
+    };
 }
