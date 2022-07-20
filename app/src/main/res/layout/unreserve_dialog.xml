@@ -40,7 +40,7 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
-                    android:id="@+id/nounReserve"
+                    android:id="@+id/noRemoveUpload"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="25dp"
@@ -67,7 +67,7 @@
                 app:layout_constraintTop_toTopOf="@+id/cardView13">
 
                 <TextView
-                    android:id="@+id/confirmunReserve"
+                    android:id="@+id/confirmRemoveUpload"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="25dp"

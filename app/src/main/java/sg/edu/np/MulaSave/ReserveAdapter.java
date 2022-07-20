@@ -56,21 +56,6 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
                 .load(product.getImageUrl())
                 .into(holder.rImage);
 
-        new CountDownTimer(86400000, 1000) {
-            public void onTick(long millisUntilFinished) {
-                // Used for formatting digit to be in 2 digits only
-                NumberFormat f = new DecimalFormat("00");
-                long hour = (millisUntilFinished / 3600000) % 24;
-                long min = (millisUntilFinished / 60000) % 60;
-                long sec = (millisUntilFinished / 1000) % 60;
-                holder.rTime.setText(f.format(hour) + ":" + f.format(min) + ":" + f.format(sec));
-            }
-            // When the task is over it will print 00:00:00 there
-            public void onFinish() {
-                holder.rTime.setText("00:00:00");
-            }
-        }.start();
-
         holder.UnreserveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,8 +63,8 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
                 View v = LayoutInflater.from(holder.UnreserveBtn.getContext()).inflate(R.layout.unreserve_dialog,null,false);
                 builder.setView(v);
                 final AlertDialog alertDialog = builder.create();
-                TextView noUnReserve = v.findViewById(R.id.nounReserve);
-                TextView confirmUnReserve = v.findViewById(R.id.confirmunReserve);
+                TextView noUnReserve = v.findViewById(R.id.noRemoveUpload);
+                TextView confirmUnReserve = v.findViewById(R.id.confirmRemoveUpload);
                 noUnReserve.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -116,13 +101,12 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
     }
 
     public class reserveViewHolder extends RecyclerView.ViewHolder {
-        TextView rTitle,rPrice, rTime,rWebsite;
+        TextView rTitle,rPrice,rWebsite;
         ImageView rImage, UnreserveBtn, uploadpaymentBtn;
         public reserveViewHolder(@NonNull View itemView) {
             super(itemView);
             rTitle = itemView.findViewById(R.id.rTitle);
             rPrice = itemView.findViewById(R.id.rPrice);
-            rTime = itemView.findViewById(R.id.rTime);
             rWebsite = itemView.findViewById(R.id.rWebsite);
             rImage = itemView.findViewById(R.id.rImage);
             UnreserveBtn = itemView.findViewById(R.id.UnreserveBtn);

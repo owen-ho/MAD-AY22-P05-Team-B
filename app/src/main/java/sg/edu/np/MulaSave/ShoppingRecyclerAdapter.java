@@ -35,6 +35,14 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
     //adapter shared by shopping, wishlist and uploads
     private ArrayList<Product> data;
 
+    DatabaseReference databaseRefUser = FirebaseDatabase
+            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .getReference("user");
+
+    DatabaseReference databaseRefProduct = FirebaseDatabase
+            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .getReference("product");
+
     LayoutInflater inflater;
     int layoutType; //toggle between search product view and shopping list view
     // 1 = shopping search product view
@@ -86,6 +94,47 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             holder.prodRemove.setVisibility(View.INVISIBLE);
             if(p.getSellerUid().equals(usr.getUid().toString())){
                 holder.prodRemove.setVisibility(View.VISIBLE);//set visible if current user is creator
+                holder.prodRemove.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(holder.prodRemove.getContext());
+                        View v = LayoutInflater.from(holder.prodRemove.getContext()).inflate(R.layout.upload_delete_dialog, null, false);
+                        builder.setView(v);
+                        final AlertDialog alertDialog = builder.create();
+                        TextView noRemoveUpload = v.findViewById(R.id.noRemoveUpload);
+                        TextView confirmRemoveUpload = v.findViewById(R.id.confirmRemoveUpload);
+                        noRemoveUpload.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                alertDialog.dismiss();
+                            }
+                        });
+                        confirmRemoveUpload.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                databaseRefProduct.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        String removeUpload = ((p.getImageUrl()).replaceAll("[^a-zA-Z0-9]", ""));
+                                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                            Product p = dataSnapshot.getValue(Product.class);
+                                            if (p.getImageUrl().equals(removeUpload)){
+                                                databaseRefProduct.child(dataSnapshot.getKey()).removeValue();
+                                            }
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        data.clear();
+                                        ShoppingRecyclerAdapter.this.notifyDataSetChanged();
+                                        alertDialog.dismiss();
+                                    }
+                                });
+                            }
+                        });
+                        alertDialog.show();
+                    }
+                });
             }
         }
 
