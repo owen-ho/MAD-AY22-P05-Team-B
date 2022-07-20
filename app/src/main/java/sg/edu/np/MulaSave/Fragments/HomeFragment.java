@@ -1,6 +1,7 @@
 package sg.edu.np.MulaSave.Fragments;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,7 +24,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import sg.edu.np.MulaSave.HomePage.AddFriends;
 import sg.edu.np.MulaSave.HomePage.AddPostActivity;
@@ -118,7 +124,9 @@ public class HomeFragment extends Fragment {
                                 if(post.getCreatorUid().equals(ds.getKey().toString())){//if the creator is friends with the current user
                                     postList.add(post);//add if they are friends
                                 }
-                            }postAdapter.notifyDataSetChanged();
+                            }
+                            Collections.sort(postList,postComparator);
+                            postAdapter.notifyDataSetChanged();
                         }
 
                         @Override
@@ -144,10 +152,25 @@ public class HomeFragment extends Fragment {
 
     }//end of onview created method
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
         getFragmentManager().beginTransaction().detach(this).attach(this).commit();
-    }
+    }*/
+
+    /**
+     * desc
+     * Param
+     * return
+     */
+    public Comparator<Post> postComparator = new Comparator<Post>() {
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        public int compare(Post p1, Post p2) {
+            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            int l1 = LocalDateTime.parse(p1.getPostDateTime(),myFormatObj).compareTo(LocalDateTime.parse(p2.getPostDateTime(),myFormatObj));
+            return l1;
+        }
+    };
 }
 

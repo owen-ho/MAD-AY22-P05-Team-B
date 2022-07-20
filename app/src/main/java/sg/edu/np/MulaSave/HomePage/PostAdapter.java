@@ -67,7 +67,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     AnimatedVectorDrawable avd2;
 
     public PostAdapter(ArrayList<Post> _postList) {
-        Collections.sort(_postList,postComparator);
         this.postList = _postList;
     }
 
@@ -233,20 +232,4 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             postHeartAni = itemView.findViewById(R.id.postHeartAni);
         }
     }
-
-    /**
-     * desc
-     * Param
-     * return
-     */
-    //custom comparator for sorting the posts
-    public Comparator<Post> postComparator = new Comparator<Post>() {
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        @Override
-        public int compare(Post p1, Post p2) {
-            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-            int l1 = LocalDateTime.parse(p1.getPostDateTime(),myFormatObj).compareTo(LocalDateTime.parse(p2.getPostDateTime(),myFormatObj));
-            return l1;
-        }
-    };
 }
