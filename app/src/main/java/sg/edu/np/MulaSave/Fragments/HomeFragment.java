@@ -168,7 +168,7 @@ public class HomeFragment extends Fragment {
         @Override
         public int compare(Post p1, Post p2) {
             DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-            int l1 = LocalDateTime.parse(p1.getPostDateTime(),myFormatObj).compareTo(LocalDateTime.parse(p2.getPostDateTime(),myFormatObj));
+            int l1 = LocalDateTime.parse(p2.getPostDateTime(),myFormatObj).compareTo(LocalDateTime.parse(p1.getPostDateTime(),myFormatObj));
             return l1;
         }
     };
