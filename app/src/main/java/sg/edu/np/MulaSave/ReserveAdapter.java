@@ -1,6 +1,7 @@
 package sg.edu.np.MulaSave;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,11 +89,10 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
         holder.uploadpaymentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(holder.uploadpaymentBtn.getContext(), UploadPayment.class);
+                holder.uploadpaymentBtn.getContext().startActivity(intent);
             }
         });
-
-
     }
 
     @Override

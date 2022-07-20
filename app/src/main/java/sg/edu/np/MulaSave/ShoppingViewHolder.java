@@ -14,9 +14,12 @@ public class ShoppingViewHolder extends RecyclerView.ViewHolder {
 //view holder shared by shopping, wishlist and uploads
     ConstraintLayout productListing;
     ImageView productImage;
+    ImageView paymentBtn;
+    ImageView paymentMade;
     TextView productTitle;
     TextView productPrice;
     TextView productWebsite;
+    TextView statusProduct;
     RatingBar prodRating;
     ImageView prodFavourite, prodRemove;
     Boolean remove;//condition to tell adapter if remove item on unlike, to ensure adapter only removes the item when the wishlist fragment is using
@@ -32,6 +35,9 @@ public class ShoppingViewHolder extends RecyclerView.ViewHolder {
             prodRating = itemView.findViewById(R.id.sProdRating);
             prodFavourite = itemView.findViewById(R.id.sProdFavourite);
             prodRemove = itemView.findViewById(R.id.DeleteProduct);
+            statusProduct = itemView.findViewById(R.id.StatusProduct);
+            paymentBtn = itemView.findViewById(R.id.payment);
+            paymentMade = itemView.findViewById(R.id.PaymentMade);
             remove = false;//do not remove item from recyclerview when user unlikes the item
         }
         else{//wishlistview

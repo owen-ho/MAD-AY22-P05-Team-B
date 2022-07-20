@@ -45,6 +45,7 @@ public class descriptionpage extends AppCompatActivity {
         ImageView pic = findViewById(R.id.imageView16);
         Button chat = findViewById(R.id.Chat);
         Button reserve = findViewById(R.id.Reserve);
+        Button removeReserve = findViewById(R.id.removeReserve);
 
 
         product = (Product) getIntent().getSerializableExtra("product");//get product from adapter
@@ -66,9 +67,35 @@ public class descriptionpage extends AppCompatActivity {
         });
 
         if (product.getSellerUid().equals(usr.getUid())){
-            reserve.setVisibility(View.INVISIBLE);
+            reserve.setVisibility(View.GONE);
             chat.setVisibility(View.INVISIBLE);
+            removeReserve.setVisibility(View.INVISIBLE);
+            databaseRefUser.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot ds: snapshot.getChildren()){
+                        for (DataSnapshot ds1: ds.child("Reserve").getChildren()){
+                            Product prod = ds1.getValue(Product.class);
+                            if (!product.getImageUrl().equals(prod.getImageUrl())){
+                                removeReserve.setVisibility(View.GONE);
+                            }
+                            else{
+                                removeReserve.setVisibility(View.VISIBLE);
+
+                            }
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
+        if (!product.getSellerUid().equals(usr.getUid())){
+            removeReserve.setVisibility(View.GONE);
+        }
+
 
         databaseRefUser.addValueEventListener(new ValueEventListener() {
             @Override
@@ -121,14 +148,28 @@ public class descriptionpage extends AppCompatActivity {
             }
         });
 
+        removeReserve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                databaseRefUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot ds: snapshot.getChildren()){
+                            for (DataSnapshot ds1: ds.child("Reserve").getChildren()){
+                                Product p = ds1.getValue(Product.class);
+                                if (p.getSellerUid().equals(usr.getUid())){
+                                    ds1.getRef().removeValue();
+                                }
+                            }
+                        }
+                        removeReserve.setVisibility(View.GONE);
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-
-
-
-
-
-
-
-
+                    }
+                });
+            }
+        });
     }
 }

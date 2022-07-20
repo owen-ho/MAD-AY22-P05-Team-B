@@ -57,10 +57,6 @@ public class UserInputPrice extends AppCompatActivity {
 
 
 
-
-
-
-
         //ImageView upload = findViewById(R.id.addproductbutton);
         productPic.setOnClickListener(new View.OnClickListener() {
             @Override

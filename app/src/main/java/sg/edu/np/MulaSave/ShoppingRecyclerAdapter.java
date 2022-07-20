@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,6 +91,28 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             price = String.format("$%.2f",p.getPrice());
         }
 
+        // The codes below are for the payment button
+        if(holder.getItemViewType() == 1){
+            holder.paymentBtn.setVisibility(View.INVISIBLE);
+            if (p.getSellerUid().equals(usr.getUid().toString())){
+                holder.paymentBtn.setVisibility(View.VISIBLE);// set visible if current user is creator
+                holder.paymentBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+            }
+        }
+
+        // The codes below are for the Payment Notification
+        if(holder.getItemViewType() == 1){
+            holder.paymentMade.setVisibility(View.INVISIBLE);
+            if (p.getSellerUid().equals(usr.getUid().toString())){
+                holder.paymentMade.setVisibility(View.VISIBLE);// set visible if current user is creator
+            }
+        }
+
         if(holder.getItemViewType() == 1){
             holder.prodRemove.setVisibility(View.INVISIBLE);
             if(p.getSellerUid().equals(usr.getUid().toString())){
@@ -112,24 +135,40 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                         confirmRemoveUpload.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                databaseRefProduct.addListenerForSingleValueEvent(new ValueEventListener() {
+                                databaseRefUser.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        String removeUpload = ((p.getImageUrl()).replaceAll("[^a-zA-Z0-9]", ""));
-                                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                            Product p = dataSnapshot.getValue(Product.class);
-                                            if (p.getImageUrl().equals(removeUpload)){
-                                                databaseRefProduct.child(dataSnapshot.getKey()).removeValue();
+                                        for(DataSnapshot ds: snapshot.getChildren()){
+                                            for (DataSnapshot ds1: ds.child("Reserve").getChildren()){
+                                                Product prod = ds1.getValue(Product.class);
+                                                if (p.getImageUrl().equals(prod.getImageUrl())){
+                                                    ds1.getRef().removeValue();
+                                                }
                                             }
                                         }
                                     }
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
-                                        data.clear();
-                                        ShoppingRecyclerAdapter.this.notifyDataSetChanged();
-                                        alertDialog.dismiss();
+
                                     }
                                 });
+                                databaseRefProduct.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for(DataSnapshot ds: snapshot.getChildren()){
+                                            Product prod = ds.getValue(Product.class);
+                                            if(prod.getAsin().equals(p.getAsin())){
+                                                ds.getRef().removeValue();
+                                                ShoppingRecyclerAdapter.this.notifyItemRemoved(position);
+                                            }
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                                alertDialog.dismiss();
                             }
                         });
                         alertDialog.show();

@@ -92,25 +92,57 @@
 
             <ImageView
                 android:id="@+id/sProdFavourite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_width="28dp"
+                android:layout_height="29dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:srcCompat="@drawable/favourate_button" />
 
             <ImageView
                 android:id="@+id/DeleteProduct"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
+                android:layout_width="29dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
                 android:background="#FFFFFF"
                 android:outlineProvider="none"
                 android:tint="#EC3131"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/payment"
                 app:srcCompat="@android:drawable/ic_menu_delete" />
+
+            <TextView
+                android:id="@+id/StatusProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="Available"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/payment"
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/sProdFavourite"
+                app:srcCompat="@drawable/ic_baseline_attach_money_24" />
+
+            <ImageView
+                android:id="@+id/PaymentMade"
+                android:layout_width="16dp"
+                android:layout_height="15dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/sProdFavourite"
+                app:srcCompat="@drawable/number1_png14885" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
