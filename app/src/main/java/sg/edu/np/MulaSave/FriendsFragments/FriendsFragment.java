@@ -141,7 +141,7 @@ public class FriendsFragment extends Fragment {
                                         }
                                     }
                                     //add the user if the username is under the
-                                    if (user.getUsername().toLowerCase().contains(s.toLowerCase())){
+                                    if (user.getUsername().toLowerCase().contains(s.toLowerCase()) && (!s.equals(""))){//dont add if the input is none
                                         friendList.add(user);
                                         fAdapter.notifyDataSetChanged();
                                     }
