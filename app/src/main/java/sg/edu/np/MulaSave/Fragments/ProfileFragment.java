@@ -36,6 +36,8 @@ import java.util.ArrayList;
 import sg.edu.np.MulaSave.ChildReserveFragment;
 import sg.edu.np.MulaSave.ChildUploadFragment;
 import sg.edu.np.MulaSave.Documentation;
+import sg.edu.np.MulaSave.HomePage.AddFriends;
+import sg.edu.np.MulaSave.HomePage.Post;
 import sg.edu.np.MulaSave.LoginActivity;
 import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.R;
@@ -49,6 +51,7 @@ public class ProfileFragment extends Fragment {
     TabLayout tabLayout;
     ViewPager viewPager;
     TextView noOfFriends, noOfPosts;
+    int count;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -111,12 +114,19 @@ public class ProfileFragment extends Fragment {
         noOfFriends = view.findViewById(R.id.noOfFriends);
         noOfPosts = view.findViewById(R.id.noOfPosts);
 
+        noOfFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AddFriends.class);
+                startActivity(intent);
+            }
+        });
+
         userRef.child(usr.getUid()).child("friends").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 noOfFriends.setText(String.valueOf(snapshot.getChildrenCount()));
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -126,7 +136,14 @@ public class ProfileFragment extends Fragment {
         postRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot){
-                noOfPosts.setText(String.valueOf(snapshot.getChildrenCount()));
+                count = 0;
+                for (DataSnapshot ss : snapshot.getChildren()){
+                    Post post = ss.getValue(Post.class);
+                    if (post.getCreatorUid().equals(usr.getUid())){
+                        count+=1;
+                    }
+                }
+                noOfPosts.setText(String.valueOf(count));
             }
 
             @Override

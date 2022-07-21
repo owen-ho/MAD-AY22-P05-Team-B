@@ -112,57 +112,14 @@ public class FriendsFragment extends Fragment {
 
         searchFriendList = view.findViewById(R.id.searchFriendList);
 
-        searchFriendList.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+        searchFriendList.setSubmitButtonEnabled(true);//enable submit button
+        searchFriendList.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                friendList.clear();
-                databaseRefUser.child(usr.getUid()).child("friends").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot ss : snapshot.getChildren()){//ss.getKey() is the uid of each friend
-                            databaseRefUser.child(ss.getKey().toString()).addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    User user = new User();
-                                    for (DataSnapshot ds : snapshot.getChildren()){
-                                        if (ds.getKey().equals("uid")){
-                                            user.setUid(ds.getValue().toString());
-                                        }
-                                        if(ds.getKey().equals("email")){
-                                            user.setEmail(ds.getValue().toString());
-                                        }
-                                        if(ds.getKey().equals("username")){
-                                            user.setUsername(ds.getValue().toString());
-                                        }
-                                    }
-                                    //add the user if the username is under the
-                                    if (user.getUsername().toLowerCase().contains(s.toLowerCase()) && (!s.equals(""))){//dont add if the input is none
-                                        friendList.add(user);
-                                        fAdapter.notifyDataSetChanged();
-                                    }
-                                }
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-                return false;
+            public void onClick(View view) {
+                searchFriendList.setIconified(false);//make the whole searchview available for input
             }
         });
-
         //layout setting for the searchview
         searchFriendList.setOnSearchClickListener(new View.OnClickListener() {
             @Override
@@ -175,6 +132,56 @@ public class FriendsFragment extends Fragment {
                 set.connect(R.id.searchFriendsCard,ConstraintSet.START, R.id.friendListConstraint,ConstraintSet.START,0);
                 set.connect(R.id.searchFriendsCard,ConstraintSet.END, R.id.friendListConstraint,ConstraintSet.END,0);
                 set.applyTo(layout);
+                searchFriendList.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String s) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String s) {
+                        friendList.clear();
+                        databaseRefUser.child(usr.getUid()).child("friends").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot ss : snapshot.getChildren()){//ss.getKey() is the uid of each friend
+                                    databaseRefUser.child(ss.getKey().toString()).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            User user = new User();
+                                            for (DataSnapshot ds : snapshot.getChildren()){
+                                                if (ds.getKey().equals("uid")){
+                                                    user.setUid(ds.getValue().toString());
+                                                }
+                                                if(ds.getKey().equals("email")){
+                                                    user.setEmail(ds.getValue().toString());
+                                                }
+                                                if(ds.getKey().equals("username")){
+                                                    user.setUsername(ds.getValue().toString());
+                                                }
+                                            }
+                                            //add the user if the username is under the
+                                            if (user.getUsername().toLowerCase().contains(s.toLowerCase())){//dont add if the input is none && (!s.equals(""))
+                                                friendList.add(user);
+                                                fAdapter.notifyDataSetChanged();
+                                            }
+                                        }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                        return false;
+                    }
+                });
             }
         });//end of onsearchclick listener
 
