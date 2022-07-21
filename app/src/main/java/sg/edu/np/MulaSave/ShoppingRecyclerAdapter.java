@@ -3,6 +3,7 @@ package sg.edu.np.MulaSave;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -91,12 +92,12 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             price = String.format("$%.2f",p.getPrice());
         }
 
-        // The codes below are for the payment button
+        // The codes below are for the payment notification
         if(holder.getItemViewType() == 1){
-            holder.paymentBtn.setVisibility(View.INVISIBLE);
+            holder.paymentnotif.setVisibility(View.INVISIBLE);
             if (p.getSellerUid().equals(usr.getUid().toString())){
-                holder.paymentBtn.setVisibility(View.VISIBLE);// set visible if current user is creator
-                holder.paymentBtn.setOnClickListener(new View.OnClickListener() {
+                holder.paymentnotif.setVisibility(View.VISIBLE);// set visible if current user is creator
+                holder.paymentnotif.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
@@ -105,23 +106,49 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             }
         }
 
-        // The codes below are for the Payment Notification
-        holder.paymentMade.setOnClickListener(new View.OnClickListener() {
+        databaseRefUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(holder.paymentMade.getContext(), SellerPaymentView.class);
-                holder.paymentMade.getContext().startActivity(intent);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Boolean isreserved = false;
+                for(DataSnapshot ds: snapshot.getChildren()){
+                    for (DataSnapshot ds1: ds.child("Reserve").getChildren()){
+                        Product dbprod = ds1.getValue(Product.class);
+                        if (dbprod.getAsin().equals(p.getAsin())){
+                            isreserved = true;
+                        }
+                    }
+                }
+                if (isreserved) {
+                    holder.statusProduct.setText("Reserved");
+                    holder.statusProduct.setTextColor(Color.parseColor("#FFF3BA2B"));
+                }
+                else{
+//                    holder.statusProduct.setText("Available");
+//                    holder.statusProduct.setTextColor(Color.parseColor("#89E408"));
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
         if(holder.getItemViewType() == 1){
-            holder.paymentMade.setVisibility(View.INVISIBLE);
+            holder.seepaymentBtn.setVisibility(View.INVISIBLE);
             if (p.getSellerUid().equals(usr.getUid().toString())){
-                holder.paymentMade.setVisibility(View.VISIBLE);// set visible if current user is creator
+                holder.seepaymentBtn.setVisibility(View.VISIBLE);// set visible if current user is creator
             }
         }
 
         if(holder.getItemViewType() == 1){
+            holder.seepaymentBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(holder.seepaymentBtn.getContext(), SellerPaymentView.class);
+                    intent.putExtra("product", p);
+                    holder.seepaymentBtn.getContext().startActivity(intent);
+                }
+            });
             holder.prodRemove.setVisibility(View.INVISIBLE);
             if(p.getSellerUid().equals(usr.getUid().toString())){
                 holder.prodRemove.setVisibility(View.VISIBLE);//set visible if current user is creator

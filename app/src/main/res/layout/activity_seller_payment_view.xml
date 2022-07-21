@@ -22,16 +22,6 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView18"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_add"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/proofofpayment"
-                app:layout_constraintTop_toTopOf="@+id/proofofpayment" />
-
-            <ImageView
                 android:id="@+id/proofofpayment"
                 android:layout_width="350dp"
                 android:layout_height="350dp"
@@ -49,34 +39,34 @@
         android:id="@+id/textView53"
         android:layout_width="0dp"
         android:layout_height="28dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="52dp"
         android:text="Decline"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/DeclinePaymentBtn"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DeclinePaymentBtn" />
 
     <TextView
         android:id="@+id/textView54"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginEnd="60dp"
         android:text="Accept"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/AcceptPaymentBtn"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/AcceptPaymentBtn" />
 
     <ImageView
         android:id="@+id/AcceptPaymentBtn"
         android:layout_width="53dp"
         android:layout_height="45dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginTop="108dp"
+        android:layout_marginEnd="70dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView18"
         app:srcCompat="@drawable/check_mark" />
@@ -85,8 +75,8 @@
         android:id="@+id/DeclinePaymentBtn"
         android:layout_width="44dp"
         android:layout_height="39dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="112dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView18"
         app:srcCompat="@drawable/close" />
@@ -113,5 +103,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/refreshPaymentbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView18"
+        app:srcCompat="@drawable/ic_menu_refresh" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

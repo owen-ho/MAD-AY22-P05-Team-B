@@ -14,8 +14,8 @@ public class ShoppingViewHolder extends RecyclerView.ViewHolder {
 //view holder shared by shopping, wishlist and uploads
     ConstraintLayout productListing;
     ImageView productImage;
-    ImageView paymentBtn;
-    ImageView paymentMade;
+    ImageView seepaymentBtn;
+    ImageView paymentnotif;
     TextView productTitle;
     TextView productPrice;
     TextView productWebsite;
@@ -36,8 +36,8 @@ public class ShoppingViewHolder extends RecyclerView.ViewHolder {
             prodFavourite = itemView.findViewById(R.id.sProdFavourite);
             prodRemove = itemView.findViewById(R.id.DeleteProduct);
             statusProduct = itemView.findViewById(R.id.StatusProduct);
-            paymentBtn = itemView.findViewById(R.id.payment);
-            paymentMade = itemView.findViewById(R.id.PaymentMade);
+            seepaymentBtn = itemView.findViewById(R.id.SeepaymentBtn);
+            paymentnotif = itemView.findViewById(R.id.PaymentNotif);
             remove = false;//do not remove item from recyclerview when user unlikes the item
         }
         else{//wishlistview

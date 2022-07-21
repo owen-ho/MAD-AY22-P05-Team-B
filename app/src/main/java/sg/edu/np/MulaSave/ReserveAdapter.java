@@ -99,8 +99,6 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
                 Intent intent = new Intent(holder.uploadpaymentBtn.getContext(), UploadPayment.class);
                 intent.putExtra("product",product);
                 holder.uploadpaymentBtn.getContext().startActivity(intent);
-
-
             }
         });
     }
