@@ -145,6 +145,7 @@ public class chat extends AppCompatActivity {
                                         Date date = new Date(timestamp.getTime());
                                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
                                         SimpleDateFormat simpletimeFormat = new SimpleDateFormat("hh:mm:aa", Locale.getDefault());
+                                        Log.v("date",simpleDateFormat.format(date));
 
 
                                         chatlistner Chatlistner = new chatlistner(getuid,username,getmsg,simpleDateFormat.format(date),simpletimeFormat.format(date));
@@ -182,6 +183,7 @@ public class chat extends AppCompatActivity {
                 sendbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
 
                         final String currenttimestamp = String.valueOf(System.currentTimeMillis()).substring(0, 10);
                         final String gettextmessage = messageedittxt.getText().toString();
