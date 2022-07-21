@@ -167,9 +167,7 @@ public class chatfeaturetesting extends AppCompatActivity {
                                     final long getlastseenmessage = Long.parseLong(Memorydata.getlastmsgts(chatfeaturetesting.this,getkey));
                                     lastmessage = chatdatasnapshot.child("msg").getValue(String.class);
                                     if(getmessagekey>getlastseenmessage){
-
                                         unseenmessage++;
-
                                     }
 
                                 }   userRef.addValueEventListener(new ValueEventListener() {
