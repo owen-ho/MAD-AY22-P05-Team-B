@@ -15,8 +15,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -90,9 +93,26 @@ public class SellerPaymentView extends AppCompatActivity {
             public void onClick(View view) {
                 String ReserveUnique = ((product.getImageUrl()).replaceAll("[^a-zA-Z0-9]", ""));
                 databaseRefUser.child(usr.getUid().toString()).child("Sold").child(ReserveUnique).setValue(product);//add product if the product does not exist in the database
+                databaseRefUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot ds: snapshot.getChildren()){
+                            for (DataSnapshot ds1: ds.child("Reserve").getChildren()){
+                                Product prod = ds1.getValue(Product.class);
+                                if (product.getImageUrl().equals(prod.getImageUrl())){
+                                    ds1.getRef().removeValue();
+                                }
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                Intent intent = new Intent(SellerPaymentView.this, ChildReserveFragment.class);
+                finish();
             }
         });
-        Intent intent = new Intent(SellerPaymentView.this, ChildReserveFragment.class);
-        finish();
     }
 }

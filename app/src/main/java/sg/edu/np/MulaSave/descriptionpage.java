@@ -94,6 +94,28 @@ public class descriptionpage extends AppCompatActivity {
         }
         if (!product.getSellerUid().equals(usr.getUid())){
             removeReserve.setVisibility(View.GONE);
+            reserve.setVisibility(View.INVISIBLE);
+            databaseRefUser.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot ds: snapshot.getChildren()){
+                        for (DataSnapshot ds1: ds.child("Sold").getChildren()){
+                            Product prod = ds1.getValue(Product.class);
+                            if (!product.getImageUrl().equals(prod.getImageUrl())){ // Product in this page is not equals to the product in the firebase
+                                reserve.setVisibility(View.VISIBLE);
+                            }
+                            else{
+                                reserve.setVisibility(View.GONE);
+
+                            }
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
 
 
@@ -146,6 +168,7 @@ public class descriptionpage extends AppCompatActivity {
                 });
                 alertDialog.show();
             }
+
         });
 
         removeReserve.setOnClickListener(new View.OnClickListener() {

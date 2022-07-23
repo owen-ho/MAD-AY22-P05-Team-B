@@ -1,5 +1,6 @@
 package sg.edu.np.MulaSave;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -83,7 +84,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
     }
 
     @Override
-    public void onBindViewHolder(ShoppingViewHolder holder, int position) {
+    public void onBindViewHolder(ShoppingViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Product p = data.get(position);
 
         holder.productTitle.setText(p.getTitle());
@@ -161,6 +162,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                     holder.seepaymentBtn.getContext().startActivity(intent);
                 }
             });
+
             holder.prodRemove.setVisibility(View.INVISIBLE);
             if(p.getSellerUid().equals(usr.getUid().toString())){
                 holder.prodRemove.setVisibility(View.VISIBLE);//set visible if current user is creator
@@ -187,6 +189,12 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         for(DataSnapshot ds: snapshot.getChildren()){
                                             for (DataSnapshot ds1: ds.child("Reserve").getChildren()){
+                                                Product prod = ds1.getValue(Product.class);
+                                                if (p.getImageUrl().equals(prod.getImageUrl())){
+                                                    ds1.getRef().removeValue();
+                                                }
+                                            }
+                                            for (DataSnapshot ds1: ds.child("Sold").getChildren()){
                                                 Product prod = ds1.getValue(Product.class);
                                                 if (p.getImageUrl().equals(prod.getImageUrl())){
                                                     ds1.getRef().removeValue();
