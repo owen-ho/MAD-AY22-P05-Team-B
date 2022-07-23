@@ -86,6 +86,7 @@ public class FriendsFragment extends Fragment {
                                     user.setUsername(ds.getValue().toString());
                                 }
                             }
+
                             if(AddFriends.addNewUser(user,friendList)){
                                 friendList.add(user);
                                 fAdapter.notifyDataSetChanged();

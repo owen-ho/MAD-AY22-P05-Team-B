@@ -23,9 +23,9 @@ import sg.edu.np.MulaSave.User;
 public class AddFriends extends AppCompatActivity {
 
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+    public static ViewPager viewPager;
     FriendsActivityAdapter adapter;
-    ImageView refreshViewPager;
+    static ImageView refreshViewPager;
 
 
     @Override
@@ -67,9 +67,10 @@ public class AddFriends extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                /*viewPager.getAdapter().notifyDataSetChanged();
                 if(viewPager.getCurrentItem()==1){
                     viewPager.getAdapter().notifyDataSetChanged();
-                }
+                }*/
             }
 
             @Override
@@ -94,6 +95,11 @@ public class AddFriends extends AppCompatActivity {
             }
         }
         return true;//return true if no duplicate
+    }
+
+    public static void refreshPage(){
+        //viewPager.getAdapter().notifyDataSetChanged();
+        refreshViewPager.performClick();
     }
 
 }

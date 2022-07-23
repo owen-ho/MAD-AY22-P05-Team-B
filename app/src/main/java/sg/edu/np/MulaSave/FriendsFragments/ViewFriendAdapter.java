@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -25,14 +26,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import sg.edu.np.MulaSave.HomePage.AddFriends;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 
@@ -128,12 +132,14 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                 @Override
                 public void onClick(View view) {
                     removeFriendDialog(holder.itemView.getContext(),u,holder.getAdapterPosition());//set context and the friend (User object)
+                    AddFriends.refreshPage();
                 }
             });
         }//end of friends on bind methods
 
         else if (holder.getItemViewType()==2){//2 which is requests page
 
+            //AddFriends.refreshPage();
             holder.positiveText.setText("Accept");
             holder.negativeText.setText("Cancel");
 
@@ -141,11 +147,28 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
             holder.positiveCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    databaseRefUser.child(usr.getUid().toString()).child("friends").child(u.getUid()).setValue(u.getUid());//add the new friend under the current users friend list
-                    databaseRefUser.child(u.getUid().toString()).child("friends").child(usr.getUid()).setValue(usr.getUid());
-                    databaseRefUser.child(usr.getUid()).child("requests").child(u.getUid()).removeValue();//remove the user from requests like
-                    userList.remove(u);
-                    ViewFriendAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
+                    databaseRefUser.child(usr.getUid()).child("requests").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.hasChild(u.getUid())){
+                                databaseRefUser.child(usr.getUid().toString()).child("friends").child(u.getUid()).setValue(u.getUid());//add the new friend under the current users friend list
+                                databaseRefUser.child(u.getUid().toString()).child("friends").child(usr.getUid()).setValue(usr.getUid());
+                                databaseRefUser.child(usr.getUid()).child("requests").child(u.getUid()).removeValue();//remove the user from requests like
+                                userList.remove(u);
+                                ViewFriendAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
+                            }
+                            else{
+                                Toast.makeText(holder.itemView.getContext(), u.getUsername() + " withdrew the request!",Toast.LENGTH_SHORT).show();
+                                AddFriends.refreshPage();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });;
+
                 }
             });
 
@@ -331,6 +354,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                 ViewFriendAdapter.this.notifyItemRemoved(position);
                 //userList.clear();
                 //ViewFriendAdapter.this.notifyDataSetChanged();
+                //AddFriends.refreshPage();
                 alertDialog.dismiss();
             }
         });
