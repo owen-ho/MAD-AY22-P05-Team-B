@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -95,12 +96,12 @@ public class ChildPostFragment extends Fragment {
         userPostRecycler.setItemAnimator(new DefaultItemAnimator());
         userPostRecycler.setAdapter(userPostAdapter);//set adapter
     }
+
     public Comparator<Post> postComparator = new Comparator<Post>() {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public int compare(Post p1, Post p2) {
-            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-            int l1 = LocalDateTime.parse(p2.getPostDateTime(),myFormatObj).compareTo(LocalDateTime.parse(p1.getPostDateTime(),myFormatObj));
+            int l1 = Instant.parse(p2.getPostDateTime()).compareTo(Instant.parse(p1.getPostDateTime()));
             return l1;
         }
     };

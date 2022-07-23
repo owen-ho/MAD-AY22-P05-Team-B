@@ -1,11 +1,13 @@
-package sg.edu.np.MulaSave;
+package sg.edu.np.MulaSave.HomePage;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -17,10 +19,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
-import sg.edu.np.MulaSave.HomePage.Post;
-import sg.edu.np.MulaSave.HomePage.PostAdapter;
+import sg.edu.np.MulaSave.R;
 
 public class LikedPostActivity extends AppCompatActivity {
 
@@ -52,6 +56,7 @@ public class LikedPostActivity extends AppCompatActivity {
                     likedList.add(ss.getValue(Post.class));
                 }
                 likedCount.setText(String.valueOf(likedList.size()));
+                Collections.sort(likedList,postComparator);
                 likedAdapter.notifyDataSetChanged();
             }
 
@@ -66,4 +71,12 @@ public class LikedPostActivity extends AppCompatActivity {
         likedPostRecycler.setItemAnimator(new DefaultItemAnimator());
         likedPostRecycler.setAdapter(likedAdapter);//set adapter
     }
+    public Comparator<Post> postComparator = new Comparator<Post>() {
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        public int compare(Post p1, Post p2) {
+            int l1 = Instant.parse(p2.getPostDateTime()).compareTo(Instant.parse(p1.getPostDateTime()));
+            return l1;
+        }
+    };
 }

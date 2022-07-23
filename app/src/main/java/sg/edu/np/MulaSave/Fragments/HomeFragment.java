@@ -25,9 +25,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,7 +33,7 @@ import sg.edu.np.MulaSave.HomePage.AddFriends;
 import sg.edu.np.MulaSave.HomePage.AddPostActivity;
 import sg.edu.np.MulaSave.HomePage.Post;
 import sg.edu.np.MulaSave.HomePage.PostAdapter;
-import sg.edu.np.MulaSave.LikedPostActivity;
+import sg.edu.np.MulaSave.HomePage.LikedPostActivity;
 import sg.edu.np.MulaSave.R;
 
 public class HomeFragment extends Fragment {
@@ -169,7 +166,7 @@ public class HomeFragment extends Fragment {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public int compare(Post p1, Post p2) {
-            int l1 = Instant.parse(p1.getPostDateTime()).compareTo(Instant.parse(p2.getPostDateTime()));
+            int l1 = Instant.parse(p2.getPostDateTime()).compareTo(Instant.parse(p1.getPostDateTime()));
             return l1;
         }
     };

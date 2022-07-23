@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.P05TeamB">
         <activity
-            android:name=".LikedPostActivity"
+            android:name=".HomePage.LikedPostActivity"
             android:exported="false" />
         <activity
             android:name=".HomePage.AddPostActivity"
