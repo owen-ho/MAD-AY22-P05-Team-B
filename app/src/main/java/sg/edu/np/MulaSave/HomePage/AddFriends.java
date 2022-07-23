@@ -6,6 +6,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
@@ -24,6 +25,7 @@ public class AddFriends extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     FriendsActivityAdapter adapter;
+    ImageView refreshViewPager;
 
 
     @Override
@@ -43,12 +45,19 @@ public class AddFriends extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         //viewPager.setOffscreenPageLimit(3);
         TextView txt = findViewById(R.id.textView6);
-        txt.setOnClickListener(new View.OnClickListener() {
+        refreshViewPager = findViewById(R.id.refeshViewPager);
+        refreshViewPager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewPager.getAdapter().notifyDataSetChanged();
+            }
+        });
+        /*txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 adapter.notifyDataSetChanged();
             }
-        });
+        });*/
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -59,7 +68,7 @@ public class AddFriends extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 if(viewPager.getCurrentItem()==1){
-                    adapter.notifyDataSetChanged();
+                    viewPager.getAdapter().notifyDataSetChanged();
                 }
             }
 

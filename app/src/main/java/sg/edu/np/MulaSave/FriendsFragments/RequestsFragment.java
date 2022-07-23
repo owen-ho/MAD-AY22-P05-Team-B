@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import sg.edu.np.MulaSave.HomePage.AddFriends;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 
@@ -79,8 +80,10 @@ public class RequestsFragment extends Fragment {
                                         user.setUsername(ds.getValue().toString());
                                     }
                                 }
-                                requestList.add(user);
-                                rAdapter.notifyDataSetChanged();
+                                if(AddFriends.addNewUser(user, requestList)){
+                                    requestList.add(user);
+                                    rAdapter.notifyDataSetChanged();
+                                }
                             }
 
                             @Override
