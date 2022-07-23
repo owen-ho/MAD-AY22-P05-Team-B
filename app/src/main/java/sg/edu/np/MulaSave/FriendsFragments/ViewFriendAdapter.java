@@ -147,28 +147,29 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
             holder.positiveCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    databaseRefUser.child(usr.getUid()).child("requests").addListenerForSingleValueEvent(new ValueEventListener() {
+                    databaseRefUser.child(usr.getUid()).child("requests").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.hasChild(u.getUid())){
-                                databaseRefUser.child(usr.getUid().toString()).child("friends").child(u.getUid()).setValue(u.getUid());//add the new friend under the current users friend list
-                                databaseRefUser.child(u.getUid().toString()).child("friends").child(usr.getUid()).setValue(usr.getUid());
-                                databaseRefUser.child(usr.getUid()).child("requests").child(u.getUid()).removeValue();//remove the user from requests like
-                                userList.remove(u);
-                                ViewFriendAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            if (task.getResult().exists()){
+                                Log.i("knnn",task.getResult().toString() + "cnnnn");
+                                if(task.getResult().hasChild(u.getUid())){
+                                    databaseRefUser.child(usr.getUid().toString()).child("friends").child(u.getUid()).setValue(u.getUid());//add the new friend under the current users friend list
+                                    databaseRefUser.child(u.getUid().toString()).child("friends").child(usr.getUid()).setValue(usr.getUid());
+                                    databaseRefUser.child(usr.getUid()).child("requests").child(u.getUid()).removeValue();//remove the user from requests like
+                                    userList.remove(u);
+                                    ViewFriendAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
+                                }
+                                else{
+                                    Toast.makeText(holder.itemView.getContext(), u.getUsername() + " withdrew the request!",Toast.LENGTH_SHORT).show();
+                                    AddFriends.refreshPage();
+                                }
                             }
                             else{
                                 Toast.makeText(holder.itemView.getContext(), u.getUsername() + " withdrew the request!",Toast.LENGTH_SHORT).show();
                                 AddFriends.refreshPage();
                             }
                         }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });;
-
+                    });
                 }
             });
 
@@ -218,7 +219,21 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                 public void onClick(View view) {
                     //u refers to the user in the explore list
                     //usr refers to the user currently logged in
-                    databaseRefUser.child(u.getUid().toString()).child("requests").child(usr.getUid().toString()).setValue("wants to add");//add the current user under the requests of the user in explore list
+
+                    databaseRefUser.child(usr.getUid()).child("requests").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            if(task.getResult().hasChild(u.getUid())){//add friend button is clicked when the other user has requested, so can straight away accept
+                                databaseRefUser.child(usr.getUid().toString()).child("friends").child(u.getUid()).setValue(u.getUid());//add the new friend under the current users friend list
+                                databaseRefUser.child(u.getUid().toString()).child("friends").child(usr.getUid()).setValue(usr.getUid());
+                                databaseRefUser.child(usr.getUid()).child("requests").child(u.getUid()).removeValue();//remove the user from requests like
+                                userList.remove(u);
+                            }
+                            else{
+                                databaseRefUser.child(u.getUid().toString()).child("requests").child(usr.getUid().toString()).setValue("wants to add");//add the current user under the requests of the user in explore list
+                            }
+                        }
+                    });
                     //ViewFriendAdapter.this.notifyItemChanged(position);
                     ViewFriendAdapter.this.notifyDataSetChanged();
                     //userList.clear();
