@@ -24,7 +24,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -167,8 +169,7 @@ public class HomeFragment extends Fragment {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public int compare(Post p1, Post p2) {
-            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-            int l1 = LocalDateTime.parse(p2.getPostDateTime(),myFormatObj).compareTo(LocalDateTime.parse(p1.getPostDateTime(),myFormatObj));
+            int l1 = Instant.parse(p1.getPostDateTime()).compareTo(Instant.parse(p2.getPostDateTime()));
             return l1;
         }
     };

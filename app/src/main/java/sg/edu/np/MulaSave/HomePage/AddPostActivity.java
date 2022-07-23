@@ -26,9 +26,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
@@ -118,10 +120,8 @@ public class AddPostActivity extends AppCompatActivity {
                 post.setPostUuid(randomId);
                 post.setPostDesc(postDesc.getText().toString());
 
-                DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-
-                String formattedDateTime = LocalDateTime.now().format(myFormatObj);
-                post.setPostDateTime(formattedDateTime);
+                Instant instant = Instant.now();
+                post.setPostDateTime(instant.toString());
 
                 if (post.getPostImageUrl() == null){
                     Toast.makeText(AddPostActivity.this,"Please upload an Image before proceeding",Toast.LENGTH_SHORT).show();

@@ -1,9 +1,7 @@
 package sg.edu.np.MulaSave.HomePage;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimatedVectorDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -13,9 +11,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,18 +35,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
-import sg.edu.np.MulaSave.Product;
 import sg.edu.np.MulaSave.R;
-import sg.edu.np.MulaSave.ShoppingRecyclerAdapter;
 import sg.edu.np.MulaSave.User;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
@@ -136,24 +128,25 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         });
 
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        LocalDateTime postDt = LocalDateTime.parse(post.getPostDateTime(),myFormatObj);
+
+        Instant timeNow = Instant.now();
+        Instant postDt = Instant.parse(post.getPostDateTime());
         String unit = "second";
-        long show = postDt.until(LocalDateTime.now(), ChronoUnit.SECONDS);
+        long show = postDt.until(timeNow, ChronoUnit.SECONDS);
         if(show >= 60){
-            show = postDt.until(LocalDateTime.now(), ChronoUnit.MINUTES);
+            show = postDt.until(timeNow, ChronoUnit.MINUTES);
             unit = "minute";
             if (show >= 60){
-                show = postDt.until(LocalDateTime.now(), ChronoUnit.HOURS);
+                show = postDt.until(timeNow, ChronoUnit.HOURS);
                 unit = "hour";
                 if(show >= 24){
-                    show = postDt.until(LocalDateTime.now(), ChronoUnit.DAYS);
+                    show = postDt.until(timeNow, ChronoUnit.DAYS);
                     unit = "days";
                     if(show >= 30){
-                        show = postDt.until(LocalDateTime.now(), ChronoUnit.MONTHS);
+                        show = postDt.until(timeNow, ChronoUnit.MONTHS);
                         unit = "month";
                         if(show >= 12){
-                            show = postDt.until(LocalDateTime.now(), ChronoUnit.YEARS);
+                            show = postDt.until(timeNow, ChronoUnit.YEARS);
                             unit = "year";
                         }
                     }
