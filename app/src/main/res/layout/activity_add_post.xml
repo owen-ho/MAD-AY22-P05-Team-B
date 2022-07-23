@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".HomePage.AddPostActivity">
 
     <ImageView
@@ -12,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:background="#FFFFFF"
         android:src="@drawable/ic_baseline_close_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -86,6 +88,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
+        android:background="#FFFFFF"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="15dp"
         app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -103,7 +107,8 @@
             android:gravity="top"
             android:hint="Write a caption..."
             android:inputType="textPersonName"
-            android:textAlignment="viewStart" />
+            android:textAlignment="viewStart"
+            android:textColorHint="#7C7C7C" />
     </androidx.cardview.widget.CardView>
 
     <TextView
