@@ -43,8 +43,7 @@ public class AddFriends extends AppCompatActivity {
         adapter.addFragment(new RequestsFragment(), "Requests");
         adapter.addFragment(new ExploreFragment(), "Explore");
         viewPager.setAdapter(adapter);
-        //viewPager.setOffscreenPageLimit(3);
-        TextView txt = findViewById(R.id.textView6);
+
         refreshViewPager = findViewById(R.id.refeshViewPager);
         refreshViewPager.setOnClickListener(new View.OnClickListener() {
             @Override

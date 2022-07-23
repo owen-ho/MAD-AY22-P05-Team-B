@@ -164,7 +164,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
                         android:text="time"
-                        android:textColor="#B3B3B3"
+                        android:textColor="#6A6A6A"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

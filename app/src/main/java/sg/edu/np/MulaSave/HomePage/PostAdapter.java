@@ -44,6 +44,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -135,7 +136,35 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         });
 
-        holder.postDateTime.setText(post.getPostDateTime());
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        LocalDateTime postDt = LocalDateTime.parse(post.getPostDateTime(),myFormatObj);
+        String unit = "second";
+        long show = postDt.until(LocalDateTime.now(), ChronoUnit.SECONDS);
+        if(show >= 60){
+            show = postDt.until(LocalDateTime.now(), ChronoUnit.MINUTES);
+            unit = "minute";
+            if (show >= 60){
+                show = postDt.until(LocalDateTime.now(), ChronoUnit.HOURS);
+                unit = "hour";
+                if(show >= 24){
+                    show = postDt.until(LocalDateTime.now(), ChronoUnit.DAYS);
+                    unit = "days";
+                    if(show >= 30){
+                        show = postDt.until(LocalDateTime.now(), ChronoUnit.MONTHS);
+                        unit = "month";
+                        if(show >= 12){
+                            show = postDt.until(LocalDateTime.now(), ChronoUnit.YEARS);
+                            unit = "year";
+                        }
+                    }
+                }
+            }
+        }
+        String plural = "";
+        if (show != 0){
+            plural = "s";
+        }
+        holder.postDateTime.setText(String.valueOf(show) + " " + unit + plural + " ago");
         holder.postCaption.setText(post.getPostDesc());
 
         final GestureDetector gDetector = new GestureDetector(holder.postImage.getContext(), new GestureDetector.SimpleOnGestureListener() {
@@ -206,7 +235,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                             databaseRefUser.child(usr.getUid()).child("likedposts").child(post.getPostUuid()).setValue(post);
                             holder.postLike.setColorFilter(ContextCompat.getColor(holder.postLike.getContext(), R.color.custom_red));//use custom red color
                         }
-                        PostAdapter.this.notifyDataSetChanged();
+                        //PostAdapter.this.notifyDataSetChanged();
                     }
                 });
             }
