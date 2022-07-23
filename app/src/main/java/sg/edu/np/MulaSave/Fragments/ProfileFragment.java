@@ -101,7 +101,7 @@ public class ProfileFragment extends Fragment {
 
         ImageView infobutton = view.findViewById(R.id.changeinfo);
         ImageView logoutbutton = view.findViewById(R.id.logoutBtn);
-
+        ImageView notificationbtn = view.findViewById(R.id.notificationBtn);
         ImageView documentation = view.findViewById(R.id.infoDocumentation);
 
         //load this as the default picture first
