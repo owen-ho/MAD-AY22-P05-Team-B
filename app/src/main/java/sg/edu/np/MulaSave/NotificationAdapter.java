@@ -1,18 +1,16 @@
 package sg.edu.np.MulaSave;
 
-import android.app.Notification;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.support.annotation.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,14 +26,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import sg.edu.np.MulaSave.Fragments.ProfileFragment;
-
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder>{
 
     private Context mContext;
-    private List<Notification> mNotification;#
+    private List<Notification> mNotification;
 
-    public sg.edu.np.MulaSave.NotificationAdapter(Context mContext, List<Notifcation> mNotificaiton) {
+    public NotificationAdapter(Context mContext, List<Notification> mNotification) {
         this.mContext = mContext;
         this.mNotification = mNotification;
     }
@@ -55,9 +51,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         getUserInfo(viewHolder.image_profile, viewHolder.username, notification.getUserid());
 
-        if (notification.isIspost()){
+        if (notification.isIsproduct()){
             viewHolder.post_image.setVisibility(View.VISIBLE);
-            getPostImage(viewHolder.post_image, notification.getPostid());
+            getPostImage(viewHolder.post_image, notification.getProductid());
         } else{
             viewHolder.post_image.setVisibility(View.GONE);
         }
@@ -65,19 +61,29 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (notification.isIspost()){
-                    SharedPreferences.Editor editor = mContext.getSharedPreferences("PREPS", Context.MODE_PRIVATE).edit();
-                    editor.putString("postid",notification.getPostid());
-                    editor.apply();
+                SharedPreferences.Editor editor = mContext.getSharedPreferences("PREPS", Context.MODE_PRIVATE).edit();
+                editor.putString("productid",notification.getProductid());
+                editor.apply();
 
-                    ((FragmentActivity)mContext).getSupportFragmentManager().getTransaction().replace(R.id.fragment_container, new PostDetailFragment().commit());
-                } else {
-                    SharedPreferences.Editor editor = mContext.getSharedPreferences("PREPS", Context.MODE_PRIVATE).edit();
-                    editor.putString("profileid",notification.getUserid());
-                    editor.apply();
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("product");
+                reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds : snapshot.getChildren()){
+                            Product p = snapshot.getValue(Product.class);
+                            if(p.getAsin().equals(notification.getProductid())){
+                                Intent i = new Intent(mContext,descriptionpage.class);
+                                i.putExtra("product",p);//pass product into desc
+                                mContext.startActivity(i);//start the product desc activity
+                            }
+                        }
+                    }
 
-                    ((FragmentActivity)mContext).getSupportFragmentManager().getTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
-                }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
 
@@ -104,7 +110,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     private void getUserInfo(ImageView imageView, TextView username, String publisherid){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("user").child(publisherid);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("user");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -124,9 +130,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     }
                 });
                 username.setText(user.username);
-
-
-
             }
 
             @Override
@@ -136,20 +139,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         });
     }
 
-    private void getPostImage(ImageView imageView, String postid){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts").child(postid);
+    private void getPostImage(ImageView imageView, String productid){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("product");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Product product = dataSnapshot.getValue(Product.class);
                 Picasso.get().load(product.getImageUrl()).into(imageView);
-
             }
-
             @Override
             public void onCancelled(DatabaseError error) {
 
             }
-        })
+        });
     }
 }

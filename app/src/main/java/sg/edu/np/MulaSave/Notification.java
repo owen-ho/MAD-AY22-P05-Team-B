@@ -3,14 +3,14 @@ package sg.edu.np.MulaSave;
 public class Notification {
     private String userid;
     private String text;
-    private String postid;
-    private boolean ispost;
+    private String productid;
+    private boolean isproduct;
 
-    public Notification (String userid, String text, String postid, boolean ispost){
+    public Notification (String userid, String text, String productid, boolean isproduct){
         this.userid = userid;
         this.text = text;
-        this.postid = postid;
-        this.ispost = ispost;
+        this.productid = productid;
+        this.isproduct = isproduct;
     }
     public Notification(){
     }
@@ -22,6 +22,7 @@ public class Notification {
     public void setUserid(String userid){
         this.userid = userid;
     }
+
     public String getText(){
         return text;
     }
@@ -30,5 +31,13 @@ public class Notification {
         this.text = text;
     }
 
+    public String getProductid(){
+        return productid;
+    }
+
+    public boolean isIsproduct()
+    {
+        return isproduct;
+    }
 
 }

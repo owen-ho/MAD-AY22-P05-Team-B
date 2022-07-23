@@ -1,9 +1,10 @@
 package sg.edu.np.MulaSave;
 
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
 
 public class NotificationActivity extends AppCompatActivity {
 
@@ -14,7 +15,7 @@ public class NotificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
 
-        View view = inflater.inflate(R.layout.activity_notification, container, attachToRoot)
+        View view = inflater.inflate(R.layout.activity_notification, container, attachToRoot);
 
 
 
