@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="112dp"
+            android:layout_marginBottom="8dp"
             android:clickable="true"
             android:src="@android:drawable/stat_sys_upload_done"
             app:backgroundTint="#2EC0CD"

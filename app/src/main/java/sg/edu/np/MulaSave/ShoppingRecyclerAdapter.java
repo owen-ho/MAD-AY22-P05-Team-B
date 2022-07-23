@@ -93,19 +93,6 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             price = String.format("$%.2f",p.getPrice());
         }
 
-        // The codes below are for the payment notification
-        if(holder.getItemViewType() == 1){
-            holder.paymentnotif.setVisibility(View.INVISIBLE);
-            if (p.getSellerUid().equals(usr.getUid().toString())){
-                holder.paymentnotif.setVisibility(View.VISIBLE);// set visible if current user is creator
-                holder.paymentnotif.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                    }
-                });
-            }
-        }
 
 
 // To set the notify users if the product is reserved, sold or available
