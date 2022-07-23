@@ -327,9 +327,10 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
             public void onClick(View view) {
                 databaseRefUser.child(usr.getUid()).child("friends").child(friend.getUid()).removeValue();//remove from current user friend list
                 databaseRefUser.child(friend.getUid()).child("friends").child(usr.getUid()).removeValue();//remove current user from the friend's friend list
-                //ViewFriendAdapter.this.notifyItemRemoved(position);
-                userList.clear();
-                ViewFriendAdapter.this.notifyDataSetChanged();
+                userList.remove(position);
+                ViewFriendAdapter.this.notifyItemRemoved(position);
+                //userList.clear();
+                //ViewFriendAdapter.this.notifyDataSetChanged();
                 alertDialog.dismiss();
             }
         });

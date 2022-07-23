@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import sg.edu.np.MulaSave.HomePage.AddFriends;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 
@@ -87,8 +86,10 @@ public class FriendsFragment extends Fragment {
                                     user.setUsername(ds.getValue().toString());
                                 }
                             }
-                            friendList.add(user);
-                            fAdapter.notifyDataSetChanged();
+                            if(AddFriends.addNewUser(user,friendList)){
+                                friendList.add(user);
+                                fAdapter.notifyDataSetChanged();
+                            }
                         }
 
                         @Override
