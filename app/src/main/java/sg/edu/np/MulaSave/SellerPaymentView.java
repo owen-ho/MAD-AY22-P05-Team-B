@@ -23,6 +23,11 @@ import com.squareup.picasso.Picasso;
 
 public class SellerPaymentView extends AppCompatActivity {
 
+    DatabaseReference databaseRefUser = FirebaseDatabase
+            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .getReference("user");
+    FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
+
     Product product;
     StorageReference storageRef = FirebaseStorage.getInstance().getReference();
 
@@ -83,8 +88,11 @@ public class SellerPaymentView extends AppCompatActivity {
         acceptpaymentbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String ReserveUnique = ((product.getImageUrl()).replaceAll("[^a-zA-Z0-9]", ""));
+                databaseRefUser.child(usr.getUid().toString()).child("Sold").child(ReserveUnique).setValue(product);//add product if the product does not exist in the database
             }
         });
+        Intent intent = new Intent(SellerPaymentView.this, ChildReserveFragment.class);
+        finish();
     }
 }

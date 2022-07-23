@@ -106,10 +106,13 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             }
         }
 
+
+// To set the notify users if the product is reserved, sold or available
         databaseRefUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Boolean isreserved = false;
+                Boolean isSold = false;
                 for(DataSnapshot ds: snapshot.getChildren()){
                     for (DataSnapshot ds1: ds.child("Reserve").getChildren()){
                         Product dbprod = ds1.getValue(Product.class);
@@ -117,16 +120,25 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                             isreserved = true;
                         }
                     }
+                    for (DataSnapshot ds1: ds.child("Sold").getChildren()){
+                        Product dbprod = ds1.getValue(Product.class);
+                        if (dbprod.getAsin().equals(p.getAsin())){
+                            isSold = true;
+                        }
                 }
                 if (isreserved) {
                     holder.statusProduct.setText("Reserved");
                     holder.statusProduct.setTextColor(Color.parseColor("#FFF3BA2B"));
                 }
+                if (isSold){
+                    holder.statusProduct.setText("Sold");
+                    holder.statusProduct.setTextColor(Color.parseColor("#FFE40846"));
+                }
                 else{
-//                    holder.statusProduct.setText("Available");
-//                    holder.statusProduct.setTextColor(Color.parseColor("#89E408"));
+
                 }
             }
+        }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
