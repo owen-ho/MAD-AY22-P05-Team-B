@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -41,6 +42,8 @@ public class FriendsFragment extends Fragment {
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     ArrayList<User> friendList;
     SearchView searchFriendList;
+    ViewFriendAdapter fAdapter;
+    SwipeRefreshLayout refreshLayout;
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -63,46 +66,18 @@ public class FriendsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         friendRecycler = view.findViewById(R.id.friendRecycler);
+        refreshLayout = view.findViewById(R.id.FswipeRefreshLayout);
         friendList = new ArrayList<>();
 
-        ViewFriendAdapter fAdapter = new ViewFriendAdapter(friendList,1);//1 means friend list
-        databaseRefUser.child(usr.getUid()).child("friends").addValueEventListener(new ValueEventListener() {
+        fAdapter = new ViewFriendAdapter(friendList,1);//1 means friend list
+        initFriendList();
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onRefresh() {
                 friendList.clear();
-                for (DataSnapshot ss : snapshot.getChildren()){//ss.getKey() is the uid of each friend
-                    databaseRefUser.child(ss.getKey().toString()).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            User user = new User();
-                            for (DataSnapshot ds : snapshot.getChildren()){
-                                if (ds.getKey().equals("uid")){
-                                    user.setUid(ds.getValue().toString());
-                                }
-                                if(ds.getKey().equals("email")){
-                                    user.setEmail(ds.getValue().toString());
-                                }
-                                if(ds.getKey().equals("username")){
-                                    user.setUsername(ds.getValue().toString());
-                                }
-                            }
-                            if(AddFriends.addNewUser(user,friendList)){
-                                friendList.add(user);
-                                fAdapter.notifyDataSetChanged();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+                initFriendList();
+                refreshLayout.setRefreshing(false);
             }
         });
 
@@ -206,6 +181,48 @@ public class FriendsFragment extends Fragment {
                 set.connect(R.id.searchFriendsCard, ConstraintSet.END,R.id.friendListConstraint,ConstraintSet.END,px);
                 set.applyTo(layout);
                 return false;//return false so that icon closes back on close
+            }
+        });
+    }
+
+    public void initFriendList(){
+        databaseRefUser.child(usr.getUid()).child("friends").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                friendList.clear();
+                for (DataSnapshot ss : snapshot.getChildren()){//ss.getKey() is the uid of each friend
+                    databaseRefUser.child(ss.getKey().toString()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            User user = new User();
+                            for (DataSnapshot ds : snapshot.getChildren()){
+                                if (ds.getKey().equals("uid")){
+                                    user.setUid(ds.getValue().toString());
+                                }
+                                if(ds.getKey().equals("email")){
+                                    user.setEmail(ds.getValue().toString());
+                                }
+                                if(ds.getKey().equals("username")){
+                                    user.setUsername(ds.getValue().toString());
+                                }
+                            }
+                            if(AddFriends.addNewUser(user,friendList)){
+                                friendList.add(user);
+                                fAdapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
