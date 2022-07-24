@@ -209,8 +209,10 @@ public class chatfeaturetesting extends AppCompatActivity {
                     messagelistiner messagelistiners = new messagelistiner(getname,user.getUid(),lastmessage,getprofilepic,unseenmessage,chatkey,sellerid);
                     Log.v("Lastmessage",lastmessage);
                     if (messagelistiners.getLastmessage()!= ""){
+                        messagelistinerList.clear();
                         messagelistinerList.add(messagelistiners);
                         messageadapter.updatedata(messagelistinerList);
+                        messageadapter.notifyDataSetChanged();
 
                     }
                 }

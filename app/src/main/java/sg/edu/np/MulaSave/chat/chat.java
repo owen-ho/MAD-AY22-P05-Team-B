@@ -196,6 +196,8 @@ public class chat extends AppCompatActivity {
                         chatRef.child(chatkey).child("messages").child(currenttimestamp).child("uid").setValue(getuid);
                         //clear edit text
                         messageedittxt.setText("");
+
+                        chatadapter.notifyDataSetChanged();
 //                        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
 //                            @Override
 //                            public void onDataChange(@NonNull DataSnapshot snapshot) {

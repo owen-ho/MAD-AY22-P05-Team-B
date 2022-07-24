@@ -15,7 +15,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +37,8 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
     private final Context context;
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference userRef = database.getReference("user");
+    DatabaseReference chatRef = database.getReference("chat");
+
 
     public messageadapter(List<messagelistiner> messagelistiners, Context context) {
         this.messagelistiners = messagelistiners;
@@ -48,25 +53,49 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull messageadapter.MyViewHolder holder, int position) {
+        String currentUser;
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser().getUid();
         messagelistiner list2 = messagelistiners.get(position);
         Log.v("trying", String.valueOf(messagelistiners.size()));
         if(list2.getProfilepic().isEmpty()){
             //Picasso.get().load(list2.getProfilepic()).into(holder.Profilepic);
 
         }
-        userRef.child(list2.getSellerid()).child("username").addValueEventListener(new ValueEventListener() {
+
+        chatRef.child("1").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                holder.name.setText(snapshot.getValue().toString());
-            }
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if(task.getResult().child("user_1").getValue().equals(currentUser)){
+                    String test;
+                    test = String.valueOf(task.getResult().child("user_2").getValue());
+                    Log.d("gg", test);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                    userRef.child(test).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            holder.name.setText((String.valueOf(task.getResult().child("username").getValue())));
+                            holder.lastmessage.setText(list2.getLastmessage());
+                        }
+                    });
+                }
+                else{
+                    String test;
+                    test = String.valueOf(task.getResult().child("user_1").getValue());
+                    Log.d("gg2", test);
+                    userRef.child(test).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            holder.name.setText((String.valueOf(task.getResult().child("username").getValue())));
+                            holder.lastmessage.setText(list2.getLastmessage());
+                        }
+                    });
+                };
+                }
+            });
 
-            }
-        });
 
-        holder.lastmessage.setText(list2.getLastmessage());
+        //holder.lastmessage.setText(list2.getLastmessage());
         if(list2.getUnseenMessages()==0){
             holder.unseenmessage.setVisibility(View.GONE);
             holder.lastmessage.setTextColor(Color.parseColor("#959595"));
