@@ -154,7 +154,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         }
         String plural = "";
-        if (show != 0){
+        if (show != 1){
             plural = "s";
         }
         holder.postDateTime.setText(String.valueOf(show) + " " + unit + plural + " ago");

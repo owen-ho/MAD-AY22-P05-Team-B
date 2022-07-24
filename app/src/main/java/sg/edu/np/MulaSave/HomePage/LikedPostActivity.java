@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +34,7 @@ public class LikedPostActivity extends AppCompatActivity {
     ArrayList<Post> likedList;
     PostAdapter likedAdapter;
     TextView likedCount;
+    ImageView likedBackTrack;
 
     FirebaseDatabase databaseRef = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -47,6 +50,15 @@ public class LikedPostActivity extends AppCompatActivity {
         likedList = new ArrayList<>();
         likedAdapter = new PostAdapter(likedList);
         likedCount = findViewById(R.id.likedCount);
+        likedBackTrack = findViewById(R.id.likedBackTrack);
+
+        //on click listeners for backtrack
+        likedBackTrack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         databaseRefUser.child(usr.getUid()).child("likedposts").addValueEventListener(new ValueEventListener() {
             @Override

@@ -25,6 +25,7 @@ public class AddFriends extends AppCompatActivity {
     private TabLayout tabLayout;
     public static ViewPager viewPager;
     FriendsActivityAdapter adapter;
+    ImageView friendsBackTrack;
     static ImageView refreshViewPager;
 
 
@@ -35,6 +36,15 @@ public class AddFriends extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.tabLayoutFriends);
         viewPager = findViewById(R.id.viewPagerFriends);
+        friendsBackTrack = findViewById(R.id.friendsBackTrack);
+
+        //onclick listeners for the back button
+        friendsBackTrack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         tabLayout.setupWithViewPager(viewPager);
 
