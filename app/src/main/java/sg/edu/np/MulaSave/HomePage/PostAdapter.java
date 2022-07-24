@@ -74,7 +74,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
-        Post post = postList.get(position);
+        Post post = postList.get(holder.getAdapterPosition());
         holder.postImage.setVisibility(View.INVISIBLE);//set invisible
         holder.creatorImage.setVisibility(View.INVISIBLE);
 
@@ -228,7 +228,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                             databaseRefUser.child(usr.getUid()).child("likedposts").child(post.getPostUuid()).setValue(post);
                             holder.postLike.setColorFilter(ContextCompat.getColor(holder.postLike.getContext(), R.color.custom_red));//use custom red color
                         }
-                        //PostAdapter.this.notifyDataSetChanged();
                     }
                 });
             }

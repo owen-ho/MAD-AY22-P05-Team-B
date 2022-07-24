@@ -3,10 +3,12 @@ package sg.edu.np.MulaSave.Fragments;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,6 +44,7 @@ public class HomeFragment extends Fragment {
     RecyclerView postRecycler;
     ArrayList<Post> postList;
     PostAdapter postAdapter;
+    TextView postNoDisplay;
 
     FirebaseDatabase databaseRef = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -78,6 +81,7 @@ public class HomeFragment extends Fragment {
         addFriend = view.findViewById(R.id.hAddFirend);//get the add friend and post imageviews
         addPost = view.findViewById(R.id.hAddPost);
         viewLikes = view.findViewById(R.id.hLikes);
+        postNoDisplay = view.findViewById(R.id.postNoDisplay);
 
         addFriend.setOnClickListener(new View.OnClickListener() {//set on click listener
             @Override
@@ -103,6 +107,12 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        postNoDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addPost.performClick();
+            }
+        });
         postRecycler = view.findViewById(R.id.postRecycler);//set recycler
         postList = new ArrayList<>();//create new arraylist
         postAdapter = new PostAdapter(postList);//create new adapter
@@ -125,6 +135,9 @@ public class HomeFragment extends Fragment {
                                 }
                             }
                             Collections.sort(postList,postComparator);
+                            if(postList.size()==0){
+                                postNoDisplay.setVisibility(View.VISIBLE);
+                            }
                             postAdapter.notifyDataSetChanged();
                         }
 

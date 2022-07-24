@@ -33,7 +33,7 @@ public class LikedPostActivity extends AppCompatActivity {
     RecyclerView likedPostRecycler;
     ArrayList<Post> likedList;
     PostAdapter likedAdapter;
-    TextView likedCount;
+    TextView likedCount, likedPostNoDisplay;
     ImageView likedBackTrack;
 
     FirebaseDatabase databaseRef = FirebaseDatabase
@@ -51,6 +51,7 @@ public class LikedPostActivity extends AppCompatActivity {
         likedAdapter = new PostAdapter(likedList);
         likedCount = findViewById(R.id.likedCount);
         likedBackTrack = findViewById(R.id.likedBackTrack);
+        likedPostNoDisplay = findViewById(R.id.likedPostNoDisplay);
 
         //on click listeners for backtrack
         likedBackTrack.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +61,8 @@ public class LikedPostActivity extends AppCompatActivity {
             }
         });
 
-        databaseRefUser.child(usr.getUid()).child("likedposts").addValueEventListener(new ValueEventListener() {
+        //single event so that the post does not get removed from the liked page upon unlike
+        databaseRefUser.child(usr.getUid()).child("likedposts").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 likedList.clear();
@@ -69,6 +71,9 @@ public class LikedPostActivity extends AppCompatActivity {
                 }
                 likedCount.setText(String.valueOf(likedList.size()));
                 Collections.sort(likedList,postComparator);
+                if(likedList.size()==0){
+                    likedPostNoDisplay.setVisibility(View.VISIBLE);
+                }
                 likedAdapter.notifyDataSetChanged();
             }
 

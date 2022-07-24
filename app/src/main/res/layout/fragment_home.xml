@@ -63,5 +63,18 @@
             app:layout_constraintTop_toTopOf="@+id/hAddPost"
             app:tint="#000000" />
 
+        <TextView
+            android:id="@+id/postNoDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No posts available. Try uploading..."
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
