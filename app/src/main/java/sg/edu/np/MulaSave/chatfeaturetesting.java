@@ -178,20 +178,12 @@ public class chatfeaturetesting extends AppCompatActivity {
                                         lastmessage = "";
                                         chatkey="";
                                         for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-
                                             dataset = false;
                                             if (dataSnapshot.getKey().toString().equals(sellerid)){
                                                 getname = dataSnapshot.child("username").getValue(String.class);
-
-
                                                 Log.v("namenamexd",getname);
-
                                             }
                                             getprofilepic = storageRef.child("profilepics/" + user.getUid().toString() + ".png").getDownloadUrl().toString();
-
-
-
-
                                         }
 
                                     }
@@ -223,19 +215,10 @@ public class chatfeaturetesting extends AppCompatActivity {
                     }
                 }
             }
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
-
-
-
-
-
-
-
     }
 }
