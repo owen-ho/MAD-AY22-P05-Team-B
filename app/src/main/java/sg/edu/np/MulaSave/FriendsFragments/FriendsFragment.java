@@ -193,47 +193,73 @@ public class FriendsFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String s) {
                 friendList.clear();
-                databaseRefUser.child(usr.getUid()).child(path).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot ss : snapshot.getChildren()){//ss.getKey() is the uid of each friend
-                            databaseRefUser.child(ss.getKey().toString()).addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    User user = new User();
-                                    for (DataSnapshot ds : snapshot.getChildren()){
-                                        if (ds.getKey().equals("uid")){
-                                            user.setUid(ds.getValue().toString());
-                                        }
-                                        if(ds.getKey().equals("email")){
-                                            user.setEmail(ds.getValue().toString());
-                                        }
-                                        if(ds.getKey().equals("username")){
-                                            user.setUsername(ds.getValue().toString());
-                                        }
-                                    }
-                                    //add the user if the username is under the
-                                    if (user.getUsername().toLowerCase().contains(s.toLowerCase())){//dont add if the input is none && (!s.equals(""))
+                if (path.equals("explore")) {//the way to get users from explore is quite different
+                    databaseRefUser.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {//get data on success
+                            friendList.clear();
+                            for (DataSnapshot ss : snapshot.getChildren()){
+                                //User extractUser = ss.getValue(User.class);
+                                User user = new User();
+                                for (DataSnapshot ds : ss.getChildren()){//because the users may have wishlists and other fields, cannot extract directly to user class
+                                    if (ds.getKey().equals("uid")){user.setUid(ds.getValue().toString());}
+                                    if (ds.getKey().equals("email")){user.setEmail(ds.getValue().toString());}
+                                    if (ds.getKey().equals("username")){ user.setUsername(ds.getValue().toString());}
+                                }
+                                if (!user.getUid().equals(usr.getUid())){//dont show the user himself
+                                    if (user.getUsername().toLowerCase().contains(s.toLowerCase())) {
                                         friendList.add(user);
-                                        //setVisible();
                                         adapter.notifyDataSetChanged();
                                     }
                                 }
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
+                            }
+                            adapter.notifyDataSetChanged();
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
-                return false;
-            }
+                        }
+                    });
+                }
+
+                else {//get data from friendlist or request list
+                    databaseRefUser.child(usr.getUid()).child(path).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot ss : snapshot.getChildren()) {//ss.getKey() is the uid of each friend
+                                databaseRefUser.child(ss.getKey().toString()).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        User user = new User();
+                                        for (DataSnapshot ds : snapshot.getChildren()) {
+                                            if (ds.getKey().equals("uid")) {user.setUid(ds.getValue().toString());}
+                                            if (ds.getKey().equals("email")) {user.setEmail(ds.getValue().toString());}
+                                            if (ds.getKey().equals("username")) {user.setUsername(ds.getValue().toString());}
+                                        }
+                                        //add the user if the username is under the
+                                        if (user.getUsername().toLowerCase().contains(s.toLowerCase())) {//dont add if the input is none
+                                            friendList.add(user);
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+                    return false;
+                }
+
         });
     }//end of filter data by search
 }

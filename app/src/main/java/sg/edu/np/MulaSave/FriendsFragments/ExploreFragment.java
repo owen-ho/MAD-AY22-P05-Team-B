@@ -1,5 +1,9 @@
 package sg.edu.np.MulaSave.FriendsFragments;
 
+import static sg.edu.np.MulaSave.FriendsFragments.FriendsFragment.filterDataBySearch;
+import static sg.edu.np.MulaSave.FriendsFragments.FriendsFragment.searchClose;
+import static sg.edu.np.MulaSave.FriendsFragments.FriendsFragment.searchOpen;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -69,7 +73,7 @@ public class ExploreFragment extends Fragment {
         exploreNoDisplay = view.findViewById(R.id.exploreNoDisplay);
 
         exploreList = new ArrayList<>();
-        ViewFriendAdapter Eadapter = new ViewFriendAdapter(exploreList,3);
+        ViewFriendAdapter eAdapter = new ViewFriendAdapter(exploreList,3);
         databaseRefUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {//get data on success
@@ -96,7 +100,7 @@ public class ExploreFragment extends Fragment {
                     }
                 }
                 setVisible();
-                Eadapter.notifyDataSetChanged();
+                eAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -105,6 +109,10 @@ public class ExploreFragment extends Fragment {
             }
         });
 
+        LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
+        exploreRecyclerView.setLayoutManager(vLayoutManager);
+        exploreRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        exploreRecyclerView.setAdapter(eAdapter);//set adapter
         searchFriendExplore.setSubmitButtonEnabled(true);//enable submit button
         searchFriendExplore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,12 +121,21 @@ public class ExploreFragment extends Fragment {
             }
         });
 
+        searchFriendExplore.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchOpen(getActivity(),getActivity().findViewById(R.id.exploreConstraint),R.id.exploreConstraint, R.id.searchExploreCard);//format on search click
+                filterDataBySearch(searchFriendExplore, exploreList, eAdapter,"explore");
+            }
+        });
 
-
-        LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
-        exploreRecyclerView.setLayoutManager(vLayoutManager);
-        exploreRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        exploreRecyclerView.setAdapter(Eadapter);//set adapter
+        searchFriendExplore.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                searchClose(getActivity(), getActivity().findViewById(R.id.exploreConstraint), R.id.exploreConstraint, R.id.searchExploreCard);//format on search close
+                return false;//return false so that icon closes back on close
+            }
+        });
     }
     private void setVisible(){
         if(exploreList.size() != 0){

@@ -177,7 +177,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                 public void onClick(View view) {
                     databaseRefUser.child(usr.getUid()).child("requests").child(u.getUid()).removeValue();
                     userList.remove(u);
-                    ViewFriendAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
+                    ViewFriendAdapter.this.notifyDataSetChanged();
                 }
             });
         }//end of onbind for requests view
