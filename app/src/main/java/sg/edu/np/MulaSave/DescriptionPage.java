@@ -68,6 +68,7 @@ public class DescriptionPage extends AppCompatActivity {
             }
         });
 
+        //If current user owns the product being shown
         if (product.getSellerUid().equals(usr.getUid())){
             reserve.setVisibility(View.GONE);
             chat.setVisibility(View.INVISIBLE);
@@ -94,6 +95,8 @@ public class DescriptionPage extends AppCompatActivity {
                 }
             });
         }
+
+        //If current user does not own the product being shown
         if (!product.getSellerUid().equals(usr.getUid())){
             removeReserve.setVisibility(View.GONE);
             reserve.setVisibility(View.INVISIBLE);
