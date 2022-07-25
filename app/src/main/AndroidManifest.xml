@@ -32,7 +32,7 @@
             android:name=".HomePage.AddPostActivity"
             android:exported="false" />
         <activity
-            android:name=".HomePage.AddFriends"
+            android:name=".HomePage.FriendsActivity"
             android:exported="false" />
         <activity
             android:name=".descriptionpage"

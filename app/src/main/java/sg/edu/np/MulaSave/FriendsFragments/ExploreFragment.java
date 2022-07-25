@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,6 +36,7 @@ public class ExploreFragment extends Fragment {
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     ArrayList<User> exploreList;
     SearchView searchFriendExplore;
+    TextView exploreNoDisplay;
 
     public ExploreFragment() {
         // Required empty public constructor
@@ -64,6 +66,7 @@ public class ExploreFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         exploreRecyclerView = view.findViewById(R.id.exploreRecycler);
         searchFriendExplore = view.findViewById(R.id.searchFriendExplore);
+        exploreNoDisplay = view.findViewById(R.id.exploreNoDisplay);
 
         exploreList = new ArrayList<>();
         ViewFriendAdapter Eadapter = new ViewFriendAdapter(exploreList,3);
@@ -92,6 +95,7 @@ public class ExploreFragment extends Fragment {
                         exploreList.add(user);//add user to the list
                     }
                 }
+                setVisible();
                 Eadapter.notifyDataSetChanged();
             }
 
@@ -115,5 +119,10 @@ public class ExploreFragment extends Fragment {
         exploreRecyclerView.setLayoutManager(vLayoutManager);
         exploreRecyclerView.setItemAnimator(new DefaultItemAnimator());
         exploreRecyclerView.setAdapter(Eadapter);//set adapter
+    }
+    private void setVisible(){
+        if(exploreList.size() != 0){
+            exploreNoDisplay.setVisibility(View.INVISIBLE);
+        }
     }
 }

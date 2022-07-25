@@ -26,17 +26,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import sg.edu.np.MulaSave.HomePage.AddFriends;
+import sg.edu.np.MulaSave.HomePage.FriendsActivity;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 
@@ -132,7 +130,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                 @Override
                 public void onClick(View view) {
                     removeFriendDialog(holder.itemView.getContext(),u,holder.getAdapterPosition());//set context and the friend (User object)
-                    AddFriends.refreshPage();
+                    FriendsActivity.refreshPage();
                 }
             });
         }//end of friends on bind methods
@@ -161,12 +159,12 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                                 }
                                 else{
                                     Toast.makeText(holder.itemView.getContext(), u.getUsername() + " withdrew the request!",Toast.LENGTH_SHORT).show();
-                                    AddFriends.refreshPage();
+                                    FriendsActivity.refreshPage();
                                 }
                             }
                             else{
                                 Toast.makeText(holder.itemView.getContext(), u.getUsername() + " withdrew the request!",Toast.LENGTH_SHORT).show();
-                                AddFriends.refreshPage();
+                                FriendsActivity.refreshPage();
                             }
                         }
                     });

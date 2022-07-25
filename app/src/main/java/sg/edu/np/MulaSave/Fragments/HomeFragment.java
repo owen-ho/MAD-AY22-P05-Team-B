@@ -3,7 +3,6 @@ package sg.edu.np.MulaSave.Fragments;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import sg.edu.np.MulaSave.HomePage.AddFriends;
+import sg.edu.np.MulaSave.HomePage.FriendsActivity;
 import sg.edu.np.MulaSave.HomePage.AddPostActivity;
 import sg.edu.np.MulaSave.HomePage.Post;
 import sg.edu.np.MulaSave.HomePage.PostAdapter;
@@ -86,7 +85,7 @@ public class HomeFragment extends Fragment {
         addFriend.setOnClickListener(new View.OnClickListener() {//set on click listener
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), AddFriends.class);//go to add friends class
+                Intent i = new Intent(getActivity(), FriendsActivity.class);//go to add friends class
                 startActivity(i);
             }
         });

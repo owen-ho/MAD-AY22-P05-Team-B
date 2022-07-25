@@ -1,13 +1,11 @@
 package sg.edu.np.MulaSave.HomePage;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -20,7 +18,7 @@ import sg.edu.np.MulaSave.FriendsFragments.RequestsFragment;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 
-public class AddFriends extends AppCompatActivity {
+public class FriendsActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     public static ViewPager viewPager;
@@ -32,7 +30,7 @@ public class AddFriends extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_friends);
+        setContentView(R.layout.activity_friends);
 
         tabLayout = findViewById(R.id.tabLayoutFriends);
         viewPager = findViewById(R.id.viewPagerFriends);

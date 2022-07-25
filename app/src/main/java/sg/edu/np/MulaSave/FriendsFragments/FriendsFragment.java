@@ -1,10 +1,12 @@
 package sg.edu.np.MulaSave.FriendsFragments;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
@@ -17,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import sg.edu.np.MulaSave.HomePage.AddFriends;
+import sg.edu.np.MulaSave.HomePage.FriendsActivity;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 
@@ -41,6 +44,7 @@ public class FriendsFragment extends Fragment {
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     ArrayList<User> friendList;
     SearchView searchFriendList;
+    TextView friendNoDisplay;
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -64,6 +68,7 @@ public class FriendsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         friendRecycler = view.findViewById(R.id.friendRecycler);
         friendList = new ArrayList<>();
+        friendNoDisplay = view.findViewById(R.id.friendNoDisplay);
 
         ViewFriendAdapter fAdapter = new ViewFriendAdapter(friendList,1);//1 means friend list
         databaseRefUser.child(usr.getUid()).child("friends").addValueEventListener(new ValueEventListener() {
@@ -87,8 +92,9 @@ public class FriendsFragment extends Fragment {
                                 }
                             }
 
-                            if(AddFriends.addNewUser(user,friendList)){
+                            if(FriendsActivity.addNewUser(user,friendList)){
                                 friendList.add(user);
+                                setVisible();
                                 fAdapter.notifyDataSetChanged();
                             }
                         }
@@ -165,6 +171,7 @@ public class FriendsFragment extends Fragment {
                                             //add the user if the username is under the
                                             if (user.getUsername().toLowerCase().contains(s.toLowerCase())){//dont add if the input is none && (!s.equals(""))
                                                 friendList.add(user);
+                                                setVisible();
                                                 fAdapter.notifyDataSetChanged();
                                             }
                                         }
@@ -209,5 +216,29 @@ public class FriendsFragment extends Fragment {
                 return false;//return false so that icon closes back on close
             }
         });
+    }
+    private void setVisible(){
+        if(friendList.size() != 0){
+            friendNoDisplay.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public static void searchClose(Context context, View constraintView, int layoutView, int searchView){
+        //to convert margin to dp
+        Resources r = context.getResources();
+        int px = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                24,
+                r.getDisplayMetrics()
+        );
+
+        //set layout
+        ConstraintLayout layout = (ConstraintLayout) constraintView;
+        ConstraintSet set = new ConstraintSet();
+        set.clone(layout);
+        //clear constraints
+        set.clear(searchView, ConstraintSet.START);
+        set.connect(searchView, ConstraintSet.END,R.id.friendListConstraint,ConstraintSet.END,px);
+        set.applyTo(layout);
     }
 }

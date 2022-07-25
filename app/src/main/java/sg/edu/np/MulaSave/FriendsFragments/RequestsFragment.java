@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import sg.edu.np.MulaSave.HomePage.AddFriends;
+import sg.edu.np.MulaSave.HomePage.FriendsActivity;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 
@@ -35,6 +36,7 @@ public class RequestsFragment extends Fragment {
             .getReference("user");
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     ArrayList<User> requestList;
+    TextView requestNoDisplay;
 
     public RequestsFragment() {
         // Required empty public constructor
@@ -57,6 +59,7 @@ public class RequestsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_requests, container, false);
         requestRecycler = view.findViewById(R.id.requestRecycler);//set recycler
         requestList = new ArrayList<>();//init list
+        requestNoDisplay = view.findViewById(R.id.requestNoDisplay);
 
         ViewFriendAdapter rAdapter = new ViewFriendAdapter(requestList,2);//viewtype 2 is the requests view
         databaseRefUser.child(usr.getUid()).child("requests").addValueEventListener(new ValueEventListener() {
@@ -80,8 +83,9 @@ public class RequestsFragment extends Fragment {
                                         user.setUsername(ds.getValue().toString());
                                     }
                                 }
-                                if(AddFriends.addNewUser(user, requestList)){
+                                if(FriendsActivity.addNewUser(user, requestList)){
                                     requestList.add(user);
+                                    setVisible();
                                     rAdapter.notifyDataSetChanged();
                                 }
                             }
@@ -108,5 +112,10 @@ public class RequestsFragment extends Fragment {
         requestRecycler.setAdapter(rAdapter);//set adapter
 
         return view;
+    }
+    private void setVisible(){
+        if(requestList.size() != 0){
+            requestNoDisplay.setVisibility(View.INVISIBLE);
+        }
     }
 }
