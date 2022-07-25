@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,6 +34,7 @@ public class ExploreFragment extends Fragment {
             .getReference("user");
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     ArrayList<User> exploreList;
+    SearchView searchFriendExplore;
 
     public ExploreFragment() {
         // Required empty public constructor
@@ -61,6 +63,7 @@ public class ExploreFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         exploreRecyclerView = view.findViewById(R.id.exploreRecycler);
+        searchFriendExplore = view.findViewById(R.id.searchFriendExplore);
 
         exploreList = new ArrayList<>();
         ViewFriendAdapter Eadapter = new ViewFriendAdapter(exploreList,3);
@@ -97,6 +100,17 @@ public class ExploreFragment extends Fragment {
 
             }
         });
+
+        searchFriendExplore.setSubmitButtonEnabled(true);//enable submit button
+        searchFriendExplore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchFriendExplore.setIconified(false);//make the whole searchview available for input
+            }
+        });
+
+
+
         LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
         exploreRecyclerView.setLayoutManager(vLayoutManager);
         exploreRecyclerView.setItemAnimator(new DefaultItemAnimator());
