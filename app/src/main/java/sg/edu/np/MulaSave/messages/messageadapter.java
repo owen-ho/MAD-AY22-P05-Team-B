@@ -77,13 +77,6 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
             }
         });
 
-        if(list2.getProfilepic().isEmpty()){
-
-
-        }
-        else{
-            Log.v("nopic", "hoseh");
-        }
 
         chatRef.child("1").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override

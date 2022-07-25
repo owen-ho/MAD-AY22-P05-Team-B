@@ -169,8 +169,6 @@ public class chatfeature extends AppCompatActivity {
 //                                        }
 
                                     }
-
-
                                 }   userRef.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -186,27 +184,17 @@ public class chatfeature extends AppCompatActivity {
                                                 getname = dataSnapshot.child("username").getValue(String.class);
                                                 Log.v("namenamexd",getname);
                                             }
-
-
-
                                         }
-
                                     }
-
-
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
-
                                     }
                                 });
-
                             }
                         }
                         Log.v("testing",sellerid);
-
                     }
                 }
-
                 if(!dataset){
                     //dataset = true;
                     Log.v("testing1",sellerid);

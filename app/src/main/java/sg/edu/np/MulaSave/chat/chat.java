@@ -67,6 +67,7 @@ public class chat extends AppCompatActivity {
         sellerid = getIntent().getStringExtra("sellerid");
         // Retrieving data from message adapater class
 
+
 //        Product productclass = (Product) getIntent().getSerializableExtra("product");//get product from adapter
 //        String sellerid = productclass.getSellerUid();
         DatabaseReference mDatabase;
@@ -87,6 +88,9 @@ public class chat extends AppCompatActivity {
                     Log.v("username", username);
                     nameTTv.setText(username);
                     Log.d("Testing", String.valueOf(task.getResult().getValue()));
+
+
+
                 }
             }
         });
