@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,9 +11,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import sg.edu.np.MulaSave.chat.chat;
+import sg.edu.np.MulaSave.chat.Chat;
 
-public class descriptionpage extends AppCompatActivity {
+public class DescriptionPage extends AppCompatActivity {
 
     Product product;
     @Override
@@ -48,7 +47,7 @@ public class descriptionpage extends AppCompatActivity {
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(descriptionpage.this, sg.edu.np.MulaSave.chat.chat.class);
+                Intent i = new Intent(DescriptionPage.this, Chat.class);
                 i.putExtra("sellerid",product.getSellerUid());
                 startActivity(i);
             }

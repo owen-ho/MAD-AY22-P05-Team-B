@@ -34,18 +34,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import sg.edu.np.MulaSave.Memorydata;
+import sg.edu.np.MulaSave.MemoryData;
 import sg.edu.np.MulaSave.R;
 
-public class chat extends AppCompatActivity {
+public class Chat extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
-    DatabaseReference chatRef = database.getReference("chat");
+    DatabaseReference chatRef = database.getReference("Chat");
     DatabaseReference cbRef = database.getReference();
     DatabaseReference userRef = database.getReference("user");
     private FirebaseAuth mAuth;
 
-    private final List<chatlistener> chatlistnerList = new ArrayList<>();
-    private chatadapter chatadapter;
+    private final List<ChatListener> chatlistnerList = new ArrayList<>();
+    private ChatAdapter chatadapter;
 
     String chatkey = "1";
     String getuid = "";
@@ -60,7 +60,7 @@ public class chat extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
-        setContentView(R.layout.activity_chat2);
+        setContentView(R.layout.activity_chat);
         final ImageView backbtn = findViewById(R.id.backbtn);
         final TextView nameTTv = findViewById(R.id.name);
         final EditText messageedittxt = findViewById(R.id.messageedittxt);
@@ -72,25 +72,10 @@ public class chat extends AppCompatActivity {
         sellerid = getIntent().getStringExtra("sellerid");
         // Retrieving data from message adapater class
 
-
-//        Product productclass = (Product) getIntent().getSerializableExtra("product");//get product from adapter
-//        String sellerid = productclass.getSellerUid();
         DatabaseReference mDatabase;
         mDatabase = database.getReference("user");
         Log.v("selleriddd", sellerid);
-//        mDatabase.child(sellerid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                if (!task.isSuccessful()) {
-//                    Log.e("firebase", "Error getting data", task.getException());
-//                }
-//                //Set User Username to Textview
-//                else {
-//                    User user = task.getResult().getValue(User.class);
-//                    username = user.username;
-//                    Log.v("username", username);
-//                    nameTTv.setText(username);
-//                    Log.d("Testing", String.valueOf(task.getResult().getValue()));
+
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -126,16 +111,16 @@ public class chat extends AppCompatActivity {
         final String uid = getIntent().getStringExtra("uid");
 
         //get user uid from memory
-        //getuid = Memorydata.getdata(chat.this);
+        //getuid = MemoryData.getdata(Chat.this);
         getuid = mAuth.getCurrentUser().getUid();
 
 
         //Picasso.get().load(getprofilepic).into(profilepic);
 
         chattingrecycleview.setHasFixedSize(true);
-        chattingrecycleview.setLayoutManager(new LinearLayoutManager(chat.this));
+        chattingrecycleview.setLayoutManager(new LinearLayoutManager(Chat.this));
 
-        chatadapter = new chatadapter(chatlistnerList,chat.this);
+        chatadapter = new ChatAdapter(chatlistnerList, Chat.this);
         chattingrecycleview.setAdapter(chatadapter);
 
 
@@ -147,16 +132,16 @@ public class chat extends AppCompatActivity {
                         if (chatkey != null) {
                             if (chatkey.isEmpty()) {
                                 //generating chatkey by default chatkey is 1
-                                if (snapshot.hasChild("chat")) {
-                                    chatkey = (String.valueOf(snapshot.child("chat").getChildrenCount() + "1"));
+                                if (snapshot.hasChild("Chat")) {
+                                    chatkey = (String.valueOf(snapshot.child("Chat").getChildrenCount() + "1"));
                                 }
                             }
                         }
 
-                        if (snapshot.hasChild("chat")) {
-                            if (snapshot.child("chat").child(chatkey).hasChild("messages")) {
+                        if (snapshot.hasChild("Chat")) {
+                            if (snapshot.child("Chat").child(chatkey).hasChild("messages")) {
                                 chatlistnerList.clear();
-                                for (DataSnapshot messagesnapshot : snapshot.child("chat").child(chatkey).child("messages").getChildren()) {
+                                for (DataSnapshot messagesnapshot : snapshot.child("Chat").child(chatkey).child("messages").getChildren()) {
                                     if (messagesnapshot.hasChild("msg") && messagesnapshot.hasChild("uid")) {
                                         final String messagetimestamp = messagesnapshot.getKey();
                                         final String getuid = messagesnapshot.child("uid").getValue(String.class);
@@ -170,12 +155,12 @@ public class chat extends AppCompatActivity {
                                         Log.v("date",simpleDateFormat.format(date));
 
 
-                                        chatlistener Chatlistner = new chatlistener(getuid,username,getmsg,simpleDateFormat.format(date),simpletimeFormat.format(date));
+                                        ChatListener Chatlistner = new ChatListener(getuid,username,getmsg,simpleDateFormat.format(date),simpletimeFormat.format(date));
                                         chatlistnerList.add(Chatlistner);
 
-                                        if (loadingfirsttime || Long.parseLong(messagetimestamp) > Long.parseLong(Memorydata.getlastmsgts(chat.this, chatkey))) {
+                                        if (loadingfirsttime || Long.parseLong(messagetimestamp) > Long.parseLong(MemoryData.getlastmsgts(Chat.this, chatkey))) {
                                             loadingfirsttime = false;
-                                            Memorydata.savelastmsgts(messagetimestamp, chatkey, chat.this);
+                                            MemoryData.savelastmsgts(messagetimestamp, chatkey, Chat.this);
 
                                             chatadapter.updatechatlist(chatlistnerList);
                                             chattingrecycleview.scrollToPosition(chatlistnerList.size() - 1);
@@ -201,7 +186,7 @@ public class chat extends AppCompatActivity {
                         final String currenttimestamp = String.valueOf(System.currentTimeMillis());
                         final String gettextmessage = messageedittxt.getText().toString();
 
-                        Memorydata.savelastmsgts(currenttimestamp, chatkey, chat.this);
+                        MemoryData.savelastmsgts(currenttimestamp, chatkey, Chat.this);
 
                         chatRef.child(chatkey).child("user_1").setValue(getuid);
                         chatRef.child(chatkey).child("user_2").setValue(sellerid);

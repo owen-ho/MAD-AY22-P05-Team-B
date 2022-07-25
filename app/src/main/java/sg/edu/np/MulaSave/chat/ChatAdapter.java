@@ -15,32 +15,32 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
-import sg.edu.np.MulaSave.Memorydata;
+import sg.edu.np.MulaSave.MemoryData;
 import sg.edu.np.MulaSave.R;
 
-public class chatadapter extends RecyclerView.Adapter<chatadapter.MyViewHolder> {
-    private List<chatlistener> chatlistnerList;
+public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> {
+    private List<ChatListener> chatlistnerList;
     private String getuid;
 
 
     private final Context context;
 
-    public chatadapter(List<chatlistener> chatlistnerList, Context context) {
+    public ChatAdapter(List<ChatListener> chatlistnerList, Context context) {
         this.chatlistnerList = chatlistnerList;
         this.context = context;
-        this.getuid = Memorydata.getdata(context);
+        this.getuid = MemoryData.getdata(context);
     }
 
     @NonNull
     @Override
-    public chatadapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ChatAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_adapter_layout,null));
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull chatadapter.MyViewHolder holder, int position) {
-        chatlistener list2 = chatlistnerList.get(position);
+    public void onBindViewHolder(@NonNull ChatAdapter.MyViewHolder holder, int position) {
+        ChatListener list2 = chatlistnerList.get(position);
         FirebaseAuth mAuth;
         mAuth = FirebaseAuth.getInstance();
         getuid = mAuth.getCurrentUser().getUid();
@@ -72,7 +72,7 @@ public class chatadapter extends RecyclerView.Adapter<chatadapter.MyViewHolder> 
         return chatlistnerList.size();
     }
 
-    public void updatechatlist(List<chatlistener> chatlistnerList){
+    public void updatechatlist(List<ChatListener> chatlistnerList){
         this.chatlistnerList = chatlistnerList;
     }
     static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -84,9 +84,9 @@ public class chatadapter extends RecyclerView.Adapter<chatadapter.MyViewHolder> 
             super(itemView);
             oppoLayout = itemView.findViewById(R.id.oppolayout);
             myLayout = itemView.findViewById(R.id.mylayout);
-            oppoMessage=itemView.findViewById(R.id.oppomessage);
+            oppoMessage=itemView.findViewById(R.id.sendermessage);
             myMessage = itemView.findViewById(R.id.mymessage);
-            oppoTime = itemView.findViewById(R.id.oppomessagetime);
+            oppoTime = itemView.findViewById(R.id.sendermessagetime);
             myTime = itemView.findViewById(R.id.mymessagetime) ;
 
 

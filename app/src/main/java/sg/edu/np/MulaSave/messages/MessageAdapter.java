@@ -32,36 +32,36 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import sg.edu.np.MulaSave.R;
-import sg.edu.np.MulaSave.chat.chat;
+import sg.edu.np.MulaSave.chat.Chat;
 
-public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHolder> {
-    private List<messagelistiner> messagelistiners;
+public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHolder> {
+    private List<MessageListener> messageListeners;
     private final Context context;
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference userRef = database.getReference("user");
-    DatabaseReference chatRef = database.getReference("chat");
+    DatabaseReference chatRef = database.getReference("Chat");
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
 
 
-    public messageadapter(List<messagelistiner> messagelistiners, Context context) {
-        this.messagelistiners = messagelistiners;
+    public MessageAdapter(List<MessageListener> messageListeners, Context context) {
+        this.messageListeners = messageListeners;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public messageadapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MessageAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.message_adapter_layout,null));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull messageadapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MessageAdapter.MyViewHolder holder, int position) {
         String currentUser;
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser().getUid();
-        messagelistiner list2 = messagelistiners.get(position);
-        Log.v("trying", String.valueOf(messagelistiners.size()));
+        MessageListener list2 = messageListeners.get(position);
+        Log.v("trying", String.valueOf(messageListeners.size()));
         storageRef.child("profilepics/" + list2.getSellerid() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {//user has set a profile picture before
@@ -139,7 +139,7 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(context, chat.class);
+                Intent intent = new Intent(context, Chat.class);
                 intent.putExtra("sellerid",list2.getSellerid());
                 intent.putExtra("uid",list2.getUid());
                 intent.putExtra("name",list2.getUsername());
@@ -149,8 +149,8 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
             }
         });
     }
-    public void updatedata(List<messagelistiner> messagelistiners){
-        this.messagelistiners = messagelistiners;
+    public void updatedata(List<MessageListener> messageListeners){
+        this.messageListeners = messageListeners;
         //notifyDataSetChanged();
 
 
@@ -158,7 +158,7 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
 
     @Override
     public int getItemCount() {
-        return messagelistiners.size();
+        return messageListeners.size();
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {

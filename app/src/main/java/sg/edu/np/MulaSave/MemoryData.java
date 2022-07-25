@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-public final class Memorydata {
+public final class MemoryData {
     public static void savedata(String data, Context context){
         try{
             FileOutputStream fileOutputStream = context.openFileOutput("datata.txt",Context.MODE_PRIVATE);

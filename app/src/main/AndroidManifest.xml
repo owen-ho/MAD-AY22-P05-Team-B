@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.P05TeamB">
         <activity
-            android:name=".chat.chat"
+            android:name=".chat.Chat"
             android:exported="false" />
         <activity
-            android:name=".chatfeature"
+            android:name=".ChatFeature"
             android:exported="false" />
         <activity
-            android:name=".descriptionpage"
+            android:name=".DescriptionPage"
             android:exported="false" />
         <activity
             android:name=".Documentation"

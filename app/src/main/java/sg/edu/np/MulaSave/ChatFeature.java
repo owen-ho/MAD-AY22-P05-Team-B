@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -27,15 +28,15 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-import sg.edu.np.MulaSave.messages.messageadapter;
-import sg.edu.np.MulaSave.messages.messagelistiner;
+import sg.edu.np.MulaSave.messages.MessageAdapter;
+import sg.edu.np.MulaSave.messages.MessageListener;
 
-public class chatfeature extends AppCompatActivity {
-    private final List<messagelistiner> messagelistinerList = new ArrayList<>();
+public class ChatFeature extends AppCompatActivity {
+    private final List<MessageListener> messageListenerList = new ArrayList<>();
     private String uid;
     private String username;
     private RecyclerView messagerecycleview;
-    private messageadapter messageadapter;
+    private MessageAdapter messageadapter;
     private ImageView userprofilepic;
     private int unseenmessage = 0;
     private String chatkey="";
@@ -49,8 +50,9 @@ public class chatfeature extends AppCompatActivity {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference userRef = database.getReference("user");
-    DatabaseReference chatRef = database.getReference("chat");
+    DatabaseReference chatRef = database.getReference("Chat");
     private FirebaseAuth mAuth;
+
 
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -62,26 +64,26 @@ public class chatfeature extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         //Product productclass = (Product) getIntent().getSerializableExtra("product");//get product from adapter
 //        Product products = (Product) getIntent().getSerializableExtra("product");//get product from adapter
 //        String sellerid = products.getSellerUid();
         mAuth = FirebaseAuth.getInstance();
         currentuser=mAuth.getCurrentUser().getUid();
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_chatfeaturetesting);
+        setContentView(R.layout.activity_chatfeature);
         messagerecycleview=findViewById(R.id.messgaerecycleview);
         user.getUid(); //own uid
         messagerecycleview.setHasFixedSize(true);
         messagerecycleview.setLayoutManager(new LinearLayoutManager(this));
-        messagerecycleview.setAdapter(new messageadapter(messagelistinerList, chatfeature.this));
+        messagerecycleview.setAdapter(new MessageAdapter(messageListenerList, ChatFeature.this));
 
 
 
         //set adpater to recycleview
-        messageadapter = new messageadapter(messagelistinerList, chatfeature.this);
+        messageadapter = new MessageAdapter(messageListenerList, ChatFeature.this);
         messagerecycleview.setAdapter( messageadapter);
-
+        ImageView backbutton = findViewById(R.id.backbutton1);
 
 
 
@@ -161,7 +163,7 @@ public class chatfeature extends AppCompatActivity {
                                 for(DataSnapshot chatdatasnapshot: dataSnapshot1.child("messages").getChildren()){
                                     if(dataSnapshot1.child("messages").hasChildren()){
                                         final long getmessagekey = Long.parseLong(chatdatasnapshot.getKey());
-                                        final long getlastseenmessage = Long.parseLong(Memorydata.getlastmsgts(chatfeature.this,getkey));
+                                        final long getlastseenmessage = Long.parseLong(MemoryData.getlastmsgts(ChatFeature.this,getkey));
                                         //String getlastseenmessage = chatdatasnapshot.child("msg").getValue().toString();
                                         lastmessage = chatdatasnapshot.child("msg").getValue(String.class);
 //                                        if(getmessagekey>getlastseenmessage){
@@ -172,7 +174,7 @@ public class chatfeature extends AppCompatActivity {
                                 }   userRef.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        //messagelistinerList.clear();
+                                        //messageListenerList.clear();
                                         Log.v("nnb","puacb");
                                         unseenmessage = 0;
 //                                        lastmessage = "";
@@ -200,14 +202,14 @@ public class chatfeature extends AppCompatActivity {
                     Log.v("testing1",sellerid);
                     Log.v("nametest",getname);
 
-                    messagelistiner messagelistiners = new messagelistiner(getname,user.getUid(),lastmessage,getprofilepic,unseenmessage,chatkey,sellerid);
+                    MessageListener messagelistiners = new MessageListener(getname,user.getUid(),lastmessage,getprofilepic,unseenmessage,chatkey,sellerid);
                     Log.v("Lastmessage",lastmessage);
                     if (!messagelistiners.getLastmessage().equals("")){
                         Log.v("yesif","ok");
 
-                        messagelistinerList.clear();
-                        messagelistinerList.add(messagelistiners);
-                        messageadapter.updatedata(messagelistinerList);
+                        messageListenerList.clear();
+                        messageListenerList.add(messagelistiners);
+                        messageadapter.updatedata(messageListenerList);
 
                         messageadapter.notifyDataSetChanged();
                         dataset = true;
@@ -224,6 +226,12 @@ public class chatfeature extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }

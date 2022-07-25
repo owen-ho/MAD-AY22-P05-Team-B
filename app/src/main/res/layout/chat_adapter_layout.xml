@@ -19,16 +19,16 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/oppomessage"
+                android:id="@+id/sendermessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/opo_msg_back"
                 android:padding="10dp"
-                android:text="This is opponent message"
+                android:text="This is sender message"
                 android:textColor="#424242" />
 
             <TextView
-                android:id="@+id/oppomessagetime"
+                android:id="@+id/sendermessagetime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"

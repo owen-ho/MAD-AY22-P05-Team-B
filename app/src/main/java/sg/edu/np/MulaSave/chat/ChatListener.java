@@ -1,9 +1,9 @@
 package sg.edu.np.MulaSave.chat;
 
-public class chatlistener {
+public class ChatListener {
     private String uid,username, message, date, time;
 
-    public chatlistener(String uid, String username, String message, String date, String time) {
+    public ChatListener(String uid, String username, String message, String date, String time) {
         this.uid = uid;
         this.username = username;
         this.message = message;

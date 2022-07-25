@@ -212,7 +212,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             @Override
             public void onClick(View view) {
                 if (p.getLink().equals("link")){//products from community uploads have string link as the link var
-                    Intent i = new Intent(context, descriptionpage.class);
+                    Intent i = new Intent(context, DescriptionPage.class);
                     i.putExtra("product",p);//pass product into desc
                     context.startActivity(i);//start the product desc activity
                 }

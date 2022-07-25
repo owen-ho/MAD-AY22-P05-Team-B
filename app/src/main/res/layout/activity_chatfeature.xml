@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".chatfeature"
+    tools:context=".ChatFeature"
     android:background="#FFFFFF"
     android:orientation="vertical">
 
@@ -14,6 +14,7 @@
 
         <ImageView
 
+            android:id="@+id/backbutton1"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
@@ -21,7 +22,7 @@
             android:layout_marginTop="40dp"
             android:background="@drawable/round_back_light"
             android:padding="6dp"
-            android:src="@drawable/search_icon" />
+            android:src="@drawable/back_btn" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

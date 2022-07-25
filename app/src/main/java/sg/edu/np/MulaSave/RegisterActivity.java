@@ -2,7 +2,6 @@ package sg.edu.np.MulaSave;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.MemoryFile;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -41,14 +40,14 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         //check if user already logged in
-        if(!Memorydata.getdata(this).isEmpty()){
+        if(!MemoryData.getdata(this).isEmpty()){
             Intent i = new Intent(RegisterActivity.this,MainActivity.class);
             User u = new User();
             FirebaseUser user = mAuth.getCurrentUser();
             assert user != null;
             i.putExtra("email"," ");
-            i.putExtra("uid",Memorydata.getdata(this));
-            i.putExtra("username",Memorydata.getname(this));
+            i.putExtra("uid", MemoryData.getdata(this));
+            i.putExtra("username", MemoryData.getname(this));
             startActivity(i);
             finish();
 
@@ -115,10 +114,10 @@ public class RegisterActivity extends AppCompatActivity {
                             i.putExtra("uid",user.getUid());
 
                             // save username to memory
-                            Memorydata.savename(Username,RegisterActivity.this);
+                            MemoryData.savename(Username,RegisterActivity.this);
 
                             // save uid to memory
-                            Memorydata.savedata(user.getUid(),RegisterActivity.this);
+                            MemoryData.savedata(user.getUid(),RegisterActivity.this);
                             startActivity(i);
                         } else {//sign in fail, likely due to email
                             // If sign in fails, display a message to the user.

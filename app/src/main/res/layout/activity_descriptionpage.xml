@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".descriptionpage">
+    tools:context=".DescriptionPage">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/scrollView3"
@@ -54,7 +54,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView42" />
 
         <TextView
-            android:id="@+id/zzz"
+            android:id="@+id/conditionid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
@@ -69,7 +69,7 @@
             android:layout_marginTop="24dp"
             android:text="TextView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/zzz" />
+            app:layout_constraintTop_toBottomOf="@+id/conditionid" />
 
         <TextView
             android:id="@+id/Title"
@@ -91,7 +91,7 @@
             app:layout_constraintTop_toBottomOf="@+id/Description" />
 
         <TextView
-            android:id="@+id/textView49"
+            android:id="@+id/meetupid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
@@ -107,7 +107,7 @@
             android:layout_marginTop="16dp"
             android:text="TextView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView49" />
+            app:layout_constraintTop_toBottomOf="@+id/meetupid" />
 
         <Button
             android:id="@+id/Chat"
@@ -130,7 +130,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/www"
+            android:id="@+id/sellerusername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
@@ -146,6 +146,6 @@
             android:layout_marginTop="16dp"
             android:text="TextView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/www" />
+            app:layout_constraintTop_toBottomOf="@+id/sellerusername" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
