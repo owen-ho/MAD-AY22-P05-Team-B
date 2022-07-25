@@ -13,13 +13,20 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+
 public class UploadPayment extends AppCompatActivity {
+
+    FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
 
     Product product;
     int SELECT_PICTURE = 200;
@@ -33,7 +40,6 @@ public class UploadPayment extends AppCompatActivity {
         ImageView BackbuttonPayment = findViewById(R.id.backButtonPayment);
         ImageView NoSubmitPaymentbtn = findViewById(R.id.NoSubmitPaymentbtn);
         ImageView ConfirmPaymentbtn = findViewById(R.id.confirmPaymentBtn);
-        ImageView RefreshPayment = findViewById(R.id.refreshPayment);
         ImageView AddPaymentbtn = findViewById(R.id.addPaymentBtn);
         previewPayment = findViewById(R.id.previewPayment);
 
@@ -52,6 +58,7 @@ public class UploadPayment extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UploadPayment.this, ChildReserveFragment.class);
+                addPaymentMadeNotifications(usr.getUid(), product.getSellerUid(), product.getAsin());
                 finish();
             }
         });
@@ -77,22 +84,6 @@ public class UploadPayment extends AppCompatActivity {
             }
         });
 
-        RefreshPayment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                storageRef.child("paymentpics/" + product.getAsin() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {//user has set a profile picture before
-                        Picasso.get().load(uri).into(previewPayment);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
-                    @Override
-                    public void onFailure(@NonNull Exception e) {//set default picture
-
-                    }
-                });
-            }
-        });
 
     }
     private void chooseImg(){
@@ -125,4 +116,16 @@ public class UploadPayment extends AppCompatActivity {
             }
         }
     }//end of onActivityResult
+
+    private void addPaymentMadeNotifications(String buyerid, String sellerid, String productid){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications").child(sellerid);
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("userid", buyerid);
+        hashMap.put("text", "Payment has been made to you!");
+        hashMap.put("productid", productid);
+        hashMap.put("isproduct",true);
+
+        reference.push().setValue(hashMap);
+    }
 }

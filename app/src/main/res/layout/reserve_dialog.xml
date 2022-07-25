@@ -23,7 +23,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="208dp">
+            android:layout_height="261dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView13"
@@ -83,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="Are you sure you want to cancel your reservation for this product?"
+                android:text="Are you sure you want to reserve this product?"
                 android:textAlignment="center"
                 android:textColor="#000000"
                 android:textSize="16sp"
@@ -96,7 +96,8 @@
                 android:id="@+id/textReserve"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="This product would only be reserved for 24 hours where you would have to provide a proof of payment to the seller which would either accept or decline. Please note that failure to provide payment would result in the inability to reserve again. "
+                android:layout_marginTop="2dp"
+                android:text="Once you have reserved this product, it cannot be reserved by any other user. However, the seller is able to unreserve the product from their side as well. Please ensure that you are able to provide a proof of payment for the seller to accept under the reserve column in the profile page of the application. Thank You!"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

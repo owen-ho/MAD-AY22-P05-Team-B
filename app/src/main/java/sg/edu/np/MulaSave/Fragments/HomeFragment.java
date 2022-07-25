@@ -32,9 +32,9 @@ import java.util.Comparator;
 
 import sg.edu.np.MulaSave.HomePage.FriendsActivity;
 import sg.edu.np.MulaSave.HomePage.AddPostActivity;
+import sg.edu.np.MulaSave.HomePage.LikedPostActivity;
 import sg.edu.np.MulaSave.HomePage.Post;
 import sg.edu.np.MulaSave.HomePage.PostAdapter;
-import sg.edu.np.MulaSave.HomePage.LikedPostActivity;
 import sg.edu.np.MulaSave.R;
 
 public class HomeFragment extends Fragment {
@@ -183,4 +183,3 @@ public class HomeFragment extends Fragment {
         }
     };
 }
-

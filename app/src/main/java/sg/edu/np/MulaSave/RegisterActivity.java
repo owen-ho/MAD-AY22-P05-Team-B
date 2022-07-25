@@ -38,6 +38,21 @@ public class RegisterActivity extends AppCompatActivity {
         Button registerBtn = findViewById(R.id.registerButton);
         EditText Username = findViewById(R.id.usernameRegister);
 
+
+        //check if user already logged in
+        if(!MemoryData.getdata(this).isEmpty()){
+            Intent i = new Intent(RegisterActivity.this,MainActivity.class);
+            User u = new User();
+            FirebaseUser user = mAuth.getCurrentUser();
+            assert user != null;
+            i.putExtra("email"," ");
+            i.putExtra("uid", MemoryData.getdata(this));
+            i.putExtra("username", MemoryData.getname(this));
+            startActivity(i);
+            finish();
+
+        }
+
         loginPrompt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,6 +112,12 @@ public class RegisterActivity extends AppCompatActivity {
                             assert user != null;
                             i.putExtra("email",user.getEmail());
                             i.putExtra("uid",user.getUid());
+
+                            // save username to memory
+                            MemoryData.savename(Username,RegisterActivity.this);
+
+                            // save uid to memory
+                            MemoryData.savedata(user.getUid(),RegisterActivity.this);
                             startActivity(i);
                         } else {//sign in fail, likely due to email
                             // If sign in fails, display a message to the user.

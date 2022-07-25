@@ -1,16 +1,16 @@
 package sg.edu.np.MulaSave;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,13 +21,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.time.Instant;
+import java.util.HashMap;
 
-public class descriptionpage extends AppCompatActivity {
+import sg.edu.np.MulaSave.chat.Chat;
+
+public class DescriptionPage extends AppCompatActivity {
     DatabaseReference databaseRefUser = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
             .getReference("user");
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
+
+    DatabaseReference databaseRefProduct = FirebaseDatabase
+            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .getReference("product");
+
 
     Product product;
 
@@ -62,10 +69,13 @@ public class descriptionpage extends AppCompatActivity {
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i = new Intent(DescriptionPage.this, Chat.class);
+                i.putExtra("sellerid",product.getSellerUid());
+                startActivity(i);
             }
         });
 
+        //If current user owns the product being shown
         if (product.getSellerUid().equals(usr.getUid())){
             reserve.setVisibility(View.GONE);
             chat.setVisibility(View.INVISIBLE);
@@ -92,6 +102,8 @@ public class descriptionpage extends AppCompatActivity {
                 }
             });
         }
+
+        //If current user does not own the product being shown
         if (!product.getSellerUid().equals(usr.getUid())){
             removeReserve.setVisibility(View.GONE);
             reserve.setVisibility(View.INVISIBLE);
@@ -146,8 +158,8 @@ public class descriptionpage extends AppCompatActivity {
         reserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(descriptionpage.this);
-                View v = LayoutInflater.from(descriptionpage.this).inflate(R.layout.reserve_dialog,null,false);
+                AlertDialog.Builder builder = new AlertDialog.Builder(DescriptionPage.this);
+                View v = LayoutInflater.from(DescriptionPage.this).inflate(R.layout.reserve_dialog,null,false);
                 builder.setView(v);
                 final AlertDialog alertDialog = builder.create();
                 TextView noReserve = v.findViewById(R.id.noReserve);
@@ -163,10 +175,12 @@ public class descriptionpage extends AppCompatActivity {
                     public void onClick(View view) {
                         String ReserveUnique = ((product.getImageUrl()).replaceAll("[^a-zA-Z0-9]", ""));
                         databaseRefUser.child(usr.getUid().toString()).child("Reserve").child(ReserveUnique).setValue(product);//add product if the product does not exist in the database
+                        addReserveNotifications(usr.getUid(), product.getSellerUid(), product.getAsin());
                         alertDialog.dismiss();
                     }
                 });
                 alertDialog.show();
+
             }
 
         });
@@ -194,5 +208,16 @@ public class descriptionpage extends AppCompatActivity {
                 });
             }
         });
+    }
+    private void addReserveNotifications(String buyerid, String sellerid, String productid){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications").child(sellerid);
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("userid", buyerid);
+        hashMap.put("text", "Reserved your product");
+        hashMap.put("productid", productid);
+        hashMap.put("isproduct",true);
+
+        reference.push().setValue(hashMap);
     }
 }
