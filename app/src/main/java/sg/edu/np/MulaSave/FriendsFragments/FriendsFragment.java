@@ -140,7 +140,7 @@ public class FriendsFragment extends Fragment {
         FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
 
         if(path.equals("explore")){//special method for explore page as explore gets data differently
-            databaseRefUser.addValueEventListener(new ValueEventListener() {
+            databaseRefUser.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {//get data on success
                     friendList.clear();

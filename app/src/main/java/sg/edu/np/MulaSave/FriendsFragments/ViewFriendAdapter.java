@@ -98,8 +98,6 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
         //holder.setIsRecyclable(false);
         holder.position = position;
 
-
-
         if(holder.getItemViewType()==1){//friends page
             holder.negativeCard.setVisibility(View.GONE);
             holder.positiveText.setText("Friends");
@@ -107,7 +105,6 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                 @Override
                 public void onClick(View view) {
                     removeFriendDialog(holder.itemView.getContext(),u,holder.getAdapterPosition());//set context and the friend (User object)
-                    FriendsActivity.refreshPage();
                 }
             });
         }//end of friends on bind methods
@@ -185,6 +182,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                         holder.positiveText.setText("Requested");
                         holder.positiveCard.setCardBackgroundColor(Color.parseColor("#FF0288D1"));//set to blue
                         holder.negativeCard.setVisibility(View.VISIBLE);
+                        ViewFriendAdapter.this.notifyItemChanged(position);
                     }
                 }
             });//end of checking if the user has requested
@@ -209,11 +207,11 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                             }
                         }
                     });
+                    //u.setImg(holder.userPic,holder.userPic.getContext());
+                    holder.positiveText.setText("Requested");
+                    holder.positiveCard.setCardBackgroundColor(Color.parseColor("#FF0288D1"));//set to blue
+                    holder.negativeCard.setVisibility(View.VISIBLE);
                     //ViewFriendAdapter.this.notifyItemChanged(position);
-                    ViewFriendAdapter.this.notifyDataSetChanged();
-                    //userList.clear();
-                    //notifyDataSetChanged();
-                    //do not need to change the ui and visibility here because since the code onbind will run again after setting the value
                 }
             });
 
@@ -268,12 +266,6 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
 
                 @Override
                 public void run () {
-                    // here we are async.
-
-                    // Retrieve here your song informations, ie:
-                    //object myRetrievedObject = getSongInfoBasedOnPositionSomeHow();
-                    //songName = myRetrievedObject.retrievedSongName;
-                    //otherStuff = myRetrievedObject.retrievedOtherStuffs;
 
                     User user = userList.get(position);
 
@@ -342,9 +334,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                 databaseRefUser.child(friend.getUid()).child("friends").child(usr.getUid()).removeValue();//remove current user from the friend's friend list
                 userList.remove(position);
                 ViewFriendAdapter.this.notifyItemRemoved(position);
-                //userList.clear();
-                //ViewFriendAdapter.this.notifyDataSetChanged();
-                //AddFriends.refreshPage();
+                //FriendsActivity.refreshPage();
                 alertDialog.dismiss();
             }
         });
@@ -362,9 +352,6 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
         }
         alertDialog.show();
-
-
-
     }
 
 }
