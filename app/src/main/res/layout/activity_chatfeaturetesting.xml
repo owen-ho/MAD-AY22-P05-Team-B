@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
 
             android:layout_width="35dp"
             android:layout_height="35dp"
@@ -31,16 +31,16 @@
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_centerInParent="true"/>
-        <ImageView
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userprofilepic1"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="40dp"
-            android:layout_centerVertical="true"
-            android:id="@+id/userprofilepic1"
-            android:src="@drawable/ic_baseline_adb_24"
             android:layout_alignParentEnd="true"
-            />
+            android:layout_centerVertical="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_baseline_adb_24" />
 
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
