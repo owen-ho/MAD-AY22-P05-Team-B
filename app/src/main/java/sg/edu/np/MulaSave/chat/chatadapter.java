@@ -19,13 +19,13 @@ import sg.edu.np.MulaSave.Memorydata;
 import sg.edu.np.MulaSave.R;
 
 public class chatadapter extends RecyclerView.Adapter<chatadapter.MyViewHolder> {
-    private List<chatlistner> chatlistnerList;
+    private List<chatlistener> chatlistnerList;
     private String getuid;
 
 
     private final Context context;
 
-    public chatadapter(List<chatlistner> chatlistnerList, Context context) {
+    public chatadapter(List<chatlistener> chatlistnerList, Context context) {
         this.chatlistnerList = chatlistnerList;
         this.context = context;
         this.getuid = Memorydata.getdata(context);
@@ -40,7 +40,7 @@ public class chatadapter extends RecyclerView.Adapter<chatadapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull chatadapter.MyViewHolder holder, int position) {
-        chatlistner list2 = chatlistnerList.get(position);
+        chatlistener list2 = chatlistnerList.get(position);
         FirebaseAuth mAuth;
         mAuth = FirebaseAuth.getInstance();
         getuid = mAuth.getCurrentUser().getUid();
@@ -72,7 +72,7 @@ public class chatadapter extends RecyclerView.Adapter<chatadapter.MyViewHolder> 
         return chatlistnerList.size();
     }
 
-    public void updatechatlist(List<chatlistner> chatlistnerList){
+    public void updatechatlist(List<chatlistener> chatlistnerList){
         this.chatlistnerList = chatlistnerList;
 
     }

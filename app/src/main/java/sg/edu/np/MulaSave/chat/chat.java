@@ -39,7 +39,7 @@ public class chat extends AppCompatActivity {
     DatabaseReference userRef = database.getReference("user");
     private FirebaseAuth mAuth;
 
-    private final List<chatlistner> chatlistnerList = new ArrayList<>();
+    private final List<chatlistener> chatlistnerList = new ArrayList<>();
     private chatadapter chatadapter;
 
     String chatkey = "1";
@@ -147,7 +147,7 @@ public class chat extends AppCompatActivity {
                                         Log.v("date",simpleDateFormat.format(date));
 
 
-                                        chatlistner Chatlistner = new chatlistner(getuid,username,getmsg,simpleDateFormat.format(date),simpletimeFormat.format(date));
+                                        chatlistener Chatlistner = new chatlistener(getuid,username,getmsg,simpleDateFormat.format(date),simpletimeFormat.format(date));
                                         chatlistnerList.add(Chatlistner);
 
                                         if (loadingfirsttime || Long.parseLong(messagetimestamp) > Long.parseLong(Memorydata.getlastmsgts(chat.this, chatkey))) {
