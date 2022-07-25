@@ -163,12 +163,17 @@ public class chatfeaturetesting extends AppCompatActivity {
 
                                 Log.v("test","hello");
                                 for(DataSnapshot chatdatasnapshot: dataSnapshot1.child("messages").getChildren()){
-                                    final long getmessagekey = Long.parseLong(chatdatasnapshot.getKey());
-                                    final long getlastseenmessage = Long.parseLong(Memorydata.getlastmsgts(chatfeaturetesting.this,getkey));
-                                    lastmessage = chatdatasnapshot.child("msg").getValue(String.class);
-                                    if(getmessagekey>getlastseenmessage){
-                                        unseenmessage++;
+                                    if(dataSnapshot1.child("messages").hasChildren()){
+                                        final long getmessagekey = Long.parseLong(chatdatasnapshot.getKey());
+                                        final long getlastseenmessage = Long.parseLong(Memorydata.getlastmsgts(chatfeaturetesting.this,getkey));
+                                        //String getlastseenmessage = chatdatasnapshot.child("msg").getValue().toString();
+                                        lastmessage = chatdatasnapshot.child("msg").getValue(String.class);
+//                                        if(getmessagekey>getlastseenmessage){
+//                                            unseenmessage++;
+//                                        }
+
                                     }
+
 
                                 }   userRef.addValueEventListener(new ValueEventListener() {
                                     @Override

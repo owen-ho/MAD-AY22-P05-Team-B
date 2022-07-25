@@ -93,12 +93,26 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
                     test = String.valueOf(task.getResult().child("user_2").getValue());
                     Log.d("gg", test);
 
-                    userRef.child(test).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//                    userRef.child(test).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                            holder.name.setText((String.valueOf(task.getResult().child("username").getValue())));
+//                            holder.lastmessage.setText(list2.getLastmessage());
+//                            Log.d("gg5", list2.getLastmessage());
+//                        }
+//                    });
+                    userRef.child(test).addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onComplete(@NonNull Task<DataSnapshot> task) {
-                            holder.name.setText((String.valueOf(task.getResult().child("username").getValue())));
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            holder.name.setText((String.valueOf(snapshot.child("username").getValue())));
                             holder.lastmessage.setText(list2.getLastmessage());
                             Log.d("gg5", list2.getLastmessage());
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
                         }
                     });
                 }

@@ -141,7 +141,9 @@ public class chat extends AppCompatActivity {
                                         final String messagetimestamp = messagesnapshot.getKey();
                                         final String getuid = messagesnapshot.child("uid").getValue(String.class);
                                         final String getmsg = messagesnapshot.child("msg").getValue(String.class);
-                                        Timestamp timestamp = new Timestamp(Long.parseLong(messagetimestamp));
+                                        Long timestampmili = Long.parseLong(messagetimestamp);
+
+                                        Timestamp timestamp = new Timestamp(timestampmili);
                                         Date date = new Date(timestamp.getTime());
                                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
                                         SimpleDateFormat simpletimeFormat = new SimpleDateFormat("hh:mm:aa", Locale.getDefault());
