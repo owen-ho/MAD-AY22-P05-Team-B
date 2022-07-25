@@ -2,7 +2,6 @@ package sg.edu.np.MulaSave;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,31 +50,31 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         getUserInfo(viewHolder.image_profile, viewHolder.username, notification.getUserid());
 
-        if (notification.isIsproduct()){
-            viewHolder.post_image.setVisibility(View.VISIBLE);
-            getPostImage(viewHolder.post_image, notification.getProductid());
-        } else{
-            viewHolder.post_image.setVisibility(View.GONE);
-        }
+        viewHolder.post_image.setVisibility(View.VISIBLE);
+        getPostImage(viewHolder.post_image, viewHolder.productTitle, notification.getProductid());
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences.Editor editor = mContext.getSharedPreferences("PREPS", Context.MODE_PRIVATE).edit();
-                editor.putString("productid",notification.getProductid());
-                editor.apply();
-
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("product");
+                DatabaseReference reference = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("product");
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot ds : snapshot.getChildren()){
-                            Product p = snapshot.getValue(Product.class);
+                            Product p = ds.getValue(Product.class);
                             if(p.getAsin().equals(notification.getProductid())){
-                                Intent i = new Intent(mContext,descriptionpage.class);
-                                i.putExtra("product",p);//pass product into desc
-                                mContext.startActivity(i);//start the product desc activity
+                                if (p.getLink().equals("link")){//products from community uploads have string link as the link var
+                                    Intent i = new Intent(mContext, descriptionpage.class);
+                                    i.putExtra("product",p);//pass product into desc
+                                    mContext.startActivity(i);//start the product desc activity
+                                }
+//                                else{//start browser intent
+//                                    Intent browserIntent = new Intent(mContext, WebActivity.class);
+//                                    browserIntent.putExtra("url",p.getLink());
+//                                    mContext.startActivity(browserIntent);
+//                                }
                             }
+
                         }
                     }
 
@@ -97,7 +96,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         public ImageView image_profile, post_image;
-        public TextView username, text;
+        public TextView username, text, productTitle;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -106,6 +105,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             post_image = itemView.findViewById(R.id.post_image);
             username = itemView.findViewById(R.id.username);
             text = itemView.findViewById(R.id.comment);
+            productTitle = itemView.findViewById(R.id.notif_product);
         }
     }
 
@@ -114,22 +114,24 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                FirebaseStorage storage = FirebaseStorage.getInstance();
-                StorageReference storageRef = storage.getReference();
-                storageRef.child("profilepics/" + user.uid + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {//user has set a profile picture before
-                        Picasso.get().load(uri).into(imageView);
-                        MainActivity.profilePicLink = uri.toString();
+                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                    String current_username = ds.child("username").getValue().toString();
+                    String current_uid = ds.child("uid").getValue().toString();
+                    if(current_uid.equals(publisherid)){
+                        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                        storageRef.child("profilepics/" + current_uid + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {//user has set a profile picture before
+                                Picasso.get().load(uri).into(imageView);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                            }
+                        });
+                        username.setText(current_username);
                     }
-                }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
-                    @Override
-                    public void onFailure(@NonNull Exception e) {//set default picture
-
-                    }
-                });
-                username.setText(user.username);
+                }
             }
 
             @Override
@@ -139,13 +141,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         });
     }
 
-    private void getPostImage(ImageView imageView, String productid){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("product");
+    private void getPostImage(ImageView imageView, TextView textView, String productid){
+        DatabaseReference reference = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("product");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Product product = dataSnapshot.getValue(Product.class);
-                Picasso.get().load(product.getImageUrl()).into(imageView);
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Product product = ds.getValue(Product.class);
+                    if(product.getAsin().equals(productid)){
+                        Picasso.get().load(product.getImageUrl()).into(imageView);
+                        textView.setText(product.getTitle());
+                    }
+                }
             }
             @Override
             public void onCancelled(DatabaseError error) {
