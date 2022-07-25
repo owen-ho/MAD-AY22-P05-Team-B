@@ -154,7 +154,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                             final AlertDialog alertDialog = builder.create();
 
                             //positive button (remove item)
-                            v.findViewById(R.id.wishlistRemove).setOnClickListener(new View.OnClickListener() {
+                            v.findViewById(R.id.dPositiveText).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     databaseRefUser.child(usr.getUid().toString()).child("wishlist").child(wishlistUnique).removeValue();
@@ -169,7 +169,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                                 }
                             });
                             //negative button (cancel removal)
-                            v.findViewById(R.id.wishlistCancel).setOnClickListener(new View.OnClickListener() {
+                            v.findViewById(R.id.dNegativeText).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     alertDialog.dismiss();

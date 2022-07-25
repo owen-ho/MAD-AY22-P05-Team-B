@@ -13,6 +13,13 @@
         android:theme="@style/Theme.P05TeamB">
         <activity
             android:name=".NotificationActivity"
+            android:name=".HomePage.LikedPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomePage.AddPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomePage.AddFriends"
             android:exported="false" />
         <activity
             android:name=".descriptionpage"

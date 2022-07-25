@@ -24,7 +24,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/dTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -43,11 +43,11 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView7"
+                app:layout_constraintTop_toBottomOf="@+id/dTitle"
                 app:srcCompat="@android:drawable/sym_def_app_icon" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardViewww"
+                android:id="@+id/dNegativeCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -57,13 +57,13 @@
                 app:cardBackgroundColor="#F8C4C4"
                 app:cardCornerRadius="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/cardView16"
+                app:layout_constraintEnd_toStartOf="@+id/dPositiveCard"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/wishlistPic">
 
                 <TextView
-                    android:id="@+id/wishlistCancel"
+                    android:id="@+id/dNegativeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="25dp"
@@ -75,7 +75,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView16"
+                android:id="@+id/dPositiveCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -87,11 +87,11 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/cardViewww"
+                app:layout_constraintStart_toEndOf="@+id/dNegativeCard"
                 app:layout_constraintTop_toBottomOf="@+id/wishlistPic">
 
                 <TextView
-                    android:id="@+id/wishlistRemove"
+                    android:id="@+id/dPositiveText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="25dp"
