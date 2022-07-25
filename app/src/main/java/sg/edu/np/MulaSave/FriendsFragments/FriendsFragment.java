@@ -72,47 +72,7 @@ public class FriendsFragment extends Fragment {
         searchFriendList = view.findViewById(R.id.searchFriendList);
 
         ViewFriendAdapter fAdapter = new ViewFriendAdapter(friendList,1);//1 means friend list
-        databaseRefUser.child(usr.getUid()).child("friends").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                friendList.clear();
-                for (DataSnapshot ss : snapshot.getChildren()){//ss.getKey() is the uid of each friend
-                    databaseRefUser.child(ss.getKey().toString()).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            User user = new User();
-                            for (DataSnapshot ds : snapshot.getChildren()){
-                                if (ds.getKey().equals("uid")){
-                                    user.setUid(ds.getValue().toString());
-                                }
-                                if(ds.getKey().equals("email")){
-                                    user.setEmail(ds.getValue().toString());
-                                }
-                                if(ds.getKey().equals("username")){
-                                    user.setUsername(ds.getValue().toString());
-                                }
-                            }
-
-                            if(FriendsActivity.addNewUser(user,friendList)){
-                                friendList.add(user);
-                                setVisible();
-                                fAdapter.notifyDataSetChanged();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        initData(friendList, fAdapter, "friends",friendNoDisplay);//initialise data
 
         LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
         friendRecycler.setLayoutManager(vLayoutManager);
@@ -142,11 +102,6 @@ public class FriendsFragment extends Fragment {
                 return false;//return false so that icon closes back on close
             }
         });
-    }
-    private void setVisible(){
-        if(friendList.size() != 0){
-            friendNoDisplay.setVisibility(View.INVISIBLE);
-        }
     }
     public static void searchOpen(Context context, View constraintView, int layoutView, int searchViewCard){
         ConstraintLayout layout = (ConstraintLayout) constraintView;
@@ -178,6 +133,88 @@ public class FriendsFragment extends Fragment {
         set.applyTo(layout);
     }
 
+    public static void initData(ArrayList<User> friendList, ViewFriendAdapter adapter, String path, TextView view){
+        DatabaseReference databaseRefUser = FirebaseDatabase
+                .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference("user");
+        FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(path.equals("explore")){//special method for explore page as explore gets data differently
+            databaseRefUser.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {//get data on success
+                    friendList.clear();
+                    for (DataSnapshot ss : snapshot.getChildren()){
+                        User user = new User();
+                        for (DataSnapshot ds : ss.getChildren()){//because the users may have wishlists and other fields, cannot extract directly to user class
+                            if (ds.getKey().equals("uid")){user.setUid(ds.getValue().toString());}
+                            if(ds.getKey().equals("email")){user.setEmail(ds.getValue().toString());}
+                            if(ds.getKey().equals("username")){user.setUsername(ds.getValue().toString());}
+                        }
+                        if (!user.getUid().equals(usr.getUid())){
+                            friendList.add(user);//add user to the list
+                        }
+                    }
+                    if (friendList.size() != 0) {
+                        view.setVisibility(View.INVISIBLE);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+
+        else {
+            databaseRefUser.child(usr.getUid()).child(path).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    friendList.clear();
+                    for (DataSnapshot ss : snapshot.getChildren()) {//ss.getKey() is the uid of each friend
+                        databaseRefUser.child(ss.getKey().toString()).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                User user = new User();
+                                for (DataSnapshot ds : snapshot.getChildren()) {
+                                    if (ds.getKey().equals("uid")) {
+                                        user.setUid(ds.getValue().toString());
+                                    }
+                                    if (ds.getKey().equals("email")) {
+                                        user.setEmail(ds.getValue().toString());
+                                    }
+                                    if (ds.getKey().equals("username")) {
+                                        user.setUsername(ds.getValue().toString());
+                                    }
+                                }
+                                if (FriendsActivity.addNewUser(user, friendList)) {
+                                    friendList.add(user);
+                                    if (friendList.size() != 0) {
+                                        view.setVisibility(View.INVISIBLE);
+                                    }
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+
+    //filter fragment rrecyclerviews by user input
     public static void filterDataBySearch(SearchView searchFriends, ArrayList<User> friendList, ViewFriendAdapter adapter,String path){
         DatabaseReference databaseRefUser = FirebaseDatabase
                 .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")

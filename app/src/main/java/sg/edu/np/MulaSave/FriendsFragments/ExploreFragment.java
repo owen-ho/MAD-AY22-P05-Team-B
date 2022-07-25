@@ -1,6 +1,7 @@
 package sg.edu.np.MulaSave.FriendsFragments;
 
 import static sg.edu.np.MulaSave.FriendsFragments.FriendsFragment.filterDataBySearch;
+import static sg.edu.np.MulaSave.FriendsFragments.FriendsFragment.initData;
 import static sg.edu.np.MulaSave.FriendsFragments.FriendsFragment.searchClose;
 import static sg.edu.np.MulaSave.FriendsFragments.FriendsFragment.searchOpen;
 
@@ -74,40 +75,7 @@ public class ExploreFragment extends Fragment {
 
         exploreList = new ArrayList<>();
         ViewFriendAdapter eAdapter = new ViewFriendAdapter(exploreList,3);
-        databaseRefUser.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {//get data on success
-                exploreList.clear();
-                for (DataSnapshot ss : snapshot.getChildren()){
-                    //User extractUser = ss.getValue(User.class);
-                    User user = new User();
-                    for (DataSnapshot ds : ss.getChildren()){//because the users may have wishlists and other fields, cannot extract directly to user class
-                        if (ds.getKey().equals("uid")){
-                            user.setUid(ds.getValue().toString());
-                        }
-                        if(ds.getKey().equals("email")){
-                            user.setEmail(ds.getValue().toString());
-                        }
-                        if(ds.getKey().equals("username")){
-                            user.setUsername(ds.getValue().toString());
-                        }
-                    }
-                    if (user.getUid().equals(usr.getUid())){
-                        //do nothing
-                    }
-                    else{
-                        exploreList.add(user);//add user to the list
-                    }
-                }
-                setVisible();
-                eAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        initData(exploreList, eAdapter, "explore",exploreNoDisplay);//initialise data
 
         LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
         exploreRecyclerView.setLayoutManager(vLayoutManager);

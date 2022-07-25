@@ -1,6 +1,7 @@
 package sg.edu.np.MulaSave.FriendsFragments;
 
 import static sg.edu.np.MulaSave.FriendsFragments.FriendsFragment.filterDataBySearch;
+import static sg.edu.np.MulaSave.FriendsFragments.FriendsFragment.initData;
 import static sg.edu.np.MulaSave.FriendsFragments.FriendsFragment.searchClose;
 import static sg.edu.np.MulaSave.FriendsFragments.FriendsFragment.searchOpen;
 
@@ -77,48 +78,7 @@ public class RequestsFragment extends Fragment {
         searchFriendRequests = view.findViewById(R.id.searchFriendRequests);
 
         ViewFriendAdapter rAdapter = new ViewFriendAdapter(requestList,2);//viewtype 2 is the requests view
-        databaseRefUser.child(usr.getUid()).child("requests").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                requestList.clear();
-                if (snapshot.exists()){
-                    for (DataSnapshot ss : snapshot.getChildren()){//get requester uid
-                        databaseRefUser.child(ss.getKey().toString()).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                User user = new User();
-                                for (DataSnapshot ds : snapshot.getChildren()){
-                                    if (ds.getKey().equals("uid")){
-                                        user.setUid(ds.getValue().toString());
-                                    }
-                                    if(ds.getKey().equals("email")){
-                                        user.setEmail(ds.getValue().toString());
-                                    }
-                                    if(ds.getKey().equals("username")){
-                                        user.setUsername(ds.getValue().toString());
-                                    }
-                                }
-                                if(FriendsActivity.addNewUser(user, requestList)){
-                                    requestList.add(user);
-                                    setVisible();
-                                    rAdapter.notifyDataSetChanged();
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-                    }
-                }
-            }//end of onDataChange
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        initData(requestList, rAdapter, "requests",requestNoDisplay);//initialise data
 
         LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
         requestRecycler.setLayoutManager(vLayoutManager);
