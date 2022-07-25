@@ -96,9 +96,10 @@
                 android:id="@+id/textReserve"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Once you cancel reservations for this product you will not be able to reserve this product again. Are you sure? "
+                android:text="Once you cancel reservations for this product another user would be able to reserve. Are you sure? "
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/TitleReserve" />
 

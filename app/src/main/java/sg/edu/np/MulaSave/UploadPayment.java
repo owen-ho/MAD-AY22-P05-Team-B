@@ -33,7 +33,6 @@ public class UploadPayment extends AppCompatActivity {
         ImageView BackbuttonPayment = findViewById(R.id.backButtonPayment);
         ImageView NoSubmitPaymentbtn = findViewById(R.id.NoSubmitPaymentbtn);
         ImageView ConfirmPaymentbtn = findViewById(R.id.confirmPaymentBtn);
-        ImageView RefreshPayment = findViewById(R.id.refreshPayment);
         ImageView AddPaymentbtn = findViewById(R.id.addPaymentBtn);
         previewPayment = findViewById(R.id.previewPayment);
 
@@ -77,22 +76,6 @@ public class UploadPayment extends AppCompatActivity {
             }
         });
 
-        RefreshPayment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                storageRef.child("paymentpics/" + product.getAsin() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {//user has set a profile picture before
-                        Picasso.get().load(uri).into(previewPayment);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
-                    @Override
-                    public void onFailure(@NonNull Exception e) {//set default picture
-
-                    }
-                });
-            }
-        });
 
     }
     private void chooseImg(){

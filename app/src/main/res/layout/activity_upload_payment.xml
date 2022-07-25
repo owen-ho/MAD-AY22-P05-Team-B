@@ -14,16 +14,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/left" />
 
-    <ImageView
-        android:id="@+id/refreshPayment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="412dp"
-        app:layout_constraintStart_toEndOf="@+id/addPaymentImage"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_menu_refresh" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/addPaymentImage"
         android:layout_width="320dp"
@@ -100,7 +90,7 @@
         android:layout_width="317dp"
         android:layout_height="80dp"
         android:layout_marginStart="44dp"
-        android:text="The image of your payment can only be submitted once! Please ensure that it is the right image chose."
+        android:text="Please ensure that you have submitted the right image! You can resubmit again if you have reuploaded the wrong picture or the seller has rejected your payment."
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView45" />
 
