@@ -95,7 +95,7 @@
                 android:layout_marginStart="16dp"
                 android:backgroundTint="#FF747679"
                 android:ems="10"
-                android:hint="eg. 10.20"
+                android:hint="eg. This product was pre-loved....."
                 android:inputType="textPersonName"
                 android:textColor="#000000"
                 android:textColorHint="#A8A8A8"

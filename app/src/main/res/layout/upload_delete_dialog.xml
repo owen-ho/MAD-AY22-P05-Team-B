@@ -23,59 +23,31 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/dialogPic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toStartOf="@+id/dialogPrice"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView10"
-                app:srcCompat="@android:drawable/sym_def_app_icon" />
-
-            <TextView
-                android:id="@+id/dialogPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
-                android:text="Price"
-                android:textColor="#FF0000"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/dialogPic"
-                app:layout_constraintTop_toBottomOf="@+id/textView10" />
+            android:layout_height="208dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="6dp"
                 app:cardBackgroundColor="#F8C4C4"
                 app:cardCornerRadius="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/cardView14"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dialogPic">
+                app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
-                    android:id="@+id/dialogClose"
+                    android:id="@+id/noRemoveUpload"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="25dp"
                     android:paddingTop="8dp"
                     android:paddingRight="25dp"
                     android:paddingBottom="8dp"
-                    android:text="Close"
+                    android:text="No"
                     android:textColor="#000000" />
             </androidx.cardview.widget.CardView>
 
@@ -85,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="6dp"
                 app:cardBackgroundColor="#8BC34A"
                 app:cardCornerRadius="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -95,39 +67,40 @@
                 app:layout_constraintTop_toTopOf="@+id/cardView13">
 
                 <TextView
-                    android:id="@+id/dialogOpen"
+                    android:id="@+id/confirmRemoveUpload"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="25dp"
                     android:paddingTop="8dp"
                     android:paddingRight="25dp"
                     android:paddingBottom="8dp"
-                    android:text="Open"
+                    android:text="Confirm"
                     android:textColor="#000000" />
             </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/dialogWebsite"
+                android:id="@+id/TitleReserve"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="website"
-                android:textColor="#3E73F8"
-                app:layout_constraintStart_toStartOf="@+id/dialogPrice"
-                app:layout_constraintTop_toBottomOf="@+id/dialogPrice" />
-
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Product Information"
+                android:layout_marginTop="12dp"
+                android:text="Do you wish to remove this product from your listings? "
+                android:textAlignment="center"
                 android:textColor="#000000"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textReserve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Once you remove this product you will have to reupload it again! Are you sure you would like to continue with this?"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TitleReserve" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
