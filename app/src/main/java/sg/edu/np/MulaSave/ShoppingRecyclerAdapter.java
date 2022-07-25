@@ -2,7 +2,6 @@ package sg.edu.np.MulaSave;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -27,11 +26,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.internal.InternalTokenProvider;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 
 public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHolder> {
@@ -77,7 +74,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
     @Override
     public void onBindViewHolder(ShoppingViewHolder holder, int position) {
         Product p = data.get(position);
-
+        DataSnapshot ds;
         holder.productTitle.setText(p.getTitle());
         String price = String.format("$%.2f",p.getPrice());
         holder.productPrice.setText(price);

@@ -1,16 +1,16 @@
 package sg.edu.np.MulaSave.chat;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,9 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,7 +29,6 @@ import java.util.List;
 import java.util.Locale;
 
 import sg.edu.np.MulaSave.Memorydata;
-import sg.edu.np.MulaSave.Product;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 
@@ -144,7 +141,7 @@ public class chat extends AppCompatActivity {
                                         Long timestampmili = Long.parseLong(messagetimestamp);
 
                                         Timestamp timestamp = new Timestamp(timestampmili);
-                                        Date date = new Date(timestamp.getTime());
+                                        Date date = new java.util.Date(timestamp.getTime());
                                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
                                         SimpleDateFormat simpletimeFormat = new SimpleDateFormat("hh:mm:aa", Locale.getDefault());
                                         Log.v("date",simpleDateFormat.format(date));
@@ -187,7 +184,7 @@ public class chat extends AppCompatActivity {
                     public void onClick(View view) {
 
 
-                        final String currenttimestamp = String.valueOf(System.currentTimeMillis()).substring(0, 10);
+                        final String currenttimestamp = String.valueOf(System.currentTimeMillis());
                         final String gettextmessage = messageedittxt.getText().toString();
 
                         Memorydata.savelastmsgts(currenttimestamp, chatkey, chat.this);
