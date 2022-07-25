@@ -117,7 +117,7 @@ public class HomeFragment extends Fragment {
         postList = new ArrayList<>();//create new arraylist
         postAdapter = new PostAdapter(postList);//create new adapter
 
-        databaseRefPost.addValueEventListener(new ValueEventListener() {
+        databaseRefPost.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 postList.clear();
@@ -126,7 +126,7 @@ public class HomeFragment extends Fragment {
                     if (post.getCreatorUid().equals(usr.getUid())){//add the post into the post list if the current user created it
                         postList.add(post);
                     }
-                    databaseRefUser.child(usr.getUid()).child("friends").addValueEventListener(new ValueEventListener() {
+                    databaseRefUser.child(usr.getUid()).child("friends").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot ds : snapshot.getChildren()){
