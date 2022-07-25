@@ -7,7 +7,7 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\qiren\.android\avd\Pixel_3a_API_31_-_3.avd" />
+            <value value="C:\Users\Razer\.android\avd\Pixel_4_API_30.avd" />
           </Key>
         </deviceKey>
       </Target>
@@ -25,5 +25,6 @@
         </deviceKey>
       </Target>
     </targetsSelectedWithDialog>
+
   </component>
 </project>

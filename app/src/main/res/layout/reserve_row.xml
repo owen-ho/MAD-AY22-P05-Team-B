@@ -59,25 +59,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginBottom="8dp"
                 android:text="Price"
                 android:textColor="#FF0000"
-                app:layout_constraintBottom_toTopOf="@+id/wRatingBar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/rImage"
                 app:layout_constraintTop_toBottomOf="@+id/rTitle" />
 
-            <RatingBar
-                android:id="@+id/wRatingBar"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/rTime"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="8dp"
-                android:theme="@style/RatingBar"
-                app:layout_constraintBottom_toTopOf="@+id/rWebsite"
+                android:layout_marginEnd="32dp"
+                android:text="Time"
+                android:textColor="#FFC107"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/rImage"
-                app:layout_constraintTop_toBottomOf="@+id/rPrice" />
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
             <TextView
                 android:id="@+id/rWebsite"
@@ -88,18 +87,19 @@
                 android:text="website"
                 android:textColor="#3E73F8"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/rImage"
-                app:layout_constraintTop_toBottomOf="@+id/wRatingBar" />
+                app:layout_constraintStart_toEndOf="@+id/rImage" />
 
-            <ImageView
-                android:id="@+id/wFavourite"
+            <TextView
+                android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="13dp"
+                android:text="Reserve Time"
+                android:textColor="#454545"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@drawable/favourate_button" />
+                app:layout_constraintHorizontal_bias="0.096"
+                app:layout_constraintStart_toEndOf="@+id/rImage"
+                app:layout_constraintTop_toBottomOf="@+id/rPrice" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
