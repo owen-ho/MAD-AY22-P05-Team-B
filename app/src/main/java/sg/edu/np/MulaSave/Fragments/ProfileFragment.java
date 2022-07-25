@@ -5,6 +5,7 @@ import static android.app.Activity.RESULT_OK;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ import sg.edu.np.MulaSave.HomePage.AddFriends;
 import sg.edu.np.MulaSave.HomePage.Post;
 import sg.edu.np.MulaSave.LoginActivity;
 import sg.edu.np.MulaSave.MainActivity;
+import sg.edu.np.MulaSave.ProductSuggestionProvider;
 import sg.edu.np.MulaSave.NotificationActivity;
 import sg.edu.np.MulaSave.ProfileEdit;
 import sg.edu.np.MulaSave.R;
@@ -236,7 +238,18 @@ public class ProfileFragment extends Fragment {
 //                    MainActivity.homeproductList.clear();
 //                    MainActivity.homeproductList = null;
 //                }
+                //Clear suggestion history
+                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
+                        ProductSuggestionProvider.AUTHORITY, ProductSuggestionProvider.MODE);
+                suggestions.clearHistory();
+
+                //Clear query history list stored in SharedPreferences
+                getContext().getSharedPreferences("Recent API queries", 0).edit().clear().commit();
+
+                //Sign out from firebase authentication
                 FirebaseAuth.getInstance().signOut();
+
+                //Send user back to login screen
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
                 getActivity().finish();

@@ -57,6 +57,9 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
 
     @Override
     public void onBindViewHolder(@NonNull wishlistFilterViewHolder holder, int position) {
+        if(wishOrCom==3){
+            filters = new ArrayList<>(Arrays.asList("Price [Low - High]","Price [High - Low]","Name [a - z]","Name [z - a]","Rating [Low - High]","Rating [High - Low]"));//prevent
+        }
         String s = filters.get(position);
         holder.filterText.setText(s);
         cardList.add(holder.filterCard);
@@ -69,6 +72,7 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
             searchView = view.findViewById(R.id.wishSearch);//get the corresponding searchview
         }
         else if(wishOrCom == 3){
+
             path = "shopping";
             searchView = view.findViewById(R.id.searchQuery);
         }
@@ -88,9 +92,9 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
         }
 
         //if none of the filters are active, set the first filter ("Default") to be active
-        if (allGray == true){
-            if (s.equals("Default")){
-            holder.filterCard.setCardBackgroundColor(Color.parseColor("#fdb915"));//set active
+        if (allGray){
+            if (s.equals(filters.get(0))){
+                holder.filterCard.setCardBackgroundColor(Color.parseColor("#fdb915"));//set active
             }
         }
 
@@ -103,10 +107,7 @@ public class wishlistFilterAdapter extends RecyclerView.Adapter<wishlistFilterAd
                 //if there are no inputs, the first line will close the searchview but the second line will not crash
 
                 if (path=="shopping"){
-                    if (s.equals("Default")){
-                        //dont sort
-                    }
-                    else if (s.equals("Price [Low - High]")){//sorting price low to high
+                    if (s.equals("Price [Low - High]")){//sorting price low to high
                         Collections.sort(wProdList,productPriceLowHigh);
                     }
                     else if (s.equals("Price [High - Low]")){//sorting price high to low

@@ -1,11 +1,15 @@
 package sg.edu.np.MulaSave.Fragments;
 
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -27,15 +31,23 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import sg.edu.np.MulaSave.APIHandler;
 import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.Product;
+import sg.edu.np.MulaSave.ProductSuggestionProvider;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.ShoppingRecyclerAdapter;
 import sg.edu.np.MulaSave.wishlistFilterAdapter;
@@ -46,6 +58,7 @@ public class ShoppingFragment extends Fragment {
     private ProgressDialog progressDialog;
     RecyclerView recyclerViewFilter;
     private ArrayList<Product> productList = MainActivity.productList;//Take previously loaded productList
+    private String query = MainActivity.query;
 
     public ShoppingFragment() {
     }
@@ -60,29 +73,75 @@ public class ShoppingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shopping, container, false);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //Get the SearchView and set the searchable configuration
+        SearchView searchView = view.findViewById(R.id.searchQuery);
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        //Associate the searchable configuration with the SearchView
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        //Lets users click on the submit button rather than "Enter" or "Return" on their keyboards
+        searchView.setSubmitButtonEnabled(true);
+        //Enables query refinement from search suggestions
+        searchView.setQueryRefinementEnabled(true);
+
+        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+
+        EditText searchEdit = searchView.findViewById(id);
+        searchEdit.setTextColor(Color.BLACK);
+
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("Recent API queries", Context.MODE_PRIVATE);
 
         recyclerView = view.findViewById(R.id.shoppingrecyclerview);
-        //recyclerView.setHasFixedSize(true);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2,GridLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        //productList = new ArrayList<Product>();
-        SearchView query = view.findViewById(R.id.searchQuery);
-        if (productList!=null) {//Checks for previously loaded productList to display
+        if (query!=null){//If suggestion has been clicked and intented, process the query which has been clicked(hence query will not be null)
+            productList=null;//Clear previously loaded products as a new one will be loaded based on suggestion clicked
+            List<Product> arrayItems;
+            String serializedObject = sharedPreferences.getString(query, null);//Extract previously queried product list from SharedPreferences
+            if (serializedObject != null) {//If list of previous query was saved into SharedPreferences, extract it and use it in recycler (This is to reduce API requests made)
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<Product>>() {}.getType();
+                arrayItems = gson.fromJson(serializedObject, type);//Convert from Json to List<Product>
+
+                ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter((ArrayList<Product>) arrayItems, getContext(),2);
+                //WishList Filters
+                recyclerViewFilter = view.findViewById(R.id.shoppingFilter);
+                wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(view,pAdapter,(ArrayList<Product>) arrayItems,3);
+                //Layout manager for filters recyclerview
+                LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);//set horizontal layout
+                recyclerViewFilter.setLayoutManager(hLayoutManager);
+                recyclerViewFilter.setItemAnimator(new DefaultItemAnimator());
+                recyclerViewFilter.setAdapter(wFilterAdapter);//set adapter for wishlist filters
+                recyclerView.setAdapter(pAdapter);
+
+                MainActivity.productList = (ArrayList<Product>) arrayItems;//Set new product list as currently focused list (makes product list persistent in case user switches fragments)
+            }else{//If no list can be found in SharedPreferences, load the query again from API
+                Toast.makeText(getContext(),"No previous searches has been saved. Try searching instead.",Toast.LENGTH_LONG);
+//                productList = new ArrayList<Product>();//Create new list to clear previously loaded products for new query
+//                new getProducts(query,productList,view).execute();
+
+            }
+        }
+        if (productList!=null) {//Checks for previously loaded productList to display(i.e. the user clicked another fragment and returned back)
             if(productList.size()!=0){
-                ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),1);
+                ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),2);
                 //WishList Filters
                 recyclerViewFilter = view.findViewById(R.id.shoppingFilter);
                 wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(view,pAdapter,productList,3);
-
                 //Layout manager for filters recyclerview
                 LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);//set horizontal layout
                 recyclerViewFilter.setLayoutManager(hLayoutManager);
@@ -91,11 +150,23 @@ public class ShoppingFragment extends Fragment {
                 recyclerView.setAdapter(pAdapter);
             }
         }
-        query.setOnQueryTextListener(new SearchView.OnQueryTextListener() { //Grab products from API whenever a query is submitted
+
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setIconified(false);//Displays entire search bar when clicked by user
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() { //Grab products from API whenever a query is submitted
             @Override
             public boolean onQueryTextSubmit(String s) {
+                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getContext(),
+                        ProductSuggestionProvider.AUTHORITY, ProductSuggestionProvider.MODE);
+                suggestions.saveRecentQuery(s, null); //Save query for search history suggestions in the future
+
                 productList = new ArrayList<Product>();//Create new list to clear previously loaded products for new query
-                new getProducts(s,productList,view).execute();
+                new getProducts(s,productList,view).execute();//Gets products data from API
                 return true;
             }
             @Override
@@ -104,29 +175,22 @@ public class ShoppingFragment extends Fragment {
             }
         });
 
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        SearchView query = view.findViewById(R.id.searchQuery);
-        query.setSubmitButtonEnabled(true);
-
-        int id = query.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        EditText searchEdit = query.findViewById(id);
-        searchEdit.setTextColor(Color.BLACK);
-
-        //make the whole search bar clickable
-        query.setOnClickListener(new View.OnClickListener() {
+        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
             @Override
-            public void onClick(View v) {
-                query.setIconified(false);
+            public boolean onSuggestionSelect(int i) {
+                return false;
+            }
+
+            @Override
+            public boolean onSuggestionClick(int i) {
+                Intent intent = new Intent();
+                intent.putExtra("shopping",1);
+                return false;
             }
         });
 
         //set on searchview open listener for searchview
-        query.setOnSearchClickListener(new View.OnClickListener() {
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //((TextView)getView().findViewById(R.id.placeholderText)).setVisibility(View.GONE);//hide the placeholder text
@@ -141,7 +205,8 @@ public class ShoppingFragment extends Fragment {
                 set.applyTo(layout);
             }
         });
-        query.setOnCloseListener(new SearchView.OnCloseListener() {
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
                 ((TextView)getView().findViewById(R.id.shoppingTitle)).setVisibility(View.VISIBLE);
@@ -171,10 +236,10 @@ public class ShoppingFragment extends Fragment {
         if(bundle!= null){
             Boolean search = bundle.getBoolean("condition",false);
             if(search){//if search == true, which means set searchview to active
-                query.performClick();
-                query.requestFocus();
+                searchView.performClick();
+                searchView.requestFocus();
                 //to show the keyboard
-                query.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+                searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View view, boolean hasFocus) {
                         if (hasFocus) {
@@ -190,7 +255,7 @@ public class ShoppingFragment extends Fragment {
     public void onResume() {
         super.onResume();
         try{//try catch because the product list may not be initialised
-            if (MainActivity.productList.isEmpty() == false){//if there are items in the list
+            if (MainActivity.productList == null){//if there are items in the list
                 ((SearchView)getView().findViewById(R.id.searchQuery)).performClick();//click the searchview to show the previous state
                 ((SearchView)getView().findViewById(R.id.searchQuery)).setIconified(true);//onresume, hide the keyboard
             }
@@ -207,7 +272,11 @@ public class ShoppingFragment extends Fragment {
         }
     }
 
+
+
     class getProducts extends AsyncTask<Void, Void, Void> {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("Recent API queries", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         String query;
         ArrayList<Product> productList;
         View view;
@@ -225,11 +294,14 @@ public class ShoppingFragment extends Fragment {
                 progressDialog.dismiss();
             }
 
+            //Sorts list from lowest to highest price by default
+            Collections.sort(productList,productPriceLowHigh);
+
             //Updates MainActivity's productList so that the list will not be destroyed alongside fragment and stays persistent
             MainActivity.productList = productList;
 
             //Display products with productList generated based on user's query
-            ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),1);
+            ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),2);
             //WishList Filters
             recyclerViewFilter = view.findViewById(R.id.shoppingFilter);
             wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(getView(),pAdapter,productList,3);
@@ -240,23 +312,41 @@ public class ShoppingFragment extends Fragment {
             recyclerViewFilter.setItemAnimator(new DefaultItemAnimator());
             recyclerViewFilter.setAdapter(wFilterAdapter);//set adapter for wishlist filters
             recyclerView.setAdapter(pAdapter);
+
+            //Save recently queried list into SharedPreferences
+            setList(query,productList);
+
+            //Set query back to null so that it will not be loaded again upon entering shopping fragment
+            ShoppingFragment.this.query=null;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(getContext());
-            progressDialog.setMessage("Please wait");
+            progressDialog.setMessage("Loading products...");
             progressDialog.setCancelable(false);
             progressDialog.show();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            String[] apiList = new String[] {"walmart","amazon","ebay"};//Amazon API uses demo as our API has expired, it will only query for memory cards
-            for (String i:apiList){
-                String url = getAPIlink(query,i); //Finds URL link by processing through template based on online shopping site used, this is so the correct API & API keys are used
-                loadJsonfromUrl(url,i); //Loads json using URL query and extracts Product details from Json
+            Boolean demo = false;
+            String[] apiList = new String[] {"walmart","amazon","ebay","target"};//Amazon API uses demo as our API has expired, it will only query for memory cards
+
+            for(String website:apiList){//If it is a demo query, there is no need to iterate through all websites in apiList
+                if(query.contains(website)){
+                    String url = getAPIlink(query,website); //Finds URL link by processing through template based on online shopping site used, this is so the correct API & API keys are used
+                    loadJsonfromUrl(url,website); //Loads json using URL query and extracts Product details from Json
+                    demo=true;
+                    break;
+                }
+            }
+            if(!demo){//If it is not a demo, take product data from all APIs
+                for (String i:apiList){
+                    String url = getAPIlink(query,i); //Finds URL link by processing through template based on online shopping site used, this is so the correct API & API keys are used
+                    loadJsonfromUrl(url,i); //Loads json using URL query and extracts Product details from Json
+                }
             }
             return null;
         }
@@ -275,8 +365,12 @@ public class ShoppingFragment extends Fragment {
             else if(query.toLowerCase().contains("ebay")){
                 url = "https://api.countdownapi.com/request?api_key=demo&type=search&ebay_domain=ebay.com&search_term=memory+cards&sort_by=price_high_to_low";
             }
+            else if(query.toLowerCase().contains("target")){
+                url = "https://api.redcircleapi.com/request?api_key=demo&type=search&search_term=highlighter+pens&sort_by=best_seller";
+            }
             else{
                 if(website.toLowerCase().equals("amazon")){
+                    //Actual searching for Amazon is disabled as we have run out of API requests
                     //apikey = "4487B79AE90342968E9E30B71F25913D";
                     //url = "https://api.rainforestapi.com/request?api_key="+apikey+"&type=search&amazon_domain=amazon.sg&search_term="+query;
 
@@ -286,16 +380,14 @@ public class ShoppingFragment extends Fragment {
                 else if(website.toLowerCase().equals("walmart")){
                     apikey = "83B616CC6FAD4A6FBE7A739483C2C741";
                     url = "https://api.bluecartapi.com/request?api_key="+apikey+"&type=search&search_term="+query+"&sort_by=best_seller";
-
-                    //TEMPORARY DEMO API FOR TESTING
-                    //url = "https://api.bluecartapi.com/request?api_key=demo&type=search&search_term=highlighter+pens&sort_by=best_seller";
                 }
                 else if(website.toLowerCase().equals("ebay")){
                     apikey = "A00A8C31BBF84303A82C2EE40B02A6FF";
                     url = "https://api.countdownapi.com/request?api_key="+apikey+"&type=search&ebay_domain=ebay.com&search_term="+query+"&sort_by=price_high_to_low";
-
-                    //TEMPORARY DEMO API FOR TESTING
-                    //url = "https://api.countdownapi.com/request?api_key=demo&type=search&ebay_domain=ebay.com&search_term=memory+cards&sort_by=price_high_to_low";
+                }
+                else if(website.toLowerCase().equals("target")){
+                    apikey = "";
+                    url = "";
                 }
                 else{
                     Toast.makeText(getContext(),"We do not have APIs to that website yet!",Toast.LENGTH_SHORT).show();
@@ -319,15 +411,15 @@ public class ShoppingFragment extends Fragment {
                         String image = "no image";
                         String link = "no link";
                         Double price = 0.0;
-
                         float ratingF = 0;
-                        if (website.toLowerCase().equals("walmart")) {//Product Json format of Walmart API is different from Amazon & Ebay, so it is done separately
+
+                        if (website.toLowerCase().equals("walmart")||website.toLowerCase().equals("target")) {//Product Json format of Walmart & Target API is different from Amazon & Ebay, so it is done separately
                             JSONObject productObject = jsonObject1.getJSONObject("product");
                             title = productObject.getString("title");
                             image = productObject.getString("main_image");
                             link = productObject.getString("link");
 
-                            Double ratingD = productObject.getDouble("rating");
+                            Double ratingD = productObject.optDouble("rating",0.0d);
                             ratingF = ratingD.floatValue();
 
                             JSONObject offersObject = jsonObject1.getJSONObject("offers").getJSONObject("primary");
@@ -337,7 +429,7 @@ public class ShoppingFragment extends Fragment {
                             title = jsonObject1.getString("title");
                             image = jsonObject1.getString("image");
                             link = jsonObject1.getString("link");
-                            Double ratingD = jsonObject1.getDouble("rating");
+                            Double ratingD = jsonObject1.optDouble("rating",0.0d);
                             ratingF = ratingD.floatValue();
 
                             //JSONObject categoryObject = jsonObject1.getJSONArray("categories").getJSONObject(0); //deleted because ebay API does not have product categories
@@ -355,6 +447,7 @@ public class ShoppingFragment extends Fragment {
                             @Override
                             public void run() {
                                 //Toast.makeText(getContext(),"Json Parsing Error",Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
                                 Log.i("error","Json Parsing Error");
                             }
                         });
@@ -373,8 +466,23 @@ public class ShoppingFragment extends Fragment {
                 }
             }
         }
+        public <T> void setList(String key, List<T> list) {
+            Gson gson = new Gson();
+            String json = gson.toJson(list);//Converts list of products into json string, which can be saved into SharedPreferences
+            set(key, json);
+        }
+
+        public void set(String key, String value) {//Stores string into SharedPreferences under a specified key for extraction later on
+            editor.putString(key, value);
+            editor.commit();
+        }
+
+        public Comparator<Product> productPriceLowHigh = new Comparator<Product>() {//Method to compare prices so that list can be sorted from low to high price
+            @Override
+            public int compare(Product p1, Product p2) {
+                return Double.compare(p1.getPrice(),p2.getPrice());
+            }
+        };
 
     }
-
-
 }
