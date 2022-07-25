@@ -109,10 +109,4 @@ public class RequestsFragment extends Fragment {
             }
         });
     }
-
-    private void setVisible(){
-        if(requestList.size() != 0){
-            requestNoDisplay.setVisibility(View.INVISIBLE);
-        }
-    }
 }

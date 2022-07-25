@@ -52,7 +52,7 @@ public class User {
         this.username = _username;
     }
 
-    public void setImg(ViewFriendAdapter adapter,ImageView pic, Context context, int position){
+    public void setImg(ImageView pic, Context context){
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
         storageRef.child("profilepics/" + this.uid+".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -63,7 +63,6 @@ public class User {
                     view = new ImageView(context);
                 }
                 Picasso.get().load(uri).fit().into(view);
-                //adapter.notifyDataSetChanged();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -73,7 +72,6 @@ public class User {
                     view = new ImageView(context);
                 }
                 Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").fit().into(view);
-                //adapter.notifyDataSetChanged();
             }
         });
     }

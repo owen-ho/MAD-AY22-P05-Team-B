@@ -105,9 +105,5 @@ public class ExploreFragment extends Fragment {
             }
         });
     }
-    private void setVisible(){
-        if(exploreList.size() != 0){
-            exploreNoDisplay.setVisibility(View.INVISIBLE);
-        }
-    }
+
 }

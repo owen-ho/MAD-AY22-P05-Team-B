@@ -91,36 +91,13 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
     @Override
     public void onBindViewHolder(@NonNull FriendViewHolder holder, @SuppressLint("RecyclerView") int position) {
         User u = userList.get(position);
-        u.setImg(ViewFriendAdapter.this, holder.userPic,holder.userPic.getContext(),position);
+
+        u.setImg(holder.userPic,holder.userPic.getContext());//set image in sync
+
         holder.userName.setText(u.getUsername());//get texts
         //holder.setIsRecyclable(false);
         holder.position = position;
-        ImageView img = (ImageView) holder.userPic;
 
-        //holder.initializeAsync(position);
-
-        //set profile picture
-        storageRef.child("profilepics/" + u.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            final int pos = position;
-            @Override
-            public void onSuccess(Uri uri) {//user has set a profile picture before
-                /*Log.i("hihi",String.valueOf(pos));
-                Log.i("hihi",String.valueOf(holder.position)+"position");
-                if(pos == holder.position){
-                    holder.drawImg(uri);
-                }*/
-                /*if(img == null){
-                    img = new ImageView(holder.userPic.getContext());
-                }
-                Picasso.get().load(uri).fit().into(img);*/
-
-            }
-        });/*.addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
-            @Override
-            public void onFailure(@NonNull Exception e) {//set default picture
-                //Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").fit().into(holder.userPic);
-            }
-        });//end of get profile pic*/
 
 
         if(holder.getItemViewType()==1){//friends page
