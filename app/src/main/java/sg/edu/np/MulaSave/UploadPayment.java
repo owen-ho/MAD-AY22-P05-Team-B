@@ -24,6 +24,7 @@ public class UploadPayment extends AppCompatActivity {
     Product product;
     int SELECT_PICTURE = 200;
     StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+    ImageView previewPayment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +35,7 @@ public class UploadPayment extends AppCompatActivity {
         ImageView ConfirmPaymentbtn = findViewById(R.id.confirmPaymentBtn);
         ImageView RefreshPayment = findViewById(R.id.refreshPayment);
         ImageView AddPaymentbtn = findViewById(R.id.addPaymentBtn);
-        ImageView previewPayment = findViewById(R.id.previewPayment);
+        previewPayment = findViewById(R.id.previewPayment);
 
         Intent i = getIntent();
         product = (Product) i.getSerializableExtra("product");
@@ -107,6 +108,7 @@ public class UploadPayment extends AppCompatActivity {
             if (requestCode == SELECT_PICTURE) {
                 Uri paymentUri = data.getData();
                 if (null != paymentUri) {
+                    previewPayment.setImageURI(paymentUri);
                     StorageReference paymentPic = storageRef.child("paymentpics/" + product.getAsin() +".png");
                     paymentPic.putFile(paymentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
