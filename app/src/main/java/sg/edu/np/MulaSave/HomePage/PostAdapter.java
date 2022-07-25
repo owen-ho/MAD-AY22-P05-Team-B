@@ -253,4 +253,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             postHeartAni = itemView.findViewById(R.id.postHeartAni);
         }
     }
+
+    public void postNotif(Post post){
+
+    }
 }
