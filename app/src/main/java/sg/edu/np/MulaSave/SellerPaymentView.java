@@ -24,6 +24,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+
 public class SellerPaymentView extends AppCompatActivity {
 
     DatabaseReference databaseRefUser = FirebaseDatabase
@@ -101,6 +103,7 @@ public class SellerPaymentView extends AppCompatActivity {
                                 Product prod = ds1.getValue(Product.class);
                                 if (product.getImageUrl().equals(prod.getImageUrl())){
                                     ds1.getRef().removeValue();
+                                    addPaymentAcceptedNotifications(usr.getUid(), ds.getKey(), product.getAsin());
                                 }
                             }
                         }
@@ -114,5 +117,16 @@ public class SellerPaymentView extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    private void addPaymentAcceptedNotifications(String sellerid, String buyerid, String productid){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications").child(sellerid);
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("userid", sellerid);
+        hashMap.put("text", "Seller has accepted your payment!");
+        hashMap.put("productid", productid);
+        hashMap.put("isproduct",true);
+
+        reference.push().setValue(hashMap);
     }
 }

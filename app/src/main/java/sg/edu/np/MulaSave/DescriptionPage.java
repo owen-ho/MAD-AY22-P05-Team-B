@@ -21,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+
 import sg.edu.np.MulaSave.chat.Chat;
 
 public class DescriptionPage extends AppCompatActivity {
@@ -28,6 +30,11 @@ public class DescriptionPage extends AppCompatActivity {
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
             .getReference("user");
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
+
+    DatabaseReference databaseRefProduct = FirebaseDatabase
+            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .getReference("product");
+
 
     Product product;
 
@@ -168,10 +175,12 @@ public class DescriptionPage extends AppCompatActivity {
                     public void onClick(View view) {
                         String ReserveUnique = ((product.getImageUrl()).replaceAll("[^a-zA-Z0-9]", ""));
                         databaseRefUser.child(usr.getUid().toString()).child("Reserve").child(ReserveUnique).setValue(product);//add product if the product does not exist in the database
+                        addReserveNotifications(usr.getUid(), product.getSellerUid(), product.getAsin());
                         alertDialog.dismiss();
                     }
                 });
                 alertDialog.show();
+
             }
 
         });
@@ -199,5 +208,16 @@ public class DescriptionPage extends AppCompatActivity {
                 });
             }
         });
+    }
+    private void addReserveNotifications(String buyerid, String sellerid, String productid){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications").child(sellerid);
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("userid", buyerid);
+        hashMap.put("text", "Reserved your product");
+        hashMap.put("productid", productid);
+        hashMap.put("isproduct",true);
+
+        reference.push().setValue(hashMap);
     }
 }

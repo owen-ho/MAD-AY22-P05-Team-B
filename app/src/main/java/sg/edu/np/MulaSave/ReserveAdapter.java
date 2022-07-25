@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveViewHolder> {
     //adapter shared by shopping, wishlist and uploads
@@ -86,6 +87,7 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
                         databaseRefUser.child(usr.getUid().toString()).child("Reserve").child(ReserveUnique).removeValue();
                         data.clear();
                         ReserveAdapter.this.notifyDataSetChanged();
+                        addUnreserveNotifications(usr.getUid(), product.getSellerUid(), product.getAsin());
                         alertDialog.dismiss();
                     }
                 });
@@ -120,5 +122,17 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
             UnreserveBtn = itemView.findViewById(R.id.UnreserveBtn);
             uploadpaymentBtn = itemView.findViewById(R.id.uploadPayment);
         }
+    }
+
+    private void addUnreserveNotifications(String buyerid, String sellerid, String productid){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications").child(sellerid);
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("userid", buyerid);
+        hashMap.put("text", "Unreserved your product");
+        hashMap.put("productid", productid);
+        hashMap.put("isproduct",true);
+
+        reference.push().setValue(hashMap);
     }
 }

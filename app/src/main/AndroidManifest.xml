@@ -44,7 +44,7 @@
             android:name=".HomePage.AddFriends"
             android:exported="false" />
         <activity
-            android:name=".descriptionpage"
+            android:name=".DescriptionPage"
             android:exported="false" />
         <activity
             android:name=".Documentation"
