@@ -3,6 +3,8 @@
     package="sg.edu.np.MulaSave">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -19,6 +21,30 @@
             android:exported="false" />
         <activity
             android:name=".DescriptionPage"
+            android:exported="false" />
+        <activity
+            android:name=".WebActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SellerPaymentView"
+            android:exported="false" />
+        <activity
+            android:name=".UploadPayment"
+            android:exported="false" />
+        <activity
+            android:name=".NotificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomePage.LikedPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomePage.AddPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomePage.AddFriends"
+            android:exported="false" />
+        <activity
+            android:name=".descriptionpage"
             android:exported="false" />
         <activity
             android:name=".Documentation"
@@ -49,11 +75,19 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
-
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                        android:resource="@xml/searchable"/>
+        </activity>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-    </application>
+        <provider android:name=".ProductSuggestionProvider"
+            android:authorities="sg.edu.np.MulaSave.ProductSuggestionProvider" />
 
+    </application>
 </manifest>

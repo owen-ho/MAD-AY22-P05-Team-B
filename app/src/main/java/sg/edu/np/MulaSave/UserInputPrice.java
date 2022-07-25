@@ -50,19 +50,16 @@ public class UserInputPrice extends AppCompatActivity {
         EditText productDesc = findViewById(R.id.desc);
         EditText productCond = findViewById(R.id.productCondition);
         EditText productMeet = findViewById(R.id.productMeetUp);
-        ImageView productPic = findViewById(R.id.addproductbutton);
+        ImageView addBtn = findViewById(R.id.addproductbutton);
+        ImageView productPic = findViewById(R.id.prodPic);
         Button submitProductbtn = findViewById(R.id.submitProductButton2);
         ImageView back = findViewById(R.id.backButtonInputPrice);
         ImageView refreshBtn = findViewById(R.id.refresh);
 
 
 
-
-
-
-
         //ImageView upload = findViewById(R.id.addproductbutton);
-        productPic.setOnClickListener(new View.OnClickListener() {
+        addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chooseImg();
@@ -75,7 +72,7 @@ public class UserInputPrice extends AppCompatActivity {
                 storageRef.child("productpics/" + key + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(productPic);
+                        Picasso.get().load(uri).fit().into(productPic);
                     }
                 }).addOnFailureListener(new OnFailureListener() {//Happens when file does not exist
                     @Override
@@ -89,7 +86,7 @@ public class UserInputPrice extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                onBackPressed();
             }
         });
 

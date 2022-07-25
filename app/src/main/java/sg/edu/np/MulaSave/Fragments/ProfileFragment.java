@@ -5,10 +5,10 @@ import static android.app.Activity.RESULT_OK;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,14 +31,20 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 import sg.edu.np.MulaSave.ChildReserveFragment;
 import sg.edu.np.MulaSave.ChildUploadFragment;
 import sg.edu.np.MulaSave.Documentation;
+import sg.edu.np.MulaSave.HomePage.AddFriends;
+import sg.edu.np.MulaSave.HomePage.Post;
 import sg.edu.np.MulaSave.LoginActivity;
 import sg.edu.np.MulaSave.MainActivity;
+import sg.edu.np.MulaSave.ProductSuggestionProvider;
+import sg.edu.np.MulaSave.NotificationActivity;
+import sg.edu.np.MulaSave.ProfileEdit;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.SelectProfilePic;
-import sg.edu.np.MulaSave.ProfileEdit;
 
 public class ProfileFragment extends Fragment {
 
@@ -46,6 +52,8 @@ public class ProfileFragment extends Fragment {
     private String profilePicLink = MainActivity.profilePicLink;
     TabLayout tabLayout;
     ViewPager viewPager;
+    TextView noOfFriends, noOfPosts;
+    int count;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -89,6 +97,7 @@ public class ProfileFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference userRef = database.getReference("user");
+        DatabaseReference postRef = database.getReference("post");
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
@@ -101,8 +110,51 @@ public class ProfileFragment extends Fragment {
 
         ImageView infobutton = view.findViewById(R.id.changeinfo);
         ImageView logoutbutton = view.findViewById(R.id.logoutBtn);
-
+        ImageView notificationbtn = view.findViewById(R.id.notificationBtn);
         ImageView documentation = view.findViewById(R.id.infoDocumentation);
+
+        noOfFriends = view.findViewById(R.id.noOfFriends);
+        noOfPosts = view.findViewById(R.id.noOfPosts);
+
+        noOfFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AddFriends.class);
+                startActivity(intent);
+            }
+        });
+
+        userRef.child(usr.getUid()).child("friends").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                noOfFriends.setText(String.valueOf(snapshot.getChildrenCount()));
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        postRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot){
+                count = 0;
+                for (DataSnapshot ss : snapshot.getChildren()){
+                    Post post = ss.getValue(Post.class);
+                    if (post.getCreatorUid().equals(usr.getUid())){
+                        count+=1;
+                    }
+                }
+                noOfPosts.setText(String.valueOf(count));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
         //load this as the default picture first
         if (profilePicLink!=null) {
@@ -168,6 +220,14 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        notificationbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), NotificationActivity.class);
+                startActivity(intent);
+            }
+        });
+
         logoutbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -179,7 +239,18 @@ public class ProfileFragment extends Fragment {
 //                    MainActivity.homeproductList.clear();
 //                    MainActivity.homeproductList = null;
 //                }
+                //Clear suggestion history
+                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
+                        ProductSuggestionProvider.AUTHORITY, ProductSuggestionProvider.MODE);
+                suggestions.clearHistory();
+
+                //Clear query history list stored in SharedPreferences
+                getContext().getSharedPreferences("Recent API queries", 0).edit().clear().commit();
+
+                //Sign out from firebase authentication
                 FirebaseAuth.getInstance().signOut();
+
+                //Send user back to login screen
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
                 getActivity().finish();

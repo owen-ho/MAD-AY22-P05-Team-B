@@ -56,9 +56,7 @@ public class Product implements Serializable {
     public void setPrice(double _price){
         this.price = _price;
     }
-    public double getPrice(){
-        return this.price;
-    }
+    public Double getPrice(){ return this.price; }
     public void setImageUrl(String _imageUrl){
         this.image = _imageUrl;
     }
@@ -71,12 +69,8 @@ public class Product implements Serializable {
     public String getLink(){
         return this.link;
     }
-    public void setRating(Float _rating){
-        this.rating = _rating;
-    }
-    public float getRating(){
-        return  this.rating;
-    }
+    public void setRating(Float _rating){ this.rating = _rating; }
+    public Float getRating(){ return this.rating; }
     public void setWebsiteName(String _website){
         this.website = _website;
     }
