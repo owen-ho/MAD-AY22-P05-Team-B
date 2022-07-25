@@ -39,6 +39,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import sg.edu.np.MulaSave.Notification;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 
@@ -178,6 +179,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 }
                 databaseRefUser.child(usr.getUid()).child("likedposts").child(post.getPostUuid()).setValue(post);
                 holder.postLike.setColorFilter(ContextCompat.getColor(holder.postLike.getContext(), R.color.custom_red));//use custom red color
+                addNotifications(usr.getUid(),post.getCreatorUid(),post.getPostUuid());
                 return true;
             }
         });
@@ -253,13 +255,32 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     private void addNotifications(String buyerid, String sellerid, String productid){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications").child(sellerid);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Boolean duplicate = false;//set default for duplication to be false
+                for (DataSnapshot ss : snapshot.getChildren()){
+                    Notification notif = ss.getValue(Notification.class);
+                    if (productid.equals(notif.getProductid())){//check for duplicate product ids as the product id that is passed in
+                        duplicate = true;
+                    }
+                }
+                if(!duplicate){//if there are duplicates on the same object
+                    HashMap<String, Object> hashMap = new HashMap<>();
+                    hashMap.put("userid", buyerid);
+                    hashMap.put("text", "liked post");
+                    hashMap.put("productid", productid);
+                    hashMap.put("isproduct",false);
 
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("userid", buyerid);
-        hashMap.put("text", "liked post");
-        hashMap.put("productid", productid);
-        hashMap.put("isproduct",false);
+                    reference.push().setValue(hashMap);
+                }
+            }
 
-        reference.push().setValue(hashMap);
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 }
