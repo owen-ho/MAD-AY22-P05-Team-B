@@ -83,7 +83,7 @@
             app:layout_constraintTop_toBottomOf="@+id/communitySearchCard" />
 
         <ImageView
-            android:id="@+id/imageView18"
+            android:id="@+id/messagesBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"

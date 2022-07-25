@@ -71,7 +71,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                             Product p = ds.getValue(Product.class);
                             if(p.getAsin().equals(notification.getProductid())){
                                 if (p.getLink().equals("link")){//products from community uploads have string link as the link var
-                                    Intent i = new Intent(mContext, descriptionpage.class);
+                                    Intent i = new Intent(mContext, DescriptionPage.class);
                                     i.putExtra("product",p);//pass product into desc
                                     mContext.startActivity(i);//start the product desc activity
                                 }

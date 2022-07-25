@@ -79,7 +79,7 @@ public class CommunityFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerViewUploads = view.findViewById(R.id.uploadsRecycler);
-        ImageView messagebutton = view.findViewById(R.id.imageView18);
+        ImageView messagebutton = view.findViewById(R.id.messagesBtn);
         productList = new ArrayList<>();
         ShoppingRecyclerAdapter prodAdapter = new ShoppingRecyclerAdapter(productList,getContext(),1);//set adapter with  search layout (layout 1)
         databaseRefProduct.addValueEventListener(new ValueEventListener() {
@@ -133,6 +133,7 @@ public class CommunityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ((TextView)getView().findViewById(R.id.communityTitle)).setVisibility(View.GONE);//set the title to be gone
+                ((ImageView)getView().findViewById(R.id.messagesBtn)).setVisibility(View.GONE);//set the messages button to be gone
                 ConstraintLayout layout = (ConstraintLayout) getView().findViewById(R.id.communityConstraintLayout);//get constraintlayout
                 ConstraintSet set = new ConstraintSet();
                 set.clone(layout);
@@ -146,7 +147,7 @@ public class CommunityFragment extends Fragment {
             @Override
             public boolean onClose() {
                 ((TextView)getView().findViewById(R.id.communityTitle)).setVisibility(View.VISIBLE);
-
+                ((ImageView)getView().findViewById(R.id.messagesBtn)).setVisibility(View.VISIBLE);
                 //to convert margin to dp
                 Resources r = getActivity().getResources();
                 int px = (int) TypedValue.applyDimension(

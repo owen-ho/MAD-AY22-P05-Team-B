@@ -3,7 +3,6 @@ package sg.edu.np.MulaSave.Fragments;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +32,9 @@ import java.util.Comparator;
 
 import sg.edu.np.MulaSave.HomePage.AddFriends;
 import sg.edu.np.MulaSave.HomePage.AddPostActivity;
+import sg.edu.np.MulaSave.HomePage.LikedPostActivity;
 import sg.edu.np.MulaSave.HomePage.Post;
 import sg.edu.np.MulaSave.HomePage.PostAdapter;
-import sg.edu.np.MulaSave.HomePage.LikedPostActivity;
 import sg.edu.np.MulaSave.R;
 
 public class HomeFragment extends Fragment {
@@ -83,37 +82,6 @@ public class HomeFragment extends Fragment {
         viewLikes = view.findViewById(R.id.hLikes);
         postNoDisplay = view.findViewById(R.id.postNoDisplay);
 
-        ImageView large = getView().findViewById(R.id.largeImage);
-        ImageView small1 = getView().findViewById(R.id.smallImage1);
-        ImageView small2 = getView().findViewById(R.id.smallImage2);
-        ImageView small3 = getView().findViewById(R.id.smallImage3);
-        ImageView small4 = getView().findViewById(R.id.smallImage4);
-        ImageView small5 = getView().findViewById(R.id.smallImage5);
-        ImageView small6 = getView().findViewById(R.id.smallImage6);
-        imArray = new ImageView[] {large,small1,small2,small3,small4,small5,small6};
-        //SearchView search = getView().findViewById(R.id.goSearch);
-        CardView cardShop = getView().findViewById(R.id.cardViewGoShop);
-        CardView cardCom = getView().findViewById(R.id.cardViewGoCom);
-
-        CardView csmall1 = getView().findViewById(R.id.cardView6);
-        CardView csmall2 = getView().findViewById(R.id.cardView5);
-        CardView csmall3 = getView().findViewById(R.id.cardView7);
-        CardView csmall4 = getView().findViewById(R.id.cardView9);
-        CardView csmall5 = getView().findViewById(R.id.cardView8);
-        CardView csmall6 = getView().findViewById(R.id.cardView10);
-        cardArray = new CardView[]{csmall1,csmall2,csmall3,csmall4,csmall5,csmall6};
-
-        if (homeproductList!=null) {
-            if(homeproductList.size()!=0){
-                displayAdapter(homeproductList);
-            }
-        }else{
-            //homeproductList = new ArrayList<Product>();
-            //new getProducts().execute();
-        }
-
-        //transition to the shopping fragment
-        cardShop.setOnClickListener(new View.OnClickListener() {
         addFriend.setOnClickListener(new View.OnClickListener() {//set on click listener
             @Override
             public void onClick(View view) {
@@ -215,4 +183,3 @@ public class HomeFragment extends Fragment {
         }
     };
 }
-

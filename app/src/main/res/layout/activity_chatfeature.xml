@@ -23,14 +23,15 @@
             android:background="@drawable/round_back_light"
             android:padding="6dp"
             android:src="@drawable/back_btn" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="messages"
+            android:layout_centerInParent="true"
+            android:text="Messages"
             android:textColor="#424242"
-            android:textStyle="bold"
             android:textSize="18sp"
-            android:layout_centerInParent="true"/>
+            android:textStyle="bold" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/userprofilepic1"
