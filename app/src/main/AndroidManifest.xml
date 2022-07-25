@@ -18,6 +18,8 @@
             android:exported="false" />
         <activity
             android:name=".UploadPayment"
+            android:exported="false" />
+        <activity
             android:name=".NotificationActivity"
             android:exported="false" />
         <activity
