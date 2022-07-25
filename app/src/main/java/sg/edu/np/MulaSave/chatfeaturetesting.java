@@ -174,8 +174,10 @@ public class chatfeaturetesting extends AppCompatActivity {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         //messagelistinerList.clear();
+                                        Log.v("nnb","puacb");
                                         unseenmessage = 0;
-                                        lastmessage = "";
+//                                        lastmessage = "";
+
                                         chatkey="";
                                         for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                                             dataset = false;
@@ -183,10 +185,13 @@ public class chatfeaturetesting extends AppCompatActivity {
                                                 getname = dataSnapshot.child("username").getValue(String.class);
                                                 Log.v("namenamexd",getname);
                                             }
-                                            getprofilepic = storageRef.child("profilepics/" + user.getUid().toString() + ".png").getDownloadUrl().toString();
+
+
+
                                         }
 
                                     }
+
 
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
@@ -202,19 +207,29 @@ public class chatfeaturetesting extends AppCompatActivity {
                 }
 
                 if(!dataset){
-                    dataset = true;
+                    //dataset = true;
                     Log.v("testing1",sellerid);
                     Log.v("nametest",getname);
 
                     messagelistiner messagelistiners = new messagelistiner(getname,user.getUid(),lastmessage,getprofilepic,unseenmessage,chatkey,sellerid);
                     Log.v("Lastmessage",lastmessage);
-                    if (messagelistiners.getLastmessage()!= ""){
+                    if (!messagelistiners.getLastmessage().equals("")){
+                        Log.v("yesif","ok");
+
                         messagelistinerList.clear();
                         messagelistinerList.add(messagelistiners);
                         messageadapter.updatedata(messagelistinerList);
+
                         messageadapter.notifyDataSetChanged();
+                        dataset = true;
 
                     }
+                    else{
+                        Log.v("yesif","no");
+
+                    }
+                    dataset = true;
+
                 }
             }
             @Override

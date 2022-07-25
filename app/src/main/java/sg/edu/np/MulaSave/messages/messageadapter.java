@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,10 +26,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.collection.LLRBNode;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.chat.chat;
 
@@ -38,6 +42,8 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference userRef = database.getReference("user");
     DatabaseReference chatRef = database.getReference("chat");
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
 
 
     public messageadapter(List<messagelistiner> messagelistiners, Context context) {
@@ -58,9 +64,25 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
         currentUser = mAuth.getCurrentUser().getUid();
         messagelistiner list2 = messagelistiners.get(position);
         Log.v("trying", String.valueOf(messagelistiners.size()));
-        if(list2.getProfilepic().isEmpty()){
-            //Picasso.get().load(list2.getProfilepic()).into(holder.Profilepic);
+        storageRef.child("profilepics/" + list2.getSellerid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {//user has set a profile picture before
+                Picasso.get().load(uri).into(holder.Profilepic);
 
+            }
+        }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
+            @Override
+            public void onFailure(@NonNull Exception e) {//set default picture
+
+            }
+        });
+
+        if(list2.getProfilepic().isEmpty()){
+
+
+        }
+        else{
+            Log.v("nopic", "hoseh");
         }
 
         chatRef.child("1").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -76,6 +98,7 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
                         public void onComplete(@NonNull Task<DataSnapshot> task) {
                             holder.name.setText((String.valueOf(task.getResult().child("username").getValue())));
                             holder.lastmessage.setText(list2.getLastmessage());
+                            Log.d("gg5", list2.getLastmessage());
                         }
                     });
                 }
@@ -88,14 +111,14 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
                         public void onComplete(@NonNull Task<DataSnapshot> task) {
                             holder.name.setText((String.valueOf(task.getResult().child("username").getValue())));
                             holder.lastmessage.setText(list2.getLastmessage());
+                            Log.d("gg6", list2.getLastmessage());
+
                         }
                     });
                 };
                 }
             });
 
-
-        //holder.lastmessage.setText(list2.getLastmessage());
         if(list2.getUnseenMessages()==0){
             holder.unseenmessage.setVisibility(View.GONE);
             holder.lastmessage.setTextColor(Color.parseColor("#959595"));
@@ -122,7 +145,7 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
     }
     public void updatedata(List<messagelistiner> messagelistiners){
         this.messagelistiners = messagelistiners;
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
 
 
     }
