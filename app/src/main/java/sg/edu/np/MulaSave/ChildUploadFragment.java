@@ -110,6 +110,7 @@ public class ChildUploadFragment extends Fragment {
         databaseRefProduct.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                OnlyUsersUploadlist.clear();
                 mAuth = FirebaseAuth.getInstance();
                 FirebaseUser currentUser = mAuth.getCurrentUser();
                 UserUploadList.clear();
