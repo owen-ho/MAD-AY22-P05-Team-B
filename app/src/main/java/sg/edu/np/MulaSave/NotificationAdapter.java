@@ -25,6 +25,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import sg.edu.np.MulaSave.HomePage.Post;
+
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder>{
 
     private Context mContext;
@@ -50,8 +52,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         getUserInfo(viewHolder.image_profile, viewHolder.username, notification.getUserid());
 
-        viewHolder.post_image.setVisibility(View.VISIBLE);
-        getPostImage(viewHolder.post_image, viewHolder.productTitle, notification.getProductid());
+        if(notification.isIsproduct()){
+            viewHolder.post_image.setVisibility(View.VISIBLE);
+            getProductImage(viewHolder.post_image, viewHolder.productTitle, notification.getProductid());
+        }else{
+            getPostImage(viewHolder.post_image, viewHolder.productTitle, notification.getProductid());
+        }
+
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +148,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         });
     }
 
-    private void getPostImage(ImageView imageView, TextView textView, String productid){
+    private void getProductImage(ImageView imageView, TextView textView, String productid){
         DatabaseReference reference = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("product");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -151,6 +158,32 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     if(product.getAsin().equals(productid)){
                         Picasso.get().load(product.getImageUrl()).into(imageView);
                         textView.setText(product.getTitle());
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
+    }
+    private void getPostImage(ImageView imageView, TextView textView, String productid){
+        DatabaseReference reference = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("post");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Post post = ds.getValue(Post.class);
+                    if(post.getPostUuid().equals(productid)){
+                        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                        storageRef.child("postpics/" + post.getPostUuid() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Picasso.get().load(uri).into(imageView);
+                                imageView.setVisibility(View.VISIBLE);//make it visible
+                            }
+                        });
+                        textView.setText(post.getPostDesc());
                     }
                 }
             }

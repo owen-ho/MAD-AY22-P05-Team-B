@@ -1,6 +1,5 @@
 package sg.edu.np.MulaSave.HomePage;
 
-import android.content.Intent;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -36,12 +35,9 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
@@ -227,6 +223,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         else{//post not liked before: so like the post
                             databaseRefUser.child(usr.getUid()).child("likedposts").child(post.getPostUuid()).setValue(post);
                             holder.postLike.setColorFilter(ContextCompat.getColor(holder.postLike.getContext(), R.color.custom_red));//use custom red color
+                            addNotifications(usr.getUid(),post.getCreatorUid(),post.getPostUuid());
                         }
                     }
                 });
@@ -254,7 +251,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         }
     }
 
-    public void postNotif(Post post){
+    private void addNotifications(String buyerid, String sellerid, String productid){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications").child(sellerid);
 
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("userid", buyerid);
+        hashMap.put("text", "liked post");
+        hashMap.put("productid", productid);
+        hashMap.put("isproduct",false);
+
+        reference.push().setValue(hashMap);
     }
 }

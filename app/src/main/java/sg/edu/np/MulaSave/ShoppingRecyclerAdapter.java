@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -348,7 +347,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         hashMap.put("userid", buyerid);
         hashMap.put("text", "liked product");
         hashMap.put("productid", productid);
-        hashMap.put("ispost",true);
+        hashMap.put("isproduct",true);
 
         reference.push().setValue(hashMap);
     }

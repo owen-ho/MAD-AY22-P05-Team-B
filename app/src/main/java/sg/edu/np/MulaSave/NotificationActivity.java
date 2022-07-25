@@ -51,7 +51,6 @@ public class NotificationActivity extends AppCompatActivity {
                     Notification notification = snapshot.getValue(Notification.class);
                     notificationList.add(notification);
                 }
-
                 Collections.reverse(notificationList);
                 notificationAdapter.notifyDataSetChanged();
             }
