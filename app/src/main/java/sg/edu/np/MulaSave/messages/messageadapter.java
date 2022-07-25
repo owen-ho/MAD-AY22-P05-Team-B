@@ -25,14 +25,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.collection.LLRBNode;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.chat.chat;
 
@@ -64,10 +62,11 @@ public class messageadapter extends RecyclerView.Adapter<messageadapter.MyViewHo
         currentUser = mAuth.getCurrentUser().getUid();
         messagelistiner list2 = messagelistiners.get(position);
         Log.v("trying", String.valueOf(messagelistiners.size()));
-        storageRef.child("profilepics/" + list2.getSellerid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageRef.child("profilepics/" + list2.getSellerid() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {//user has set a profile picture before
                 Picasso.get().load(uri).into(holder.Profilepic);
+                holder.Profilepic.setVisibility(View.VISIBLE);
 
             }
         }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)

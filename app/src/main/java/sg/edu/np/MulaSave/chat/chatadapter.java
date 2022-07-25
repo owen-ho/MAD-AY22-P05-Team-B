@@ -74,7 +74,6 @@ public class chatadapter extends RecyclerView.Adapter<chatadapter.MyViewHolder> 
 
     public void updatechatlist(List<chatlistener> chatlistnerList){
         this.chatlistnerList = chatlistnerList;
-
     }
     static class MyViewHolder extends RecyclerView.ViewHolder {
 
