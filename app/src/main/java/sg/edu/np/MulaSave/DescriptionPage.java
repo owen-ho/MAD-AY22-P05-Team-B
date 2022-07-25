@@ -1,6 +1,7 @@
 package sg.edu.np.MulaSave;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import sg.edu.np.MulaSave.chat.Chat;
 
 public class DescriptionPage extends AppCompatActivity {
     DatabaseReference databaseRefUser = FirebaseDatabase
@@ -59,7 +62,9 @@ public class DescriptionPage extends AppCompatActivity {
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i = new Intent(DescriptionPage.this, Chat.class);
+                i.putExtra("sellerid",product.getSellerUid());
+                startActivity(i);
             }
         });
 
