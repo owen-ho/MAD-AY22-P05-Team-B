@@ -132,6 +132,7 @@ public class HomeFragment extends Fragment {
                             for (DataSnapshot ds : snapshot.getChildren()){
                                 if(post.getCreatorUid().equals(ds.getKey().toString())){//if the creator is friends with the current user
                                     postList.add(post);//add if they are friends
+                                    postNoDisplay.setVisibility(View.INVISIBLE);
                                 }
                             }
                             Collections.sort(postList,postComparator);
