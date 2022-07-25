@@ -18,6 +18,16 @@
             android:exported="false" />
         <activity
             android:name=".UploadPayment"
+            android:name=".NotificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomePage.LikedPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomePage.AddPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomePage.AddFriends"
             android:exported="false" />
         <activity
             android:name=".descriptionpage"
