@@ -10,18 +10,18 @@
         android:id="@+id/toptop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ImageView
             android:id="@+id/backbtn"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:background="@drawable/round_back_light"
-            android:paddingStart="12sp"
-            android:paddingEnd="2dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
-            android:src="@drawable/back_btn"
-            />
+            android:background="@drawable/round_back_light"
+            android:paddingStart="12sp"
+            android:paddingEnd="2dp"
+            android:src="@drawable/back_btn" />
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -64,11 +64,11 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@+id/toptop"
+        android:id="@+id/chattingrecycleview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/chattingrecycleview"
-        android:layout_above="@+id/bottombar"/>
+        android:layout_above="@+id/bottombar"
+        android:layout_below="@+id/toptop" />
 
     <RelativeLayout
         android:id="@+id/bottombar"

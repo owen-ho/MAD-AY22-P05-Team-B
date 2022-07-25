@@ -13,8 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -76,15 +78,27 @@ public class chat extends AppCompatActivity {
         DatabaseReference mDatabase;
         mDatabase = database.getReference("user");
         Log.v("selleriddd", sellerid);
-
+//        mDatabase.child(sellerid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                if (!task.isSuccessful()) {
+//                    Log.e("firebase", "Error getting data", task.getException());
+//                }
+//                //Set User Username to Textview
+//                else {
+//                    User user = task.getResult().getValue(User.class);
+//                    username = user.username;
+//                    Log.v("username", username);
+//                    nameTTv.setText(username);
+//                    Log.d("Testing", String.valueOf(task.getResult().getValue()));
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()){
-                    if(ds.child("uid").getValue().toString().equals(sellerid)){
+                    if(ds.child("uid").getValue(String.class).equals(sellerid)){
                         FirebaseStorage storage = FirebaseStorage.getInstance();
                         StorageReference storageRef = storage.getReference();
-                        username = ds.child("username").getValue().toString();
+                        username = ds.child("username").getValue(String.class);
                         nameTTv.setText(username);
                         storageRef.child("profilepics/" + ds.child("uid").getValue().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
@@ -166,6 +180,7 @@ public class chat extends AppCompatActivity {
                                             chatadapter.updatechatlist(chatlistnerList);
                                             chattingrecycleview.scrollToPosition(chatlistnerList.size() - 1);
                                         }
+
                                     }
                                 }
                             }
@@ -191,11 +206,16 @@ public class chat extends AppCompatActivity {
                         chatRef.child(chatkey).child("user_1").setValue(getuid);
                         chatRef.child(chatkey).child("user_2").setValue(sellerid);
                         chatRef.child(chatkey).child("messages").child(currenttimestamp).child("msg").setValue(gettextmessage);
-                        chatRef.child(chatkey).child("messages").child(currenttimestamp).child("uid").setValue(getuid);
+                        chatRef.child(chatkey).child("messages").child(currenttimestamp).child("uid").setValue(getuid).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                chatadapter.notifyDataSetChanged();
+                            }
+                        });
                         //clear edit text
                         messageedittxt.setText("");
 
-                        chatadapter.notifyDataSetChanged();
+
 //                        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
 //                            @Override
 //                            public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -232,6 +252,7 @@ public class chat extends AppCompatActivity {
 //                //clear edit text
 //                messageedittxt.setText("");
                     }
+
                 });
                 backbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
