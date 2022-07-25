@@ -1,5 +1,6 @@
 package sg.edu.np.MulaSave.chat;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,14 +13,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -30,7 +34,6 @@ import java.util.Locale;
 
 import sg.edu.np.MulaSave.Memorydata;
 import sg.edu.np.MulaSave.R;
-import sg.edu.np.MulaSave.User;
 
 public class chat extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -74,24 +77,33 @@ public class chat extends AppCompatActivity {
         mDatabase = database.getReference("user");
         Log.v("selleriddd", sellerid);
 
-
-        mDatabase.child(sellerid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()){
+                    if(ds.child("uid").getValue().toString().equals(sellerid)){
+                        FirebaseStorage storage = FirebaseStorage.getInstance();
+                        StorageReference storageRef = storage.getReference();
+                        username = ds.child("username").getValue().toString();
+                        nameTTv.setText(username);
+                        storageRef.child("profilepics/" + ds.child("uid").getValue().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {//user has set a profile picture before
+                                Picasso.get().load(uri).into(profilepic);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
+                            @Override
+                            public void onFailure(@NonNull Exception e) {//set default picture
+
+                            }
+                        });
+                    }
                 }
-                //Set User Username to Textview
-                else {
-                    User user = task.getResult().getValue(User.class);
-                    username = user.username;
-                    Log.v("username", username);
-                    nameTTv.setText(username);
-                    Log.d("Testing", String.valueOf(task.getResult().getValue()));
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-
-                }
             }
         });
 
