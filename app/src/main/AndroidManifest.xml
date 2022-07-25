@@ -15,10 +15,7 @@
             android:name=".chat.chat"
             android:exported="false" />
         <activity
-            android:name=".chatfeaturetesting"
-            android:exported="false" />
-        <activity
-            android:name=".ChatActivity"
+            android:name=".chatfeature"
             android:exported="false" />
         <activity
             android:name=".descriptionpage"

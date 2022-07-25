@@ -115,26 +115,19 @@ public class chat extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (chatkey != null) {
-                            Log.v("test1","hi");
                             if (chatkey.isEmpty()) {
-                                Log.v("test1","hi");
                                 //generating chatkey by default chatkey is 1
                                 if (snapshot.hasChild("chat")) {
-                                    Log.v("test1","hi");
                                     chatkey = (String.valueOf(snapshot.child("chat").getChildrenCount() + "1"));
                                 }
                             }
                         }
 
                         if (snapshot.hasChild("chat")) {
-                            Log.v("test2","hi");
                             if (snapshot.child("chat").child(chatkey).hasChild("messages")) {
                                 chatlistnerList.clear();
-                                Log.v("test3","hi");
-
                                 for (DataSnapshot messagesnapshot : snapshot.child("chat").child(chatkey).child("messages").getChildren()) {
                                     if (messagesnapshot.hasChild("msg") && messagesnapshot.hasChild("uid")) {
-                                        Log.v("test4","hi");
                                         final String messagetimestamp = messagesnapshot.getKey();
                                         final String getuid = messagesnapshot.child("uid").getValue(String.class);
                                         final String getmsg = messagesnapshot.child("msg").getValue(String.class);
@@ -156,34 +149,24 @@ public class chat extends AppCompatActivity {
 
                                             chatadapter.updatechatlist(chatlistnerList);
                                             chattingrecycleview.scrollToPosition(chatlistnerList.size() - 1);
-
                                         }
-
                                     }
-
-
                                 }
                             }
-
-
                         }
-
-
                     }
-
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
 
-
+                // sending messages and it will be written in the firebase
                 sendbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-
+                        // creating the time stamp
                         final String currenttimestamp = String.valueOf(System.currentTimeMillis());
                         final String gettextmessage = messageedittxt.getText().toString();
 

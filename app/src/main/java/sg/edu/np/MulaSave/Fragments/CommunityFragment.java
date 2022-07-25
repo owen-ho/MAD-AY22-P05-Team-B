@@ -39,8 +39,7 @@ import sg.edu.np.MulaSave.Product;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.ShoppingRecyclerAdapter;
 import sg.edu.np.MulaSave.UserInputPrice;
-import sg.edu.np.MulaSave.chatfeaturetesting;
-import sg.edu.np.MulaSave.descriptionpage;
+import sg.edu.np.MulaSave.chatfeature;
 import sg.edu.np.MulaSave.wishlistFilterAdapter;
 
 public class CommunityFragment extends Fragment {
@@ -103,7 +102,7 @@ public class CommunityFragment extends Fragment {
         messagebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), chatfeaturetesting.class);
+                Intent i = new Intent(getActivity(), chatfeature.class);
 
                 i.putExtra("product",product);
 

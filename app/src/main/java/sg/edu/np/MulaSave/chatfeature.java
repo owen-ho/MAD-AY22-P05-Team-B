@@ -6,8 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,16 +24,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import sg.edu.np.MulaSave.messages.messageadapter;
 import sg.edu.np.MulaSave.messages.messagelistiner;
 
-public class chatfeaturetesting extends AppCompatActivity {
+public class chatfeature extends AppCompatActivity {
     private final List<messagelistiner> messagelistinerList = new ArrayList<>();
     private String uid;
     private String username;
@@ -79,12 +74,12 @@ public class chatfeaturetesting extends AppCompatActivity {
         user.getUid(); //own uid
         messagerecycleview.setHasFixedSize(true);
         messagerecycleview.setLayoutManager(new LinearLayoutManager(this));
-        messagerecycleview.setAdapter(new messageadapter(messagelistinerList,chatfeaturetesting.this));
+        messagerecycleview.setAdapter(new messageadapter(messagelistinerList, chatfeature.this));
 
 
 
         //set adpater to recycleview
-        messageadapter = new messageadapter(messagelistinerList,chatfeaturetesting.this);
+        messageadapter = new messageadapter(messagelistinerList, chatfeature.this);
         messagerecycleview.setAdapter( messageadapter);
 
 
@@ -166,7 +161,7 @@ public class chatfeaturetesting extends AppCompatActivity {
                                 for(DataSnapshot chatdatasnapshot: dataSnapshot1.child("messages").getChildren()){
                                     if(dataSnapshot1.child("messages").hasChildren()){
                                         final long getmessagekey = Long.parseLong(chatdatasnapshot.getKey());
-                                        final long getlastseenmessage = Long.parseLong(Memorydata.getlastmsgts(chatfeaturetesting.this,getkey));
+                                        final long getlastseenmessage = Long.parseLong(Memorydata.getlastmsgts(chatfeature.this,getkey));
                                         //String getlastseenmessage = chatdatasnapshot.child("msg").getValue().toString();
                                         lastmessage = chatdatasnapshot.child("msg").getValue(String.class);
 //                                        if(getmessagekey>getlastseenmessage){
