@@ -89,13 +89,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/priceProduct" />
 
             <EditText
-                android:id="@+id/productDescription"
+                android:id="@+id/desc"
                 android:layout_width="363dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="16dp"
                 android:backgroundTint="#FF747679"
                 android:ems="10"
-                android:hint="eg. 10.20"
+                android:hint="eg. This product was pre-loved....."
                 android:inputType="textPersonName"
                 android:textColor="#000000"
                 android:textColorHint="#A8A8A8"
@@ -113,7 +113,7 @@
                 android:textColorHint="#000000"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/productDescription" />
+                app:layout_constraintTop_toBottomOf="@+id/desc" />
 
             <TextView
                 android:id="@+id/conditionText"

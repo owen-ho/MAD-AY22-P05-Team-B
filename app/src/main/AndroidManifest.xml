@@ -3,6 +3,8 @@
     package="sg.edu.np.MulaSave">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -13,6 +15,24 @@
         android:theme="@style/Theme.P05TeamB">
         <activity
             android:name=".WebActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SellerPaymentView"
+            android:exported="false" />
+        <activity
+            android:name=".UploadPayment"
+            android:exported="false" />
+        <activity
+            android:name=".NotificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomePage.LikedPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomePage.AddPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomePage.AddFriends"
             android:exported="false" />
         <activity
             android:name=".descriptionpage"

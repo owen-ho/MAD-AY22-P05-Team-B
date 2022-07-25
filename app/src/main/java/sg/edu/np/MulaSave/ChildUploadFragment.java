@@ -1,9 +1,31 @@
 package sg.edu.np.MulaSave;
 
+import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import androidx.fragment.app.Fragment;
 
@@ -13,6 +35,14 @@ import androidx.fragment.app.Fragment;
  * create an instance of this fragment.
  */
 public class ChildUploadFragment extends Fragment {
+    private FirebaseAuth mAuth;
+    RecyclerView recyclerViewUserUpload;
+    DatabaseReference databaseRefProduct = FirebaseDatabase
+            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
+            .getReference("product");//get firebase instance to all uploaded products
+    FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
+    ArrayList<Product> UserUploadList;
+    ArrayList<Product> OnlyUsersUploadlist;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,5 +89,55 @@ public class ChildUploadFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_child_upload, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        FloatingActionButton uploadbutton = view.findViewById(R.id.uploadproductbutton2);
+        uploadbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), UserInputPrice.class);
+                startActivity(i);
+            }
+        });
+
+        recyclerViewUserUpload = view.findViewById(R.id.recyclerViewUserUpload);
+        UserUploadList = new ArrayList<Product>();
+        OnlyUsersUploadlist = new ArrayList<>();
+        ShoppingRecyclerAdapter prodAdapter = new ShoppingRecyclerAdapter(OnlyUsersUploadlist, getContext(), 1);//set adapter with  search layout (layout 1)
+        databaseRefProduct.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mAuth = FirebaseAuth.getInstance();
+                FirebaseUser currentUser = mAuth.getCurrentUser();
+                UserUploadList.clear();
+                for (DataSnapshot ss : snapshot.getChildren()) {
+                    Product p = ss.getValue(Product.class);//get all uploaded products and convert to product objects
+                    UserUploadList.add(p);//add products
+                }
+                if(currentUser!=null){
+                    for (Product p : UserUploadList) {
+                        if(p.getSellerUid()!=null){
+                            if (p.getSellerUid().equals(currentUser.getUid())) {
+                                OnlyUsersUploadlist.add(p);
+                            }
+                        }
+                    }
+                }
+                prodAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("error", "loadPost:onCancelled", error.toException());
+            }
+        });
+        //set the layout
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);//layout with 2 items per row
+        recyclerViewUserUpload.setLayoutManager(gridLayoutManager);
+        recyclerViewUserUpload.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewUserUpload.setAdapter(prodAdapter);
     }
 }

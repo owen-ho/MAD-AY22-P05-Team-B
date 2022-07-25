@@ -6,70 +6,142 @@
     android:layout_height="match_parent"
     tools:context=".descriptionpage">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/scrollView3"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/scrollView3"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginStart="1dp"-->
+<!--        android:layout_marginTop="1dp"-->
+<!--        android:layout_marginEnd="1dp"-->
+<!--        android:layout_marginBottom="1dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.0">-->
+
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/linearLayout2"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical" />-->
+<!--        </androidx.cardview.widget.CardView>-->
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
 
         <ImageView
             android:id="@+id/imageView16"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+            app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/textView42"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:text="Description"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="52dp"
+            android:text="Product Price"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Title" />
+
+        <TextView
+            android:id="@+id/textView50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="28dp"
+            android:text="Product Description"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Price" />
+
+        <TextView
+            android:id="@+id/textView51"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="28dp"
+            android:text="Product Condition"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Description" />
+
+        <TextView
+            android:id="@+id/textView52"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="28dp"
+            android:text="Meetup Location"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Condition" />
+
+        <TextView
+            android:id="@+id/textView49"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="28dp"
+            android:text="Seller Username"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Meetup" />
 
         <TextView
             android:id="@+id/Description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
             android:text="TextView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView42" />
-
-        <TextView
-            android:id="@+id/zzz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
-            android:text="Condition"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Price" />
+            app:layout_constraintTop_toBottomOf="@+id/textView50" />
 
         <TextView
             android:id="@+id/Condition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="TextView"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
+            android:text="Condition"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/zzz" />
+            app:layout_constraintTop_toBottomOf="@+id/textView51" />
 
         <TextView
             android:id="@+id/Title"
@@ -77,6 +149,8 @@
             android:layout_height="43dp"
             android:text="TextView"
             android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView16" />
@@ -85,67 +159,70 @@
             android:id="@+id/Price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
             android:text="TextView"
+            android:textColor="#D11010"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Description" />
-
-        <TextView
-            android:id="@+id/textView49"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="Meetup"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Condition" />
+            app:layout_constraintTop_toBottomOf="@+id/textView42" />
 
         <TextView
             android:id="@+id/Meetup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
             android:text="TextView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView49" />
+            app:layout_constraintTop_toBottomOf="@+id/textView52" />
 
         <Button
             android:id="@+id/Chat"
-            android:layout_width="159dp"
-            android:layout_height="0dp"
+            android:layout_width="145dp"
+            android:layout_height="56dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="4dp"
             android:text="Chat with seller"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Sellerusername"
+            app:layout_constraintVertical_bias="1.0" />
 
         <Button
             android:id="@+id/Reserve"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="76dp"
-            android:layout_marginBottom="40dp"
+            android:layout_width="145dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="4dp"
             android:text="Reserve"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/www"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:text="Seller username:"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Meetup" />
+            app:layout_constraintTop_toBottomOf="@+id/Sellerusername"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/Sellerusername"
             android:layout_width="64dp"
             android:layout_height="20dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
             android:text="TextView"
+            android:textColor="#3F5BDD"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/www" />
+            app:layout_constraintTop_toBottomOf="@+id/textView49" />
+
+        <Button
+            android:id="@+id/removeReserve"
+            android:layout_width="145dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginBottom="4dp"
+            android:text="Unreserve"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Sellerusername"
+            app:layout_constraintVertical_bias="1.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

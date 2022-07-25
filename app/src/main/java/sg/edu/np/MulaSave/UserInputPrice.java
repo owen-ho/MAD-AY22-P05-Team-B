@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,8 +16,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -31,22 +37,25 @@ public class UserInputPrice extends AppCompatActivity {
     StorageReference storageRef = storage.getReference();
     int SELECT_PICTURE = 200;
     String key = productRef.push().getKey();//To get a unique key to identify products uploaded
-
+    String pw;
     String imagelink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DatabaseReference userRef = database.getReference("user");
         setContentView(R.layout.activity_user_input_price);
         EditText productTitle = findViewById(R.id.titleProduct);
         EditText productPrice = findViewById(R.id.priceProduct);
-        EditText productDesc = findViewById(R.id.productDescription);
+        EditText productDesc = findViewById(R.id.desc);
         EditText productCond = findViewById(R.id.productCondition);
         EditText productMeet = findViewById(R.id.productMeetUp);
         ImageView productPic = findViewById(R.id.addproductbutton);
         Button submitProductbtn = findViewById(R.id.submitProductButton2);
         ImageView back = findViewById(R.id.backButtonInputPrice);
         ImageView refreshBtn = findViewById(R.id.refresh);
+
+
 
         //ImageView upload = findViewById(R.id.addproductbutton);
         productPic.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +85,7 @@ public class UserInputPrice extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                onBackPressed();
             }
         });
 
@@ -96,17 +105,40 @@ public class UserInputPrice extends AppCompatActivity {
                     try{//use try to catch all other invalid inputs
                         String pt = productTitle.getText().toString();
                         Double pp = Double.parseDouble(productPrice.getText().toString());
-                        String pw = productDesc.getText().toString();
+                        String pd = productDesc.getText().toString();
                         String pc = productCond.getText().toString();
                         String pm = productMeet.getText().toString();
+
+
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                        String uid = user.getUid();
+                        if (user!=null){
+                            userRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot snapshot) {
+
+                                    if (snapshot.child(user.getUid()).child("username").exists()) { //Check if username exists to prevent crash
+                                        pw = snapshot.child(user.getUid()).child("username").getValue().toString();
+                                    } else {
+                                        pw = "";
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        };
 
                         storageRef.child("productpics/" + key + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
                                 submitProductbtn.setEnabled(false);//Prevent uploading of repeated products
                                 submitProductbtn.setClickable(false);
-                                String productLink = "https://www.google.com/search?q=" + pw + "+" + pt;
-                                Product p = new Product(UUID.randomUUID().toString(), pt,"category", pp, uri.toString(),productLink, 0.0f, pw,"desc","condition","meetup","sellerUid");
+                                String productLink = "link";
+                                Product p = new Product(UUID.randomUUID().toString(), pt,"category", pp, uri.toString(),productLink, 0.0f, pw,pd,pc,pm,uid);
                                 productRef.child(key).setValue(p);//add product obj to the realtime database
 
                                 finish();//finish the upload activity
