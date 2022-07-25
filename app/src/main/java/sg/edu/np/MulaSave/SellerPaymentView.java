@@ -1,15 +1,14 @@
 package sg.edu.np.MulaSave;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -119,7 +118,7 @@ public class SellerPaymentView extends AppCompatActivity {
         });
     }
     private void addPaymentAcceptedNotifications(String sellerid, String buyerid, String productid){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications").child(sellerid);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications").child(buyerid);
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("userid", sellerid);
