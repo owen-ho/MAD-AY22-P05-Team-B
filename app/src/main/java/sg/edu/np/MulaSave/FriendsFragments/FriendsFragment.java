@@ -69,6 +69,7 @@ public class FriendsFragment extends Fragment {
         friendRecycler = view.findViewById(R.id.friendRecycler);
         friendList = new ArrayList<>();
         friendNoDisplay = view.findViewById(R.id.friendNoDisplay);
+        searchFriendList = view.findViewById(R.id.searchFriendList);
 
         ViewFriendAdapter fAdapter = new ViewFriendAdapter(friendList,1);//1 means friend list
         databaseRefUser.child(usr.getUid()).child("friends").addValueEventListener(new ValueEventListener() {
@@ -118,9 +119,6 @@ public class FriendsFragment extends Fragment {
         friendRecycler.setItemAnimator(new DefaultItemAnimator());
         friendRecycler.setAdapter(fAdapter);//set adapter
 
-        searchFriendList = view.findViewById(R.id.searchFriendList);
-
-
         searchFriendList.setSubmitButtonEnabled(true);//enable submit button
         searchFriendList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,87 +130,15 @@ public class FriendsFragment extends Fragment {
         searchFriendList.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConstraintLayout layout = (ConstraintLayout) getActivity().findViewById(R.id.friendListConstraint);//get constraintlayout
-                ConstraintSet set = new ConstraintSet();
-                set.clone(layout);
-
-                //set constraints for start and end
-                set.connect(R.id.searchFriendsCard,ConstraintSet.START, R.id.friendListConstraint,ConstraintSet.START,0);
-                set.connect(R.id.searchFriendsCard,ConstraintSet.END, R.id.friendListConstraint,ConstraintSet.END,0);
-                set.applyTo(layout);
-                searchFriendList.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String s) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String s) {
-                        friendList.clear();
-                        databaseRefUser.child(usr.getUid()).child("friends").addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot ss : snapshot.getChildren()){//ss.getKey() is the uid of each friend
-                                    databaseRefUser.child(ss.getKey().toString()).addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            User user = new User();
-                                            for (DataSnapshot ds : snapshot.getChildren()){
-                                                if (ds.getKey().equals("uid")){
-                                                    user.setUid(ds.getValue().toString());
-                                                }
-                                                if(ds.getKey().equals("email")){
-                                                    user.setEmail(ds.getValue().toString());
-                                                }
-                                                if(ds.getKey().equals("username")){
-                                                    user.setUsername(ds.getValue().toString());
-                                                }
-                                            }
-                                            //add the user if the username is under the
-                                            if (user.getUsername().toLowerCase().contains(s.toLowerCase())){//dont add if the input is none && (!s.equals(""))
-                                                friendList.add(user);
-                                                setVisible();
-                                                fAdapter.notifyDataSetChanged();
-                                            }
-                                        }
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
-                                        }
-                                    });
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-                        return false;
-                    }
-                });
+                searchOpen(getActivity(),getActivity().findViewById(R.id.friendListConstraint),R.id.friendListConstraint, R.id.searchFriendsCard);//format on search click
+                filterDataBySearch(searchFriendList, friendList, fAdapter,"friends");
             }
         });//end of onsearchclick listener
 
         searchFriendList.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                //to convert margin to dp
-                Resources r = getActivity().getResources();
-                int px = (int) TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        24,
-                        r.getDisplayMetrics()
-                );
-
-                //set layout
-                ConstraintLayout layout = (ConstraintLayout) getActivity().findViewById(R.id.friendListConstraint);
-                ConstraintSet set = new ConstraintSet();
-                set.clone(layout);
-                //clear constraints
-                set.clear(R.id.searchFriendsCard, ConstraintSet.START);
-                set.connect(R.id.searchFriendsCard, ConstraintSet.END,R.id.friendListConstraint,ConstraintSet.END,px);
-                set.applyTo(layout);
+                searchClose(getActivity(), getActivity().findViewById(R.id.friendListConstraint), R.id.friendListConstraint, R.id.searchFriendsCard);//format on search close
                 return false;//return false so that icon closes back on close
             }
         });
@@ -222,8 +148,19 @@ public class FriendsFragment extends Fragment {
             friendNoDisplay.setVisibility(View.INVISIBLE);
         }
     }
+    public static void searchOpen(Context context, View constraintView, int layoutView, int searchViewCard){
+        ConstraintLayout layout = (ConstraintLayout) constraintView;
+        ConstraintSet set = new ConstraintSet();
+        set.clone(layout);
 
-    public static void searchClose(Context context, View constraintView, int layoutView, int searchView){
+        //set constraints for start and end
+        set.connect(searchViewCard,ConstraintSet.START, layoutView,ConstraintSet.START,0);
+        set.connect(searchViewCard,ConstraintSet.END, layoutView,ConstraintSet.END,0);
+        set.applyTo(layout);
+    }
+
+    //function to set searchview on search close
+    public static void searchClose(Context context, View constraintView, int layoutView, int searchViewCard){
         //to convert margin to dp
         Resources r = context.getResources();
         int px = (int) TypedValue.applyDimension(
@@ -231,14 +168,72 @@ public class FriendsFragment extends Fragment {
                 24,
                 r.getDisplayMetrics()
         );
-
         //set layout
         ConstraintLayout layout = (ConstraintLayout) constraintView;
         ConstraintSet set = new ConstraintSet();
         set.clone(layout);
         //clear constraints
-        set.clear(searchView, ConstraintSet.START);
-        set.connect(searchView, ConstraintSet.END,R.id.friendListConstraint,ConstraintSet.END,px);
+        set.clear(searchViewCard, ConstraintSet.START);
+        set.connect(searchViewCard, ConstraintSet.END, layoutView, ConstraintSet.END,px);
         set.applyTo(layout);
     }
+
+    public static void filterDataBySearch(SearchView searchFriends, ArrayList<User> friendList, ViewFriendAdapter adapter,String path){
+        DatabaseReference databaseRefUser = FirebaseDatabase
+                .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference("user");
+        FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
+
+        searchFriends.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                friendList.clear();
+                databaseRefUser.child(usr.getUid()).child(path).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ss : snapshot.getChildren()){//ss.getKey() is the uid of each friend
+                            databaseRefUser.child(ss.getKey().toString()).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    User user = new User();
+                                    for (DataSnapshot ds : snapshot.getChildren()){
+                                        if (ds.getKey().equals("uid")){
+                                            user.setUid(ds.getValue().toString());
+                                        }
+                                        if(ds.getKey().equals("email")){
+                                            user.setEmail(ds.getValue().toString());
+                                        }
+                                        if(ds.getKey().equals("username")){
+                                            user.setUsername(ds.getValue().toString());
+                                        }
+                                    }
+                                    //add the user if the username is under the
+                                    if (user.getUsername().toLowerCase().contains(s.toLowerCase())){//dont add if the input is none && (!s.equals(""))
+                                        friendList.add(user);
+                                        //setVisible();
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                return false;
+            }
+        });
+    }//end of filter data by search
 }
