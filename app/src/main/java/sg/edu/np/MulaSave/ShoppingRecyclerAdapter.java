@@ -94,51 +94,48 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             price = String.format("$%.2f",p.getPrice());
         }
 
-
-
-// To set the notify users if the product is reserved, sold or available
-        databaseRefUser.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Boolean isreserved = false;
-                Boolean isSold = false;
-                for(DataSnapshot ds: snapshot.getChildren()){
-                    for (DataSnapshot ds1: ds.child("Reserve").getChildren()){
-                        Product dbprod = ds1.getValue(Product.class);
-                        if (dbprod.getAsin().equals(p.getAsin())){
-                            isreserved = true;
-                        }
-                    }
-                    for (DataSnapshot ds1: ds.child("Sold").getChildren()){
-                        Product dbprod = ds1.getValue(Product.class);
-                        if (dbprod.getAsin().equals(p.getAsin())){
-                            isSold = true;
-                        }
-                }
-                if (isreserved) {
-                    holder.statusProduct.setText("Reserved");
-                    holder.statusProduct.setTextColor(Color.parseColor("#FFF3BA2B"));
-                }
-                if (isSold){
-                    holder.statusProduct.setText("Sold");
-                    holder.statusProduct.setTextColor(Color.parseColor("#FFE40846"));
-                }
-                else{
-
-                }
-            }
-        }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
         if(holder.getItemViewType() == 1){
             holder.seepaymentBtn.setVisibility(View.INVISIBLE);
             if (p.getSellerUid().equals(usr.getUid().toString())){
                 holder.seepaymentBtn.setVisibility(View.VISIBLE);// set visible if current user is creator
             }
+            // To set the notify users if the product is reserved, sold or available
+            databaseRefUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Boolean isreserved = false;
+                    Boolean isSold = false;
+                    for(DataSnapshot ds: snapshot.getChildren()){
+                        for (DataSnapshot ds1: ds.child("Reserve").getChildren()){
+                            Product dbprod = ds1.getValue(Product.class);
+                            if (dbprod.getAsin().equals(p.getAsin())){
+                                isreserved = true;
+                            }
+                        }
+                        for (DataSnapshot ds1: ds.child("Sold").getChildren()){
+                            Product dbprod = ds1.getValue(Product.class);
+                            if (dbprod.getAsin().equals(p.getAsin())){
+                                isSold = true;
+                            }
+                        }
+                        if (isreserved) {
+                            holder.statusProduct.setText("Reserved");
+                            holder.statusProduct.setTextColor(Color.parseColor("#FFF3BA2B"));
+                        }
+                        if (isSold){
+                            holder.statusProduct.setText("Sold");
+                            holder.statusProduct.setTextColor(Color.parseColor("#FFE40846"));
+                        }
+                        else{
+
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
 
         if(holder.getItemViewType() == 1){
