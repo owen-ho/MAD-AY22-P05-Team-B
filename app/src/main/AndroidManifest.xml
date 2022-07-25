@@ -14,6 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.P05TeamB">
         <activity
+            android:name=".chat.Chat"
+            android:exported="false" />
+        <activity
+            android:name=".ChatFeature"
+            android:exported="false" />
+        <activity
+            android:name=".DescriptionPage"
+            android:exported="false" />
+        <activity
             android:name=".WebActivity"
             android:exported="false" />
         <activity
@@ -35,7 +44,7 @@
             android:name=".HomePage.AddFriends"
             android:exported="false" />
         <activity
-            android:name=".descriptionpage"
+            android:name=".DescriptionPage"
             android:exported="false" />
         <activity
             android:name=".Documentation"

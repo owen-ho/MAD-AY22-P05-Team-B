@@ -87,7 +87,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
     @Override
     public void onBindViewHolder(ShoppingViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Product p = data.get(position);
-
+        DataSnapshot ds;
         holder.productTitle.setText(p.getTitle());
         String price = "0.0";
         if (p.getPrice()!=null){
@@ -241,6 +241,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             @Override
             public void onClick(View view) {
                 //dialog box
+
                 showProductDialog(holder.productListing.getContext(), p);
             }
         });
@@ -367,8 +368,8 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         view.findViewById(R.id.dialogOpen).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (p.getLink().equals("link")){//Products from community uploads have string link as the link var
-                    Intent i = new Intent(context, descriptionpage.class);
+                if (p.getLink().equals("link")){//products from community uploads have string link as the link var
+                    Intent i = new Intent(context, DescriptionPage.class);
                     i.putExtra("product",p);//pass product into desc
                     context.startActivity(i);//start the product desc activity
                 }

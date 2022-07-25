@@ -1,15 +1,14 @@
 package sg.edu.np.MulaSave;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,6 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
 
 public class SellerPaymentView extends AppCompatActivity {
 
@@ -81,6 +82,23 @@ public class SellerPaymentView extends AppCompatActivity {
                 paymentPic.delete().addOnSuccessListener(new OnSuccessListener<Void>() { // to remove the image url from firebase storage
                     @Override
                     public void onSuccess(Void unused) {
+                        databaseRefUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot ds: snapshot.getChildren()){
+                                    for (DataSnapshot ds1: ds.child("Reserve").getChildren()){
+                                        Product prod = ds1.getValue(Product.class);
+                                        if (product.getImageUrl().equals(prod.getImageUrl())){
+                                            addPaymentDeclinedNotifications(usr.getUid(), ds.getKey(), product.getAsin());
+                                        }
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 });
                 Intent intent = new Intent(SellerPaymentView.this, ChildReserveFragment.class);
@@ -101,6 +119,7 @@ public class SellerPaymentView extends AppCompatActivity {
                                 Product prod = ds1.getValue(Product.class);
                                 if (product.getImageUrl().equals(prod.getImageUrl())){
                                     ds1.getRef().removeValue();
+                                    addPaymentAcceptedNotifications(usr.getUid(), ds.getKey(), product.getAsin());
                                 }
                             }
                         }
@@ -114,5 +133,28 @@ public class SellerPaymentView extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    private void addPaymentAcceptedNotifications(String sellerid, String buyerid, String productid){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications").child(buyerid);
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("userid", sellerid);
+        hashMap.put("text", "Seller has accepted your payment!");
+        hashMap.put("productid", productid);
+        hashMap.put("isproduct",true);
+
+        reference.push().setValue(hashMap);
+    }
+
+    private void addPaymentDeclinedNotifications(String sellerid, String buyerid, String productid){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications").child(buyerid);
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("userid", sellerid);
+        hashMap.put("text", "Seller has declined your payment!");
+        hashMap.put("productid", productid);
+        hashMap.put("isproduct",true);
+
+        reference.push().setValue(hashMap);
     }
 }
