@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,9 +39,10 @@ import sg.edu.np.MulaSave.HomePage.AddFriends;
 import sg.edu.np.MulaSave.HomePage.Post;
 import sg.edu.np.MulaSave.LoginActivity;
 import sg.edu.np.MulaSave.MainActivity;
+import sg.edu.np.MulaSave.NotificationActivity;
+import sg.edu.np.MulaSave.ProfileEdit;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.SelectProfilePic;
-import sg.edu.np.MulaSave.ProfileEdit;
 
 public class ProfileFragment extends Fragment {
 
@@ -108,7 +108,7 @@ public class ProfileFragment extends Fragment {
 
         ImageView infobutton = view.findViewById(R.id.changeinfo);
         ImageView logoutbutton = view.findViewById(R.id.logoutBtn);
-
+        ImageView notificationbtn = view.findViewById(R.id.notificationBtn);
         ImageView documentation = view.findViewById(R.id.infoDocumentation);
 
         noOfFriends = view.findViewById(R.id.noOfFriends);
@@ -213,6 +213,14 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ProfileEdit.class);
+                startActivity(intent);
+            }
+        });
+
+        notificationbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), NotificationActivity.class);
                 startActivity(intent);
             }
         });

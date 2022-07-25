@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.P05TeamB">
         <activity
+            android:name=".NotificationActivity"
             android:name=".HomePage.LikedPostActivity"
             android:exported="false" />
         <activity

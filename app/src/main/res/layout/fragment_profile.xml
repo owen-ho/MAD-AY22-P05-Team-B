@@ -217,6 +217,16 @@
             app:layout_constraintStart_toStartOf="@+id/textView5"
             app:layout_constraintTop_toBottomOf="@+id/changeinfo" />
 
+        <ImageView
+            android:id="@+id/notificationBtn"
+            android:layout_width="40dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_baseline_notifications_24"
+            app:layout_constraintEnd_toStartOf="@+id/changeinfo"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.appbar.AppBarLayout
