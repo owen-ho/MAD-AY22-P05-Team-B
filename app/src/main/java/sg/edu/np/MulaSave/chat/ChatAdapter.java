@@ -37,8 +37,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_adapter_layout,null));
     }
 
+    /**
+     *
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull ChatAdapter.MyViewHolder holder, int position) {
+
 
         //Setting up the messages and setting visibility based on the id
         ChatListener list2 = chatlistnerList.get(position);
@@ -68,11 +74,19 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return chatlistnerList.size();
     }
 
+    /**
+     * Calling out chat
+     * @param chatlistnerList full list of conversation to pass to the recycleview for later purposes
+     */
     public void updatechatlist(List<ChatListener> chatlistnerList){
         this.chatlistnerList = chatlistnerList;
     }
