@@ -81,21 +81,23 @@ public class Chat extends AppCompatActivity {
 
         DatabaseReference mDatabase;
         mDatabase = database.getReference("user");
-        Log.v("selleriddd", sellerid);
         chatRef.addValueEventListener(new ValueEventListener() {
             @Override
+
+            //Getting chatkey
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     if(dataSnapshot.getKey().toString().equals(sellerid+usr.getUid()) || dataSnapshot.getKey().toString().equals(usr.getUid()+sellerid)){
                         chatkey = dataSnapshot.getKey().toString();
                         break;
                     }
-                    Log.i("knn",dataSnapshot.getKey().toString());
+
                 }
                 //no existing chat, create new chat key
                 if(chatkey.equals("0")){
                     chatkey = usr.getUid()+sellerid;
                 }
+                // Set username and pic
                 mDatabase.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -119,32 +121,24 @@ public class Chat extends AppCompatActivity {
                             }
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
                     }
                 });
 
                 final String getprofilepic = getIntent().getStringExtra("Profilepic");
-
                 final String uid = getIntent().getStringExtra("uid");
 
                 //getting uid
                 getuid = mAuth.getCurrentUser().getUid();
-
-
-
-
                 chattingrecycleview.setHasFixedSize(true);
                 chattingrecycleview.setLayoutManager(new LinearLayoutManager(Chat.this));
-
                 chatadapter = new ChatAdapter(chatlistnerList, Chat.this);
                 chattingrecycleview.setAdapter(chatadapter);
 
 
 
-                //Creating the timestamp and
+                //Creating the timestamp and adding it to a list from chat listener to be pass into the chat adapter
                 cbRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -162,6 +156,7 @@ public class Chat extends AppCompatActivity {
                                 chatlistnerList.clear();
                                 for (DataSnapshot messagesnapshot : snapshot.child("Chat").child(chatkey).child("messages").getChildren()) {
                                     if (messagesnapshot.hasChild("msg") && messagesnapshot.hasChild("uid")) {
+                                        // Setting timestamp for messages.
                                         final String messagetimestamp = messagesnapshot.getKey();
                                         final String getuid = messagesnapshot.child("uid").getValue(String.class);
                                         final String getmsg = messagesnapshot.child("msg").getValue(String.class);
@@ -194,12 +189,12 @@ public class Chat extends AppCompatActivity {
                     }
                 });
 
-                // sending messages and it will be written in the firebase
+                // Sending messages and it will be written in the firebase
                 sendbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                        // creating the time stamp
+                        // Creating the time stamp
                         final String currenttimestamp = String.valueOf(System.currentTimeMillis());
                         final String gettextmessage = messageedittxt.getText().toString();
 
@@ -217,7 +212,6 @@ public class Chat extends AppCompatActivity {
                         //clear edit text
                         messageedittxt.setText("");
                     }
-
                 });
                 //Going back to the previous page
                 backbtn.setOnClickListener(new View.OnClickListener() {

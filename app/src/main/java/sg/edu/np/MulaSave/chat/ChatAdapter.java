@@ -21,9 +21,8 @@ import sg.edu.np.MulaSave.R;
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> {
     private List<ChatListener> chatlistnerList;
     private String getuid;
-
-
     private final Context context;
+
 
     public ChatAdapter(List<ChatListener> chatlistnerList, Context context) {
         this.chatlistnerList = chatlistnerList;
@@ -33,13 +32,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
     @NonNull
     @Override
+
     public ChatAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_adapter_layout,null));
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull ChatAdapter.MyViewHolder holder, int position) {
+
+        //Setting up the messages and setting visibility based on the id
         ChatListener list2 = chatlistnerList.get(position);
         FirebaseAuth mAuth;
         mAuth = FirebaseAuth.getInstance();
@@ -77,6 +78,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     }
     static class MyViewHolder extends RecyclerView.ViewHolder {
 
+
+        // Initialising the variables based on the XML ID.
         private LinearLayout oppoLayout,myLayout;
         private TextView oppoMessage, myMessage;
         private TextView oppoTime,myTime;
