@@ -1,6 +1,8 @@
 package sg.edu.np.MulaSave;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +26,8 @@ public class NotificationActivity extends AppCompatActivity {
     private NotificationAdapter notificationAdapter;
     private ArrayList<Notification> notificationList;
 
+    public ImageView backbuttonNotif;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +39,21 @@ public class NotificationActivity extends AppCompatActivity {
         notificationList = new ArrayList<>();
         notificationAdapter = new NotificationAdapter(this, notificationList);
         recyclerView.setAdapter(notificationAdapter);
+        backbuttonNotif = findViewById(R.id.BackbuttonNotif);
 
         readNotification();
 
 
+        backbuttonNotif.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
     }
+
+
     private void readNotification(){
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications").child(firebaseUser.getUid());
