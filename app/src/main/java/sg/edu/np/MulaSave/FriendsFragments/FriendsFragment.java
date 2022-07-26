@@ -169,12 +169,12 @@ public class FriendsFragment extends Fragment {
         }
 
         else {
-            databaseRefUser.child(usr.getUid()).child(path).addValueEventListener(new ValueEventListener() {
+            databaseRefUser.child(usr.getUid()).child(path).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     friendList.clear();
                     for (DataSnapshot ss : snapshot.getChildren()) {//ss.getKey() is the uid of each friend
-                        databaseRefUser.child(ss.getKey().toString()).addValueEventListener(new ValueEventListener() {
+                        databaseRefUser.child(ss.getKey().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 User user = new User();

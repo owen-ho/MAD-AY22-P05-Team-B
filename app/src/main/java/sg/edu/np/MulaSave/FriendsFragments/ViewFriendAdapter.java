@@ -197,8 +197,8 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                         @Override
                         public void onComplete(@NonNull Task<DataSnapshot> task) {
                             if(task.getResult().hasChild(u.getUid())){//add friend button is clicked when the other user has requested, so can straight away accept
-                                databaseRefUser.child(usr.getUid().toString()).child("friends").child(u.getUid()).setValue(u.getUid());//add the new friend under the current users friend list
-                                databaseRefUser.child(u.getUid().toString()).child("friends").child(usr.getUid()).setValue(usr.getUid());
+                                databaseRefUser.child(usr.getUid()).child("friends").child(u.getUid()).setValue(u.getUid());//add the new friend under the current users friend list
+                                databaseRefUser.child(u.getUid()).child("friends").child(usr.getUid()).setValue(usr.getUid());
                                 databaseRefUser.child(usr.getUid()).child("requests").child(u.getUid()).removeValue();//remove the user from requests like
                                 userList.remove(u);
                             }
@@ -253,44 +253,6 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
             positiveText = itemView.findViewById(R.id.positiveText);
             negativeCard = itemView.findViewById(R.id.negativeCard);
             positiveCard = itemView.findViewById(R.id.positiveCard);
-        }
-
-        public void drawImg(Uri url){
-            Picasso.get().load(url).fit().into(userPic);
-        }
-        public void initializeAsync(int position) {
-            Handler mHandler = new Handler();
-            new Thread(new Runnable() {
-
-                String songName, otherStuff;
-
-                @Override
-                public void run () {
-
-                    User user = userList.get(position);
-
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run () {
-                            // make operation on UI
-                            //tvSongName.setText(songName);
-                            //...
-                            //...
-                            storageRef.child("profilepics/" + user.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    Picasso.get().load(uri).fit().into(userPic);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    //Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").fit().into(userPic);
-                                }
-                            });
-                        }
-                    });
-                }
-            }).start();
         }
     }
 
