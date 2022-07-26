@@ -127,15 +127,14 @@ public class Chat extends AppCompatActivity {
                 });
 
                 final String getprofilepic = getIntent().getStringExtra("Profilepic");
-//        chatkey = getIntent().getStringExtra("chatkey");
+
                 final String uid = getIntent().getStringExtra("uid");
 
-                //get user uid from memory
-                //getuid = MemoryData.getdata(Chat.this);
+                //getting uid
                 getuid = mAuth.getCurrentUser().getUid();
 
 
-                //Picasso.get().load(getprofilepic).into(profilepic);
+
 
                 chattingrecycleview.setHasFixedSize(true);
                 chattingrecycleview.setLayoutManager(new LinearLayoutManager(Chat.this));
@@ -145,7 +144,7 @@ public class Chat extends AppCompatActivity {
 
 
 
-
+                //Creating the timestamp and
                 cbRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -181,11 +180,9 @@ public class Chat extends AppCompatActivity {
                                         if (loadingfirsttime || Long.parseLong(messagetimestamp) > Long.parseLong(MemoryData.getlastmsgts(Chat.this, chatkey))) {
                                             loadingfirsttime = false;
                                             MemoryData.savelastmsgts(messagetimestamp, chatkey, Chat.this);
-
                                             chatadapter.updatechatlist(chatlistnerList);
                                             chattingrecycleview.scrollToPosition(chatlistnerList.size() - 1);
                                         }
-
                                     }
                                 }
                             }
@@ -222,6 +219,7 @@ public class Chat extends AppCompatActivity {
                     }
 
                 });
+                //Going back to the previous page
                 backbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

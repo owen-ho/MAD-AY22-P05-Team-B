@@ -116,27 +116,20 @@ public class ChatFeature extends AppCompatActivity {
                           @Override
                           public void onFailure(@NonNull Exception e) {//set default picture
                               progressDialog.dismiss();
-
                           }
                       });
                   }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                     progressDialog.dismiss();
                 }
             });
         }
-
-
         chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int getchatcount = (int)snapshot.getChildrenCount();
-                Log.v("chatcount",String.valueOf(getchatcount));
-
                 if(getchatcount >0){
-                    Log.v("chatcount",String.valueOf(getchatcount));
                     for (DataSnapshot dataSnapshot1 : snapshot.getChildren()){
                         MessageListener messageListener = new MessageListener();
                         final String getkey = dataSnapshot1.getKey();
@@ -148,11 +141,6 @@ public class ChatFeature extends AppCompatActivity {
                             final String getuserone = dataSnapshot1.child("user_1").getValue(String.class);
                             final String getusertwo = dataSnapshot1.child("user_2").getValue(String.class);
 
-                            Log.v("test1",getuserone);
-                            Log.v("test2",getusertwo);
-//                                        Log.v("sellerid",sellerid);
-                            Log.v("uid",user.getUid());
-
                             if((getuserone.equals(user.getUid())|| getusertwo.equals(user.getUid()))){
                                 sellerid = getuserone.equals(user.getUid())?getusertwo:getuserone;
                                 Log.v("testssssss",sellerid);
@@ -160,18 +148,12 @@ public class ChatFeature extends AppCompatActivity {
                                     if(dataSnapshot1.child("messages").hasChildren()){
                                         final long getmessagekey = Long.parseLong(chatdatasnapshot.getKey());
                                         final long getlastseenmessage = Long.parseLong(MemoryData.getlastmsgts(ChatFeature.this,getkey));
-                                        //String getlastseenmessage = chatdatasnapshot.child("msg").getValue().toString();
                                         lastmessage = chatdatasnapshot.child("msg").getValue(String.class);
                                         messageListener.setLastmessage(lastmessage);
-//                                        if(getmessagekey>getlastseenmessage){
-//                                            unseenmessage++;
-//                                        }
-                                        //////
+//
 
                                     }
                                 }
-                                Log.v("namenamexd1",sellerid);
-                                ///////////////////////////
                                 messageListener.setSellerid(sellerid);
                                 messageListenerList.clear();
                                 storageRef.child("profilepics/" + sellerid + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -179,11 +161,7 @@ public class ChatFeature extends AppCompatActivity {
                                     public void onSuccess(Uri uri) {//user has set a profile picture before
                                         messageListener.setProfilepic(uri.toString());
                                         messageListener.setUnseenMessages(unseenmessage);
-
-                                        //Log.i("knn",messageListener.getChatkey());
-                                        Log.i("knnn",messageListener.getSellerid());
                                         messageListenerList.add(messageListener);
-                                        //messageadapter.updatedata(messageListenerList);
                                         messageadapter.notifyDataSetChanged();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
@@ -191,17 +169,14 @@ public class ChatFeature extends AppCompatActivity {
                                     public void onFailure(@NonNull Exception e) {
                                         messageListener.setProfilepic("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png");
                                         messageListener.setUnseenMessages(unseenmessage);
-
                                         messageListener.setSellerid(sellerid);
                                         Log.i("knn",messageListener.getChatkey());
                                         messageListenerList.add(messageListener);
-                                        //messageadapter.updatedata(messageListenerList);
                                         messageadapter.notifyDataSetChanged();
                                     }
                                 });
                             }
                         }
-                        Log.v("testing",sellerid);
                     }//
                 }
             }
