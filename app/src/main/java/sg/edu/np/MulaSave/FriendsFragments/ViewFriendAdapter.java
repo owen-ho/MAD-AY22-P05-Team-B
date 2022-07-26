@@ -26,17 +26,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import sg.edu.np.MulaSave.HomePage.AddFriends;
+import sg.edu.np.MulaSave.HomePage.FriendsActivity;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 
@@ -93,37 +91,12 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
     @Override
     public void onBindViewHolder(@NonNull FriendViewHolder holder, @SuppressLint("RecyclerView") int position) {
         User u = userList.get(position);
-        u.setImg(ViewFriendAdapter.this, holder.userPic,holder.userPic.getContext(),position);
+
+        u.setImg(holder.userPic,holder.userPic.getContext());//set image in sync
+
         holder.userName.setText(u.getUsername());//get texts
         //holder.setIsRecyclable(false);
         holder.position = position;
-        ImageView img = (ImageView) holder.userPic;
-
-        //holder.initializeAsync(position);
-
-        //set profile picture
-        storageRef.child("profilepics/" + u.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            final int pos = position;
-            @Override
-            public void onSuccess(Uri uri) {//user has set a profile picture before
-                /*Log.i("hihi",String.valueOf(pos));
-                Log.i("hihi",String.valueOf(holder.position)+"position");
-                if(pos == holder.position){
-                    holder.drawImg(uri);
-                }*/
-                /*if(img == null){
-                    img = new ImageView(holder.userPic.getContext());
-                }
-                Picasso.get().load(uri).fit().into(img);*/
-
-            }
-        });/*.addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
-            @Override
-            public void onFailure(@NonNull Exception e) {//set default picture
-                //Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").fit().into(holder.userPic);
-            }
-        });//end of get profile pic*/
-
 
         if(holder.getItemViewType()==1){//friends page
             holder.negativeCard.setVisibility(View.GONE);
@@ -132,7 +105,6 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                 @Override
                 public void onClick(View view) {
                     removeFriendDialog(holder.itemView.getContext(),u,holder.getAdapterPosition());//set context and the friend (User object)
-                    AddFriends.refreshPage();
                 }
             });
         }//end of friends on bind methods
@@ -161,12 +133,12 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                                 }
                                 else{
                                     Toast.makeText(holder.itemView.getContext(), u.getUsername() + " withdrew the request!",Toast.LENGTH_SHORT).show();
-                                    AddFriends.refreshPage();
+                                    FriendsActivity.refreshPage();
                                 }
                             }
                             else{
                                 Toast.makeText(holder.itemView.getContext(), u.getUsername() + " withdrew the request!",Toast.LENGTH_SHORT).show();
-                                AddFriends.refreshPage();
+                                FriendsActivity.refreshPage();
                             }
                         }
                     });
@@ -179,7 +151,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                 public void onClick(View view) {
                     databaseRefUser.child(usr.getUid()).child("requests").child(u.getUid()).removeValue();
                     userList.remove(u);
-                    ViewFriendAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
+                    ViewFriendAdapter.this.notifyDataSetChanged();
                 }
             });
         }//end of onbind for requests view
@@ -210,6 +182,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                         holder.positiveText.setText("Requested");
                         holder.positiveCard.setCardBackgroundColor(Color.parseColor("#FF0288D1"));//set to blue
                         holder.negativeCard.setVisibility(View.VISIBLE);
+                        ViewFriendAdapter.this.notifyItemChanged(position);
                     }
                 }
             });//end of checking if the user has requested
@@ -224,8 +197,8 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                         @Override
                         public void onComplete(@NonNull Task<DataSnapshot> task) {
                             if(task.getResult().hasChild(u.getUid())){//add friend button is clicked when the other user has requested, so can straight away accept
-                                databaseRefUser.child(usr.getUid().toString()).child("friends").child(u.getUid()).setValue(u.getUid());//add the new friend under the current users friend list
-                                databaseRefUser.child(u.getUid().toString()).child("friends").child(usr.getUid()).setValue(usr.getUid());
+                                databaseRefUser.child(usr.getUid()).child("friends").child(u.getUid()).setValue(u.getUid());//add the new friend under the current users friend list
+                                databaseRefUser.child(u.getUid()).child("friends").child(usr.getUid()).setValue(usr.getUid());
                                 databaseRefUser.child(usr.getUid()).child("requests").child(u.getUid()).removeValue();//remove the user from requests like
                                 userList.remove(u);
                             }
@@ -234,11 +207,11 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                             }
                         }
                     });
+                    //u.setImg(holder.userPic,holder.userPic.getContext());
+                    holder.positiveText.setText("Requested");
+                    holder.positiveCard.setCardBackgroundColor(Color.parseColor("#FF0288D1"));//set to blue
+                    holder.negativeCard.setVisibility(View.VISIBLE);
                     //ViewFriendAdapter.this.notifyItemChanged(position);
-                    ViewFriendAdapter.this.notifyDataSetChanged();
-                    //userList.clear();
-                    //notifyDataSetChanged();
-                    //do not need to change the ui and visibility here because since the code onbind will run again after setting the value
                 }
             });
 
@@ -280,50 +253,6 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
             positiveText = itemView.findViewById(R.id.positiveText);
             negativeCard = itemView.findViewById(R.id.negativeCard);
             positiveCard = itemView.findViewById(R.id.positiveCard);
-        }
-
-        public void drawImg(Uri url){
-            Picasso.get().load(url).fit().into(userPic);
-        }
-        public void initializeAsync(int position) {
-            Handler mHandler = new Handler();
-            new Thread(new Runnable() {
-
-                String songName, otherStuff;
-
-                @Override
-                public void run () {
-                    // here we are async.
-
-                    // Retrieve here your song informations, ie:
-                    //object myRetrievedObject = getSongInfoBasedOnPositionSomeHow();
-                    //songName = myRetrievedObject.retrievedSongName;
-                    //otherStuff = myRetrievedObject.retrievedOtherStuffs;
-
-                    User user = userList.get(position);
-
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run () {
-                            // make operation on UI
-                            //tvSongName.setText(songName);
-                            //...
-                            //...
-                            storageRef.child("profilepics/" + user.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    Picasso.get().load(uri).fit().into(userPic);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    //Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").fit().into(userPic);
-                                }
-                            });
-                        }
-                    });
-                }
-            }).start();
         }
     }
 
@@ -367,9 +296,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                 databaseRefUser.child(friend.getUid()).child("friends").child(usr.getUid()).removeValue();//remove current user from the friend's friend list
                 userList.remove(position);
                 ViewFriendAdapter.this.notifyItemRemoved(position);
-                //userList.clear();
-                //ViewFriendAdapter.this.notifyDataSetChanged();
-                //AddFriends.refreshPage();
+                //FriendsActivity.refreshPage();
                 alertDialog.dismiss();
             }
         });
@@ -387,9 +314,6 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
         }
         alertDialog.show();
-
-
-
     }
 
 }

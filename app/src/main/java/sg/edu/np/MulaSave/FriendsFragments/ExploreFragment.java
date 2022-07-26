@@ -1,5 +1,10 @@
 package sg.edu.np.MulaSave.FriendsFragments;
 
+import static sg.edu.np.MulaSave.FriendsFragments.FriendsFragment.filterDataBySearch;
+import static sg.edu.np.MulaSave.FriendsFragments.FriendsFragment.initData;
+import static sg.edu.np.MulaSave.FriendsFragments.FriendsFragment.searchClose;
+import static sg.edu.np.MulaSave.FriendsFragments.FriendsFragment.searchOpen;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,6 +41,7 @@ public class ExploreFragment extends Fragment {
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     ArrayList<User> exploreList;
     SearchView searchFriendExplore;
+    TextView exploreNoDisplay;
 
     public ExploreFragment() {
         // Required empty public constructor
@@ -64,43 +71,16 @@ public class ExploreFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         exploreRecyclerView = view.findViewById(R.id.exploreRecycler);
         searchFriendExplore = view.findViewById(R.id.searchFriendExplore);
+        exploreNoDisplay = view.findViewById(R.id.exploreNoDisplay);
 
         exploreList = new ArrayList<>();
-        ViewFriendAdapter Eadapter = new ViewFriendAdapter(exploreList,3);
-        databaseRefUser.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {//get data on success
-                exploreList.clear();
-                for (DataSnapshot ss : snapshot.getChildren()){
-                    //User extractUser = ss.getValue(User.class);
-                    User user = new User();
-                    for (DataSnapshot ds : ss.getChildren()){//because the users may have wishlists and other fields, cannot extract directly to user class
-                        if (ds.getKey().equals("uid")){
-                            user.setUid(ds.getValue().toString());
-                        }
-                        if(ds.getKey().equals("email")){
-                            user.setEmail(ds.getValue().toString());
-                        }
-                        if(ds.getKey().equals("username")){
-                            user.setUsername(ds.getValue().toString());
-                        }
-                    }
-                    if (user.getUid().equals(usr.getUid())){
-                        //do nothing
-                    }
-                    else{
-                        exploreList.add(user);//add user to the list
-                    }
-                }
-                Eadapter.notifyDataSetChanged();
-            }
+        ViewFriendAdapter eAdapter = new ViewFriendAdapter(exploreList,3);
+        initData(exploreList, eAdapter, "explore",exploreNoDisplay);//initialise data
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+        LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
+        exploreRecyclerView.setLayoutManager(vLayoutManager);
+        exploreRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        exploreRecyclerView.setAdapter(eAdapter);//set adapter
         searchFriendExplore.setSubmitButtonEnabled(true);//enable submit button
         searchFriendExplore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,11 +89,21 @@ public class ExploreFragment extends Fragment {
             }
         });
 
+        searchFriendExplore.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchOpen(getActivity(),getActivity().findViewById(R.id.exploreConstraint),R.id.exploreConstraint, R.id.searchExploreCard);//format on search click
+                filterDataBySearch(searchFriendExplore, exploreList, eAdapter,"explore");
+            }
+        });
 
-
-        LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
-        exploreRecyclerView.setLayoutManager(vLayoutManager);
-        exploreRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        exploreRecyclerView.setAdapter(Eadapter);//set adapter
+        searchFriendExplore.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                searchClose(getActivity(), getActivity().findViewById(R.id.exploreConstraint), R.id.exploreConstraint, R.id.searchExploreCard);//format on search close
+                return false;//return false so that icon closes back on close
+            }
+        });
     }
+
 }

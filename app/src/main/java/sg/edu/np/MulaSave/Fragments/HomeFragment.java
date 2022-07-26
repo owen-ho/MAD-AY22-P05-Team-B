@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import sg.edu.np.MulaSave.HomePage.AddFriends;
+import sg.edu.np.MulaSave.HomePage.FriendsActivity;
 import sg.edu.np.MulaSave.HomePage.AddPostActivity;
 import sg.edu.np.MulaSave.HomePage.LikedPostActivity;
 import sg.edu.np.MulaSave.HomePage.Post;
@@ -85,7 +85,7 @@ public class HomeFragment extends Fragment {
         addFriend.setOnClickListener(new View.OnClickListener() {//set on click listener
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), AddFriends.class);//go to add friends class
+                Intent i = new Intent(getActivity(), FriendsActivity.class);//go to add friends class
                 startActivity(i);
             }
         });
@@ -163,11 +163,6 @@ public class HomeFragment extends Fragment {
 
     }//end of onview created method
 
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        getFragmentManager().beginTransaction().detach(this).attach(this).commit();
-    }*/
 
     /**
      * desc

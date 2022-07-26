@@ -165,6 +165,10 @@ public class AddPostActivity extends AppCompatActivity {
         });
     }//end of oncreate
 
+    /**
+     * The image chooser called when user wants to upload an image
+     * Returns the onActivityResult to finish selection
+     */
     private void imgChooser() {//choose image method
         Intent i = new Intent();
         i.setType("image/*");
@@ -173,6 +177,14 @@ public class AddPostActivity extends AppCompatActivity {
     }
 
     //get image and load to preview
+
+    /**
+     * This method is executed after the imgChooser method is executed, this method sets the image uri
+     * to the tentative post object and sets the previewed image to the user.
+     * @param requestCode generated and used to ensure the image is correct
+     * @param resultCode generated and used to ensure that the result executed successfully
+     * @param data data of the selected image to be used
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {//if result is ok
