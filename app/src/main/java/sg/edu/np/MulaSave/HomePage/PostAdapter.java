@@ -154,7 +154,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         if (show != 1){
             plural = "s";
         }
-        holder.postDateTime.setText(String.valueOf(show) + " " + unit + plural + " ago");
+        if(show<0){
+            holder.postDateTime.setText("Just Now");
+        }
+        else{
+            holder.postDateTime.setText(String.valueOf(show) + " " + unit + plural + " ago");
+        }
+
         holder.postCaption.setText(post.getPostDesc());
 
         final GestureDetector gDetector = new GestureDetector(holder.postImage.getContext(), new GestureDetector.SimpleOnGestureListener() {
