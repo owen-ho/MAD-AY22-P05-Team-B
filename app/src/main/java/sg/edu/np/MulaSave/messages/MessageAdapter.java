@@ -35,6 +35,8 @@ import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.chat.Chat;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHolder> {
+
+    // Getting firebase reference
     private List<MessageListener> messageListeners;
     private final Context context;
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -57,51 +59,30 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.MyViewHolder holder, int position) {
+
+        // Setting up the variables and
         String currentUser;
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser().getUid();
         MessageListener list2 = messageListeners.get(position);
-        Log.v("trying", String.valueOf(messageListeners.size()));
-        storageRef.child("profilepics/" + list2.getSellerid() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {//user has set a profile picture before
-                Picasso.get().load(uri).into(holder.Profilepic);
-                holder.Profilepic.setVisibility(View.VISIBLE);
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
-            @Override
-            public void onFailure(@NonNull Exception e) {//set default picture
-
-            }
-        });
+        Picasso.get().load(Uri.parse(list2.getProfilepic())).into(holder.Profilepic);
+        holder.Profilepic.setVisibility(View.VISIBLE);
 
 
-        chatRef.child("1").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        // Set text of last message as well as name
+        chatRef.child(list2.getChatkey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if(task.getResult().child("user_1").getValue().equals(currentUser)){
                     String test;
                     test = String.valueOf(task.getResult().child("user_2").getValue());
-                    Log.d("gg", test);
 
-//                    userRef.child(test).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                            holder.name.setText((String.valueOf(task.getResult().child("username").getValue())));
-//                            holder.lastmessage.setText(list2.getLastmessage());
-//                            Log.d("gg5", list2.getLastmessage());
-//                        }
-//                    });
                     userRef.child(test).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             holder.name.setText((String.valueOf(snapshot.child("username").getValue())));
                             holder.lastmessage.setText(list2.getLastmessage());
-                            Log.d("gg5", list2.getLastmessage());
-
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
 
@@ -111,13 +92,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
                 else{
                     String test;
                     test = String.valueOf(task.getResult().child("user_1").getValue());
-                    Log.d("gg2", test);
                     userRef.child(test).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DataSnapshot> task) {
                             holder.name.setText((String.valueOf(task.getResult().child("username").getValue())));
                             holder.lastmessage.setText(list2.getLastmessage());
-                            Log.d("gg6", list2.getLastmessage());
 
                         }
                     });
@@ -125,6 +104,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
                 }
             });
 
+        // Setting the unseenmessages
         if(list2.getUnseenMessages()==0){
             holder.unseenmessage.setVisibility(View.GONE);
             holder.lastmessage.setTextColor(Color.parseColor("#959595"));
@@ -136,23 +116,23 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         }
 
         holder.rootlayout.setOnClickListener(new View.OnClickListener() {
+
+            // Passing data into chat class
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(context, Chat.class);
                 intent.putExtra("sellerid",list2.getSellerid());
                 intent.putExtra("uid",list2.getUid());
                 intent.putExtra("name",list2.getUsername());
                 intent.putExtra("Profilepic",list2.getProfilepic());
                 intent.putExtra("chatkey",list2.getChatkey());
+                intent.putExtra("messageListener",list2);
                 context.startActivity(intent);
             }
         });
     }
     public void updatedata(List<MessageListener> messageListeners){
         this.messageListeners = messageListeners;
-        //notifyDataSetChanged();
-
 
     }
 
@@ -162,6 +142,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
+
+        // Identifing the variables from the XML
         private ImageView Profilepic;
         private TextView name;
         private TextView lastmessage;
