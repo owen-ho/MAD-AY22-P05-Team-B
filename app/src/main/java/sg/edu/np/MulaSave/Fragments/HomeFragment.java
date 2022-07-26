@@ -163,11 +163,6 @@ public class HomeFragment extends Fragment {
 
     }//end of onview created method
 
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        getFragmentManager().beginTransaction().detach(this).attach(this).commit();
-    }*/
 
     /**
      * desc

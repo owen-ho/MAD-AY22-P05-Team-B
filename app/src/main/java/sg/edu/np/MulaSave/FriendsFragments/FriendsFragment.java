@@ -103,6 +103,15 @@ public class FriendsFragment extends Fragment {
             }
         });
     }
+
+    /**
+     * This method sets the constraints for each of the searchViews onSearchView clicked in all the fragments (Friends, Requests and Explore) in the FriendsActivity
+     * this is to set the searchView in layouts to align in the center else the searchView might not be aligned
+     * @param context each fragment have different context and context is required to excecute the method
+     * @param constraintView the view of the constraintlayout (parent) that is to be used to set the constraints
+     * @param layoutView the id of the constraintlayout (parent) to be used to apply constraints
+     * @param searchViewCard the id of the cardView containing the searchView to be used to apply constraints
+     */
     public static void searchOpen(Context context, View constraintView, int layoutView, int searchViewCard){
         ConstraintLayout layout = (ConstraintLayout) constraintView;
         ConstraintSet set = new ConstraintSet();
@@ -114,7 +123,14 @@ public class FriendsFragment extends Fragment {
         set.applyTo(layout);
     }
 
-    //function to set searchview on search close
+    /**
+     * This method sets the constraints for each of the searchViews on close in all the fragments (Friends, Requests and Explore) in the FriendsActivity
+     * this is to set the searchView in position when it is closed after the position has been changed onSearchClick
+     * @param context each fragment have different context and context is required to excecute the method
+     * @param constraintView the view of the constraintlayout (parent) that is to be used to set the constraints
+     * @param layoutView the id of the constraintlayout (parent) to be used to apply constraints
+     * @param searchViewCard the id of the cardView containing the searchView to be used to apply constraints
+     */
     public static void searchClose(Context context, View constraintView, int layoutView, int searchViewCard){
         //to convert margin to dp
         Resources r = context.getResources();
@@ -133,6 +149,14 @@ public class FriendsFragment extends Fragment {
         set.applyTo(layout);
     }
 
+    /**
+     * This static method initialises the data for the fragments under the FriendsActivity (Friends, Requests and Explore fragments
+     * @param friendList the list of users for updating and manipulation
+     * @param adapter the ViewFriendAdapter object to be used to update the recyclerviews
+     * @param path the path of the database, as they can be different depending on which fragment the user is accessing
+     * @param view the textview used to show "No users" etc when there is nothing shown in each of the fragments
+     * This method returns the data into the respective fragments and is used for initialisation
+     */
     public static void initData(ArrayList<User> friendList, ViewFriendAdapter adapter, String path, TextView view){
         DatabaseReference databaseRefUser = FirebaseDatabase
                 .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
@@ -214,7 +238,15 @@ public class FriendsFragment extends Fragment {
         }
     }
 
-    //filter fragment rrecyclerviews by user input
+    /**
+     * This static method is used for all the fragments in the friends activity, to filter the users shown in the respective
+     * recyclerviews by their usernames.
+     * @param searchFriends SearchView to identify for manipulation
+     * @param friendList the list to be passed in and changed depending on search result
+     * @param adapter the ViewFriendAdapter object to be used to notify data changes
+     * @param path the path of to database changes depending on which fragments (Friends, Requests, Explore)
+     * This method updates the adapter and shows the filtered users
+     */
     public static void filterDataBySearch(SearchView searchFriends, ArrayList<User> friendList, ViewFriendAdapter adapter,String path){
         DatabaseReference databaseRefUser = FirebaseDatabase
                 .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
@@ -230,23 +262,23 @@ public class FriendsFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String s) {
                 friendList.clear();
-                if (path.equals("explore")) {//the way to get users from explore is quite different
+                if (path.equals("explore")) {//structure for explore fragment is different from Friends and Requests Fragment
                     databaseRefUser.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {//get data on success
-                            friendList.clear();
+                            friendList.clear();//clear view to prevent duplicates
                             for (DataSnapshot ss : snapshot.getChildren()){
-                                //User extractUser = ss.getValue(User.class);
-                                User user = new User();
+                                User user = new User();//new user object
+                                //get user attributes and add to the created user obj
                                 for (DataSnapshot ds : ss.getChildren()){//because the users may have wishlists and other fields, cannot extract directly to user class
                                     if (ds.getKey().equals("uid")){user.setUid(ds.getValue().toString());}
                                     if (ds.getKey().equals("email")){user.setEmail(ds.getValue().toString());}
                                     if (ds.getKey().equals("username")){ user.setUsername(ds.getValue().toString());}
                                 }
                                 if (!user.getUid().equals(usr.getUid())){//dont show the user himself
-                                    if (user.getUsername().toLowerCase().contains(s.toLowerCase())) {
+                                    if (user.getUsername().toLowerCase().contains(s.toLowerCase())) {//check if username contains search result
                                         friendList.add(user);
-                                        adapter.notifyDataSetChanged();
+                                        adapter.notifyDataSetChanged();//add user and update recyclerview
                                     }
                                 }
                             }
@@ -260,7 +292,7 @@ public class FriendsFragment extends Fragment {
                     });
                 }
 
-                else {//get data from friendlist or request list
+                else {//get data from friendlist or request list depending on the path
                     databaseRefUser.child(usr.getUid()).child(path).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {

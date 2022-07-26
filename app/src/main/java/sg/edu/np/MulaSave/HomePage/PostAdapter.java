@@ -238,6 +238,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return postList.size();
     }
 
+    /**
+     * The PostViewHolder class for the PostAdapter adapter object
+     */
     public class PostViewHolder extends RecyclerView.ViewHolder {
         ImageView creatorImage, postImage, postLike,postHeartAni;
         TextView creatorUsername, postCaption, postDateTime;

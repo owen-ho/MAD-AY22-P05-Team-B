@@ -97,6 +97,9 @@ public class ChildPostFragment extends Fragment {
         userPostRecycler.setAdapter(userPostAdapter);//set adapter
     }
 
+    /**
+     *
+     */
     public Comparator<Post> postComparator = new Comparator<Post>() {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override

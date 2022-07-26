@@ -95,6 +95,13 @@ public class FriendsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method ensures that there are no duplicated users in the recyclerviews in each fragments
+     * under the FriendsActivity
+     * @param u the user to check
+     * @param users the list of users to check if user u is in the list
+     * @return boolean object stating whether to add the new user
+     */
     public static boolean addNewUser(User u, ArrayList<User> users){
         for (User user : users){
             if(user.getUid().equals(u.getUid())){
