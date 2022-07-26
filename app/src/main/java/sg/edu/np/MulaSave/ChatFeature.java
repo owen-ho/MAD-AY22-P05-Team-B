@@ -39,7 +39,7 @@ public class ChatFeature extends AppCompatActivity {
     private MessageAdapter messageadapter;
     private ImageView userprofilepic;
     private int unseenmessage = 0;
-    private String chatkey="";
+    private String chatkey="0";
     private String lastmessage = "";
     private boolean dataset = false;
     String currentuser= "";
@@ -96,30 +96,30 @@ public class ChatFeature extends AppCompatActivity {
 
         if (user!=null){
             userRef.addValueEventListener(new ValueEventListener() {
-                                              @Override
-                                              public void onDataChange(DataSnapshot snapshot) {
-                                                  String username;
-                                                  if (snapshot.child(user.getUid()).child("username").exists()) { //Check if username exists to prevent crash
-                                                      username = snapshot.child(user.getUid()).child("username").getValue().toString();
-                                                  } else {
-                                                      username = "";
-                                                  }
-                                                  storageRef.child("profilepics/" + user.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                      @Override
-                                                      public void onSuccess(Uri uri) {//user has set a profile picture before
-                                                          userprofilepic = findViewById(R.id.userprofilepic1);
-                                                          Picasso.get().load(uri).into(userprofilepic);
-                                                          progressDialog.dismiss();
+                  @Override
+                  public void onDataChange(DataSnapshot snapshot) {
+                      String username;
+                      if (snapshot.child(user.getUid()).child("username").exists()) { //Check if username exists to prevent crash
+                          username = snapshot.child(user.getUid()).child("username").getValue().toString();
+                      } else {
+                          username = "";
+                      }
+                      storageRef.child("profilepics/" + user.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                          @Override
+                          public void onSuccess(Uri uri) {//user has set a profile picture before
+                              userprofilepic = findViewById(R.id.userprofilepic1);
+                              Picasso.get().load(uri).into(userprofilepic);
+                              progressDialog.dismiss();
 
-                                                      }
-                                                  }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
-                                                      @Override
-                                                      public void onFailure(@NonNull Exception e) {//set default picture
-                                                          progressDialog.dismiss();
+                          }
+                      }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
+                          @Override
+                          public void onFailure(@NonNull Exception e) {//set default picture
+                              progressDialog.dismiss();
 
-                                                      }
-                                                  });
-                                              }
+                          }
+                      });
+                  }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
@@ -129,9 +129,7 @@ public class ChatFeature extends AppCompatActivity {
         }
 
 
-
-
-        chatRef.addValueEventListener(new ValueEventListener() {
+        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int getchatcount = (int)snapshot.getChildrenCount();
@@ -140,10 +138,10 @@ public class ChatFeature extends AppCompatActivity {
                 if(getchatcount >0){
                     Log.v("chatcount",String.valueOf(getchatcount));
                     for (DataSnapshot dataSnapshot1 : snapshot.getChildren()){
+                        MessageListener messageListener = new MessageListener();
                         final String getkey = dataSnapshot1.getKey();
                         if (getkey != null){
-                            chatkey = getkey;
-
+                            messageListener.setChatkey(getkey);
                         }
 
                         if(dataSnapshot1.hasChild("user_1")&&dataSnapshot1.hasChild("user_2") && dataSnapshot1.hasChild("messages")){
@@ -157,70 +155,54 @@ public class ChatFeature extends AppCompatActivity {
 
                             if((getuserone.equals(user.getUid())|| getusertwo.equals(user.getUid()))){
                                 sellerid = getuserone.equals(user.getUid())?getusertwo:getuserone;
-
-
-                                Log.v("test","hello");
+                                Log.v("testssssss",sellerid);
                                 for(DataSnapshot chatdatasnapshot: dataSnapshot1.child("messages").getChildren()){
                                     if(dataSnapshot1.child("messages").hasChildren()){
                                         final long getmessagekey = Long.parseLong(chatdatasnapshot.getKey());
                                         final long getlastseenmessage = Long.parseLong(MemoryData.getlastmsgts(ChatFeature.this,getkey));
                                         //String getlastseenmessage = chatdatasnapshot.child("msg").getValue().toString();
                                         lastmessage = chatdatasnapshot.child("msg").getValue(String.class);
+                                        messageListener.setLastmessage(lastmessage);
 //                                        if(getmessagekey>getlastseenmessage){
 //                                            unseenmessage++;
 //                                        }
+                                        //////
 
                                     }
-                                }   userRef.addValueEventListener(new ValueEventListener() {
+                                }
+                                Log.v("namenamexd1",sellerid);
+                                ///////////////////////////
+                                messageListener.setSellerid(sellerid);
+                                messageListenerList.clear();
+                                storageRef.child("profilepics/" + sellerid + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        //messageListenerList.clear();
-                                        Log.v("nnb","puacb");
-                                        unseenmessage = 0;
-//                                        lastmessage = "";
+                                    public void onSuccess(Uri uri) {//user has set a profile picture before
+                                        messageListener.setProfilepic(uri.toString());
+                                        messageListener.setUnseenMessages(unseenmessage);
 
-                                        chatkey="";
-                                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                            dataset = false;
-                                            if (dataSnapshot.getKey().toString().equals(sellerid)){
-                                                getname = dataSnapshot.child("username").getValue(String.class);
-                                                Log.v("namenamexd",getname);
-                                            }
-                                        }
+                                        //Log.i("knn",messageListener.getChatkey());
+                                        Log.i("knnn",messageListener.getSellerid());
+                                        messageListenerList.add(messageListener);
+                                        //messageadapter.updatedata(messageListenerList);
+                                        messageadapter.notifyDataSetChanged();
                                     }
+                                }).addOnFailureListener(new OnFailureListener() {
                                     @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
+                                    public void onFailure(@NonNull Exception e) {
+                                        messageListener.setProfilepic("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png");
+                                        messageListener.setUnseenMessages(unseenmessage);
+
+                                        messageListener.setSellerid(sellerid);
+                                        Log.i("knn",messageListener.getChatkey());
+                                        messageListenerList.add(messageListener);
+                                        //messageadapter.updatedata(messageListenerList);
+                                        messageadapter.notifyDataSetChanged();
                                     }
                                 });
                             }
                         }
                         Log.v("testing",sellerid);
-                    }
-                }
-                if(!dataset){
-                    //dataset = true;
-                    Log.v("testing1",sellerid);
-                    Log.v("nametest",getname);
-
-                    MessageListener messagelistiners = new MessageListener(getname,user.getUid(),lastmessage,getprofilepic,unseenmessage,chatkey,sellerid);
-                    Log.v("Lastmessage",lastmessage);
-                    if (!messagelistiners.getLastmessage().equals("")){
-                        Log.v("yesif","ok");
-
-                        messageListenerList.clear();
-                        messageListenerList.add(messagelistiners);
-                        messageadapter.updatedata(messageListenerList);
-
-                        messageadapter.notifyDataSetChanged();
-                        dataset = true;
-
-                    }
-                    else{
-                        Log.v("yesif","no");
-
-                    }
-                    dataset = true;
-
+                    }//
                 }
             }
             @Override

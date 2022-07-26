@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,22 +36,26 @@ import java.util.List;
 import java.util.Locale;
 
 import sg.edu.np.MulaSave.MemoryData;
+import sg.edu.np.MulaSave.Product;
 import sg.edu.np.MulaSave.R;
+import sg.edu.np.MulaSave.messages.MessageListener;
 
 public class Chat extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference chatRef = database.getReference("Chat");
     DatabaseReference cbRef = database.getReference();
     DatabaseReference userRef = database.getReference("user");
+    FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseAuth mAuth;
 
     private final List<ChatListener> chatlistnerList = new ArrayList<>();
     private ChatAdapter chatadapter;
 
-    String chatkey = "1";
+    String chatkey = "0";
     String getuid = "";
     String username = "";
     String sellerid = "";
+    MessageListener messageListener;
     private boolean loadingfirsttime = true;
 
     private RecyclerView chattingrecycleview;
@@ -72,56 +77,71 @@ public class Chat extends AppCompatActivity {
         sellerid = getIntent().getStringExtra("sellerid");
         // Retrieving data from message adapater class
 
+        messageListener = (MessageListener) getIntent().getSerializableExtra("messageListener");
+
         DatabaseReference mDatabase;
         mDatabase = database.getReference("user");
         Log.v("selleriddd", sellerid);
-
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        chatRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds : snapshot.getChildren()){
-                    if(ds.child("uid").getValue(String.class).equals(sellerid)){
-                        FirebaseStorage storage = FirebaseStorage.getInstance();
-                        StorageReference storageRef = storage.getReference();
-                        username = ds.child("username").getValue(String.class);
-                        nameTTv.setText(username);
-                        storageRef.child("profilepics/" + ds.child("uid").getValue().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {//user has set a profile picture before
-                                Picasso.get().load(uri).into(profilepic);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
-                            @Override
-                            public void onFailure(@NonNull Exception e) {//set default picture
-
-                            }
-                        });
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    if(dataSnapshot.getKey().toString().equals(sellerid+usr.getUid()) || dataSnapshot.getKey().toString().equals(usr.getUid()+sellerid)){
+                        chatkey = dataSnapshot.getKey().toString();
+                        break;
                     }
+                    Log.i("knn",dataSnapshot.getKey().toString());
                 }
-            }
+                //no existing chat, create new chat key
+                if(chatkey.equals("0")){
+                    chatkey = usr.getUid()+sellerid;
+                }
+                mDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds : snapshot.getChildren()){
+                            if(ds.child("uid").getValue(String.class).equals(sellerid)){
+                                FirebaseStorage storage = FirebaseStorage.getInstance();
+                                StorageReference storageRef = storage.getReference();
+                                username = ds.child("username").getValue(String.class);
+                                nameTTv.setText(username);
+                                storageRef.child("profilepics/" + ds.child("uid").getValue().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {//user has set a profile picture before
+                                        Picasso.get().load(uri).into(profilepic);
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {//set default picture
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                                    }
+                                });
+                            }
+                        }
+                    }
 
-            }
-        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-        final String getprofilepic = getIntent().getStringExtra("Profilepic");
+                    }
+                });
+
+                final String getprofilepic = getIntent().getStringExtra("Profilepic");
 //        chatkey = getIntent().getStringExtra("chatkey");
-        final String uid = getIntent().getStringExtra("uid");
+                final String uid = getIntent().getStringExtra("uid");
 
-        //get user uid from memory
-        //getuid = MemoryData.getdata(Chat.this);
-        getuid = mAuth.getCurrentUser().getUid();
+                //get user uid from memory
+                //getuid = MemoryData.getdata(Chat.this);
+                getuid = mAuth.getCurrentUser().getUid();
 
 
-        //Picasso.get().load(getprofilepic).into(profilepic);
+                //Picasso.get().load(getprofilepic).into(profilepic);
 
-        chattingrecycleview.setHasFixedSize(true);
-        chattingrecycleview.setLayoutManager(new LinearLayoutManager(Chat.this));
+                chattingrecycleview.setHasFixedSize(true);
+                chattingrecycleview.setLayoutManager(new LinearLayoutManager(Chat.this));
 
-        chatadapter = new ChatAdapter(chatlistnerList, Chat.this);
-        chattingrecycleview.setAdapter(chatadapter);
+                chatadapter = new ChatAdapter(chatlistnerList, Chat.this);
+                chattingrecycleview.setAdapter(chatadapter);
 
 
 
@@ -199,43 +219,6 @@ public class Chat extends AppCompatActivity {
                         });
                         //clear edit text
                         messageedittxt.setText("");
-
-
-//                        chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                if (snapshot.hasChild(chatkey)) {
-//                                    chatkey = chatkey + chatkey;
-//                                    chatRef.child(chatkey).child("user_1").setValue(getuid);
-//                                    chatRef.child(chatkey).child("user_2").setValue(sellerid);
-//                                    chatRef.child(chatkey).child("messages").child(currenttimestamp).child("msg").setValue(gettextmessage);
-//                                    chatRef.child(chatkey).child("messages").child(currenttimestamp).child("uid").setValue(getuid);
-//                                    //clear edit text
-//                                    messageedittxt.setText("");
-//                                } else {
-//                                    chatRef.child(chatkey).child("user_1").setValue(getuid);
-//                                    chatRef.child(chatkey).child("user_2").setValue(sellerid);
-//                                    chatRef.child(chatkey).child("messages").child(currenttimestamp).child("msg").setValue(gettextmessage);
-//                                    chatRef.child(chatkey).child("messages").child(currenttimestamp).child("uid").setValue(getuid);
-//                                    //clear edit text
-//                                    messageedittxt.setText("");
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError error) {
-//
-//                            }
-                    //});
-
-//                chatkey = "1";
-
-//                chatRef.child(chatkey).child("user_1").setValue(getuid);
-//                chatRef.child(chatkey).child("user_2").setValue(sellerid);
-//                chatRef.child(chatkey).child("messages").child(currenttimestamp).child("msg").setValue(gettextmessage);
-//                chatRef.child(chatkey).child("messages").child(currenttimestamp).child("uid").setValue(getuid);
-//                //clear edit text
-//                messageedittxt.setText("");
                     }
 
                 });
@@ -245,6 +228,13 @@ public class Chat extends AppCompatActivity {
                         finish();
                     }
                 });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
     }

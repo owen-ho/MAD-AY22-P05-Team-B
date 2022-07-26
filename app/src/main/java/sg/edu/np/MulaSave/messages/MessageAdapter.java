@@ -62,7 +62,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         currentUser = mAuth.getCurrentUser().getUid();
         MessageListener list2 = messageListeners.get(position);
         Log.v("trying", String.valueOf(messageListeners.size()));
-        storageRef.child("profilepics/" + list2.getSellerid() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        Picasso.get().load(Uri.parse(list2.getProfilepic())).into(holder.Profilepic);
+        holder.Profilepic.setVisibility(View.VISIBLE);
+        Log.i("ccb",list2.getSellerid());
+        /*storageRef.child("profilepics/" + list2.getSellerid() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {//user has set a profile picture before
                 Picasso.get().load(uri).into(holder.Profilepic);
@@ -74,10 +77,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
             public void onFailure(@NonNull Exception e) {//set default picture
 
             }
-        });
+        });*/
 
 
-        chatRef.child("1").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        chatRef.child(list2.getChatkey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if(task.getResult().child("user_1").getValue().equals(currentUser)){
@@ -138,13 +141,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         holder.rootlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(context, Chat.class);
                 intent.putExtra("sellerid",list2.getSellerid());
                 intent.putExtra("uid",list2.getUid());
                 intent.putExtra("name",list2.getUsername());
                 intent.putExtra("Profilepic",list2.getProfilepic());
                 intent.putExtra("chatkey",list2.getChatkey());
+                intent.putExtra("messageListener",list2);
                 context.startActivity(intent);
             }
         });
