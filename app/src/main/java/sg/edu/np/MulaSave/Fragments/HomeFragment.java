@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment {
     RecyclerView postRecycler;
     ArrayList<Post> postList;
     PostAdapter postAdapter;
-    TextView postNoDisplay;
+    TextView postNoDisplay, hPageView;
 
     FirebaseDatabase databaseRef = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -81,6 +81,7 @@ public class HomeFragment extends Fragment {
         addPost = view.findViewById(R.id.hAddPost);
         viewLikes = view.findViewById(R.id.hLikes);
         postNoDisplay = view.findViewById(R.id.postNoDisplay);
+        hPageView = view.findViewById(R.id.hPageView);
 
         addFriend.setOnClickListener(new View.OnClickListener() {//set on click listener
             @Override
@@ -116,6 +117,70 @@ public class HomeFragment extends Fragment {
         postList = new ArrayList<>();//create new arraylist
         postAdapter = new PostAdapter(postList);//create new adapter
 
+        hPageView.setText("Explore");
+        initPostMain();
+
+        hPageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(hPageView.getText().equals("Explore")){
+                    hPageView.setText("Friends");
+                    initPostFriends();
+                }
+                else{
+                    hPageView.setText("Explore");
+                    initPostMain();
+                }
+            }
+        });
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
+
+        postRecycler.setLayoutManager(linearLayoutManager);
+        postRecycler.setItemAnimator(new DefaultItemAnimator());
+        postRecycler.setAdapter(postAdapter);//set adapter
+
+
+    }//end of onview created method
+
+
+    /**
+     * desc
+     * Param
+     * return
+     */
+    public Comparator<Post> postComparator = new Comparator<Post>() {
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        public int compare(Post p1, Post p2) {
+            int l1 = Instant.parse(p2.getPostDateTime()).compareTo(Instant.parse(p1.getPostDateTime()));
+            return l1;
+        }
+    };
+    private void initPostMain(){
+        databaseRefPost.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                postList.clear();
+                for (DataSnapshot ss : snapshot.getChildren()){
+                    Post post = ss.getValue(Post.class);
+                    postList.add(post);
+                }
+                Collections.sort(postList,postComparator);
+                if(postList.size()==0){
+                    postNoDisplay.setVisibility(View.VISIBLE);
+                }
+                postAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void initPostFriends(){
         databaseRefPost.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -153,28 +218,5 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
-
-        postRecycler.setLayoutManager(linearLayoutManager);
-        postRecycler.setItemAnimator(new DefaultItemAnimator());
-        postRecycler.setAdapter(postAdapter);//set adapter
-
-
-    }//end of onview created method
-
-
-    /**
-     * desc
-     * Param
-     * return
-     */
-    public Comparator<Post> postComparator = new Comparator<Post>() {
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        @Override
-        public int compare(Post p1, Post p2) {
-            int l1 = Instant.parse(p2.getPostDateTime()).compareTo(Instant.parse(p1.getPostDateTime()));
-            return l1;
-        }
-    };
+    }
 }
