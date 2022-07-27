@@ -1,7 +1,6 @@
 package sg.edu.np.MulaSave.Fragments;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -10,43 +9,28 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
-import sg.edu.np.MulaSave.ChildReserveFragment;
-import sg.edu.np.MulaSave.ChildUploadFragment;
 import sg.edu.np.MulaSave.HomePage.FriendsActivity;
 import sg.edu.np.MulaSave.HomePage.AddPostActivity;
+import sg.edu.np.MulaSave.HomePage.HomePostFragmentAdapter;
 import sg.edu.np.MulaSave.HomePage.LikedPostActivity;
-import sg.edu.np.MulaSave.HomePage.Post;
-import sg.edu.np.MulaSave.HomePage.PostAdapter;
 import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.R;
-import sg.edu.np.MulaSave.home_explore_posts;
-import sg.edu.np.MulaSave.home_friends_post;
+import sg.edu.np.MulaSave.HomePage.home_explore_posts;
+import sg.edu.np.MulaSave.HomePage.home_friends_post;
 
 public class HomeFragment extends Fragment {
 
+    private Parcelable recyclerViewState;
     ImageView addFriend, addPost, viewLikes;
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -141,6 +125,22 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                //recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
             }
         });

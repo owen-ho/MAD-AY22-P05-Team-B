@@ -1,4 +1,4 @@
-package sg.edu.np.MulaSave.Fragments;
+package sg.edu.np.MulaSave.HomePage;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +32,7 @@ public class HomePostFragmentAdapter extends FragmentPagerAdapter {
     }
     @Override
     public int getItemPosition(@NonNull Object object) {
-        return POSITION_NONE;
+        return super.getItemPosition(object);
     }
 
     @Nullable

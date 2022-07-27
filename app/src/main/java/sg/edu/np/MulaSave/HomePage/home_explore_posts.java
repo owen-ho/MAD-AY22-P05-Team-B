@@ -1,4 +1,4 @@
-package sg.edu.np.MulaSave;
+package sg.edu.np.MulaSave.HomePage;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -29,12 +29,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import sg.edu.np.MulaSave.HomePage.Post;
-import sg.edu.np.MulaSave.HomePage.PostAdapter;
+import sg.edu.np.MulaSave.R;
 
-public class home_friends_post extends Fragment {
 
-    RecyclerView friendsPostRecycler;
+public class home_explore_posts extends Fragment {
+    RecyclerView explorePostRecycler;
     ArrayList<Post> postList;
     PostAdapter postAdapter;
     TextView postNoDisplay;
@@ -45,77 +44,63 @@ public class home_friends_post extends Fragment {
     DatabaseReference databaseRefPost = databaseRef.getReference("post");
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
 
-    public home_friends_post() {
+    public home_explore_posts() {
         // Required empty public constructor
     }
-
-    public static home_friends_post newInstance(String param1, String param2) {
-        home_friends_post fragment = new home_friends_post();
+    public static home_explore_posts newInstance(String param1, String param2) {
+        home_explore_posts fragment = new home_explore_posts();
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_friends_post, container, false);
+        return inflater.inflate(R.layout.fragment_home_explore_posts, container, false);
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        friendsPostRecycler = view.findViewById(R.id.friendsPostRecycler);//set recycler
+        explorePostRecycler = view.findViewById(R.id.homeExploreRecycler);//set recycler
         postList = new ArrayList<>();//create new arraylist
         postAdapter = new PostAdapter(postList);//create new adapter
 
-        initPostFriends();
+        initPostMain();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
-        friendsPostRecycler.setLayoutManager(linearLayoutManager);
-        friendsPostRecycler.setItemAnimator(new DefaultItemAnimator());
-        friendsPostRecycler.setAdapter(postAdapter);//set adapter
+        explorePostRecycler.setLayoutManager(linearLayoutManager);
+        explorePostRecycler.setItemAnimator(new DefaultItemAnimator());
+        explorePostRecycler.setAdapter(postAdapter);//set adapter
     }
-
-    private void initPostFriends(){
+    private void initPostMain(){
         databaseRefPost.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 postList.clear();
                 for (DataSnapshot ss : snapshot.getChildren()){
                     Post post = ss.getValue(Post.class);
-                    if (post.getCreatorUid().equals(usr.getUid())){//add the post into the post list if the current user created it
-                        postList.add(post);
-                    }
-                    databaseRefUser.child(usr.getUid()).child("friends").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot ds : snapshot.getChildren()){
-                                if(post.getCreatorUid().equals(ds.getKey().toString())){//if the creator is friends with the current user
-                                    postList.add(post);//add if they are friends
-                                }
-                            }
-                            Collections.sort(postList,postComparator);
-                            postAdapter.notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                    postList.add(post);
                 }
+                Collections.sort(postList,postComparator);
+                if(postList.size()==0){
+                    postNoDisplay.setVisibility(View.VISIBLE);
+                }
+                postAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
     }
+
     public Comparator<Post> postComparator = new Comparator<Post>() {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
