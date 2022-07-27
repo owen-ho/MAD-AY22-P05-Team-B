@@ -35,6 +35,7 @@ import sg.edu.np.MulaSave.HomePage.AddPostActivity;
 import sg.edu.np.MulaSave.HomePage.LikedPostActivity;
 import sg.edu.np.MulaSave.HomePage.Post;
 import sg.edu.np.MulaSave.HomePage.PostAdapter;
+import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.R;
 
 public class HomeFragment extends Fragment {
@@ -117,8 +118,6 @@ public class HomeFragment extends Fragment {
         postList = new ArrayList<>();//create new arraylist
         postAdapter = new PostAdapter(postList);//create new adapter
 
-        hPageView.setText("Explore");
-        initPostMain();
 
         hPageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,5 +217,29 @@ public class HomeFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(hPageView.getText().equals("Friends")){
+            MainActivity.homeFriends = true;
+        }
+        else{
+            MainActivity.homeFriends = false;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(MainActivity.homeFriends == true){
+            hPageView.setText("Friends");
+            initPostFriends();
+        }
+        else{
+            hPageView.setText("Explore");
+            initPostMain();
+        }
     }
 }
