@@ -23,6 +23,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
+import sg.edu.np.MulaSave.Fragments.CommunityFragment;
 import sg.edu.np.MulaSave.chat.Chat;
 
 public class DescriptionPage extends AppCompatActivity {
@@ -50,6 +51,7 @@ public class DescriptionPage extends AppCompatActivity {
         TextView username = findViewById(R.id.Sellerusername);
 
         ImageView pic = findViewById(R.id.imageView16);
+        ImageView backdescriptionpage = findViewById(R.id.BackDescriptionPage);
         Button chat = findViewById(R.id.Chat);
         Button reserve = findViewById(R.id.Reserve);
         Button removeReserve = findViewById(R.id.removeReserve);
@@ -65,6 +67,12 @@ public class DescriptionPage extends AppCompatActivity {
         Picasso.get().load(product.getImageUrl()).into(pic);
 
 
+        backdescriptionpage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         chat.setOnClickListener(new View.OnClickListener() {
             @Override

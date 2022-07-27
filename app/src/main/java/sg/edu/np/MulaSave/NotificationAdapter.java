@@ -1,5 +1,6 @@
 package sg.edu.np.MulaSave;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -102,7 +103,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        public ImageView image_profile, post_image;
+        public ImageView image_profile, post_image, backbuttonNotif;
         public TextView username, text, productTitle;
 
         public ViewHolder(@NonNull View itemView) {
@@ -115,6 +116,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             productTitle = itemView.findViewById(R.id.notif_product);
         }
     }
+
+
 
     private void getUserInfo(ImageView imageView, TextView username, String publisherid){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("user");

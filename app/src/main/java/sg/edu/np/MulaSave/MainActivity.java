@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Product> homeproductList;
     public static String profilePicLink;
     public static String query;
+    public static boolean homeFriends;
 
     private ProgressDialog progressDialog;
 
