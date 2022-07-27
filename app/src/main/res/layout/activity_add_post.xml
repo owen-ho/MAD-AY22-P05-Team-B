@@ -30,17 +30,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView8"
+        android:id="@+id/previewCard"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="32dp"
         app:cardBackgroundColor="#E4E4E4"
         app:cardCornerRadius="15dp"
         app:cardElevation="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/chooseImage"
+        app:layout_constraintBottom_toTopOf="@+id/cardView7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/postButton">
@@ -64,10 +64,6 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:cropToPadding="false"
-                android:paddingLeft="16dp"
-                android:paddingTop="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp"
                 android:scaleType="centerCrop"
                 android:src="@android:drawable/sym_def_app_icon"
                 android:visibility="invisible"
@@ -105,10 +101,13 @@
             android:ems="10"
             android:gravity="top"
             android:hint="Write a caption..."
-            android:inputType="textPersonName"
-            android:textAlignment="viewStart"
+            android:inputType="textMultiLine"
+            android:lines="3"
+            android:maxLength="60"
+            android:singleLine="false"
             android:textColor="#000000"
-            android:textColorHint="#7C7C7C" />
+            android:textColorHint="#7C7C7C"
+            android:textSize="20sp" />
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -123,15 +122,5 @@
         app:layout_constraintEnd_toStartOf="@+id/postButton"
         app:layout_constraintStart_toEndOf="@+id/closeButton"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/chooseImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardView7"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_outline_change_circle_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
