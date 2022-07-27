@@ -3,6 +3,7 @@ package sg.edu.np.MulaSave.Fragments;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import sg.edu.np.MulaSave.ChildReserveFragment;
+import sg.edu.np.MulaSave.ChildUploadFragment;
 import sg.edu.np.MulaSave.HomePage.FriendsActivity;
 import sg.edu.np.MulaSave.HomePage.AddPostActivity;
 import sg.edu.np.MulaSave.HomePage.LikedPostActivity;
@@ -37,14 +42,16 @@ import sg.edu.np.MulaSave.HomePage.Post;
 import sg.edu.np.MulaSave.HomePage.PostAdapter;
 import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.R;
+import sg.edu.np.MulaSave.home_explore_posts;
+import sg.edu.np.MulaSave.home_friends_post;
 
 public class HomeFragment extends Fragment {
 
     ImageView addFriend, addPost, viewLikes;
-    RecyclerView postRecycler;
-    ArrayList<Post> postList;
-    PostAdapter postAdapter;
+    TabLayout tabLayout;
+    ViewPager viewPager;
     TextView postNoDisplay, hPageView;
+    TabLayout barTab;
 
     FirebaseDatabase databaseRef = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -69,11 +76,10 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
+        addFragmentPost(view);
         // Inflate the layout for this fragment
         return view;
     }
-
 
     //create this method because getView() only works after onCreateView()
     @Override
@@ -83,6 +89,7 @@ public class HomeFragment extends Fragment {
         viewLikes = view.findViewById(R.id.hLikes);
         postNoDisplay = view.findViewById(R.id.postNoDisplay);
         hPageView = view.findViewById(R.id.hPageView);
+        barTab = view.findViewById(R.id.homeTabLayout);
 
         addFriend.setOnClickListener(new View.OnClickListener() {//set on click listener
             @Override
@@ -114,115 +121,46 @@ public class HomeFragment extends Fragment {
                 addPost.performClick();
             }
         });
-        postRecycler = view.findViewById(R.id.postRecycler);//set recycler
-        postList = new ArrayList<>();//create new arraylist
-        postAdapter = new PostAdapter(postList);//create new adapter
 
-
-        hPageView.setOnClickListener(new View.OnClickListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onClick(View view) {
-                if(hPageView.getText().equals("Explore")){
-                    hPageView.setText("Friends");
-                    initPostFriends();
-                }
-                else{
-                    hPageView.setText("Explore");
-                    initPostMain();
-                }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                /*// Save state
+                private Parcelable recyclerViewState;
+                recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+
+                // Restore state
+                recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);*/
+                viewPager.getAdapter().notifyDataSetChanged();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
-
-        postRecycler.setLayoutManager(linearLayoutManager);
-        postRecycler.setItemAnimator(new DefaultItemAnimator());
-        postRecycler.setAdapter(postAdapter);//set adapter
-
-
     }//end of onview created method
 
-
-    /**
-     * desc
-     * Param
-     * return
-     */
-    public Comparator<Post> postComparator = new Comparator<Post>() {
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        @Override
-        public int compare(Post p1, Post p2) {
-            int l1 = Instant.parse(p2.getPostDateTime()).compareTo(Instant.parse(p1.getPostDateTime()));
-            return l1;
-        }
-    };
-    private void initPostMain(){
-        databaseRefPost.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                postList.clear();
-                for (DataSnapshot ss : snapshot.getChildren()){
-                    Post post = ss.getValue(Post.class);
-                    postList.add(post);
-                }
-                Collections.sort(postList,postComparator);
-                if(postList.size()==0){
-                    postNoDisplay.setVisibility(View.VISIBLE);
-                }
-                postAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+    private void addFragmentPost(View view) {
+        tabLayout = view.findViewById(R.id.homeTabLayout);
+        viewPager = view.findViewById(R.id.homeViewPager);
+        HomePostFragmentAdapter homePostFragmentAdapter = new HomePostFragmentAdapter(getChildFragmentManager());
+        homePostFragmentAdapter.addFragment(new home_explore_posts(), "Explore");
+        homePostFragmentAdapter.addFragment(new home_friends_post(),"Friends");
+        viewPager.setAdapter(homePostFragmentAdapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void initPostFriends(){
-        databaseRefPost.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                postList.clear();
-                for (DataSnapshot ss : snapshot.getChildren()){
-                    Post post = ss.getValue(Post.class);
-                    if (post.getCreatorUid().equals(usr.getUid())){//add the post into the post list if the current user created it
-                        postList.add(post);
-                    }
-                    databaseRefUser.child(usr.getUid()).child("friends").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot ds : snapshot.getChildren()){
-                                if(post.getCreatorUid().equals(ds.getKey().toString())){//if the creator is friends with the current user
-                                    postList.add(post);//add if they are friends
-                                    postNoDisplay.setVisibility(View.INVISIBLE);
-                                }
-                            }
-                            Collections.sort(postList,postComparator);
-                            if(postList.size()==0){
-                                postNoDisplay.setVisibility(View.VISIBLE);
-                            }
-                            postAdapter.notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 
     @Override
     public void onPause() {
         super.onPause();
-        if(hPageView.getText().equals("Friends")){
+        if(tabLayout.getSelectedTabPosition()==1){//if the index of the selected tab is 1 (friends layout for posts)
             MainActivity.homeFriends = true;
         }
         else{
@@ -233,13 +171,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(MainActivity.homeFriends == true){
-            hPageView.setText("Friends");
-            initPostFriends();
-        }
-        else{
-            hPageView.setText("Explore");
-            initPostMain();
+        if(MainActivity.homeFriends == true){//if user lastviewed the friends tab
+            TabLayout.Tab tab = barTab.getTabAt(1);
+            tab.select();//navigate back to the own post tab if the user is not
         }
     }
 }
