@@ -19,14 +19,16 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.w3c.dom.Text;
+
 import sg.edu.np.MulaSave.HomePage.FriendsActivity;
 import sg.edu.np.MulaSave.HomePage.AddPostActivity;
 import sg.edu.np.MulaSave.HomePage.HomePostFragmentAdapter;
 import sg.edu.np.MulaSave.HomePage.LikedPostActivity;
 import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.R;
-import sg.edu.np.MulaSave.HomePage.home_explore_posts;
-import sg.edu.np.MulaSave.HomePage.home_friends_post;
+import sg.edu.np.MulaSave.HomePage.HomeExplorePosts;
+import sg.edu.np.MulaSave.HomePage.HomeFriendsPosts;
 
 public class HomeFragment extends Fragment {
 
@@ -34,7 +36,7 @@ public class HomeFragment extends Fragment {
     ImageView addFriend, addPost, viewLikes;
     TabLayout tabLayout;
     ViewPager viewPager;
-    TextView postNoDisplay, hPageView;
+    TextView  hPageView;
     TabLayout barTab;
 
     FirebaseDatabase databaseRef = FirebaseDatabase
@@ -71,7 +73,6 @@ public class HomeFragment extends Fragment {
         addFriend = view.findViewById(R.id.hAddFirend);//get the add friend and post imageviews
         addPost = view.findViewById(R.id.hAddPost);
         viewLikes = view.findViewById(R.id.hLikes);
-        postNoDisplay = view.findViewById(R.id.postNoDisplay);
         hPageView = view.findViewById(R.id.hPageView);
         barTab = view.findViewById(R.id.homeTabLayout);
 
@@ -96,13 +97,6 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), LikedPostActivity.class);
                 startActivity(i);
-            }
-        });
-
-        postNoDisplay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addPost.performClick();
             }
         });
 
@@ -150,8 +144,8 @@ public class HomeFragment extends Fragment {
         tabLayout = view.findViewById(R.id.homeTabLayout);
         viewPager = view.findViewById(R.id.homeViewPager);
         HomePostFragmentAdapter homePostFragmentAdapter = new HomePostFragmentAdapter(getChildFragmentManager());
-        homePostFragmentAdapter.addFragment(new home_explore_posts(), "Explore");
-        homePostFragmentAdapter.addFragment(new home_friends_post(),"Friends");
+        homePostFragmentAdapter.addFragment(new HomeExplorePosts(), "Explore");
+        homePostFragmentAdapter.addFragment(new HomeFriendsPosts(),"Friends");
         viewPager.setAdapter(homePostFragmentAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
