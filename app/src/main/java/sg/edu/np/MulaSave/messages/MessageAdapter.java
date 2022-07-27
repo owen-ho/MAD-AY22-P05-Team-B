@@ -131,17 +131,21 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
             }
         });
     }
+    // calling out and setting the list for later uses like putting in recycle view
     public void updatedata(List<MessageListener> messageListeners){
         this.messageListeners = messageListeners;
 
     }
 
     @Override
+    // Getting the size of the list to display the recycle view
     public int getItemCount() {
         return messageListeners.size();
     }
 
+
     static class MyViewHolder extends RecyclerView.ViewHolder {
+
 
         // Identifing the variables from the XML
         private ImageView Profilepic;
