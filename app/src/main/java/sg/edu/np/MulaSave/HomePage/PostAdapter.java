@@ -138,7 +138,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 unit = "hour";
                 if(show >= 24){
                     show = postDt.until(timeNow, ChronoUnit.DAYS);
-                    unit = "days";
+                    unit = "day";
                     if(show >= 30){
                         show = postDt.until(timeNow, ChronoUnit.MONTHS);
                         unit = "month";
@@ -238,6 +238,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return postList.size();
     }
 
+    /**
+     * The PostViewHolder class for the PostAdapter adapter object
+     */
     public class PostViewHolder extends RecyclerView.ViewHolder {
         ImageView creatorImage, postImage, postLike,postHeartAni;
         TextView creatorUsername, postCaption, postDateTime;
