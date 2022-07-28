@@ -154,7 +154,7 @@ public class Chat extends AppCompatActivity {
                                 }
                             }
                         }
-                        //
+                        //checking if chat in firebase exist. if exist, set variables based on firebase data
                         if (snapshot.hasChild("Chat")) {
                             if (snapshot.child("Chat").child(chatkey).hasChild("messages")) {
                                 chatlistnerList.clear();
