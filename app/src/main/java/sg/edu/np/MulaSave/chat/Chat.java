@@ -44,7 +44,7 @@ import sg.edu.np.MulaSave.messages.MessageListener;
 
 public class Chat extends AppCompatActivity {
 
-    // Getting firebase reference
+
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference chatRef = database.getReference("Chat");
     DatabaseReference cbRef = database.getReference();
@@ -52,7 +52,7 @@ public class Chat extends AppCompatActivity {
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseAuth mAuth;
 
-    //Creating new list and setting up adapter
+
     private final List<ChatListener> chatlistnerList = new ArrayList<>();
     private ChatAdapter chatadapter;
 
@@ -71,9 +71,7 @@ public class Chat extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /**
-         * Initialization of variables
-         */
+
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_chat);
         final ImageView backbtn = findViewById(R.id.backbtn);
@@ -213,7 +211,7 @@ public class Chat extends AppCompatActivity {
 
                         MemoryData.savelastmsgts(currenttimestamp, chatkey, Chat.this);
 
-                        // Adding to firebase data
+
                         chatRef.child(chatkey).child("user_1").setValue(getuid);
                         chatRef.child(chatkey).child("user_2").setValue(sellerid);
                         chatRef.child(chatkey).child("messages").child(currenttimestamp).child("msg").setValue(gettextmessage);
@@ -228,7 +226,7 @@ public class Chat extends AppCompatActivity {
                         messageedittxt.setText("");
                     }
                 });
-                //Going back to the previous page
+
                 backbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

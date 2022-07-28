@@ -39,7 +39,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         super.setHasStableIds(hasStableIds);
     }
 
-    //Get accurate position
+
     @Override
     public long getItemId(int position) {
         return super.getItemId(position);
@@ -52,11 +52,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_adapter_layout,null));
     }
 
-    /**
-     *
-     * @param holder
-     * @param position
-     */
+
+
     @Override
     public void onBindViewHolder(@NonNull ChatAdapter.MyViewHolder holder, int position) {
         //Setting up the messages and setting visibility based on the id
@@ -80,17 +77,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         }
     }
 
-    /**
-     * Returning list size to generate the recycleview
-     * @return
-     */
+
     @Override
     public int getItemCount() {
         return chatlistnerList.size();
     }
 
     /**
-     *
      * @param chatlistnerList full list of conversation to pass to the recycleview for later purposes
      */
     public void updatechatlist(List<ChatListener> chatlistnerList){
@@ -99,7 +92,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     static class MyViewHolder extends RecyclerView.ViewHolder {
 
 
-        // Initialising the variables based on the XML ID.
+
         private LinearLayout oppoLayout,myLayout;
         private TextView oppoMessage, myMessage;
         private TextView oppoTime,myTime;

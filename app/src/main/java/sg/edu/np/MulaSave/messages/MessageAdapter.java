@@ -36,7 +36,7 @@ import sg.edu.np.MulaSave.chat.Chat;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHolder> {
 
-    // Getting firebase reference
+
     private List<MessageListener> messageListeners;
     private final Context context;
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -45,11 +45,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
 
-    /**
-     * To create the adapter as well as passing in the list and context.
-     * @param messageListeners
-     * @param context
-     */
+
     public MessageAdapter(List<MessageListener> messageListeners, Context context) {
         this.messageListeners = messageListeners;
         this.context = context;
@@ -69,10 +65,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     public void onBindViewHolder(@NonNull MessageAdapter.MyViewHolder holder, int position) {
 
 
-        /**
-         * Setting up the variables and getting position of list
-         * Setting profile picture and setting visibility to visible
-         */
         String currentUser;
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser().getUid();
@@ -120,7 +112,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
                 }
             });
 
-        // Setting the unseenmessages visibility
+
         if(list2.getUnseenMessages()==0){
             holder.unseenmessage.setVisibility(View.GONE);
             holder.lastmessage.setTextColor(Color.parseColor("#959595"));
