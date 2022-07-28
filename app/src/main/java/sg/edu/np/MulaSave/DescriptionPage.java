@@ -42,6 +42,8 @@ public class DescriptionPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_descriptionpage);
         TextView title = findViewById(R.id.Title);
         TextView price = findViewById(R.id.Price);

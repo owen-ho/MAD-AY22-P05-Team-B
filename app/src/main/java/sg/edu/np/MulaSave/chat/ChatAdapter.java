@@ -23,18 +23,24 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     private String getuid;
     private final Context context;
 
-
+    /**
+     * To create the chat adapter as well as passing in the list and context.
+     * @param chatlistnerList
+     * @param context
+     */
     public ChatAdapter(List<ChatListener> chatlistnerList, Context context) {
         this.chatlistnerList = chatlistnerList;
         this.context = context;
         this.getuid = MemoryData.getdata(context);
     }
 
+    // Set the messages to have stable ids
     @Override
     public void setHasStableIds(boolean hasStableIds) {
         super.setHasStableIds(hasStableIds);
     }
 
+    //Get accurate position
     @Override
     public long getItemId(int position) {
         return super.getItemId(position);
@@ -61,17 +67,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         getuid = mAuth.getCurrentUser().getUid();
 
         if(list2.getUid().equals(getuid)){
-            Log.v("idk","idkkkk");
+
             holder.myLayout.setVisibility(View.VISIBLE);
             holder.oppoLayout.setVisibility(View.GONE);
             holder.myMessage.setText(list2.getMessage());
             holder.myTime.setText(list2.getDate()+" "+list2.getTime());
-            Log.v("data",String.valueOf(list2.getDate()));
+
 
 
         }
         else{
-            Log.v("oppo", "ljlj");
             holder.myLayout.setVisibility(View.GONE);
             holder.oppoLayout.setVisibility(View.VISIBLE);
             holder.oppoMessage.setText(list2.getMessage());
@@ -83,7 +88,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     }
 
     /**
-     *
+     * Returning list size to generate the recycleview
      * @return
      */
     @Override
