@@ -240,7 +240,8 @@ public class DescriptionPage extends AppCompatActivity {
     }
 
     /**
-     * This is to save notification to the firebase
+     * This is to save notification to the firebase:
+     * 1. To notify the seller that a buyer has reserved their product
      * @param buyerid
      * @param sellerid
      * @param productid

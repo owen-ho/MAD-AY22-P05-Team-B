@@ -143,7 +143,8 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
     }
 
     /**
-     * This is to save the notification in the firebase
+     * This is to save the notification in the firebase:
+     * 1. To notify the seller that the buyer has unreserved their product
      * @param buyerid
      * @param sellerid
      * @param productid

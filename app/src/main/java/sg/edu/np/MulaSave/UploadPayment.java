@@ -129,7 +129,8 @@ public class UploadPayment extends AppCompatActivity {
     }//end of onActivityResult
 
     /**
-     * This is to save the notification to the firebase
+     * This is to save the notification to the firebase:
+     * 1. To notify the seller that payment has been made by the buyer
      * @param buyerid
      * @param sellerid
      * @param productid
