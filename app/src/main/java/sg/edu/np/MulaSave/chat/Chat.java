@@ -43,6 +43,8 @@ import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.messages.MessageListener;
 
 public class Chat extends AppCompatActivity {
+
+
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference chatRef = database.getReference("Chat");
     DatabaseReference cbRef = database.getReference();
@@ -50,9 +52,11 @@ public class Chat extends AppCompatActivity {
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseAuth mAuth;
 
+
     private final List<ChatListener> chatlistnerList = new ArrayList<>();
     private ChatAdapter chatadapter;
 
+    //Creating variables to be used in the later part
     String chatkey = "0";
     String getuid = "";
     String username = "";
@@ -66,6 +70,8 @@ public class Chat extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_chat);
         final ImageView backbtn = findViewById(R.id.backbtn);
@@ -74,32 +80,29 @@ public class Chat extends AppCompatActivity {
         final ImageView profilepic = findViewById(R.id.profilePic);
         final ImageView sendbtn = findViewById(R.id.sendbtn);
         chattingrecycleview = findViewById(R.id.chattingrecycleview);
-
-
         sellerid = getIntent().getStringExtra("sellerid");
-        // Retrieving data from message adapater class
+
 
         messageListener = (MessageListener) getIntent().getSerializableExtra("messageListener");
-
         DatabaseReference mDatabase;
         mDatabase = database.getReference("user");
         chatRef.addValueEventListener(new ValueEventListener() {
             @Override
 
-            //Getting chatkey
+
+            //Getting chatkey and checking if chatkey exist
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     if(dataSnapshot.getKey().toString().equals(sellerid+usr.getUid()) || dataSnapshot.getKey().toString().equals(usr.getUid()+sellerid)){
                         chatkey = dataSnapshot.getKey().toString();
                         break;
                     }
-
                 }
-                //no existing chat, create new chat key
+                //No existing chat, create new chat key
                 if(chatkey.equals("0")){
                     chatkey = usr.getUid()+sellerid;
                 }
-                // Set username and pic
+                // Set username and picture for users
                 mDatabase.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -111,12 +114,16 @@ public class Chat extends AppCompatActivity {
                                 nameTTv.setText(username);
                                 storageRef.child("profilepics/" + ds.child("uid").getValue().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
-                                    public void onSuccess(Uri uri) {//user has set a profile picture before
+
+                                    //User has set a profile picture before
+                                    public void onSuccess(Uri uri) {
                                         Picasso.get().load(uri).into(profilepic);
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
                                     @Override
-                                    public void onFailure(@NonNull Exception e) {//set default picture
+
+                                    //set default picture
+                                    public void onFailure(@NonNull Exception e) {
 
                                     }
                                 });
@@ -131,14 +138,12 @@ public class Chat extends AppCompatActivity {
                 final String getprofilepic = getIntent().getStringExtra("Profilepic");
                 final String uid = getIntent().getStringExtra("uid");
 
-                //getting uid
+                //Getting uid and setting the layout for the recycleview
                 getuid = mAuth.getCurrentUser().getUid();
                 chattingrecycleview.setHasFixedSize(true);
                 chattingrecycleview.setLayoutManager(new LinearLayoutManager(Chat.this));
                 chatadapter = new ChatAdapter(chatlistnerList, Chat.this);
                 chattingrecycleview.setAdapter(chatadapter);
-
-
 
                 //Creating the timestamp and adding it to a list from chat listener to be pass into the chat adapter
                 cbRef.addValueEventListener(new ValueEventListener() {
@@ -146,8 +151,8 @@ public class Chat extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (chatkey != null) {
                             if (chatkey.isEmpty()) {
-                                //generating chatkey by default chatkey is 1
                                 if (snapshot.hasChild("Chat")) {
+                                    //Setting chatkey
                                     chatkey = (String.valueOf(snapshot.child("Chat").getChildrenCount() + "1"));
                                 }
                             }
@@ -166,14 +171,16 @@ public class Chat extends AppCompatActivity {
 
                                         Timestamp timestamp = new Timestamp(timestampmili);
                                         Date date = new java.util.Date(timestamp.getTime());
+
+                                        //Format for timestamp
                                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
                                         SimpleDateFormat simpletimeFormat = new SimpleDateFormat("hh:mm:aa", Locale.getDefault());
 
-
-
+                                        // Creating object and passing it to chatlistnerlist
                                         ChatListener Chatlistner = new ChatListener(getuid,username,getmsg,simpleDateFormat.format(date),simpletimeFormat.format(date));
                                         chatlistnerList.add(Chatlistner);
                                         chattingrecycleview.scrollToPosition(chatlistnerList.size() - 1);
+
                                         if (loadingfirsttime || Long.parseLong(messagetimestamp) > Long.parseLong(MemoryData.getlastmsgts(Chat.this, chatkey))) {
                                             loadingfirsttime = false;
                                             MemoryData.savelastmsgts(messagetimestamp, chatkey, Chat.this);
@@ -193,6 +200,7 @@ public class Chat extends AppCompatActivity {
                 });
 
                 // Sending messages and it will be written in the firebase
+                // Sendbtn is when user sends a message, it will write into the firebase.
                 sendbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -202,6 +210,7 @@ public class Chat extends AppCompatActivity {
                         final String gettextmessage = messageedittxt.getText().toString();
 
                         MemoryData.savelastmsgts(currenttimestamp, chatkey, Chat.this);
+
 
                         chatRef.child(chatkey).child("user_1").setValue(getuid);
                         chatRef.child(chatkey).child("user_2").setValue(sellerid);
@@ -213,11 +222,11 @@ public class Chat extends AppCompatActivity {
                                 chatadapter.notifyDataSetChanged();
                             }
                         });
-                        //clear edit text
+                        //Clear edit text from the message bar after the sendbtn is pressed
                         messageedittxt.setText("");
                     }
                 });
-                //Going back to the previous page
+
                 backbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -238,7 +247,7 @@ public class Chat extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivityForResult(new Intent(this, ChatFeature.class), 369);
+        finish();
     }
 }
 

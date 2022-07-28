@@ -87,13 +87,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:background="#050505"
-            android:backgroundTint="#DABBBB"
+            android:background="#FFFFFF"
             android:src="@drawable/ic_baseline_message_24"
             app:layout_constraintEnd_toStartOf="@+id/communitySearchCard"
             app:layout_constraintHorizontal_bias="0.481"
             app:layout_constraintStart_toEndOf="@+id/communityTitle"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#000000" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

@@ -76,7 +76,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.creatorImage.setVisibility(View.INVISIBLE);
 
         String creatorUid = post.getCreatorUid();
-        databaseRefUser.addValueEventListener(new ValueEventListener() {
+        databaseRefUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ss : snapshot.getChildren()){
@@ -200,7 +200,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
 
         //check if the post is liked, if liked, display as liked (red heart icon)
-        databaseRefUser.child(usr.getUid().toString()).child("likedposts").addListenerForSingleValueEvent(new ValueEventListener() {//access users wishlist
+        databaseRefUser.child(usr.getUid().toString()).child("likedposts").addValueEventListener(new ValueEventListener() {//access users wishlist
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(post.getPostUuid())){

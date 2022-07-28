@@ -68,9 +68,6 @@ public class ChatFeature extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Product productclass = (Product) getIntent().getSerializableExtra("product");//get product from adapter
-//        Product products = (Product) getIntent().getSerializableExtra("product");//get product from adapter
-//        String sellerid = products.getSellerUid();
         messageListenerList = new ArrayList<>();
         mAuth = FirebaseAuth.getInstance();
         currentuser=mAuth.getCurrentUser().getUid();
@@ -89,14 +86,15 @@ public class ChatFeature extends AppCompatActivity {
         ImageView backbutton = findViewById(R.id.backbutton1);
 
 
-
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Loading");
         progressDialog.show();
 
-
-
+        /**
+         * Check if user is null
+         * if not null get user profile picture else use default image
+         */
         if (user!=null){
             userRef.addValueEventListener(new ValueEventListener() {
                   @Override
@@ -117,7 +115,7 @@ public class ChatFeature extends AppCompatActivity {
                           }
                       }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
                           @Override
-                          public void onFailure(@NonNull Exception e) {//set default picture
+                          public void onFailure(@NonNull Exception e) {
                               progressDialog.dismiss();
                           }
                       });
@@ -128,11 +126,14 @@ public class ChatFeature extends AppCompatActivity {
                 }
             });
         }
+
+        /**
+         * Get chat history from all user and setting last message based on firebase
+         */
         chatRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 messageListenerList.clear();
-                //messageadapter.notifyDataSetChanged();
                 int getchatcount = (int)snapshot.getChildrenCount();
                 if(getchatcount >0){
                     for (DataSnapshot dataSnapshot1 : snapshot.getChildren()){
@@ -145,10 +146,8 @@ public class ChatFeature extends AppCompatActivity {
                         if(dataSnapshot1.hasChild("user_1")&&dataSnapshot1.hasChild("user_2") && dataSnapshot1.hasChild("messages")){
                             final String getuserone = dataSnapshot1.child("user_1").getValue(String.class);
                             final String getusertwo = dataSnapshot1.child("user_2").getValue(String.class);
-
                             if((getuserone.equals(user.getUid())|| getusertwo.equals(user.getUid()))){
                                 sellerid = getuserone.equals(user.getUid())?getusertwo:getuserone;
-                                Log.v("testssssss",sellerid);
                                 for(DataSnapshot chatdatasnapshot: dataSnapshot1.child("messages").getChildren()){
                                     if(dataSnapshot1.child("messages").hasChildren()){
                                         final long getmessagekey = Long.parseLong(chatdatasnapshot.getKey());
@@ -165,9 +164,7 @@ public class ChatFeature extends AppCompatActivity {
                                         messageListener.setProfilepic(uri.toString());
                                         messageListener.setUnseenMessages(unseenmessage);
                                         addNewMessageListener(messageListener, (ArrayList<MessageListener>) messageListenerList);
-                                        //messageadapter.updatedata(messageListenerList);
                                         messageadapter.notifyDataSetChanged();
-                                        //messagerecycleview.getLayoutManager().scrollToPosition(100);
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -175,11 +172,8 @@ public class ChatFeature extends AppCompatActivity {
                                         messageListener.setProfilepic("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png");
                                         messageListener.setUnseenMessages(unseenmessage);
                                         messageListener.setSellerid(sellerid);
-                                        Log.i("knn",messageListener.getChatkey());
                                         addNewMessageListener(messageListener, (ArrayList<MessageListener>) messageListenerList);
-                                        //messageadapter.updatedata(messageListenerList);
                                         messageadapter.notifyDataSetChanged();
-                                        //messagerecycleview.getLayoutManager().scrollToPosition(100);
                                     }
                                 });
                             }
@@ -200,20 +194,11 @@ public class ChatFeature extends AppCompatActivity {
         });
     }
 
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-        if(recreate){
-            recreate();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        recreate = true;
-    }*/
-
+    /**
+     * Check if messagelistner already exist and if exist then it will remove from the list before adding the updated listener.
+     * @param messageListener
+     * @param messageListenerList
+     */
     private void addNewMessageListener(MessageListener messageListener, ArrayList<MessageListener> messageListenerList){
         for (MessageListener m : messageListenerList){
             if(m.getChatkey().equals(messageListener.getChatkey())){
