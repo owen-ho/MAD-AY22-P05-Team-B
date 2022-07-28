@@ -86,7 +86,6 @@ public class ChatFeature extends AppCompatActivity {
         ImageView backbutton = findViewById(R.id.backbutton1);
 
 
-
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Loading");
