@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     tools:context=".chat.Chat">
+
     <RelativeLayout
         android:id="@+id/toptop"
         android:layout_width="match_parent"
@@ -34,30 +35,32 @@
             android:src="@drawable/ic_baseline_adb_24"
 
             />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:orientation="vertical"
+            android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/profilePic"
-            android:layout_marginStart="10dp">
+            android:orientation="vertical">
+
             <TextView
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="user name"
                 android:maxLines="1"
+                android:text="user name"
                 android:textColor="#424242"
-                android:textStyle="bold"
                 android:textSize="18sp"
-                android:id="@+id/name"/>
+                android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:text=""
                 android:layout_marginTop="2dp"
+                android:text=""
                 android:textColor="#00c853"
-                />
+                android:textSize="13sp" />
 
 
         </LinearLayout>
@@ -81,15 +84,16 @@
         android:paddingBottom="10dp">
 
         <EditText
+            android:id="@+id/messageedittxt"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:backgroundTint="@android:color/transparent"
-            android:textSize="14sp"
-            android:layout_marginEnd="10dp"
             android:layout_marginStart="20dp"
-            android:hint="Type your message"
+            android:layout_marginEnd="10dp"
             android:layout_toStartOf="@id/sendbtn"
-            android:id="@+id/messageedittxt"/>
+            android:backgroundTint="@android:color/transparent"
+            android:hint="Type your message"
+            android:textColor="#000000"
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/sendbtn"
