@@ -66,6 +66,10 @@ public class Chat extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /**
+         * Initialization of variables
+         */
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_chat);
         final ImageView backbtn = findViewById(R.id.backbtn);
@@ -74,19 +78,19 @@ public class Chat extends AppCompatActivity {
         final ImageView profilepic = findViewById(R.id.profilePic);
         final ImageView sendbtn = findViewById(R.id.sendbtn);
         chattingrecycleview = findViewById(R.id.chattingrecycleview);
-
-
         sellerid = getIntent().getStringExtra("sellerid");
-        // Retrieving data from message adapater class
+
 
         messageListener = (MessageListener) getIntent().getSerializableExtra("messageListener");
-
         DatabaseReference mDatabase;
         mDatabase = database.getReference("user");
         chatRef.addValueEventListener(new ValueEventListener() {
             @Override
 
-            //Getting chatkey
+
+            /**
+             *  Getting chatkey and checking if chatkey exist
+             */
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     if(dataSnapshot.getKey().toString().equals(sellerid+usr.getUid()) || dataSnapshot.getKey().toString().equals(usr.getUid()+sellerid)){
@@ -99,7 +103,7 @@ public class Chat extends AppCompatActivity {
                 if(chatkey.equals("0")){
                     chatkey = usr.getUid()+sellerid;
                 }
-                // Set username and pic
+                // Set username and picture for users
                 mDatabase.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -131,7 +135,7 @@ public class Chat extends AppCompatActivity {
                 final String getprofilepic = getIntent().getStringExtra("Profilepic");
                 final String uid = getIntent().getStringExtra("uid");
 
-                //getting uid
+                //getting uid and setting the layout for the recycleview
                 getuid = mAuth.getCurrentUser().getUid();
                 chattingrecycleview.setHasFixedSize(true);
                 chattingrecycleview.setLayoutManager(new LinearLayoutManager(Chat.this));

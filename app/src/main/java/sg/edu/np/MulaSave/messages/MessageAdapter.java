@@ -45,7 +45,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
 
-
+    /**
+     * To create the adapter as well as passing in the list and context.
+     * @param messageListeners
+     * @param context
+     */
     public MessageAdapter(List<MessageListener> messageListeners, Context context) {
         this.messageListeners = messageListeners;
         this.context = context;
@@ -53,6 +57,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
     @NonNull
     @Override
+
+    /**
+     * Inflate layout onCreate View holder
+     */
     public MessageAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.message_adapter_layout,null));
     }
@@ -60,7 +68,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.MyViewHolder holder, int position) {
 
-        // Setting up the variables and
+
+        /**
+         * Setting up the variables and getting position of list
+         * Setting profile picture and setting visibility to visible
+         */
         String currentUser;
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser().getUid();
@@ -69,7 +81,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         holder.Profilepic.setVisibility(View.VISIBLE);
 
 
-        // Set text of last message as well as name
+
+        /**
+         * Checking for user id from firebase
+         * If firebase ID is not the same as currentuser ID then it will set it as the firebase ID and set name and last message
+         */
         chatRef.child(list2.getChatkey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -104,7 +120,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
                 }
             });
 
-        // Setting the unseenmessages
+        // Setting the unseenmessages visibility
         if(list2.getUnseenMessages()==0){
             holder.unseenmessage.setVisibility(View.GONE);
             holder.lastmessage.setTextColor(Color.parseColor("#959595"));
@@ -115,6 +131,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
             holder.lastmessage.setTextColor(context.getResources().getColor(R.color.theme_color_9));
         }
 
+        /**
+         * Setting the on click listener for the recycleview and passing data to chat class
+         */
         holder.rootlayout.setOnClickListener(new View.OnClickListener() {
 
             // Passing data into chat class
@@ -131,7 +150,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
             }
         });
     }
-    // calling out and setting the list for later uses like putting in recycle view
+
+    /**
+     * Getting the list and setting it for further purposes like recycleview or any data that needs the list.
+     *
+     * @param messageListeners
+     */
     public void updatedata(List<MessageListener> messageListeners){
         this.messageListeners = messageListeners;
 
@@ -144,9 +168,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     }
 
 
+
     static class MyViewHolder extends RecyclerView.ViewHolder {
-
-
         // Identifing the variables from the XML
         private ImageView Profilepic;
         private TextView name;
