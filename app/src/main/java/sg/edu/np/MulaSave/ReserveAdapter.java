@@ -51,7 +51,7 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
     }
 
     /**
-     * This would:
+     * This adapter would:
      * 1. Show the description and details of the product reserved
      * 2. Show a unreserve button for buyer to unreserve the product
      * 3. Show a upload payment button for buyer to upload their payment for the product
