@@ -52,7 +52,6 @@ public class Chat extends AppCompatActivity {
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseAuth mAuth;
 
-
     private final List<ChatListener> chatlistnerList = new ArrayList<>();
     private ChatAdapter chatadapter;
 
@@ -63,9 +62,7 @@ public class Chat extends AppCompatActivity {
     String sellerid = "";
     MessageListener messageListener;
     private boolean loadingfirsttime = true;
-
     private RecyclerView chattingrecycleview;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,7 +154,7 @@ public class Chat extends AppCompatActivity {
                                 }
                             }
                         }
-
+                        //
                         if (snapshot.hasChild("Chat")) {
                             if (snapshot.child("Chat").child(chatkey).hasChild("messages")) {
                                 chatlistnerList.clear();
