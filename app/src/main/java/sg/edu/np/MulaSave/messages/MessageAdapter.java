@@ -145,7 +145,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
     /**
      * Getting the list and setting it for further purposes like recycleview or any data that needs the list.
-     *
      * @param messageListeners
      */
     public void updatedata(List<MessageListener> messageListeners){
