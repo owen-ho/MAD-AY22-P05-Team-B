@@ -212,6 +212,9 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                                 alertDialog.dismiss();
                             }
                         });
+                        if (alertDialog.getWindow() != null){
+                            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
+                        }
                         alertDialog.show();
                     }
                 });
