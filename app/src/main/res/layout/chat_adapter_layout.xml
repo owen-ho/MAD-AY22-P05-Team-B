@@ -11,7 +11,6 @@
 
         <LinearLayout
             android:id="@+id/oppolayout"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -33,7 +32,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="10-08-2022 06:12 pm"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:textColor="#424242"/>
 
 
         </LinearLayout>
@@ -72,7 +72,8 @@
                 android:layout_height="wrap_content"
                 android:text="10-08-2022 06:12 pm"
                 android:textSize="10sp"
-                android:id="@+id/mymessagetime"/>
+                android:id="@+id/mymessagetime"
+                android:textColor="#424242"/>
 
 
 
