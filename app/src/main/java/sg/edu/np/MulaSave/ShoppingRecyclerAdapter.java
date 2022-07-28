@@ -69,6 +69,7 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         }
     }//
 
+
     @Override
     public ShoppingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
@@ -95,9 +96,9 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
         }
 
         if(holder.getItemViewType() == 1){
-            holder.seepaymentBtn.setVisibility(View.INVISIBLE);
-            if (p.getSellerUid().equals(usr.getUid().toString())){
-                holder.seepaymentBtn.setVisibility(View.VISIBLE);// set visible if current user is creator
+            holder.seepaymentBtn.setVisibility(View.INVISIBLE); // The Payment view button is set to invisible by default
+            if (p.getSellerUid().equals(usr.getUid().toString())){ //To check if the sellers product user Id matches the user Id of the account
+                holder.seepaymentBtn.setVisibility(View.VISIBLE);// To set the payment view button to visible if current user is the creator of the product
             }
             // To set the notify users if the product is reserved, sold or available
             databaseRefUser.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -118,15 +119,15 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                                 isSold = true;
                             }
                         }
-                        if (isreserved) {
+                        if (isreserved) { //When product is reserved, the product would be marked as reserved by changing the default text and colour
                             holder.statusProduct.setText("Reserved");
                             holder.statusProduct.setTextColor(Color.parseColor("#FFF3BA2B"));
                         }
-                        if (isSold){
+                        if (isSold){ //When product is sold, the product would be marked as sold by changing the default text and colour
                             holder.statusProduct.setText("Sold");
                             holder.statusProduct.setTextColor(Color.parseColor("#FFE40846"));
                         }
-                        else{
+                        else{ //If product is not sold or reserved, it would remain as the default text that shows "Available" in the colour green
 
                         }
                     }

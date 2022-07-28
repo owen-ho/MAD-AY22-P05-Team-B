@@ -93,6 +93,7 @@
         android:layout_height="80dp"
         android:layout_marginStart="44dp"
         android:text="Please ensure that you have submitted the right image! You can resubmit again if you have reuploaded the wrong picture or the seller has rejected your payment."
+        android:textColor="#3C3838"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView45" />
 
@@ -104,6 +105,7 @@
         android:text="No"
         android:textAlignment="center"
         android:textAllCaps="true"
+        android:textColor="#3A3737"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/textView48"
@@ -119,6 +121,7 @@
         android:text="confirm"
         android:textAlignment="center"
         android:textAllCaps="true"
+        android:textColor="#3A3737"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
