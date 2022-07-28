@@ -99,6 +99,7 @@
                 android:layout_marginTop="2dp"
                 android:text="Once you have reserved this product, it cannot be reserved by any other user. However, the seller is able to unreserve the product from their side as well. Please ensure that you are able to provide a proof of payment for the seller to accept under the reserve column in the profile page of the application. Thank You!"
                 android:textAlignment="center"
+                android:textColor="#615B5B"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/TitleReserve" />

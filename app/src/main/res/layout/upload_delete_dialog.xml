@@ -98,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:text="Once you remove this product you will have to reupload it again! Are you sure you would like to continue with this?"
                 android:textAlignment="center"
+                android:textColor="#615B5B"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/TitleReserve" />
