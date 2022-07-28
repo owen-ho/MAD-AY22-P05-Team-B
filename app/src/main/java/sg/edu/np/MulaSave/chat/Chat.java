@@ -168,12 +168,12 @@ public class Chat extends AppCompatActivity {
                                         Date date = new java.util.Date(timestamp.getTime());
                                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
                                         SimpleDateFormat simpletimeFormat = new SimpleDateFormat("hh:mm:aa", Locale.getDefault());
-                                        Log.v("date",simpleDateFormat.format(date));
+
 
 
                                         ChatListener Chatlistner = new ChatListener(getuid,username,getmsg,simpleDateFormat.format(date),simpletimeFormat.format(date));
                                         chatlistnerList.add(Chatlistner);
-
+                                        chattingrecycleview.scrollToPosition(chatlistnerList.size() - 1);
                                         if (loadingfirsttime || Long.parseLong(messagetimestamp) > Long.parseLong(MemoryData.getlastmsgts(Chat.this, chatkey))) {
                                             loadingfirsttime = false;
                                             MemoryData.savelastmsgts(messagetimestamp, chatkey, Chat.this);
