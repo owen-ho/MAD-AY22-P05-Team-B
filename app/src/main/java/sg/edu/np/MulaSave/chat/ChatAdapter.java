@@ -30,6 +30,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         this.getuid = MemoryData.getdata(context);
     }
 
+    @Override
+    public void setHasStableIds(boolean hasStableIds) {
+        super.setHasStableIds(hasStableIds);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
     @NonNull
     @Override
 
@@ -44,8 +54,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
      */
     @Override
     public void onBindViewHolder(@NonNull ChatAdapter.MyViewHolder holder, int position) {
-
-
         //Setting up the messages and setting visibility based on the id
         ChatListener list2 = chatlistnerList.get(position);
         FirebaseAuth mAuth;

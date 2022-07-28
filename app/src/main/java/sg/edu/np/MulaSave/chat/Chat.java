@@ -1,5 +1,6 @@
 package sg.edu.np.MulaSave.chat;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import sg.edu.np.MulaSave.ChatFeature;
 import sg.edu.np.MulaSave.MemoryData;
 import sg.edu.np.MulaSave.Product;
 import sg.edu.np.MulaSave.R;
@@ -176,6 +178,7 @@ public class Chat extends AppCompatActivity {
                                             loadingfirsttime = false;
                                             MemoryData.savelastmsgts(messagetimestamp, chatkey, Chat.this);
                                             chatadapter.updatechatlist(chatlistnerList);
+                                            //chatadapter.notifyItemInserted(chatlistnerList.size()-1);
                                             chattingrecycleview.scrollToPosition(chatlistnerList.size() - 1);
                                         }
                                     }
@@ -206,6 +209,7 @@ public class Chat extends AppCompatActivity {
                         chatRef.child(chatkey).child("messages").child(currenttimestamp).child("uid").setValue(getuid).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
+                                chattingrecycleview.scrollToPosition(chatlistnerList.size()-1);
                                 chatadapter.notifyDataSetChanged();
                             }
                         });
@@ -229,6 +233,12 @@ public class Chat extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivityForResult(new Intent(this, ChatFeature.class), 369);
     }
 }
 
