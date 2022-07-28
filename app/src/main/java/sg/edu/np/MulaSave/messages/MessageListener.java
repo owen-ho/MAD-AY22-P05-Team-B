@@ -2,6 +2,8 @@ package sg.edu.np.MulaSave.messages;
 
 import java.io.Serializable;
 
+
+//Creating different variables
 public class MessageListener implements Serializable {
     private String uid, lastmessage, username,profilepic,chatkey,sellerid;
 

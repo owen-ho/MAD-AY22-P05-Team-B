@@ -10,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/oppolayout"
+            android:id="@+id/otherpersonlayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"

@@ -202,6 +202,7 @@ public class Chat extends AppCompatActivity {
                 });
 
                 // Sending messages and it will be written in the firebase
+                // Sendbtn is when user sends a message, it will write into the firebase.
                 sendbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

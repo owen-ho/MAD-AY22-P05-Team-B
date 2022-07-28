@@ -1,7 +1,6 @@
 package sg.edu.np.MulaSave.chat;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,30 +60,24 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ChatAdapter.MyViewHolder holder, int position) {
         //Setting up the messages and setting visibility based on the id
+        //Creating the chat flow. if user is sending then the sending layout will switch to visible else the layout will be set as receiving layout
         ChatListener list2 = chatlistnerList.get(position);
         FirebaseAuth mAuth;
         mAuth = FirebaseAuth.getInstance();
         getuid = mAuth.getCurrentUser().getUid();
 
         if(list2.getUid().equals(getuid)){
-
             holder.myLayout.setVisibility(View.VISIBLE);
             holder.oppoLayout.setVisibility(View.GONE);
             holder.myMessage.setText(list2.getMessage());
             holder.myTime.setText(list2.getDate()+" "+list2.getTime());
-
-
-
         }
         else{
             holder.myLayout.setVisibility(View.GONE);
             holder.oppoLayout.setVisibility(View.VISIBLE);
             holder.oppoMessage.setText(list2.getMessage());
             holder.oppoTime.setText(list2.getDate()+" "+list2.getTime());
-
         }
-
-
     }
 
     /**
@@ -97,7 +90,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     }
 
     /**
-     * Calling out chat
+     *
      * @param chatlistnerList full list of conversation to pass to the recycleview for later purposes
      */
     public void updatechatlist(List<ChatListener> chatlistnerList){
@@ -112,7 +105,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         private TextView oppoTime,myTime;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            oppoLayout = itemView.findViewById(R.id.oppolayout);
+            oppoLayout = itemView.findViewById(R.id.otherpersonlayout);
             myLayout = itemView.findViewById(R.id.mylayout);
             oppoMessage=itemView.findViewById(R.id.sendermessage);
             myMessage = itemView.findViewById(R.id.mymessage);

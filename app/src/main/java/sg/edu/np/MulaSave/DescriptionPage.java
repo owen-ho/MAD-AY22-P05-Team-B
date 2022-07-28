@@ -129,7 +129,6 @@ public class DescriptionPage extends AppCompatActivity {
                             }
                             else{
                                 reserve.setVisibility(View.GONE);
-
                             }
                         }
                     }
