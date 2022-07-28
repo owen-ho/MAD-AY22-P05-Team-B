@@ -10,6 +10,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Memory class is to store data and a output stream for writing data into a file and also returning data based on the individual method
+ * try catch to do error handling
+ */
 public final class MemoryData {
     public static void savedata(String data, Context context){
         try{
