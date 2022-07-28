@@ -139,7 +139,9 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
             });
         }
 
+
         if(holder.getItemViewType() == 1){
+            // Intent the seller to another activity when they click on the view payment button
             holder.seepaymentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -149,9 +151,10 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                 }
             });
 
-            holder.prodRemove.setVisibility(View.INVISIBLE);
-            if(p.getSellerUid().equals(usr.getUid().toString())){
-                holder.prodRemove.setVisibility(View.VISIBLE);//set visible if current user is creator
+            holder.prodRemove.setVisibility(View.INVISIBLE); //Set the delete user own product icon to invisible by default
+            if(p.getSellerUid().equals(usr.getUid().toString())){//if the current product belongs to the creator
+                holder.prodRemove.setVisibility(View.VISIBLE);//set the delete product button to visible
+                //When the creator clicks on the delete product button
                 holder.prodRemove.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -167,23 +170,24 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                                 alertDialog.dismiss();
                             }
                         });
+                        //when the user clicks confirm in the alertdialog
                         confirmRemoveUpload.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 databaseRefUser.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        for(DataSnapshot ds: snapshot.getChildren()){
-                                            for (DataSnapshot ds1: ds.child("Reserve").getChildren()){
-                                                Product prod = ds1.getValue(Product.class);
-                                                if (p.getImageUrl().equals(prod.getImageUrl())){
-                                                    ds1.getRef().removeValue();
+                                        for(DataSnapshot ds: snapshot.getChildren()){//Cycle through users in the firebase
+                                            for (DataSnapshot ds1: ds.child("Reserve").getChildren()){//Cycle through the firebase to look for products in reserve
+                                                Product prod = ds1.getValue(Product.class);//To convert the object in the firebase into a product
+                                                if (p.getImageUrl().equals(prod.getImageUrl())){//If the current product image url is equals to the product image url in reserve
+                                                    ds1.getRef().removeValue();//remove the product from any reserve
                                                 }
                                             }
-                                            for (DataSnapshot ds1: ds.child("Sold").getChildren()){
-                                                Product prod = ds1.getValue(Product.class);
-                                                if (p.getImageUrl().equals(prod.getImageUrl())){
-                                                    ds1.getRef().removeValue();
+                                            for (DataSnapshot ds1: ds.child("Sold").getChildren()){//Cycle through the firebase to look for products in sold
+                                                Product prod = ds1.getValue(Product.class);//To convert the object in the firebase into a product
+                                                if (p.getImageUrl().equals(prod.getImageUrl())){//If the current product image url is equals to the product image url in sold
+                                                    ds1.getRef().removeValue();//remove the product from any sold
                                                 }
                                             }
                                         }
@@ -196,8 +200,8 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                                 databaseRefProduct.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        for(DataSnapshot ds: snapshot.getChildren()){
-                                            Product prod = ds.getValue(Product.class);
+                                        for(DataSnapshot ds: snapshot.getChildren()){//Cycle through users in the firebase
+                                            Product prod = ds.getValue(Product.class);//To convert the object in the firebase into a product
                                             if(prod.getAsin().equals(p.getAsin())){
                                                 ds.getRef().removeValue();
                                                 ShoppingRecyclerAdapter.this.notifyItemRemoved(position);

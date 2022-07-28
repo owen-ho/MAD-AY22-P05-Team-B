@@ -39,7 +39,6 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
 
 
-
     public ReserveAdapter(ArrayList<Product> input){
         this.data = input;
     }
@@ -51,44 +50,55 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
         return new reserveViewHolder(view);
     }
 
+    /**
+     * This adapter would:
+     * 1. Show the description and details of the product reserved
+     * 2. Show a unreserve button for buyer to unreserve the product
+     * 3. Show a upload payment button for buyer to upload their payment for the product
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull reserveViewHolder holder, int position) {
         Product product = data.get(position);
-        holder.rTitle.setText(product.getTitle());
+        holder.rTitle.setText(product.getTitle()); //Set the title of the product
         String price = "0.0";
         if (product.getPrice() != null) {
             price = String.format("$%.2f", product.getPrice());
         }
-        holder.rPrice.setText(price);
-        holder.rWebsite.setText(product.getWebsite());
+        holder.rPrice.setText(price); //Set the Price of the product
+        holder.rWebsite.setText(product.getWebsite()); //Set the seller username
 
         Picasso.get()
                 .load(product.getImageUrl())
-                .into(holder.rImage);
+                .into(holder.rImage);// Set the image of the product
 
+        //To allow the buyer to unreserve the product when they are not interested anymore
         holder.UnreserveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(holder.UnreserveBtn.getContext());
-                View v = LayoutInflater.from(holder.UnreserveBtn.getContext()).inflate(R.layout.unreserve_dialog,null,false);
+                View v = LayoutInflater.from(holder.UnreserveBtn.getContext()).inflate(R.layout.unreserve_dialog,null,false);// An alertdialog made as a notice to the buyer
                 builder.setView(v);
                 final AlertDialog alertDialog = builder.create();
                 TextView noUnReserve = v.findViewById(R.id.noRemoveUpload);
                 TextView confirmUnReserve = v.findViewById(R.id.confirmRemoveUpload);
+                // When the buyer clicks the no button in the alertdialog
                 noUnReserve.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        alertDialog.dismiss();
+                        alertDialog.dismiss();//The alertdialog would be dismissed
                     }
                 });
+                //When the buyer clicks the confirm button in the alertdialog
                 confirmUnReserve.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String ReserveUnique = ((product.getImageUrl()).replaceAll("[^a-zA-Z0-9]", ""));
-                        databaseRefUser.child(usr.getUid().toString()).child("Reserve").child(ReserveUnique).removeValue();
+                        String ReserveUnique = ((product.getImageUrl()).replaceAll("[^a-zA-Z0-9]", ""));//To get the id of the current product
+                        databaseRefUser.child(usr.getUid().toString()).child("Reserve").child(ReserveUnique).removeValue();// To remove the product from the users reserve
                         data.clear();
                         ReserveAdapter.this.notifyDataSetChanged();
-                        addUnreserveNotifications(usr.getUid(), product.getSellerUid(), product.getAsin());
+                        addUnreserveNotifications(usr.getUid(), product.getSellerUid(), product.getAsin()); //add a notification to let the seller know that the product has been unreserved by the buyer
                         alertDialog.dismiss();
                     }
                 });
@@ -99,6 +109,7 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
             }
         });
 
+        //When the buyer clicks on the upload payment button they will be directed to another page to perform another activity
         holder.uploadpaymentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,6 +125,9 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
         return data.size();
     }
 
+    /**
+     * Initialising the variables and views from the xml
+     */
     public class reserveViewHolder extends RecyclerView.ViewHolder {
         TextView rTitle,rPrice,rWebsite;
         ImageView rImage, UnreserveBtn, uploadpaymentBtn;
@@ -128,6 +142,13 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
         }
     }
 
+    /**
+     * This is to save the notification in the firebase:
+     * 1. To notify the seller that the buyer has unreserved their product
+     * @param buyerid
+     * @param sellerid
+     * @param productid
+     */
     private void addUnreserveNotifications(String buyerid, String sellerid, String productid){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications").child(sellerid);
 
