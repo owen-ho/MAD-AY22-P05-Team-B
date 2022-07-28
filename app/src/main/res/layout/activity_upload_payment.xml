@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".UploadPayment">
 
     <ImageView
@@ -89,8 +90,8 @@
 
     <TextView
         android:id="@+id/textView46"
-        android:layout_width="317dp"
-        android:layout_height="80dp"
+        android:layout_width="305dp"
+        android:layout_height="91dp"
         android:layout_marginStart="44dp"
         android:text="Please ensure that you have submitted the right image! You can resubmit again if you have reuploaded the wrong picture or the seller has rejected your payment."
         android:textColor="#3C3838"

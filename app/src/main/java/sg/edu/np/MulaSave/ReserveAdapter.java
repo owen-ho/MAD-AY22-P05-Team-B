@@ -2,6 +2,7 @@ package sg.edu.np.MulaSave;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.CountDownTimer;
 import android.view.InputDevice;
 import android.view.LayoutInflater;
@@ -91,6 +92,9 @@ public class ReserveAdapter extends RecyclerView.Adapter<ReserveAdapter.reserveV
                         alertDialog.dismiss();
                     }
                 });
+                if (alertDialog.getWindow() != null){
+                    alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
+                }
                 alertDialog.show();
             }
         });
