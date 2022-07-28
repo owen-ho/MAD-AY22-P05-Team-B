@@ -40,9 +40,20 @@ public class DescriptionPage extends AppCompatActivity {
 
     Product product;
 
+    /**
+     * This class would:
+     * 1. Show the description and details of the product
+     * 2. Allow the user to chat with the seller with a chat button
+     * 3. Allow the user to reserve a product with a reserve product button
+     * 4. Allow the seller to mark their product as unreserved and to allow the product to be reserved again.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Initialising the variables and Views from the xml
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_descriptionpage);
         TextView title = findViewById(R.id.Title);
         TextView price = findViewById(R.id.Price);
@@ -67,7 +78,7 @@ public class DescriptionPage extends AppCompatActivity {
         username.setText(product.getWebsite());
         Picasso.get().load(product.getImageUrl()).into(pic);
 
-
+        // Let the user click back to the previous page using the back button located in this description page
         backdescriptionpage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,6 +86,7 @@ public class DescriptionPage extends AppCompatActivity {
             }
         });
 
+        // When the user clicks the chat button it would intent to the chat activity
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,22 +96,23 @@ public class DescriptionPage extends AppCompatActivity {
             }
         });
 
-        //If current user owns the product being shown
+        //If the current user owns the product being shown
         if (product.getSellerUid().equals(usr.getUid())){
-            reserve.setVisibility(View.GONE);
-            chat.setVisibility(View.INVISIBLE);
-            removeReserve.setVisibility(View.INVISIBLE);
+            reserve.setVisibility(View.GONE); //To hide the reserve button so the owner of the product cannot reserve their own product
+            chat.setVisibility(View.INVISIBLE); //To hide the Chat button so the owner of the product cannot chat to themself
+            removeReserve.setVisibility(View.INVISIBLE); //To hide the unreserve button by default
+            //To allow seller to see the unreserve button to unreserve their own listing if product is being reserved
             databaseRefUser.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(DataSnapshot ds: snapshot.getChildren()){
-                        for (DataSnapshot ds1: ds.child("Reserve").getChildren()){
-                            Product prod = ds1.getValue(Product.class);
-                            if (!product.getImageUrl().equals(prod.getImageUrl())){
-                                removeReserve.setVisibility(View.GONE);
+                    for(DataSnapshot ds: snapshot.getChildren()){ //Cycle through users in the firebase
+                        for (DataSnapshot ds1: ds.child("Reserve").getChildren()){//Cycle through the firebase to look for the products inside the users reserve
+                            Product prod = ds1.getValue(Product.class); //To convert the object in the firebase into a product
+                            if (!product.getImageUrl().equals(prod.getImageUrl())){ //If current product image url not equals to the product image url in any users reserve
+                                removeReserve.setVisibility(View.GONE); //Unreserve button will not be shown
                             }
-                            else{
-                                removeReserve.setVisibility(View.VISIBLE);
+                            else{ //The current product image url is equals to the product image in any users reserve
+                                removeReserve.setVisibility(View.VISIBLE); //Unreserve button will be shown
 
                             }
                         }
@@ -114,20 +127,20 @@ public class DescriptionPage extends AppCompatActivity {
 
         //If current user does not own the product being shown
         if (!product.getSellerUid().equals(usr.getUid())){
-            removeReserve.setVisibility(View.GONE);
-            reserve.setVisibility(View.INVISIBLE);
+            removeReserve.setVisibility(View.GONE); //To hide the unreserve button by default
+            reserve.setVisibility(View.INVISIBLE);//To hide the reserve button by default
+            // To disable buyers to reserve the product if the product is marked as sold and enable reserving of product if product is not sold
             databaseRefUser.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(DataSnapshot ds: snapshot.getChildren()){
-                        for (DataSnapshot ds1: ds.child("Sold").getChildren()){
-                            Product prod = ds1.getValue(Product.class);
-                            if (!product.getImageUrl().equals(prod.getImageUrl())){ // Product in this page is not equals to the product in the firebase
-                                reserve.setVisibility(View.VISIBLE);
+                    for(DataSnapshot ds: snapshot.getChildren()){//Cycle through users in firebase
+                        for (DataSnapshot ds1: ds.child("Sold").getChildren()){//Cycle through the firebase to look for the products inside sold
+                            Product prod = ds1.getValue(Product.class);//To convert the object in the firebase into a product
+                            if (!product.getImageUrl().equals(prod.getImageUrl())){ //If current product image url not equals to the product image url in sold
+                                reserve.setVisibility(View.VISIBLE);// Reserve button will be shown
                             }
-                            else{
-                                reserve.setVisibility(View.GONE);
-
+                            else{//The current product image url is equals to the product image url in sold
+                                reserve.setVisibility(View.GONE);//Reserve button will not be shown
                             }
                         }
                     }
@@ -139,17 +152,17 @@ public class DescriptionPage extends AppCompatActivity {
             });
         }
 
-
+        // To disable buyers to reserve the product if the product is currently being reserved by another user and enable reserving if product is available
         databaseRefUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    for (DataSnapshot snapshot1 : dataSnapshot.getChildren()){
-                        if (snapshot1.getKey().toString().equals("Reserve")){
-                            for (DataSnapshot snapshot2 : snapshot1.getChildren()){
-                                String ReserveUnique = ((product.getImageUrl()).replaceAll("[^a-zA-Z0-9]", ""));
-                                if(snapshot2.getKey().toString().equals(ReserveUnique)){
-                                    reserve.setVisibility(View.INVISIBLE);
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){//Cycle through users in firebase
+                    for (DataSnapshot snapshot1 : dataSnapshot.getChildren()){//Cycle through attributes in users
+                        if (snapshot1.getKey().toString().equals("Reserve")){// If attribute is reserved
+                            for (DataSnapshot snapshot2 : snapshot1.getChildren()){//Cycle through reserved in the firebase
+                                String ReserveUnique = ((product.getImageUrl()).replaceAll("[^a-zA-Z0-9]", ""));//To get the id of the product in reserved
+                                if(snapshot2.getKey().toString().equals(ReserveUnique)){//If the product is being reserved
+                                    reserve.setVisibility(View.INVISIBLE);//The reserve button would be set invisible
                                     break;
                                 }
                             }
@@ -164,6 +177,7 @@ public class DescriptionPage extends AppCompatActivity {
             }
         });
 
+        //To add the product in the users/buyers reserved list in the firebase when they confirm on reserving the product
         reserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -173,18 +187,21 @@ public class DescriptionPage extends AppCompatActivity {
                 final AlertDialog alertDialog = builder.create();
                 TextView noReserve = v.findViewById(R.id.noReserve);
                 TextView confirmResrve = v.findViewById(R.id.confirmReserve);
+                //When the users/buyers click no button in the alertdialog
                 noReserve.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        alertDialog.dismiss();
+                        alertDialog.dismiss();// the alertdialog is dismissed and the product is not added to the users reserve list
                     }
                 });
+
+                //When the users/buyers click on the confirm button in the alertdialog
                 confirmResrve.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String ReserveUnique = ((product.getImageUrl()).replaceAll("[^a-zA-Z0-9]", ""));
+                        String ReserveUnique = ((product.getImageUrl()).replaceAll("[^a-zA-Z0-9]", ""));//To get the id of the current product
                         databaseRefUser.child(usr.getUid().toString()).child("Reserve").child(ReserveUnique).setValue(product);//add product if the product does not exist in the database
-                        addReserveNotifications(usr.getUid(), product.getSellerUid(), product.getAsin());
+                        addReserveNotifications(usr.getUid(), product.getSellerUid(), product.getAsin());//adding of notification to the seller to inform that the product has been reserved by current user (buyer)
                         alertDialog.dismiss();
                     }
                 });
@@ -196,17 +213,18 @@ public class DescriptionPage extends AppCompatActivity {
 
         });
 
+        // To allow the seller of the product to unreserve the product and mark their listing as available so another user can reserve
         removeReserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 databaseRefUser.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot ds: snapshot.getChildren()){
-                            for (DataSnapshot ds1: ds.child("Reserve").getChildren()){
-                                Product p = ds1.getValue(Product.class);
-                                if (p.getSellerUid().equals(usr.getUid())){
-                                    ds1.getRef().removeValue();
+                        for(DataSnapshot ds: snapshot.getChildren()){//Cycle through users in the firebase
+                            for (DataSnapshot ds1: ds.child("Reserve").getChildren()){//Cycle through the firebase to look for products in reserve
+                                Product p = ds1.getValue(Product.class);//To convert the object in the firebase into a product
+                                if (p.getSellerUid().equals(usr.getUid())){//If the product's seller id matches the user id
+                                    ds1.getRef().removeValue(); //The seller is able to remove the reserve in the firebase for their own product
                                 }
                             }
                         }
@@ -220,6 +238,13 @@ public class DescriptionPage extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * This is to save notification to the firebase
+     * @param buyerid
+     * @param sellerid
+     * @param productid
+     */
     private void addReserveNotifications(String buyerid, String sellerid, String productid){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications").child(sellerid);
 
