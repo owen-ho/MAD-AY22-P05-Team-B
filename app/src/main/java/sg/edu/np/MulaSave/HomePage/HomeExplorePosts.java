@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -34,11 +35,11 @@ import sg.edu.np.MulaSave.R;
 
 
 public class HomeExplorePosts extends Fragment {
-    RecyclerView explorePostRecycler;
+    static RecyclerView explorePostRecycler;
     ArrayList<Post> postList;
     PostAdapter postAdapter;
     TextView ePostNoDisplay;
-
+    static LinearLayoutManager epLinearLayoutManager;
     FirebaseDatabase databaseRef = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference databaseRefUser = databaseRef.getReference("user");
@@ -74,8 +75,8 @@ public class HomeExplorePosts extends Fragment {
         ePostNoDisplay = view.findViewById(R.id.ePostNoDisplay);
         initPostMain();
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
-        explorePostRecycler.setLayoutManager(linearLayoutManager);
+        epLinearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
+        explorePostRecycler.setLayoutManager(epLinearLayoutManager);
         explorePostRecycler.setItemAnimator(new DefaultItemAnimator());
         explorePostRecycler.setAdapter(postAdapter);//set adapter
     }
@@ -110,4 +111,14 @@ public class HomeExplorePosts extends Fragment {
             return l1;
         }
     };
+
+    public static void epScrollTop(){
+        RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(HomeExplorePosts.explorePostRecycler.getContext()) {
+            @Override protected int getVerticalSnapPreference() {
+                return LinearSmoothScroller.SNAP_TO_START;
+            }
+        };
+        smoothScroller.setTargetPosition(0);
+        epLinearLayoutManager.startSmoothScroll(smoothScroller);
+    }
 }
