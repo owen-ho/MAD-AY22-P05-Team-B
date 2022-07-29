@@ -1,30 +1,21 @@
 package sg.edu.np.MulaSave.Fragments;
 
 import android.app.ProgressDialog;
-import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.SearchRecentSuggestions;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.SearchView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -47,7 +38,6 @@ import java.util.List;
 import sg.edu.np.MulaSave.APIHandler;
 import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.Product;
-import sg.edu.np.MulaSave.ProductSuggestionProvider;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.ShoppingRecyclerAdapter;
 import sg.edu.np.MulaSave.wishlistFilterAdapter;
@@ -86,21 +76,32 @@ public class ShoppingFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //Get the SearchView and set the searchable configuration
-        SearchView searchView = view.findViewById(R.id.searchQuery);
-        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        //Associate the searchable configuration with the SearchView
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        //Lets users click on the submit button rather than "Enter" or "Return" on their keyboards
-        searchView.setSubmitButtonEnabled(true);
-        //Enables query refinement from search suggestions
-        searchView.setQueryRefinementEnabled(true);
 
-        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        //Intent to shopping search fragments which is another page for suggestions
+        ImageView searchBtn = view.findViewById(R.id.shoppingSearchImageBtn);
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShoppingSearchFragment nextFrag= new ShoppingSearchFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout, nextFrag, "findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+//        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+//        //Associate the searchable configuration with the SearchView
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+//        //Lets users click on the submit button rather than "Enter" or "Return" on their keyboards
+//        searchView.setSubmitButtonEnabled(true);
+//        //Enables query refinement from search suggestions
+//        searchView.setQueryRefinementEnabled(true);
 
-        EditText searchEdit = searchView.findViewById(id);
-        searchEdit.setTextColor(Color.BLACK);
-
+//        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+//
+//        EditText searchEdit = searchView.findViewById(id);
+//        searchEdit.setTextColor(Color.BLACK);
+//
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("Recent API queries", Context.MODE_PRIVATE);
 
         recyclerView = view.findViewById(R.id.shoppingrecyclerview);
@@ -113,6 +114,8 @@ public class ShoppingFragment extends Fragment {
             List<Product> arrayItems;
             String serializedObject = sharedPreferences.getString(query, null);//Extract previously queried product list from SharedPreferences
             if (serializedObject != null) {//If list of previous query was saved into SharedPreferences, extract it and use it in recycler (This is to reduce API requests made)
+                ((TextView)getView().findViewById(R.id.placeholderText)).setVisibility(View.GONE);//hide the placeholder text
+                ((ImageView)getView().findViewById(R.id.shoppingMulasaveLogo)).setVisibility(View.GONE);//hide the mulasave logo background
                 Gson gson = new Gson();
                 Type type = new TypeToken<List<Product>>() {}.getType();
                 arrayItems = gson.fromJson(serializedObject, type);//Convert from Json to List<Product>
@@ -130,14 +133,18 @@ public class ShoppingFragment extends Fragment {
 
                 MainActivity.productList = (ArrayList<Product>) arrayItems;//Set new product list as currently focused list (makes product list persistent in case user switches fragments)
             }else{//If no list can be found in SharedPreferences, load the query again from API
-                Toast.makeText(getContext(),"No previous searches has been saved. Try searching instead.",Toast.LENGTH_LONG);
-//                productList = new ArrayList<Product>();//Create new list to clear previously loaded products for new query
-//                new getProducts(query,productList,view).execute();
+                ((TextView)getView().findViewById(R.id.placeholderText)).setVisibility(View.GONE);//hide the placeholder text
+                ((ImageView)getView().findViewById(R.id.shoppingMulasaveLogo)).setVisibility(View.GONE);//hide the mulasave logo background
+                //Toast.makeText(getContext(),"No previous searches has been saved. Try searching instead.",Toast.LENGTH_LONG);
+                productList = new ArrayList<Product>();//Create new list to clear previously loaded products for new query
+                new getProducts(query,productList,view).execute();
 
             }
         }
         if (productList!=null) {//Checks for previously loaded productList to display(i.e. the user clicked another fragment and returned back)
             if(productList.size()!=0){
+                ((TextView)getView().findViewById(R.id.placeholderText)).setVisibility(View.GONE);//hide the placeholder text
+                ((ImageView)getView().findViewById(R.id.shoppingMulasaveLogo)).setVisibility(View.GONE);//hide the mulasave logo background
                 ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),2);
                 //WishList Filters
                 recyclerViewFilter = view.findViewById(R.id.shoppingFilter);
@@ -151,119 +158,119 @@ public class ShoppingFragment extends Fragment {
             }
         }
 
-        searchView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchView.setIconified(false);//Displays entire search bar when clicked by user
-            }
-        });
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() { //Grab products from API whenever a query is submitted
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getContext(),
-                        ProductSuggestionProvider.AUTHORITY, ProductSuggestionProvider.MODE);
-                suggestions.saveRecentQuery(s, null); //Save query for search history suggestions in the future
-
-                productList = new ArrayList<Product>();//Create new list to clear previously loaded products for new query
-                new getProducts(s,productList,view).execute();//Gets products data from API
-                return true;
-            }
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
-
-        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
-            @Override
-            public boolean onSuggestionSelect(int i) {
-                return false;
-            }
-
-            @Override
-            public boolean onSuggestionClick(int i) {
-                Intent intent = new Intent();
-                intent.putExtra("shopping",1);
-                return false;
-            }
-        });
-
-        //set on searchview open listener for searchview
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //((TextView)getView().findViewById(R.id.placeholderText)).setVisibility(View.GONE);//hide the placeholder text
-
-                ((TextView)getView().findViewById(R.id.shoppingTitle)).setVisibility(View.GONE);//set the title to be gone
-                ConstraintLayout layout = (ConstraintLayout) getView().findViewById(R.id.shoppingConstraintLayout);//get constraintlayout
-                ConstraintSet set = new ConstraintSet();
-                set.clone(layout);
-                //set constraints for the title and searchview
-                set.connect(R.id.shoppingSearchCard, ConstraintSet.START,R.id.shoppingConstraintLayout,ConstraintSet.START,0);
-                set.connect(R.id.shoppingSearchCard, ConstraintSet.END,R.id.shoppingConstraintLayout,ConstraintSet.END,0);
-                set.applyTo(layout);
-            }
-        });
-
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                ((TextView)getView().findViewById(R.id.shoppingTitle)).setVisibility(View.VISIBLE);
-
-                //to convert margin to dp
-                Resources r = getView().getResources();
-                int px = (int) TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        24,
-                        r.getDisplayMetrics()
-                );
-
-                //set layout
-                ConstraintLayout layout = (ConstraintLayout) getView().findViewById(R.id.shoppingConstraintLayout);
-                ConstraintSet set = new ConstraintSet();
-                set.clone(layout);
-                //clear constraints
-                set.clear(R.id.shoppingSearchCard, ConstraintSet.START);
-                set.connect(R.id.shoppingSearchCard, ConstraintSet.END,R.id.shoppingConstraintLayout,ConstraintSet.END,px);
-                set.applyTo(layout);
-                return false;//return false so that icon closes back on close
-            }
-        });
+//        searchView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                searchView.setIconified(false);//Displays entire search bar when clicked by user
+//            }
+//        });
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() { //Grab products from API whenever a query is submitted
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getContext(),
+//                        ProductSuggestionProvider.AUTHORITY, ProductSuggestionProvider.MODE);
+//                suggestions.saveRecentQuery(s, null); //Save query for search history suggestions in the future
+//
+//                productList = new ArrayList<Product>();//Create new list to clear previously loaded products for new query
+//                new getProducts(s,productList,view).execute();//Gets products data from API
+//                return true;
+//            }
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                return false;
+//            }
+//        });
+//
+//        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+//            @Override
+//            public boolean onSuggestionSelect(int i) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onSuggestionClick(int i) {
+//                Intent intent = new Intent();
+//                intent.putExtra("shopping",1);
+//                return false;
+//            }
+//        });
+//
+//        //set on searchview open listener for searchview
+//        searchView.setOnSearchClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //((TextView)getView().findViewById(R.id.placeholderText)).setVisibility(View.GONE);//hide the placeholder text
+//
+//                ((TextView)getView().findViewById(R.id.shoppingTitle)).setVisibility(View.GONE);//set the title to be gone
+//                ConstraintLayout layout = (ConstraintLayout) getView().findViewById(R.id.shoppingConstraintLayout);//get constraintlayout
+//                ConstraintSet set = new ConstraintSet();
+//                set.clone(layout);
+//                //set constraints for the title and searchview
+//                set.connect(R.id.shoppingSearchCard, ConstraintSet.START,R.id.shoppingConstraintLayout,ConstraintSet.START,0);
+//                set.connect(R.id.shoppingSearchCard, ConstraintSet.END,R.id.shoppingConstraintLayout,ConstraintSet.END,0);
+//                set.applyTo(layout);
+//            }
+//        });
+//
+//        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+//            @Override
+//            public boolean onClose() {
+//                ((TextView)getView().findViewById(R.id.shoppingTitle)).setVisibility(View.VISIBLE);
+//
+//                //to convert margin to dp
+//                Resources r = getView().getResources();
+//                int px = (int) TypedValue.applyDimension(
+//                        TypedValue.COMPLEX_UNIT_DIP,
+//                        24,
+//                        r.getDisplayMetrics()
+//                );
+//
+//                //set layout
+//                ConstraintLayout layout = (ConstraintLayout) getView().findViewById(R.id.shoppingConstraintLayout);
+//                ConstraintSet set = new ConstraintSet();
+//                set.clone(layout);
+//                //clear constraints
+//                set.clear(R.id.shoppingSearchCard, ConstraintSet.START);
+//                set.connect(R.id.shoppingSearchCard, ConstraintSet.END,R.id.shoppingConstraintLayout,ConstraintSet.END,px);
+//                set.applyTo(layout);
+//                return false;//return false so that icon closes back on close
+//            }
+//        });
 
         //to navigate user from homefrag to shoppingfrag
-        Bundle bundle = this.getArguments();
-        if(bundle!= null){
-            Boolean search = bundle.getBoolean("condition",false);
-            if(search){//if search == true, which means set searchview to active
-                searchView.performClick();
-                searchView.requestFocus();
-                //to show the keyboard
-                searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View view, boolean hasFocus) {
-                        if (hasFocus) {
-                            showInputMethod(view.findFocus());
-                        }
-                    }
-                });
-            }
-        }//end of bundle
+//        Bundle bundle = this.getArguments();
+//        if(bundle!= null){
+//            Boolean search = bundle.getBoolean("condition",false);
+//            if(search){//if search == true, which means set searchview to active
+//                searchView.performClick();
+//                searchView.requestFocus();
+//                //to show the keyboard
+//                searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+//                    @Override
+//                    public void onFocusChange(View view, boolean hasFocus) {
+//                        if (hasFocus) {
+//                            showInputMethod(view.findFocus());
+//                        }
+//                    }
+//                });
+//            }
+//        }//end of bundle
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        try{//try catch because the product list may not be initialised
-            if (MainActivity.productList == null){//if there are items in the list
-                ((SearchView)getView().findViewById(R.id.searchQuery)).performClick();//click the searchview to show the previous state
-                ((SearchView)getView().findViewById(R.id.searchQuery)).setIconified(true);//onresume, hide the keyboard
-            }
-        }
-        catch (Exception e){
-            Log.e("error", "onResume: " + String.valueOf(e));
-        }
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        try{//try catch because the product list may not be initialised
+//            if (MainActivity.productList == null){//if there are items in the list
+//                ((SearchView)getView().findViewById(R.id.searchFragQuery)).performClick();//click the searchview to show the previous state
+//                ((SearchView)getView().findViewById(R.id.searchFragQuery)).setIconified(true);//onresume, hide the keyboard
+//            }
+//        }
+//        catch (Exception e){
+//            Log.e("error", "onResume: " + String.valueOf(e));
+//        }
+//    }
 
     private void showInputMethod(View view) {
         InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

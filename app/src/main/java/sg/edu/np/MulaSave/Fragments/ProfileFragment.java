@@ -20,7 +20,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,8 +39,8 @@ import sg.edu.np.MulaSave.HomePage.FriendsActivity;
 import sg.edu.np.MulaSave.HomePage.Post;
 import sg.edu.np.MulaSave.LoginActivity;
 import sg.edu.np.MulaSave.MainActivity;
-import sg.edu.np.MulaSave.ProductSuggestionProvider;
 import sg.edu.np.MulaSave.NotificationActivity;
+import sg.edu.np.MulaSave.ProductSuggestionProvider;
 import sg.edu.np.MulaSave.ProfileEdit;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.SelectProfilePic;
@@ -260,6 +259,9 @@ public class ProfileFragment extends Fragment {
 //                    MainActivity.homeproductList.clear();
 //                    MainActivity.homeproductList = null;
 //                }
+                //Clear query history
+                MainActivity.query=null;
+
                 //Clear suggestion history
                 SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
                         ProductSuggestionProvider.AUTHORITY, ProductSuggestionProvider.MODE);

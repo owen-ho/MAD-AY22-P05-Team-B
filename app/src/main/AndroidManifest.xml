@@ -20,9 +20,6 @@
             android:name=".ChatFeature"
             android:exported="false" />
         <activity
-            android:name=".DescriptionPage"
-            android:exported="false" />
-        <activity
             android:name=".WebActivity"
             android:exported="false" />
         <activity
@@ -77,17 +74,23 @@
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                        android:resource="@xml/searchable"/>
+<!--            code to enable pop-up search suggestions instead-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.SEARCH" />-->
+<!--            </intent-filter>-->
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <provider android:name=".ProductSuggestionProvider"
-            android:authorities="sg.edu.np.MulaSave.ProductSuggestionProvider" />
 
+        <provider
+            android:name=".ProductSuggestionProvider"
+            android:authorities="sg.edu.np.MulaSave.ProductSuggestionProvider" />
     </application>
+
 </manifest>
