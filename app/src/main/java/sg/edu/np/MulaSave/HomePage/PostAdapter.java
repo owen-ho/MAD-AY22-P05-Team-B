@@ -76,7 +76,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.creatorImage.setVisibility(View.INVISIBLE);
 
         String creatorUid = post.getCreatorUid();
-        databaseRefUser.addValueEventListener(new ValueEventListener() {
+        databaseRefUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ss : snapshot.getChildren()){
@@ -138,7 +138,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 unit = "hour";
                 if(show >= 24){
                     show = postDt.until(timeNow, ChronoUnit.DAYS);
-                    unit = "days";
+                    unit = "day";
                     if(show >= 30){
                         show = postDt.until(timeNow, ChronoUnit.MONTHS);
                         unit = "month";
@@ -154,7 +154,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         if (show != 1){
             plural = "s";
         }
-        holder.postDateTime.setText(String.valueOf(show) + " " + unit + plural + " ago");
+        if(show<0){
+            holder.postDateTime.setText("Just Now");
+        }
+        else{
+            holder.postDateTime.setText(String.valueOf(show) + " " + unit + plural + " ago");
+        }
+
         holder.postCaption.setText(post.getPostDesc());
 
         final GestureDetector gDetector = new GestureDetector(holder.postImage.getContext(), new GestureDetector.SimpleOnGestureListener() {
@@ -194,7 +200,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
 
         //check if the post is liked, if liked, display as liked (red heart icon)
-        databaseRefUser.child(usr.getUid().toString()).child("likedposts").addListenerForSingleValueEvent(new ValueEventListener() {//access users wishlist
+        databaseRefUser.child(usr.getUid().toString()).child("likedposts").addValueEventListener(new ValueEventListener() {//access users wishlist
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(post.getPostUuid())){
@@ -238,6 +244,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return postList.size();
     }
 
+    /**
+     * The PostViewHolder class for the PostAdapter adapter object
+     */
     public class PostViewHolder extends RecyclerView.ViewHolder {
         ImageView creatorImage, postImage, postLike,postHeartAni;
         TextView creatorUsername, postCaption, postDateTime;
@@ -253,23 +262,31 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         }
     }
 
-    private void addNotifications(String buyerid, String sellerid, String productid){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications").child(sellerid);
+    /**
+     * Add notifications to the database. If the the same person has liked the same post, do not add to database
+     * The method is created for the notification of product posting, so the variable names may not be best suited
+     * for post notifications.
+     * @param currentUserId the current user, which is the user that liked the post
+     * @param creatorId the user to send the notification to, which is the creator of the post
+     * @param postId the unique id of the post to identify the post
+     */
+    private void addNotifications(String currentUserId, String creatorId, String postId){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications").child(creatorId);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Boolean duplicate = false;//set default for duplication to be false
                 for (DataSnapshot ss : snapshot.getChildren()){
                     Notification notif = ss.getValue(Notification.class);
-                    if (productid.equals(notif.getProductid())){//check for duplicate product ids as the product id that is passed in
+                    if (postId.equals(notif.getProductid())){//check for duplicate product ids as the post id that is passed in
                         duplicate = true;
                     }
                 }
                 if(!duplicate){//if there are duplicates on the same object
                     HashMap<String, Object> hashMap = new HashMap<>();
-                    hashMap.put("userid", buyerid);
+                    hashMap.put("userid", currentUserId);
                     hashMap.put("text", "liked post");
-                    hashMap.put("productid", productid);
+                    hashMap.put("productid", postId);
                     hashMap.put("isproduct",false);
 
                     reference.push().setValue(hashMap);

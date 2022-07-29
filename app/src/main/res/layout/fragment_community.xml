@@ -31,6 +31,7 @@
                 android:backgroundTint="#FFFFFF"
                 android:queryHint="Search community products"
                 app:theme="@style/AppSearchView" />
+
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -70,6 +71,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/communityFilter"
             android:layout_width="0dp"
@@ -79,6 +81,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/communitySearchCard" />
+
+        <ImageView
+            android:id="@+id/messagesBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="#FFFFFF"
+            android:src="@drawable/ic_baseline_message_24"
+            app:layout_constraintEnd_toStartOf="@+id/communitySearchCard"
+            app:layout_constraintHorizontal_bias="0.481"
+            app:layout_constraintStart_toEndOf="@+id/communityTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#000000" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

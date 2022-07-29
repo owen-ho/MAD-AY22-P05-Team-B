@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -31,17 +32,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-
 import sg.edu.np.MulaSave.ChildReserveFragment;
 import sg.edu.np.MulaSave.ChildUploadFragment;
 import sg.edu.np.MulaSave.Documentation;
-import sg.edu.np.MulaSave.HomePage.AddFriends;
+import sg.edu.np.MulaSave.HomePage.FriendsActivity;
 import sg.edu.np.MulaSave.HomePage.Post;
 import sg.edu.np.MulaSave.LoginActivity;
 import sg.edu.np.MulaSave.MainActivity;
-import sg.edu.np.MulaSave.ProductSuggestionProvider;
 import sg.edu.np.MulaSave.NotificationActivity;
+import sg.edu.np.MulaSave.ProductSuggestionProvider;
 import sg.edu.np.MulaSave.ProfileEdit;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.SelectProfilePic;
@@ -54,6 +53,8 @@ public class ProfileFragment extends Fragment {
     ViewPager viewPager;
     TextView noOfFriends, noOfPosts;
     int count;
+    CardView friendCard, postCard;
+    TabLayout barTab;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -115,11 +116,14 @@ public class ProfileFragment extends Fragment {
 
         noOfFriends = view.findViewById(R.id.noOfFriends);
         noOfPosts = view.findViewById(R.id.noOfPosts);
+        friendCard = view.findViewById(R.id.friendCard);
+        postCard = view.findViewById(R.id.postCard);
+        barTab = view.findViewById(R.id.tabLayout);
 
         noOfFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AddFriends.class);
+                Intent intent = new Intent(getActivity(), FriendsActivity.class);
                 startActivity(intent);
             }
         });
@@ -154,10 +158,27 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        //start friends activity
+        friendCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(),FriendsActivity.class);
+                startActivity(i);
+            }
+        });
 
+        //navigate to user's own post on click
+        postCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TabLayout.Tab tab = barTab.getTabAt(0);
+                tab.select();//navigate back to the own post tab if the user is not
+            }
+        });
 
         //load this as the default picture first
         if (profilePicLink!=null) {
+
             Picasso.get().load(profilePicLink).into(profilepic);
         }else{
             Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").into(profilepic);
@@ -238,6 +259,9 @@ public class ProfileFragment extends Fragment {
 //                    MainActivity.homeproductList.clear();
 //                    MainActivity.homeproductList = null;
 //                }
+                //Clear query history
+                MainActivity.query=null;
+
                 //Clear suggestion history
                 SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
                         ProductSuggestionProvider.AUTHORITY, ProductSuggestionProvider.MODE);

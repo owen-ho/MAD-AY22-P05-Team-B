@@ -25,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
     //For use in making recyclerviews persistent
     public static ArrayList<Product> productList;
-    public static ArrayList<Product> homeproductList;
     public static String profilePicLink;
     public static String query;
+    public static boolean homeFriends;
 
     private ProgressDialog progressDialog;
 
@@ -67,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleIntent(Intent intent) {
         try {
-            if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            //If a search suggestion was clicked, the query will be sent over to the shoppingfragment for loading
+            if (intent.getIntExtra("shopping",0)==1) {
                 query = intent.getStringExtra(SearchManager.QUERY);
             }
             replacefragment(new ShoppingFragment());

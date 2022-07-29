@@ -98,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:text="Once you cancel reservations for this product another user would be able to reserve. Are you sure? "
                 android:textAlignment="center"
+                android:textColor="#615B5B"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

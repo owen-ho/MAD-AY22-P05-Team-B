@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -38,11 +39,13 @@ import sg.edu.np.MulaSave.Product;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.ShoppingRecyclerAdapter;
 import sg.edu.np.MulaSave.UserInputPrice;
+import sg.edu.np.MulaSave.ChatFeature;
 import sg.edu.np.MulaSave.wishlistFilterAdapter;
 
 public class CommunityFragment extends Fragment {
     RecyclerView recyclerViewUploads;
     RecyclerView recyclerViewFilterUploads;
+    Product product;
     DatabaseReference databaseRefProduct = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
             .getReference("product");//get firebase instance to all uploaded products
@@ -76,6 +79,7 @@ public class CommunityFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerViewUploads = view.findViewById(R.id.uploadsRecycler);
+        ImageView messagebutton = view.findViewById(R.id.messagesBtn);
         productList = new ArrayList<>();
         ShoppingRecyclerAdapter prodAdapter = new ShoppingRecyclerAdapter(productList,getContext(),1);//set adapter with  search layout (layout 1)
         databaseRefProduct.addValueEventListener(new ValueEventListener() {
@@ -92,6 +96,17 @@ public class CommunityFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.w("error", "loadPost:onCancelled", error.toException());
+            }
+        });
+
+        messagebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), ChatFeature.class);
+
+                i.putExtra("product",product);
+
+                startActivity(i);
             }
         });
         //set the layout
@@ -118,6 +133,7 @@ public class CommunityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ((TextView)getView().findViewById(R.id.communityTitle)).setVisibility(View.GONE);//set the title to be gone
+                ((ImageView)getView().findViewById(R.id.messagesBtn)).setVisibility(View.GONE);//set the messages button to be gone
                 ConstraintLayout layout = (ConstraintLayout) getView().findViewById(R.id.communityConstraintLayout);//get constraintlayout
                 ConstraintSet set = new ConstraintSet();
                 set.clone(layout);
@@ -131,7 +147,7 @@ public class CommunityFragment extends Fragment {
             @Override
             public boolean onClose() {
                 ((TextView)getView().findViewById(R.id.communityTitle)).setVisibility(View.VISIBLE);
-
+                ((ImageView)getView().findViewById(R.id.messagesBtn)).setVisibility(View.VISIBLE);
                 //to convert margin to dp
                 Resources r = getActivity().getResources();
                 int px = (int) TypedValue.applyDimension(

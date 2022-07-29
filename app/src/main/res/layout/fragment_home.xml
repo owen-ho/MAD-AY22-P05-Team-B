@@ -43,16 +43,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tint="#000000"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/postRecycler"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
-
         <ImageView
             android:id="@+id/hLikes"
             android:layout_width="wrap_content"
@@ -64,17 +54,49 @@
             app:tint="#000000" />
 
         <TextView
-            android:id="@+id/postNoDisplay"
+            android:id="@+id/hPageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No posts available. Try uploading..."
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:text="Page"
             android:textColor="#000000"
             android:textSize="16sp"
-            android:visibility="invisible"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/homeTabLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3"
+            android:background="#FFFFFF"
+            app:tabIndicatorColor="#0B0B0B"
+            app:tabTextColor="#000000">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monday" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tuesday" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/homeViewPager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/homeTabLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

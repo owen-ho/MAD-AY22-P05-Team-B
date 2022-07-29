@@ -3,6 +3,7 @@ package sg.edu.np.MulaSave.HomePage;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -25,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -39,8 +41,9 @@ import sg.edu.np.MulaSave.User;
 
 public class AddPostActivity extends AppCompatActivity {
 
-    ImageView previewImage, closeButton, chooseImage, chooseBtn;
+    ImageView previewImage, closeButton;
     TextView postButton, postDesc;
+    CardView previewCard;
     int code = 200;
     Post post;
     FirebaseDatabase databaseRef = FirebaseDatabase
@@ -81,30 +84,14 @@ public class AddPostActivity extends AppCompatActivity {
         post = new Post();//create new post object with no fields
 
         previewImage = findViewById(R.id.previewImage);
-        chooseBtn = findViewById(R.id.chooseBtn);
         previewImage.setVisibility(View.INVISIBLE);//hide the preview first as it is the default android icon placeholder
-
-        chooseImage = findViewById(R.id.chooseImage);
         closeButton = findViewById(R.id.closeButton);
         postButton = findViewById(R.id.postButton);
         postDesc = findViewById(R.id.postDesc);
+        previewCard = findViewById(R.id.previewCard);
 
-        //three onclick listeners so that users know to upload and change pic
-        chooseBtn.setOnClickListener(new View.OnClickListener() {//onclick for upload button
-            @Override
-            public void onClick(View view) {
-                imgChooser();
-            }
-        });
 
-        chooseImage.setOnClickListener(new View.OnClickListener() {//onclick to change by clicking on the button
-            @Override
-            public void onClick(View view) {
-                imgChooser();
-            }
-        });
-
-        previewImage.setOnClickListener(new View.OnClickListener() {//onclick to change pic by clicking on the image
+        previewCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 imgChooser();
@@ -165,6 +152,10 @@ public class AddPostActivity extends AppCompatActivity {
         });
     }//end of oncreate
 
+    /**
+     * The image chooser called when user wants to upload an image
+     * Returns the onActivityResult to finish selection
+     */
     private void imgChooser() {//choose image method
         Intent i = new Intent();
         i.setType("image/*");
@@ -173,6 +164,14 @@ public class AddPostActivity extends AppCompatActivity {
     }
 
     //get image and load to preview
+
+    /**
+     * This method is executed after the imgChooser method is executed, this method sets the image uri
+     * to the tentative post object and sets the previewed image to the user.
+     * @param requestCode generated and used to ensure the image is correct
+     * @param resultCode generated and used to ensure that the result executed successfully
+     * @param data data of the selected image to be used
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {//if result is ok
@@ -182,7 +181,8 @@ public class AddPostActivity extends AppCompatActivity {
                 if (null != selectedImgUri) {
                     post.setPostImageUrl(selectedImgUri.toString());//set the post object image url
                     // update the preview image in the layout
-                    previewImage.setImageURI(selectedImgUri);
+                    //previewImage.setImageURI(selectedImgUri);
+                    Picasso.get().load(selectedImgUri).fit().centerCrop().into(previewImage);
                     previewImage.setVisibility(View.VISIBLE);//set to visible
                 }
             }

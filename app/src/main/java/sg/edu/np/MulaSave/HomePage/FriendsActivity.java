@@ -1,13 +1,11 @@
 package sg.edu.np.MulaSave.HomePage;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -20,7 +18,7 @@ import sg.edu.np.MulaSave.FriendsFragments.RequestsFragment;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 
-public class AddFriends extends AppCompatActivity {
+public class FriendsActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     public static ViewPager viewPager;
@@ -32,7 +30,7 @@ public class AddFriends extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_friends);
+        setContentView(R.layout.activity_friends);
 
         tabLayout = findViewById(R.id.tabLayoutFriends);
         viewPager = findViewById(R.id.viewPagerFriends);
@@ -61,30 +59,28 @@ public class AddFriends extends AppCompatActivity {
                 viewPager.getAdapter().notifyDataSetChanged();
             }
         });
-        /*txt.setOnClickListener(new View.OnClickListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onClick(View view) {
-                adapter.notifyDataSetChanged();
-            }
-        });*/
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onTabSelected(TabLayout.Tab tab) {
 
             }
 
             @Override
-            public void onPageSelected(int position) {
-                /*viewPager.getAdapter().notifyDataSetChanged();
-                if(viewPager.getCurrentItem()==1){
-                    viewPager.getAdapter().notifyDataSetChanged();
-                }*/
+            public void onTabUnselected(TabLayout.Tab tab) {
+                //recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onTabReselected(TabLayout.Tab tab) {//method to scroll to the top when the user presses the tab again
+                if(tab.getPosition() == 0){
 
+                }
+                else if (tab.getPosition() == 1){
+
+                }
+                else{
+
+                }
             }
         });
     }
@@ -97,6 +93,13 @@ public class AddFriends extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method ensures that there are no duplicated users in the recyclerviews in each fragments
+     * under the FriendsActivity
+     * @param u the user to check
+     * @param users the list of users to check if user u is in the list
+     * @return boolean object stating whether to add the new user
+     */
     public static boolean addNewUser(User u, ArrayList<User> users){
         for (User user : users){
             if(user.getUid().equals(u.getUid())){

@@ -10,4 +10,8 @@
     <color name="custom_red">#FF2212</color>
     <color name="custom_gray">#FF7E7E7E</color>
     <color name="custom_yellow">#FBC02D</color>
+    <color name="theme_color">#2176FF</color>
+    <color name="theme_color_9">#CC2176FF</color>
+    <color name="theme_color_8">#142176FF</color>
+    <color name="light_8">#14000000</color>
 </resources>
