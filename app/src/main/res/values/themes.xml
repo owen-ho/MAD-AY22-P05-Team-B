@@ -13,6 +13,8 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="searchViewStyle">@style/AppSearchView</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/white</item>
+
     </style>
     <style name="RatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">@color/custom_gray</item>
