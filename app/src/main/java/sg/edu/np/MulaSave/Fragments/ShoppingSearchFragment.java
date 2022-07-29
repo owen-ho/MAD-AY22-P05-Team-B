@@ -3,7 +3,6 @@ package sg.edu.np.MulaSave.Fragments;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.graphics.Color;
@@ -26,6 +25,11 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.ProductSuggestionProvider;
@@ -176,24 +180,27 @@ public class ShoppingSearchFragment extends Fragment {
         searchList = view.findViewById(R.id.searchList);
         String string_uri = "content://sg.edu.np.MulaSave.ProductSuggestionProvider/suggestions";
         Uri uri=Uri.parse(string_uri);
-        UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        String mSuggestSuggestionClause = "display1 LIKE ?";
-        String[] projection = new String [] {
-                "0 AS " + SearchManager.SUGGEST_COLUMN_FORMAT,
-                "'android.resource://system/"
-                        + R.drawable.ic_menu_recent_history + "' AS "
-                        + SearchManager.SUGGEST_COLUMN_ICON_1,
-                "display1 AS " + SearchManager.SUGGEST_COLUMN_TEXT_1,
-                "query AS " + SearchManager.SUGGEST_COLUMN_QUERY,
-                "_id"
-        };
 
         //Taking suggestions data from SearchRecentSuggestionsProvider
         Cursor cursor=getActivity().getContentResolver().query(uri,null,null,null,null);
         SimpleCursorAdapter simpleCursorAdapter=new SimpleCursorAdapter(view.getContext(),R.layout.suggestion_row,cursor,
-                new String[] { "query"  },
-                new int[]{R.id.suggestion},
+                new String[] { "query", "date"},
+                new int[]{R.id.suggestion, R.id.suggestionDate},
                 SearchManager.FLAG_QUERY_REFINEMENT);
+        simpleCursorAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(View view, Cursor cursor, int i) {
+                if (i==3){
+                    String createDate = cursor.getString(i);
+                    TextView textView = view.findViewById(R.id.suggestionDate);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                    LocalDateTime ldt = Instant.ofEpochMilli(Long.parseLong(createDate)).atZone(ZoneId.systemDefault()).toLocalDateTime();
+                    textView.setText(ldt.format(formatter));
+                    return true;
+                }
+                return false;
+            }
+        });
         searchList.setAdapter(simpleCursorAdapter);
         searchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -206,37 +213,5 @@ public class ShoppingSearchFragment extends Fragment {
                 getActivity().startActivity(intent);
             }
         });
-//        if (cursor == null) {
-//            // There are no results
-//            mTextView.setText(getString(R.string.no_results, new Object[] {query}));
-//        } else {
-//            // Display the number of results
-//            int count = cursor.getCount();
-//            String countString = getResources().getQuantityString(R.plurals.search_results,
-//                    count, new Object[] {count, query});
-//            mTextView.setText(countString);
-//            // Specify the columns we want to display in the result
-//            String[] from = new String[] { DictionaryDatabase.KEY_WORD,
-//                    DictionaryDatabase.KEY_DEFINITION };
-//            // Specify the corresponding layout elements where we want the columns to go
-//            int[] to = new int[] { R.id.word,
-//                    R.id.definition };
-//            // Create a simple cursor adapter for the definitions and apply them to the ListView
-//            SimpleCursorAdapter words = new SimpleCursorAdapter(this,
-//                    R.layout.result, cursor, from, to);
-//            mListView.setAdapter(words);
-//            // Define the on-click listener for the list items
-//            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    // Build the Intent used to open WordActivity with a specific word Uri
-//                    Intent wordIntent = new Intent(getApplicationContext(), WordActivity.class);
-//                    Uri data = Uri.withAppendedPath(DictionaryProvider.CONTENT_URI,
-//                            String.valueOf(id));
-//                    wordIntent.setData(data);
-//                    startActivity(wordIntent);
-//                }
-//            });
-//        }
     }
 }
