@@ -1,11 +1,13 @@
 package sg.edu.np.MulaSave;
 
 public class Notification {
-    private String userid;
-    private String text;
-    private String productid;
+    // Private Variables
+    private String userid; // userid is the variable to differentiate between different users
+    private String text; //content of the notification
+    private String productid;//id of product that is relevant
     private boolean isproduct;
 
+    // Constructor for Class
     public Notification (String userid, String text, String productid, boolean isproduct){
         this.userid = userid;
         this.text = text;
@@ -14,7 +16,7 @@ public class Notification {
     }
     public Notification(){
     }
-
+    //Getter and Setting for Class
     public String getUserid(){
         return userid;
     }
