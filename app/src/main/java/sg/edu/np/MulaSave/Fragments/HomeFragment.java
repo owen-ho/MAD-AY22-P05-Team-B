@@ -3,6 +3,7 @@ package sg.edu.np.MulaSave.Fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,13 +109,8 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                /*// Save state
-                private Parcelable recyclerViewState;
-                recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
 
-                // Restore state
-                recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);*/
-                viewPager.getAdapter().notifyDataSetChanged();
+                //viewPager.getAdapter().notifyDataSetChanged();
             }
 
             @Override
@@ -134,8 +130,13 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
+            public void onTabReselected(TabLayout.Tab tab) {//method to scroll to the top when the user presses the tab again
+                if(tab.getPosition() == 0){
+                    HomeExplorePosts.epScrollTop();
+                }
+                else{
+                    HomeFriendsPosts.fpScrollTop();
+                }
             }
         });
     }//end of onview created method

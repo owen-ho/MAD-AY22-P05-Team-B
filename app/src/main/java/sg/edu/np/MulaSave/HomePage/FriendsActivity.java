@@ -59,30 +59,28 @@ public class FriendsActivity extends AppCompatActivity {
                 viewPager.getAdapter().notifyDataSetChanged();
             }
         });
-        /*txt.setOnClickListener(new View.OnClickListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onClick(View view) {
-                adapter.notifyDataSetChanged();
-            }
-        });*/
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onTabSelected(TabLayout.Tab tab) {
 
             }
 
             @Override
-            public void onPageSelected(int position) {
-                /*viewPager.getAdapter().notifyDataSetChanged();
-                if(viewPager.getCurrentItem()==1){
-                    viewPager.getAdapter().notifyDataSetChanged();
-                }*/
+            public void onTabUnselected(TabLayout.Tab tab) {
+                //recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onTabReselected(TabLayout.Tab tab) {//method to scroll to the top when the user presses the tab again
+                if(tab.getPosition() == 0){
 
+                }
+                else if (tab.getPosition() == 1){
+
+                }
+                else{
+
+                }
             }
         });
     }

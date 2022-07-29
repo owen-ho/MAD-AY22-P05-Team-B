@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -34,11 +35,11 @@ import sg.edu.np.MulaSave.R;
 
 public class HomeFriendsPosts extends Fragment {
 
-    RecyclerView friendsPostRecycler;
+    static RecyclerView friendsPostRecycler;
     ArrayList<Post> postList;
     PostAdapter postAdapter;
     TextView fPostNoDisplay;
-
+    static LinearLayoutManager fpLinearLayoutManager;
     FirebaseDatabase databaseRef = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference databaseRefUser = databaseRef.getReference("user");
@@ -76,8 +77,8 @@ public class HomeFriendsPosts extends Fragment {
 
         initPostFriends();
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
-        friendsPostRecycler.setLayoutManager(linearLayoutManager);
+        fpLinearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
+        friendsPostRecycler.setLayoutManager(fpLinearLayoutManager);
         friendsPostRecycler.setItemAnimator(new DefaultItemAnimator());
         friendsPostRecycler.setAdapter(postAdapter);//set adapter
 
@@ -129,4 +130,14 @@ public class HomeFriendsPosts extends Fragment {
             return l1;
         }
     };
+
+    public static void fpScrollTop(){
+        RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(HomeFriendsPosts.friendsPostRecycler.getContext()) {
+            @Override protected int getVerticalSnapPreference() {
+                return LinearSmoothScroller.SNAP_TO_START;
+            }
+        };
+        smoothScroller.setTargetPosition(0);
+        fpLinearLayoutManager.startSmoothScroll(smoothScroller);
+    }
 }

@@ -256,6 +256,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
             android:src="@drawable/ic_baseline_notifications_24"
+            app:tint="#000000"
             app:layout_constraintEnd_toStartOf="@+id/changeinfo"
             app:layout_constraintTop_toTopOf="parent" />
 
