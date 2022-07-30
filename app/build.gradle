@@ -14,6 +14,14 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+        buildConfigField "String", "API_KEY_WALMART", "\"${properties.getProperty("API_KEY_WALMART")}\""
+        buildConfigField "String", "API_KEY_AMAZON", "\"${properties.getProperty("API_KEY_AMAZON")}\""
+        buildConfigField "String", "API_KEY_TARGET", "\"${properties.getProperty("API_KEY_TARGET")}\""
+        buildConfigField "String", "API_KEY_EBAY", "\"${properties.getProperty("API_KEY_EBAY")}\""
     }
 
     buildTypes {

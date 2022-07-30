@@ -36,6 +36,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import sg.edu.np.MulaSave.APIHandler;
+import sg.edu.np.MulaSave.BuildConfig;
 import sg.edu.np.MulaSave.MainActivity;
 import sg.edu.np.MulaSave.Product;
 import sg.edu.np.MulaSave.R;
@@ -331,7 +332,7 @@ public class ShoppingFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(getContext());
-            progressDialog.setMessage("Loading products...");
+            progressDialog.setMessage("Please wait... (might take a minute!)");
             progressDialog.setCancelable(false);
             progressDialog.show();
         }
@@ -339,7 +340,8 @@ public class ShoppingFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... voids) {
             Boolean demo = false;
-            String[] apiList = new String[] {"walmart","amazon","ebay","target"};//Amazon API uses demo as our API has expired, it will only query for memory cards
+            //Amazon API is skipped as our API has expired
+            String[] apiList = new String[] {"walmart","ebay","target"};// {"walmart","amazon","ebay","target"};
 
             for(String website:apiList){//If it is a demo query, there is no need to iterate through all websites in apiList
                 if(query.contains(website)){
@@ -377,24 +379,25 @@ public class ShoppingFragment extends Fragment {
             }
             else{
                 if(website.toLowerCase().equals("amazon")){
-                    //Actual searching for Amazon is disabled as we have run out of API requests
-                    //apikey = "4487B79AE90342968E9E30B71F25913D";
+                    //Actual search for products on Amazon is disabled as we have ran out of API requests
+                    //apikey = BuildConfig.API_KEY_AMAZON;
+
                     //url = "https://api.rainforestapi.com/request?api_key="+apikey+"&type=search&amazon_domain=amazon.sg&search_term="+query;
 
                     //TEMPORARY DEMO API FOR TESTING
-                    url = "https://api.rainforestapi.com/request?api_key=demo&amazon_domain=amazon.com&type=search&search_term=memory+cards";
+                    //url = "https://api.rainforestapi.com/request?api_key=demo&amazon_domain=amazon.com&type=search&search_term=memory+cards";
                 }
                 else if(website.toLowerCase().equals("walmart")){
-                    apikey = "83B616CC6FAD4A6FBE7A739483C2C741";
+                    apikey = BuildConfig.API_KEY_WALMART;
                     url = "https://api.bluecartapi.com/request?api_key="+apikey+"&type=search&search_term="+query+"&sort_by=best_seller";
                 }
                 else if(website.toLowerCase().equals("ebay")){
-                    apikey = "A00A8C31BBF84303A82C2EE40B02A6FF";
+                    apikey = BuildConfig.API_KEY_EBAY;
                     url = "https://api.countdownapi.com/request?api_key="+apikey+"&type=search&ebay_domain=ebay.com&search_term="+query+"&sort_by=price_high_to_low";
                 }
                 else if(website.toLowerCase().equals("target")){
-                    apikey = "";
-                    url = "";
+                    apikey = BuildConfig.API_KEY_TARGET;
+                    url = "https://api.redcircleapi.com/request?api_key="+apikey+"&search_term="+query+"&type=search";
                 }
                 else{
                     Toast.makeText(getContext(),"We do not have APIs to that website yet!",Toast.LENGTH_SHORT).show();
