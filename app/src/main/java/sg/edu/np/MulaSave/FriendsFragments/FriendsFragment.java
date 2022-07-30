@@ -21,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -43,7 +45,7 @@ public class FriendsFragment extends Fragment {
             .getReference("user");
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     ArrayList<User> friendList;
-    SearchView searchFriendList;
+    public static SearchView searchFriendList;
     TextView friendNoDisplay;
 
     public FriendsFragment() {
@@ -72,7 +74,16 @@ public class FriendsFragment extends Fragment {
         searchFriendList = view.findViewById(R.id.searchFriendList);
 
         ViewFriendAdapter fAdapter = new ViewFriendAdapter(friendList,1);//1 means friend list
-        initData(friendList, fAdapter, "friends",friendNoDisplay);//initialise data
+        if(FriendsActivity.targetUserUid == null && FriendsActivity.targetTab == null){
+            initData(friendList, fAdapter, "friends",friendNoDisplay);//initialise data
+        }
+        else if(FriendsActivity.targetTab == 2){
+            initData(friendList, fAdapter, "friends",friendNoDisplay);//initialise data
+            friendNoDisplay.setVisibility(View.INVISIBLE);
+        }
+        else{
+            friendNoDisplay.setVisibility(View.INVISIBLE);
+        }
 
         LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
         friendRecycler.setLayoutManager(vLayoutManager);
@@ -102,6 +113,16 @@ public class FriendsFragment extends Fragment {
                 return false;//return false so that icon closes back on close
             }
         });
+
+        if(FriendsActivity.targetUserUid != null && FriendsActivity.targetTab == 0){
+            databaseRefUser.child(FriendsActivity.targetUserUid).child("username").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    searchFriendList.performClick();
+                    searchFriendList.setQuery(task.getResult().getValue().toString(),true);
+                }
+            });
+        }
     }
 
     /**

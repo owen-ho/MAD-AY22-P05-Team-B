@@ -14,12 +14,15 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import sg.edu.np.MulaSave.HomePage.FriendsActivity;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 
@@ -40,7 +44,7 @@ public class ExploreFragment extends Fragment {
             .getReference("user");
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     ArrayList<User> exploreList;
-    SearchView searchFriendExplore;
+    public static SearchView searchFriendExplore;
     TextView exploreNoDisplay;
 
     public ExploreFragment() {
@@ -75,7 +79,17 @@ public class ExploreFragment extends Fragment {
 
         exploreList = new ArrayList<>();
         ViewFriendAdapter eAdapter = new ViewFriendAdapter(exploreList,3);
-        initData(exploreList, eAdapter, "explore",exploreNoDisplay);//initialise data
+        if(FriendsActivity.targetUserUid == null && FriendsActivity.targetTab == null){
+            initData(exploreList, eAdapter, "explore",exploreNoDisplay);//initialise data
+        }
+        else if(FriendsActivity.targetTab == 0){
+            initData(exploreList, eAdapter, "explore",exploreNoDisplay);//initialise data
+            exploreNoDisplay.setVisibility(View.INVISIBLE);
+        }
+        else{
+            exploreNoDisplay.setVisibility(View.INVISIBLE);
+        }
+
 
         LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
         exploreRecyclerView.setLayoutManager(vLayoutManager);
@@ -104,6 +118,16 @@ public class ExploreFragment extends Fragment {
                 return false;//return false so that icon closes back on close
             }
         });
+
+        if(FriendsActivity.targetUserUid != null && FriendsActivity.targetTab == 2){
+            databaseRefUser.child(FriendsActivity.targetUserUid).child("username").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    searchFriendExplore.performClick();
+                    searchFriendExplore.setQuery(task.getResult().getValue().toString(),true);
+                }
+            });
+        }
     }
 
 }

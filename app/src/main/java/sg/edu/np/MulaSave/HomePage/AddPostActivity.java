@@ -105,7 +105,9 @@ public class AddPostActivity extends AppCompatActivity {
                 post.setCreatorUid(user.getUid());//set the creator uid (string object)
                 String randomId = UUID.randomUUID().toString();//create uuid to be used as the post uuid and also the name of the imagefile
                 post.setPostUuid(randomId);
-                post.setPostDesc(postDesc.getText().toString());
+
+                //set post desc and trim to remove extra spaces
+                post.setPostDesc(postDesc.getText().toString().trim());
 
                 Instant instant = Instant.now();
                 post.setPostDateTime(instant.toString());

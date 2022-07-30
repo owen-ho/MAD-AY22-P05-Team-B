@@ -3,6 +3,7 @@ package sg.edu.np.MulaSave.HomePage;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,12 +26,23 @@ public class FriendsActivity extends AppCompatActivity {
     FriendsActivityAdapter adapter;
     ImageView friendsBackTrack;
     static ImageView refreshViewPager;
+    public static String targetUserUid;
+    public static Integer targetTab;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
+
+        try{
+            targetUserUid = getIntent().getExtras().getString("targetUserUid");
+            targetTab = getIntent().getExtras().getInt("targetTab",2);
+        }
+        catch (Exception e){
+
+        }
+
 
         tabLayout = findViewById(R.id.tabLayoutFriends);
         viewPager = findViewById(R.id.viewPagerFriends);
@@ -59,6 +71,14 @@ public class FriendsActivity extends AppCompatActivity {
                 viewPager.getAdapter().notifyDataSetChanged();
             }
         });
+
+
+        //passing target data
+        if(targetUserUid != null && targetTab != null){
+            TabLayout.Tab tab = tabLayout.getTabAt(targetTab);
+            tab.select();
+        }
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -67,7 +87,14 @@ public class FriendsActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                //recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+                targetUserUid = null;
+                targetTab = null;
+                if(ExploreFragment.searchFriendExplore != null){
+                    ExploreFragment.searchFriendExplore.setQuery("",true);
+                }
+                if(FriendsFragment.searchFriendList != null){
+                    FriendsFragment.searchFriendList.setQuery("",true);
+                }
             }
 
             @Override

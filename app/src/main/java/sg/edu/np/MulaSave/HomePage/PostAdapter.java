@@ -1,9 +1,14 @@
 package sg.edu.np.MulaSave.HomePage;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.AnimatedVectorDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -15,7 +20,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
@@ -39,6 +47,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import sg.edu.np.MulaSave.FriendsFragments.ExploreFragment;
+import sg.edu.np.MulaSave.FriendsFragments.FriendsFragment;
 import sg.edu.np.MulaSave.Notification;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
@@ -74,6 +84,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         Post post = postList.get(holder.getAdapterPosition());
         holder.postImage.setVisibility(View.INVISIBLE);//set invisible
         holder.creatorImage.setVisibility(View.INVISIBLE);
+
+
+        holder.creatorImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!post.getCreatorUid().equals(usr.getUid())){//dont go to friend if the post is created by the user himself
+                    goToFriend(holder.creatorImage.getContext(), post);
+                }
+            }
+        });
 
         String creatorUid = post.getCreatorUid();
         databaseRefUser.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -298,6 +318,83 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
             }
         });
+    }
+
+    private void goToFriend(Context context, Post post){
+        TextView dTitle,dNegativeText, dPositiveText;
+        ImageView pic;
+        CardView negativeCard, positiveCard, picCard;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View view = LayoutInflater.from(context).inflate(R.layout.remove_wislist,null,false);
+        builder.setView(view);
+        dTitle = view.findViewById(R.id.dTitle);
+        dNegativeText = view.findViewById(R.id.dNegativeText);
+        dPositiveText = view.findViewById(R.id.dPositiveText);
+        pic = view.findViewById(R.id.wishlistPic);
+        negativeCard = view.findViewById(R.id.dNegativeCard);
+        positiveCard = view.findViewById(R.id.dPositiveCard);
+        picCard = view.findViewById(R.id.picCard);
+
+        dTitle.setText("View User?");
+        dNegativeText.setText("Back");
+        dPositiveText.setText("Go");
+
+        final AlertDialog alertDialog = builder.create();
+
+        //back (dismiss dialog)
+        negativeCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+        picCard.setRadius(200f);
+
+        //go to friend
+        positiveCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("targetUserUid",post.getCreatorUid());
+                databaseRefUser.child(usr.getUid()).child("friends").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {//
+                        if(snapshot.hasChild(post.getCreatorUid())){
+                            bundle.putInt("targetTab",0);
+                        }
+                        else{
+                            bundle.putInt("targetTab",2);
+                        }
+                        Intent i = new Intent(context, FriendsActivity.class);
+                        i.putExtras(bundle);
+                        context.startActivity(i);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                alertDialog.dismiss();
+            }
+        });
+        storageRef.child("profilepics/" + post.getCreatorUid() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {//user has set a profile picture before
+                Picasso.get().load(uri).resize(200,200).into(pic);
+            }
+        }).addOnFailureListener(new OnFailureListener() {//file does not exist (user did not upload before)
+            @Override
+            public void onFailure(@NonNull Exception e) {//set default picture
+                Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").resize(200,200).into(pic);
+            }
+        });//end of get profile pic
+
+        if (alertDialog.getWindow() != null){
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
+        }
+        alertDialog.show();
 
     }
 }

@@ -259,7 +259,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
     private void removeFriendDialog(Context context, User friend, int position){
         TextView dTitle,dNegativeText, dPositiveText;
         ImageView pic;
-        CardView negativeCard, positiveCard;
+        CardView negativeCard, positiveCard,picCard;
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = LayoutInflater.from(context).inflate(R.layout.remove_wislist,null,false);
         builder.setView(view);
@@ -268,11 +268,13 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
         dNegativeText = view.findViewById(R.id.dNegativeText);
         dPositiveText = view.findViewById(R.id.dPositiveText);
         pic = view.findViewById(R.id.wishlistPic);
+        picCard = view.findViewById(R.id.picCard);
         negativeCard = view.findViewById(R.id.dNegativeCard);
         positiveCard = view.findViewById(R.id.dPositiveCard);
 
         dTitle.setText("Remove Friend");
 
+        picCard.setRadius(200f);
 
         storageRef.child("profilepics/" + friend.getUid().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
