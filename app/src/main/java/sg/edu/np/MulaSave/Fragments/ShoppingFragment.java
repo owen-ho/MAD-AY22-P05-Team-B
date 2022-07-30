@@ -86,7 +86,6 @@ public class ShoppingFragment extends Fragment {
                 ShoppingSearchFragment nextFrag= new ShoppingSearchFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout, nextFrag, "findThisFragment")
-                        .addToBackStack(null)
                         .commit();
             }
         });
