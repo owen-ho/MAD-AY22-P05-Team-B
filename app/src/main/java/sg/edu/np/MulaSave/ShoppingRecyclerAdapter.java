@@ -17,6 +17,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,11 +35,18 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import sg.edu.np.MulaSave.Fragments.CommunityFragment;
+import sg.edu.np.MulaSave.Fragments.HomeFragment;
+import sg.edu.np.MulaSave.Fragments.ProfileFragment;
+import sg.edu.np.MulaSave.Fragments.ShoppingFragment;
+import sg.edu.np.MulaSave.Fragments.WishlishFragment;
+
 
 public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHolder> {
     //adapter shared by shopping, wishlist and uploads
     private ArrayList<Product> data;
     private FirebaseAuth mAuth;
+    private Context mContext;
 
     DatabaseReference databaseRefUser = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
@@ -53,9 +62,10 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
     // 2 = wishlist view
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
 
-    public ShoppingRecyclerAdapter(ArrayList<Product> input, Context  context, int _layoutType) {
+    public ShoppingRecyclerAdapter(ArrayList<Product> input, Context context, int _layoutType) {
         this.data = input;
         this.inflater = LayoutInflater.from(context);
+        this.mContext = context;
         this.layoutType = _layoutType;
     }
 
@@ -309,7 +319,25 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                                     else{//notify if is shopping or community view
                                         ShoppingRecyclerAdapter.this.notifyDataSetChanged();
                                     }
+                                    FragmentActivity activeActivity = (FragmentActivity) mContext;
+                                    Fragment activeFragment = activeActivity.getSupportFragmentManager().findFragmentById(R.id.frameLayout);
+
+                                    //Intents back to active fragment to update recyclerview without breaking stuff
+                                    Fragment nextFrag = new HomeFragment();
+                                    if(activeFragment instanceof CommunityFragment){
+                                        nextFrag = new CommunityFragment();
+                                    } else if (activeFragment instanceof  ShoppingFragment) {
+                                        nextFrag = new ShoppingFragment();
+                                    } else if (activeFragment instanceof WishlishFragment) {
+                                        nextFrag = new WishlishFragment();
+                                    } else if (activeFragment instanceof ProfileFragment) {
+                                        nextFrag = new ProfileFragment();
+                                    }
                                     alertDialog.dismiss();
+                                    activeActivity.getSupportFragmentManager().beginTransaction()
+                                            .replace(R.id.frameLayout, nextFrag, "findThisFragment")
+                                            .addToBackStack(null)
+                                            .commit();
                                 }
                             });
                             //negative button (cancel removal)
