@@ -59,7 +59,7 @@ In the “Shopping” page, you may search for any desired product by clicking o
 If any item catches your eye, you can click on the Heart icon to add it to your wishlist, which can be seen from the 4th tab. Clicking on the item itself and then clicking “Open” afterwards will bring you to the website store where you can complete your purchase of the item.The app currently supports products from Walmart, Amazon and Ebay. Users can also filter the product by their price, ratings and names.
 You will also be able to go into a web view of the product you have chosen where you are able to purchase directly from the website of where the product is from. Additionally, your search results are saved so that you are able to search for the same item again without typing it in. 
 
-Further details on web-view & Search History can be viewed here: [Contributions_Jun_Xian](README_JUNXIAN.md)
+Further details on web-view & Search History can be viewed here: [Contributions_Owen](README_OWEN.md)
 
 
 
