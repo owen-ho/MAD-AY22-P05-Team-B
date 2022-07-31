@@ -92,7 +92,8 @@
             android:layout_toStartOf="@id/sendbtn"
             android:backgroundTint="@android:color/transparent"
             android:hint="Type your message"
-            android:textColor="#050505"
+            android:textColor="#000000"
+            android:textColorHint="#020202"
             android:textSize="14sp" />
 
         <ImageView
