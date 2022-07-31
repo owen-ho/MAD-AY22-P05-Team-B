@@ -2,18 +2,23 @@
 ## **Buyer Point-of-View (POV)**
 
 ![Product_available](https://user-images.githubusercontent.com/94032313/182039728-9221b8c6-289f-447f-bfe5-7aa1b4f23be5.png) 
+
 Users/buyers would be able to reserve the product when it is marked as available.The product would appear as available when no users/buyers has reserved or any accepted payment from the user/seller has been made 
 
 ![Reserving Product](https://user-images.githubusercontent.com/94032313/182039826-8c4c1b98-d610-4b0b-b2a0-d59680c637f1.png) 
+
 When the user/buyer clicks on the reserve button, a confirmation message would appear where they would have to confirm. Once the user/buyer has confirmed that they would like to reserve, they would successfully reserve the product where it would be exclusive to them. 
 
 ![Reserve Page](https://user-images.githubusercontent.com/94032313/182039908-438d219a-9453-45cf-9aa3-6d18b55b0e93.png) 
+
 Once the user has successfully reserved the product, the product would appear in “Reserve” in the profile page. The user/buyer would be able to upload a proof of purchase via the “Upload Payment” button (an upload icon) as well as to unreserve the product via the “unreserve” button (a red x icon). 
 
 ![Product_reserved](https://user-images.githubusercontent.com/94032313/182040121-8a9a58a4-1087-491b-b34c-0b153c060211.png)
+
 When the product has been reserved, it would be marked as reserved where no other users/buyers can reserve the product. 
 
 ![Upload Payment](https://user-images.githubusercontent.com/94032313/182040021-ddcd6b04-f28c-4a61-8d71-677a2513c4bf.png) 
+
 When the user clicks on the “Upload Payment” button (an upload icon), they would be able to upload a screenshot to validify that payment has been made. The screenshot of their proof of payment would directly be sent to the seller to be accepted or declined. If the seller has declined the payment, the user/buyer could continue to upload a proof of payment. If the seller has accepted the payment, a notification would inform the user/buyer and the product would be removed from the user/buyer “Reserved” in the profile page. 
 
 ## **Seller Point-of-View (POV)**
