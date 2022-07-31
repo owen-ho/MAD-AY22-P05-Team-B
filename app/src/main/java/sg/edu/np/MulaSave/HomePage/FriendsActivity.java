@@ -103,13 +103,13 @@ public class FriendsActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {//method to scroll to the top when the user presses the tab again
                 if(tab.getPosition() == 0){
-
+                    FriendsFragment.ffScrollTop();
                 }
                 else if (tab.getPosition() == 1){
-
+                    RequestsFragment.ffScrollTop();
                 }
                 else{
-
+                    ExploreFragment.ffScrollTop();
                 }
             }
         });
@@ -139,6 +139,9 @@ public class FriendsActivity extends AppCompatActivity {
         return true;//return true if no duplicate
     }
 
+    /**
+     * clicks on the refreshPage button to call the refreshing function
+     */
     public static void refreshPage(){
         refreshViewPager.performClick();
     }
@@ -146,7 +149,8 @@ public class FriendsActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        targetTab = null;
+        targetTab = null;//set back the targets to null on pause
         targetUserUid = null;
     }
+
 }
