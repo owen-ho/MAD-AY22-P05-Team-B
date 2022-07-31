@@ -10,7 +10,11 @@ The MulaSave app provides an easy way for users to search for the best deals on 
 - Something catch your eye? Save products into your wishlist for later
 - Upload your own purchases to let others know how much a product is
 
-[Contributions](README_QIREN.md)
+[Contributions_Qi Ren](README_QIREN.md)
+[Contributions_Owen](README_OWEN.md)
+
+
+
 
 ## Relevant appendices
 
