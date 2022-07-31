@@ -1,4 +1,4 @@
-# **Upload product, Reserve product, Make Payment for Product**
+## **Upload product, Reserve product, Make Payment for Product**
 ### **Buyer Point-of-View (POV)**
 
 <img src="https://user-images.githubusercontent.com/94032313/182039728-9221b8c6-289f-447f-bfe5-7aa1b4f23be5.png" alt="drawing" width="400"/>
