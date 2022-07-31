@@ -1,5 +1,5 @@
 # **Upload product, Reserve product, Make Payment for Product**
-## **Buyer Point-of-View (POV)**
+### **Buyer Point-of-View (POV)**
 
 <img src="https://user-images.githubusercontent.com/94032313/182039728-9221b8c6-289f-447f-bfe5-7aa1b4f23be5.png" alt="drawing" width="400"/>
 
@@ -21,7 +21,7 @@ When the product has been reserved, it would be marked as reserved where no othe
 
 When the user clicks on the “Upload Payment” button (an upload icon), they would be able to upload a screenshot to validify that payment has been made. The screenshot of their proof of payment would directly be sent to the seller to be accepted or declined. If the seller has declined the payment, the user/buyer could continue to upload a proof of payment. If the seller has accepted the payment, a notification would inform the user/buyer and the product would be removed from the user/buyer “Reserved” in the profile page. 
 
-## **Seller Point-of-View (POV)**
+### **Seller Point-of-View (POV)**
 <img src="https://user-images.githubusercontent.com/94032313/182038429-b735bb5c-8872-44c6-a641-66469147e716.jpg" alt="drawing" width="300"/>
 
 When users press on “Uploads” in the profile page, they would be able to sell their products by uploading a product to be listed. 
