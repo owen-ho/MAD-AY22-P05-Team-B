@@ -78,6 +78,8 @@ The “Wishlist” page lists all products which you have added from either “S
 #### Profile Page
 <img src="https://user-images.githubusercontent.com/94032313/182044691-5087de00-48d8-4eb1-b44b-c8225c57f06f.jpg" alt="drawing" width="300"/> <img src="https://user-images.githubusercontent.com/94032313/182044702-5d38bc4b-271e-4b1c-8969-7e24905e4c2b.jpg" alt="drawing" width="300"/> <img src="https://user-images.githubusercontent.com/94032313/182044708-57d4efd2-d7d3-41cc-9880-3276387d449d.jpg" alt="drawing" width="300"/>
 
+In the profile page, the user is able to view three different sections, where they are able to view the posts that they have posted, the products that they have listed for sale and the products that they are interested in and have reserved. The profile page would also show the number of friends the user have as well as the number of posts the user has posted. The user can also navigate to the bell icon on the top of the screen to navigate to the notifications page to view notifications for various tasks and activities between users. Further details on notifications can be viewed here: [Contributions_Joby](README_JOBY.md)
+
 <img src="https://user-images.githubusercontent.com/104065272/175825078-f15d1f49-4d66-49ab-a948-64a965ee23d8.png" alt="drawing" width="300"/> <img src="https://user-images.githubusercontent.com/104065272/175825100-d0d259a1-36cd-4505-80c1-9623b92750e8.png" alt="drawing" width="300"/>
 
 MulaSave stores information like username, email and password which can be found in the “Profile” page. The pencil icon on the top of the screen allows you to change any of these information.
