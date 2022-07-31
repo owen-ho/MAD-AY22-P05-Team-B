@@ -114,7 +114,8 @@ You can also upload an image from your gallery to be your profile picture by cli
 | Ho Qi Ren | S10205561 |
 | Owg Jun Xian | S10205779 |
 
-## Roles and Contribution of Members
+## Roles and Contribution of Members (For ASG1)
+**Details of contributions for ASG2 is shown in the individual readme files of the team members**
 | Member  | Role | Contribution |
 | ------------- | ------------- | ------------- |
 | Ho Shang Luen Owen  | Developer/Team Leader | Delegation of tasks, Integrations of product APIs and Firebase |
