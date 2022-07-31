@@ -128,7 +128,7 @@ public class ChatFeature extends AppCompatActivity {
         }
 
         /**
-         * Get chat history from all user and setting last message based on firebase
+         * Get chat history from all user and setting last message based on firebase and doing validation
          */
         chatRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -147,12 +147,13 @@ public class ChatFeature extends AppCompatActivity {
                             final String getuserone = dataSnapshot1.child("user_1").getValue(String.class);
                             final String getusertwo = dataSnapshot1.child("user_2").getValue(String.class);
                             if((getuserone.equals(user.getUid())|| getusertwo.equals(user.getUid()))){
-                                sellerid = getuserone.equals(user.getUid())?getusertwo:getuserone;
+                                sellerid = getuserone.equals(user.getUid())?getusertwo:getuserone; // setting seller id
+                                // looping firebase and setting last message
                                 for(DataSnapshot chatdatasnapshot: dataSnapshot1.child("messages").getChildren()){
                                     if(dataSnapshot1.child("messages").hasChildren()){
                                         final long getmessagekey = Long.parseLong(chatdatasnapshot.getKey());
                                         final long getlastseenmessage = Long.parseLong(MemoryData.getlastmsgts(ChatFeature.this,getkey));
-                                        lastmessage = chatdatasnapshot.child("msg").getValue(String.class);
+                                        lastmessage = chatdatasnapshot.child("msg").getValue(String.class); //Setting lastmessage based on the validation
                                         messageListener.setLastmessage(lastmessage);
                                     }
                                 }
