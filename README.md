@@ -1,14 +1,17 @@
 # MAD-AY22-P05-Team-B MulaSave
 
 ## Description of App
-*An assignment for partial fulfilment of the coursework of Mobile Applications Development AY2022/23 in Ngee Ann Polytechnic*
+*An assignment for fulfilment of the coursework of Mobile Applications Development AY2022/23 in Ngee Ann Polytechnic*
 
 A shopping guide app that lets users look up and compare prices of what they want to purchase across multiple online retailers. No more tracking of prices on excel sheets and multiple tabs of different online shops!
-The MulaSave app provides an easy way for users to search for the best deals on items they are interested in buying, through our in house search APIs to sieve through multiple shopping platforms and posting products within our strong community.  
+The MulaSave app provides an easy way for users to search for the best deals on items they are interested in buying, through our search APIs to sieve through multiple shopping platforms and posting products within our strong community.  
+MulaSave also serves as a marketplace to faciliatate buying and selling, where users are not only able to purchase beloved items from other users, but also able to sell their unwanted items as well!
 
 - Look up prices of products across multiple online retailers
 - Something catch your eye? Save products into your wishlist for later
-- Upload your own purchases to let others know how much a product is
+- Purchase items from other users in the community 
+- Post and upload your own items to sell to the community 
+- Post your purchase and experience in our in app social platform
 
 [Contributions_Owen](README_OWEN.md)
 
