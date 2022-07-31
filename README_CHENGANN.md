@@ -38,7 +38,7 @@ When the user/seller has uploaded a listing, it would mean that the product woul
 
 In the application, the buyer would be able to show a proof of payment via a screenshot that can be uploaded directly to the seller. The user/seller would be able to view and verify that the payment from the buyer has indeed been made and accept or decline the payment accordingly. If the user/seller declines the payment made, the buyer would have to upload a new payment or negotiate with the user/seller. 
 
-<img src="https://user-images.githubusercontent.com/94032313/182039693-fc442a3b-9923-4a96-990f-3bc81fac05ad.png" alt="drawing" width="300"/>
+<img src="https://user-images.githubusercontent.com/94032313/182039693-fc442a3b-9923-4a96-990f-3bc81fac05ad.png" alt="drawing" width="400"/>
 
 Once the user/seller has accepted the proof of payment uploaded by the buyer, their product would be marked as sold. When the product is marked as sold, it cannot be reserved nor can a buyer chat with the user/seller. 
 
