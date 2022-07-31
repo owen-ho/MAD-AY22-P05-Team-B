@@ -35,6 +35,7 @@ Enter a description (max 60 characters) and hit post!
 
 <img src="https://user-images.githubusercontent.com/104065272/182044310-0b929be2-7f97-4da5-bb4d-d93c7e4b9e58.jpeg" alt="drawing" width="400"/>
 
+
 ### Friends Page
 
 **Current Friends**
