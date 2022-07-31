@@ -1,5 +1,5 @@
 ## Notification Feature
-### ***General***
+### **General**
 The notification button can be located at the profile page, on the top right hand corner, indicated with a “bell” shaped button. 
 
 ### Notification in Posts 
