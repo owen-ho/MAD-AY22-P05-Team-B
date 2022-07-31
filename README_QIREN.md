@@ -34,17 +34,22 @@ Enter a description (max 60 characters) and hit post!
 
 ### Friends Page
 
+Similarly, users can scroll to the top of the page by clicking the tab again. There is also a search icon for the users to search for other users within each page
+
 **Current Friends**
+Users can view their current friends in the "Friends" tab
 
 <img src="https://user-images.githubusercontent.com/104065272/182044422-5cfbf82a-a310-4924-bea7-d049ebb1e4df.jpeg" alt="drawing" width="400"/>
 
 
 **Incoming Requests**
+Users can view their incoming friend requests
 
 <img src="https://user-images.githubusercontent.com/104065272/182044639-26363884-a050-4156-896a-29345023383e.jpeg" alt="drawing" width="400"/>
 
 
 **Explore Friends**
+Users can see all other users and send friend requests to them
 
 <img src="https://user-images.githubusercontent.com/104065272/182044747-17ec1824-e2e9-46b0-97e8-34bb73e3a336.jpeg" alt="drawing" width="400"/>
 
