@@ -2,7 +2,8 @@
 #### General 
 The notification button can be located at the profile page, on the top right hand corner, indicated with a “bell” shaped button. 
 #### Notification in Posts 
-![Like Post](<img src="https://user-images.githubusercontent.com/94032188/182041931-8d03c952-8399-4de5-b40e-9b69114f0b41.jpg" alt="drawing" width="400"/>) 
+<img src="https://user-images.githubusercontent.com/94032188/182041931-8d03c952-8399-4de5-b40e-9b69114f0b41.jpg" alt="drawing" width="400"/>
+
 When a post is posted, anyone who is interested in it, is able to like the post. The owner of the post would then receive a notification that someone has liked their post
 
 #### Notification in Wishlist 
