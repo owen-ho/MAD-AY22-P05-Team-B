@@ -5,6 +5,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -28,6 +29,7 @@ public class FriendsActivity extends AppCompatActivity {
     static ImageView refreshViewPager;
     public static String targetUserUid;
     public static Integer targetTab;
+    String TAG;
 
 
     @Override
@@ -35,12 +37,13 @@ public class FriendsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
 
+        //the variables may not be initiated yet
         try{
             targetUserUid = getIntent().getExtras().getString("targetUserUid");
             targetTab = getIntent().getExtras().getInt("targetTab",2);
         }
         catch (Exception e){
-
+            Log.i(TAG,"No target user and tab");
         }
 
 
@@ -100,13 +103,13 @@ public class FriendsActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {//method to scroll to the top when the user presses the tab again
                 if(tab.getPosition() == 0){
-
+                    FriendsFragment.ffScrollTop();
                 }
                 else if (tab.getPosition() == 1){
-
+                    RequestsFragment.ffScrollTop();
                 }
                 else{
-
+                    ExploreFragment.ffScrollTop();
                 }
             }
         });
@@ -136,9 +139,18 @@ public class FriendsActivity extends AppCompatActivity {
         return true;//return true if no duplicate
     }
 
+    /**
+     * clicks on the refreshPage button to call the refreshing function
+     */
     public static void refreshPage(){
-        //viewPager.getAdapter().notifyDataSetChanged();
         refreshViewPager.performClick();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        targetTab = null;//set back the targets to null on pause
+        targetUserUid = null;
     }
 
 }

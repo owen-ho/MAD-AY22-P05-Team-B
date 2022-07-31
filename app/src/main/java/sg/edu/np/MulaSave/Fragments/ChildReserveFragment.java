@@ -1,4 +1,4 @@
-package sg.edu.np.MulaSave;
+package sg.edu.np.MulaSave.Fragments;
 
 import android.os.Bundle;
 
@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -24,13 +25,19 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import sg.edu.np.MulaSave.FriendsFragments.RequestsFragment;
+import sg.edu.np.MulaSave.Product;
+import sg.edu.np.MulaSave.R;
+import sg.edu.np.MulaSave.ReserveAdapter;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ChildReserveFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class ChildReserveFragment extends Fragment {
-    RecyclerView recyclerViewReserve;
+    static RecyclerView recyclerViewReserve;
+    static LinearLayoutManager crfLayoutManager;
     DatabaseReference databaseRefUser = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
             .getReference("user");
@@ -105,9 +112,18 @@ public class ChildReserveFragment extends Fragment {
 
             }
         });
-        LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
-        recyclerViewReserve.setLayoutManager(vLayoutManager);
+        crfLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
+        recyclerViewReserve.setLayoutManager(crfLayoutManager);
         recyclerViewReserve.setItemAnimator(new DefaultItemAnimator());
         recyclerViewReserve.setAdapter(ReserveAdapter);//set adapter
+    }
+    public static void crfScrollTop(){
+        RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(ChildReserveFragment.recyclerViewReserve.getContext()) {
+            @Override protected int getVerticalSnapPreference() {
+                return LinearSmoothScroller.SNAP_TO_START;
+            }
+        };
+        smoothScroller.setTargetPosition(0);
+        crfLayoutManager.startSmoothScroll(smoothScroller);
     }
 }

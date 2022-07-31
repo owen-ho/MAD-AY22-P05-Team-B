@@ -24,7 +24,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
-import sg.edu.np.MulaSave.Fragments.CommunityFragment;
 import sg.edu.np.MulaSave.chat.Chat;
 
 public class DescriptionPage extends AppCompatActivity {
@@ -101,21 +100,24 @@ public class DescriptionPage extends AppCompatActivity {
             reserve.setVisibility(View.GONE); //To hide the reserve button so the owner of the product cannot reserve their own product
             chat.setVisibility(View.INVISIBLE); //To hide the Chat button so the owner of the product cannot chat to themself
             removeReserve.setVisibility(View.INVISIBLE); //To hide the unreserve button by default
-            //To allow seller to see the unreserve button to unreserve their own listing if product is being reserved
-            databaseRefUser.addValueEventListener(new ValueEventListener() {
+
+            //Check if current product(product) is being reserved by another user
+            databaseRefUser.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    boolean isReserved=false;
                     for(DataSnapshot ds: snapshot.getChildren()){ //Cycle through users in the firebase
                         for (DataSnapshot ds1: ds.child("Reserve").getChildren()){//Cycle through the firebase to look for the products inside the users reserve
                             Product prod = ds1.getValue(Product.class); //To convert the object in the firebase into a product
-                            if (!product.getImageUrl().equals(prod.getImageUrl())){ //If current product image url not equals to the product image url in any users reserve
-                                removeReserve.setVisibility(View.GONE); //Unreserve button will not be shown
-                            }
-                            else{ //The current product image url is equals to the product image in any users reserve
-                                removeReserve.setVisibility(View.VISIBLE); //Unreserve button will be shown
-
+                            if (product.getImageUrl().equals(prod.getImageUrl())){ //If current product image url not equals to the product image url in any users reserve
+                                isReserved=true;
                             }
                         }
+                    }
+                    if (isReserved) {//Unreserve button will not be shown
+                        removeReserve.setVisibility(View.VISIBLE);
+                    }else{//Unreserve button will be shown
+                        removeReserve.setVisibility(View.GONE);
                     }
                 }
                 @Override
@@ -133,16 +135,19 @@ public class DescriptionPage extends AppCompatActivity {
             databaseRefUser.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    boolean isSold = false;
                     for(DataSnapshot ds: snapshot.getChildren()){//Cycle through users in firebase
                         for (DataSnapshot ds1: ds.child("Sold").getChildren()){//Cycle through the firebase to look for the products inside sold
                             Product prod = ds1.getValue(Product.class);//To convert the object in the firebase into a product
-                            if (!product.getImageUrl().equals(prod.getImageUrl())){ //If current product image url not equals to the product image url in sold
-                                reserve.setVisibility(View.VISIBLE);// Reserve button will be shown
-                            }
-                            else{//The current product image url is equals to the product image url in sold
-                                reserve.setVisibility(View.GONE);//Reserve button will not be shown
+                            if (product.getImageUrl().equals(prod.getImageUrl())){ //If current product image url not equals to the product image url in sold
+                                isSold=true;
                             }
                         }
+                    }
+                    if (isSold) {
+                        reserve.setVisibility(View.GONE);
+                    }else {
+                        reserve.setVisibility(View.VISIBLE);
                     }
                 }
                 @Override

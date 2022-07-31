@@ -26,8 +26,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -174,15 +176,14 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
             holder.negativeText.setText("Cancel");
             holder.positiveCard.setCardBackgroundColor(Color.parseColor("#8BC34A"));//set to green
             holder.negativeCard.setVisibility(View.GONE);//set the visibility of cancel request to be gone first
-            databaseRefUser.child(u.getUid().toString()).child("requests").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+
+            databaseRefUser.child(u.getUid()).child("requests").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     if(task.getResult().hasChild(usr.getUid().toString())){
-                        //change ui to show requested
                         holder.positiveText.setText("Requested");
                         holder.positiveCard.setCardBackgroundColor(Color.parseColor("#FF0288D1"));//set to blue
                         holder.negativeCard.setVisibility(View.VISIBLE);
-                        ViewFriendAdapter.this.notifyItemChanged(position);
                     }
                 }
             });//end of checking if the user has requested
@@ -218,16 +219,11 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
             holder.negativeCard.setOnClickListener(new View.OnClickListener() {//cancel friend request
                 @Override
                 public void onClick(View view) {
-
                     databaseRefUser.child(u.getUid().toString()).child("requests").child(usr.getUid().toString()).removeValue();
-
                     holder.positiveText.setText("Add Friend");
                     holder.positiveCard.setCardBackgroundColor(Color.parseColor("#8BC34A"));
                     holder.negativeCard.setVisibility(View.GONE);
-                    //ViewFriendAdapter.this.notifyItemChanged(position);
                     ViewFriendAdapter.this.notifyDataSetChanged();
-                    //userList.clear();
-                    //notifyDataSetChanged();
                 }
             });
         }

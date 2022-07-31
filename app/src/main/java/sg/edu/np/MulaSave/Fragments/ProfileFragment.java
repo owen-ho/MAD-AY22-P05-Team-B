@@ -32,8 +32,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import sg.edu.np.MulaSave.ChildReserveFragment;
-import sg.edu.np.MulaSave.ChildUploadFragment;
 import sg.edu.np.MulaSave.Documentation;
 import sg.edu.np.MulaSave.HomePage.FriendsActivity;
 import sg.edu.np.MulaSave.HomePage.Post;
@@ -84,11 +82,11 @@ public class ProfileFragment extends Fragment {
     private void addFragment(View view) {
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
-        NestedFragAdapter nestedFragAdapter = new NestedFragAdapter(getChildFragmentManager());
-        nestedFragAdapter.addFragment(new ChildPostFragment(), "Posts");
-        nestedFragAdapter.addFragment(new ChildUploadFragment(),"Uploads");
-        nestedFragAdapter.addFragment(new ChildReserveFragment(), "Reserved");
-        viewPager.setAdapter(nestedFragAdapter);
+        ProfileInnerFragAdapter profileInnerFragAdapter = new ProfileInnerFragAdapter(getChildFragmentManager());
+        profileInnerFragAdapter.addFragment(new ChildPostFragment(), "Posts");
+        profileInnerFragAdapter.addFragment(new ChildUploadFragment(),"Uploads");
+        profileInnerFragAdapter.addFragment(new ChildReserveFragment(), "Reserved");
+        viewPager.setAdapter(profileInnerFragAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -288,6 +286,31 @@ public class ProfileFragment extends Fragment {
                 chooseImg();
             }
         });
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                if(tab.getPosition() == 0){//user's own posts tab
+                    ChildPostFragment.cpfSrollTop();
+                }
+                else if(tab.getPosition() == 1){//user's own uploaded products
+                    ChildUploadFragment.cufSrollTop();
+                }
+                else{//user's reserved products
+                    ChildReserveFragment.crfScrollTop();
+                }
+            }
+        });
     }
 
     //method to select image from gallery
@@ -312,4 +335,5 @@ public class ProfileFragment extends Fragment {
             }
         }
     }//end of onActivityResult
+
 }

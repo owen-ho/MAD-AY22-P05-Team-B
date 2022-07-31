@@ -131,6 +131,9 @@ public class HomeFriendsPosts extends Fragment {
         }
     };
 
+    /**
+     * function to scroll the friendsPost recyclerview to top
+     */
     public static void fpScrollTop(){
         RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(HomeFriendsPosts.friendsPostRecycler.getContext()) {
             @Override protected int getVerticalSnapPreference() {

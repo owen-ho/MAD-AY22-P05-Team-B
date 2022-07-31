@@ -1,4 +1,4 @@
-package sg.edu.np.MulaSave;
+package sg.edu.np.MulaSave.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,13 +8,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +27,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import androidx.fragment.app.Fragment;
+import sg.edu.np.MulaSave.Product;
+import sg.edu.np.MulaSave.R;
+import sg.edu.np.MulaSave.ShoppingRecyclerAdapter;
+import sg.edu.np.MulaSave.UserInputPrice;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,7 +39,8 @@ import androidx.fragment.app.Fragment;
  */
 public class ChildUploadFragment extends Fragment {
     private FirebaseAuth mAuth;
-    RecyclerView recyclerViewUserUpload;
+    static RecyclerView recyclerViewUserUpload;
+    static GridLayoutManager cupLayoutManager;
     DatabaseReference databaseRefProduct = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
             .getReference("product");//get firebase instance to all uploaded products
@@ -136,9 +140,18 @@ public class ChildUploadFragment extends Fragment {
             }
         });
         //set the layout
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);//layout with 2 items per row
-        recyclerViewUserUpload.setLayoutManager(gridLayoutManager);
+        cupLayoutManager = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);//layout with 2 items per row
+        recyclerViewUserUpload.setLayoutManager(cupLayoutManager);
         recyclerViewUserUpload.setItemAnimator(new DefaultItemAnimator());
         recyclerViewUserUpload.setAdapter(prodAdapter);
+    }
+    public static void cufSrollTop(){
+        RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(ChildUploadFragment.recyclerViewUserUpload.getContext()) {
+            @Override protected int getVerticalSnapPreference() {
+                return LinearSmoothScroller.SNAP_TO_START;
+            }
+        };
+        smoothScroller.setTargetPosition(0);
+        cupLayoutManager.startSmoothScroll(smoothScroller);
     }
 }

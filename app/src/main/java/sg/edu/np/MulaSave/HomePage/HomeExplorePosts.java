@@ -112,6 +112,9 @@ public class HomeExplorePosts extends Fragment {
         }
     };
 
+    /**
+     * function to scroll the explorePosts recyclerview to top
+     */
     public static void epScrollTop(){
         RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(HomeExplorePosts.explorePostRecycler.getContext()) {
             @Override protected int getVerticalSnapPreference() {
