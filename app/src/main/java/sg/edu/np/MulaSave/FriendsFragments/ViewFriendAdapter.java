@@ -219,16 +219,11 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
             holder.negativeCard.setOnClickListener(new View.OnClickListener() {//cancel friend request
                 @Override
                 public void onClick(View view) {
-
                     databaseRefUser.child(u.getUid().toString()).child("requests").child(usr.getUid().toString()).removeValue();
-
                     holder.positiveText.setText("Add Friend");
                     holder.positiveCard.setCardBackgroundColor(Color.parseColor("#8BC34A"));
                     holder.negativeCard.setVisibility(View.GONE);
-                    //ViewFriendAdapter.this.notifyItemChanged(position);
                     ViewFriendAdapter.this.notifyDataSetChanged();
-                    //userList.clear();
-                    //notifyDataSetChanged();
                 }
             });
         }

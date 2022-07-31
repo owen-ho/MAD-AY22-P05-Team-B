@@ -5,6 +5,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -28,6 +29,7 @@ public class FriendsActivity extends AppCompatActivity {
     static ImageView refreshViewPager;
     public static String targetUserUid;
     public static Integer targetTab;
+    String TAG;
 
 
     @Override
@@ -35,12 +37,13 @@ public class FriendsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
 
+        //the variables may not be initiated yet
         try{
             targetUserUid = getIntent().getExtras().getString("targetUserUid");
             targetTab = getIntent().getExtras().getInt("targetTab",2);
         }
         catch (Exception e){
-
+            Log.i(TAG,"No target user and tab");
         }
 
 
@@ -137,7 +140,6 @@ public class FriendsActivity extends AppCompatActivity {
     }
 
     public static void refreshPage(){
-        //viewPager.getAdapter().notifyDataSetChanged();
         refreshViewPager.performClick();
     }
 

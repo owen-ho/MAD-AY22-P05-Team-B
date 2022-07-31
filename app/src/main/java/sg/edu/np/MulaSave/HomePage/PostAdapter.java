@@ -320,13 +320,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         });
     }
 
+    /**
+     * This function is used to go from a post object to the user in the friends activity, passing the name of the user into the searchview and filtering to show the target user
+     * this function will start the FriendsActivity with a bundle
+     * @param context the context of the place where the user called this method
+     * @param post the post object that the user clicked on, so that the target tab and target user can be identified for the searchview
+     */
     private void goToFriend(Context context, Post post){
         TextView dTitle,dNegativeText, dPositiveText;
         ImageView pic;
         CardView negativeCard, positiveCard, picCard;
 
+        //build alert dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        View view = LayoutInflater.from(context).inflate(R.layout.remove_wislist,null,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.remove_wislist,null,false);//
         builder.setView(view);
         dTitle = view.findViewById(R.id.dTitle);
         dNegativeText = view.findViewById(R.id.dNegativeText);
@@ -336,7 +343,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         positiveCard = view.findViewById(R.id.dPositiveCard);
         picCard = view.findViewById(R.id.picCard);
 
-        dTitle.setText("View User?");
+        dTitle.setText("View User");
         dNegativeText.setText("Back");
         dPositiveText.setText("Go");
 
