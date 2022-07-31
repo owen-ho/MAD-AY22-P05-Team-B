@@ -53,7 +53,11 @@ Enter a description (max 60 characters) and hit post!
 <img src="https://user-images.githubusercontent.com/104065272/182044747-17ec1824-e2e9-46b0-97e8-34bb73e3a336.jpeg" alt="drawing" width="400"/>
 
 
-Search for Users by username
-
+**Search for Users by username**
+Users can search for users by their usernames
 <img src="https://user-images.githubusercontent.com/104065272/182044812-63289414-944c-46bb-9ac6-30df7ccf1e67.jpeg" alt="drawing" width="400"/>
 
+
+### Profile Page
+User can view their own posts in their profile page under the "Profile" tab
+<img src="https://user-images.githubusercontent.com/104065272/182044945-67d92e2d-0c33-4caa-9410-1a2764106aed.jpeg" alt="drawing" width="400"/>
