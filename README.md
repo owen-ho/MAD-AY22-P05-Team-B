@@ -50,6 +50,9 @@ If you have forgotten your password, click on the “Forgot your password?” bu
 The “Home” screen displays best selling items from a particular store for the day. To find out more about each item, you can click on the image to view the item description, price, rating and the website it is available from.
 To search for products across online shops, click on the search icon next to “Online Shops”.To search for product prices from past customer purchases, click on the search icon next to “Community”.
 
+Further details on web-view & Search History can be viewed here: [Contributions_Qi Ren](README_QIREN.md)
+
+
 
 
 #### Shopping Page
