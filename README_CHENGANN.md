@@ -5,7 +5,7 @@
 
 Users/buyers would be able to reserve the product when it is marked as available.The product would appear as available when no users/buyers has reserved or any accepted payment from the user/seller has been made 
 
-![Reserving Product](https://user-images.githubusercontent.com/94032313/182039826-8c4c1b98-d610-4b0b-b2a0-d59680c637f1.png) 
+<img src="https://user-images.githubusercontent.com/94032313/182039826-8c4c1b98-d610-4b0b-b2a0-d59680c637f1.png" alt="drawing" width="500"/>
 
 When the user/buyer clicks on the reserve button, a confirmation message would appear where they would have to confirm. Once the user/buyer has confirmed that they would like to reserve, they would successfully reserve the product where it would be exclusive to them. 
 
