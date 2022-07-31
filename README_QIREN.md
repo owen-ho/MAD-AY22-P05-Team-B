@@ -9,7 +9,6 @@
 The previous home page is changed to show posts instead of most popular shopping products. Users can view everyone's posts under the "explore" page, or, view their friends posts under the "friends" tab. Tap on the "Explore" or "Friends" bar to return to the top of the page.
 
 <img src="https://user-images.githubusercontent.com/104065272/182043898-d7a31f49-0983-4cfe-b717-c5cbd548a64e.jpeg" alt="drawing" width="400"/>
-
 <img src="https://user-images.githubusercontent.com/104065272/182043922-e8f20059-70ad-4b9d-bcf2-e4b5bcb2ed75.jpeg" alt="drawing" width="400"/>
 
 
@@ -55,9 +54,11 @@ Enter a description (max 60 characters) and hit post!
 
 **Search for Users by username**
 Users can search for users by their usernames
+
 <img src="https://user-images.githubusercontent.com/104065272/182044812-63289414-944c-46bb-9ac6-30df7ccf1e67.jpeg" alt="drawing" width="400"/>
 
 
 ### Profile Page
 User can view their own posts in their profile page under the "Profile" tab
+
 <img src="https://user-images.githubusercontent.com/104065272/182044945-67d92e2d-0c33-4caa-9410-1a2764106aed.jpeg" alt="drawing" width="400"/>
