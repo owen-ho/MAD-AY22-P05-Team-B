@@ -13,7 +13,7 @@ When the user/buyer clicks on the reserve button, a confirmation message would a
 
 Once the user has successfully reserved the product, the product would appear in “Reserve” in the profile page. The user/buyer would be able to upload a proof of purchase via the “Upload Payment” button (an upload icon) as well as to unreserve the product via the “unreserve” button (a red x icon). 
 
-<img src="https://user-images.githubusercontent.com/94032313/182040121-8a9a58a4-1087-491b-b34c-0b153c060211.png" alt="drawing" width="300"/>
+<img src="https://user-images.githubusercontent.com/94032313/182040121-8a9a58a4-1087-491b-b34c-0b153c060211.png" alt="drawing" width="400"/>
 
 When the product has been reserved, it would be marked as reserved where no other users/buyers can reserve the product. 
 
