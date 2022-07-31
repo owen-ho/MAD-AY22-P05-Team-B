@@ -144,11 +144,12 @@ public class ChatFeature extends AppCompatActivity {
                         }
 
                         if(dataSnapshot1.hasChild("user_1")&&dataSnapshot1.hasChild("user_2") && dataSnapshot1.hasChild("messages")){
+
                             final String getuserone = dataSnapshot1.child("user_1").getValue(String.class);
                             final String getusertwo = dataSnapshot1.child("user_2").getValue(String.class);
                             if((getuserone.equals(user.getUid())|| getusertwo.equals(user.getUid()))){
                                 sellerid = getuserone.equals(user.getUid())?getusertwo:getuserone; // setting seller id
-                                // looping firebase and setting last message
+                                // looping firebase and if child message exist, setting last message
                                 for(DataSnapshot chatdatasnapshot: dataSnapshot1.child("messages").getChildren()){
                                     if(dataSnapshot1.child("messages").hasChildren()){
                                         final long getmessagekey = Long.parseLong(chatdatasnapshot.getKey());
@@ -167,7 +168,7 @@ public class ChatFeature extends AppCompatActivity {
                                         addNewMessageListener(messageListener, (ArrayList<MessageListener>) messageListenerList);
                                         messageadapter.notifyDataSetChanged();
                                     }
-                                }).addOnFailureListener(new OnFailureListener() {
+                                }).addOnFailureListener(new OnFailureListener() { //setting default image as user did not set profile picture before
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         messageListener.setProfilepic("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png");
