@@ -5,9 +5,9 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
 
         <LinearLayout
             android:id="@+id/otherpersonlayout"
@@ -32,20 +32,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="10-08-2022 06:12 pm"
-                android:textSize="10sp"
-                android:textColor="#424242"/>
+                android:textColor="#424242"
+                android:textSize="10sp" />
 
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_alignParentEnd="true"
             android:id="@+id/mylayout"
+            android:layout_width="match_parent"
 
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
+            android:layout_alignParentEnd="true"
             android:layout_marginStart="50dp"
+            android:layout_marginEnd="20dp"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,19 +66,17 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:layout_gravity="end"
-                android:layout_marginTop="5dp"
+                android:id="@+id/mymessagetime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="5dp"
                 android:text="10-08-2022 06:12 pm"
-                android:textSize="10sp"
-                android:id="@+id/mymessagetime"
-                android:textColor="#424242"/>
-
+                android:textColor="#424242"
+                android:textSize="10sp" />
 
 
         </LinearLayout>
-
 
 
     </RelativeLayout>
