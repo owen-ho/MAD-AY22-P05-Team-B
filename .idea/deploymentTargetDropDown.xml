@@ -6,12 +6,12 @@
         <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
-            <type value="SERIAL_NUMBER" />
-            <value value="R58T32E25AN" />
+            <type value="VIRTUAL_DEVICE_PATH" />
+            <value value="C:\Users\qiren\.android\avd\3a_API_31-2.avd" />
           </Key>
         </deviceKey>
       </Target>
     </runningDeviceTargetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-07-31T17:43:24.254422800Z" />
+    <timeTargetWasSelectedWithDropDown value="2022-07-31T17:50:30.900905500Z" />
   </component>
 </project>

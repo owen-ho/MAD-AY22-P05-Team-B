@@ -6,12 +6,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.TypedValue;
@@ -39,14 +39,14 @@ import sg.edu.np.MulaSave.User;
 
 public class FriendsFragment extends Fragment {
 
-    RecyclerView friendRecycler;
+    public static RecyclerView friendRecycler;
     DatabaseReference databaseRefUser = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
             .getReference("user");
-    FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     ArrayList<User> friendList;
     public static SearchView searchFriendList;
     TextView friendNoDisplay;
+    static LinearLayoutManager ffLayoutManager;
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -85,8 +85,8 @@ public class FriendsFragment extends Fragment {
             friendNoDisplay.setVisibility(View.INVISIBLE);
         }
 
-        LinearLayoutManager vLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
-        friendRecycler.setLayoutManager(vLayoutManager);
+        ffLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
+        friendRecycler.setLayoutManager(ffLayoutManager);
         friendRecycler.setItemAnimator(new DefaultItemAnimator());
         friendRecycler.setAdapter(fAdapter);//set adapter
 
@@ -352,4 +352,14 @@ public class FriendsFragment extends Fragment {
 
         });
     }//end of filter data by search
+
+    public static void ffScrollTop(){
+        RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(FriendsFragment.friendRecycler.getContext()) {
+            @Override protected int getVerticalSnapPreference() {
+                return LinearSmoothScroller.SNAP_TO_START;
+            }
+        };
+        smoothScroller.setTargetPosition(0);
+        ffLayoutManager.startSmoothScroll(smoothScroller);
+    }
 }

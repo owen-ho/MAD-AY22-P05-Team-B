@@ -59,11 +59,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     FirebaseDatabase databaseRef = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference databaseRefUser = databaseRef.getReference("user");
-    DatabaseReference databaseRefPost = databaseRef.getReference("post");
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
-    AnimatedVectorDrawableCompat avd;
+    AnimatedVectorDrawableCompat avd;//aminations for the doubletap to like
     AnimatedVectorDrawable avd2;
 
     public PostAdapter(ArrayList<Post> _postList) {
@@ -85,12 +84,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.postImage.setVisibility(View.INVISIBLE);//set invisible
         holder.creatorImage.setVisibility(View.INVISIBLE);
 
-
+        //onclick for the creator image in the post
         holder.creatorImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!post.getCreatorUid().equals(usr.getUid())){//dont go to friend if the post is created by the user himself
-                    goToFriend(holder.creatorImage.getContext(), post);
+                    goToFriend(holder.creatorImage.getContext(), post);//call function to go to user post
                 }
             }
         });
@@ -146,6 +145,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         });
 
 
+        //get the difference in post created time and current timing
         Instant timeNow = Instant.now();
         Instant postDt = Instant.parse(post.getPostDateTime());
         String unit = "second";
@@ -171,8 +171,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         }
         String plural = "";
-        if (show != 1){
-            plural = "s";
+        if (show != 1){//if the displayed number is not 1, (e.g. 2 second, 5 min)
+            plural = "s";//set a letter "s" at the back of the postDateTime
         }
         if(show<0){
             holder.postDateTime.setText("Just Now");
@@ -181,15 +181,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             holder.postDateTime.setText(String.valueOf(show) + " " + unit + plural + " ago");
         }
 
+        //set caption
         holder.postCaption.setText(post.getPostDesc());
 
         final GestureDetector gDetector = new GestureDetector(holder.postImage.getContext(), new GestureDetector.SimpleOnGestureListener() {
-
             @Override
             public boolean onDown(MotionEvent e) {
                 return true;
             }
-
             @Override
             public boolean onDoubleTap(MotionEvent e) {//on double tap, like the post
                 //animation for the heart
@@ -210,7 +209,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         });
 
-        //on touch listener for the double tap
+        //on touch listener for the double tap of the post image
         holder.postImage.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -333,6 +332,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         //build alert dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        //get the layout object to be used as the alert dialog
         View view = LayoutInflater.from(context).inflate(R.layout.remove_wislist,null,false);//
         builder.setView(view);
         dTitle = view.findViewById(R.id.dTitle);
@@ -356,22 +356,22 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 alertDialog.dismiss();
             }
         });
-        picCard.setRadius(200f);
+        picCard.setRadius(200f);//set the card to be circular
 
         //go to friend
         positiveCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("targetUserUid",post.getCreatorUid());
+                Bundle bundle = new Bundle();//create a new bundle
+                bundle.putString("targetUserUid",post.getCreatorUid());//set the target user with the uid
                 databaseRefUser.child(usr.getUid()).child("friends").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {//
-                        if(snapshot.hasChild(post.getCreatorUid())){
-                            bundle.putInt("targetTab",0);
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.hasChild(post.getCreatorUid())){//if the user is a firend
+                            bundle.putInt("targetTab",0);//set to first tab in FriendsActivity, which is the friends view
                         }
                         else{
-                            bundle.putInt("targetTab",2);
+                            bundle.putInt("targetTab",2);//set to third tab in FriendsActivity, which is the explore view since the post creator is not friend
                         }
                         Intent i = new Intent(context, FriendsActivity.class);
                         i.putExtras(bundle);
@@ -386,6 +386,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 alertDialog.dismiss();
             }
         });
+        //get the user profile picture to show on the dialog
         storageRef.child("profilepics/" + post.getCreatorUid() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {//user has set a profile picture before
@@ -398,6 +399,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         });//end of get profile pic
 
+        //remove the layout backgound view
         if (alertDialog.getWindow() != null){
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
         }
