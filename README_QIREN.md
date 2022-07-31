@@ -37,12 +37,22 @@ Enter a description (max 60 characters) and hit post!
 
 ### Friends Page
 
-Current Friends
+**Current Friends**
 
 <img src="https://user-images.githubusercontent.com/104065272/182044422-5cfbf82a-a310-4924-bea7-d049ebb1e4df.jpeg" alt="drawing" width="400"/>
 
-Incoming Requests
+
+**Incoming Requests**
 
 <img src="https://user-images.githubusercontent.com/104065272/182044639-26363884-a050-4156-896a-29345023383e.jpeg" alt="drawing" width="400"/>
 
+
+**Explore Friends**
+
+<img src="https://user-images.githubusercontent.com/104065272/182044747-17ec1824-e2e9-46b0-97e8-34bb73e3a336.jpeg" alt="drawing" width="400"/>
+
+
+Search for Users by username
+
+<img src="https://user-images.githubusercontent.com/104065272/182044812-63289414-944c-46bb-9ac6-30df7ccf1e67.jpeg" alt="drawing" width="400"/>
 
