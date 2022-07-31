@@ -76,6 +76,8 @@ The “Wishlist” page lists all products which you have added from either “S
 
 
 #### Profile Page
+<img src="https://user-images.githubusercontent.com/94032313/182044691-5087de00-48d8-4eb1-b44b-c8225c57f06f.jpg" alt="drawing" width="400"/> <img src="https://user-images.githubusercontent.com/94032313/182044702-5d38bc4b-271e-4b1c-8969-7e24905e4c2b.jpg" alt="drawing" width="400"/> <img src="https://user-images.githubusercontent.com/94032313/182044708-57d4efd2-d7d3-41cc-9880-3276387d449d.jpg" alt="drawing" width="400"/>
+
 ![profilePage](https://user-images.githubusercontent.com/104065272/175825078-f15d1f49-4d66-49ab-a948-64a965ee23d8.png)
 
 ![changeUserInformation](https://user-images.githubusercontent.com/104065272/175825100-d0d259a1-36cd-4505-80c1-9623b92750e8.png)
