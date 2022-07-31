@@ -1,4 +1,4 @@
-#### Chat Page - Jun Xian
+## Chat Feature
 ![Chat](https://user-images.githubusercontent.com/94032164/182037174-75bccb07-e540-489e-82fb-f68d4cfb31f0.jpg) 
 
 ![OtherpersonPOV](https://user-images.githubusercontent.com/94032164/182039204-459e49da-fbad-4805-aefc-9d00de7b6d4d.jpg) 
