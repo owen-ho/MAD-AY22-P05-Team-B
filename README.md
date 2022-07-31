@@ -47,11 +47,11 @@ If you have forgotten your password, click on the “Forgot your password?” bu
 
 
 #### Home Page
-<img src="https://user-images.githubusercontent.com/104065272/175824791-53e72d79-0741-44ef-b745-ef862397f3c7.png" alt="drawing" width="300"/>
-<img src="https://user-images.githubusercontent.com/104065272/175824835-76601a26-3cdc-4d82-bc00-36e16ce7125c.png" alt="drawing" width="300"/>
+<<img src="https://user-images.githubusercontent.com/104065272/182043898-d7a31f49-0983-4cfe-b717-c5cbd548a64e.jpeg" alt="drawing" width="300"/> <img src="https://user-images.githubusercontent.com/104065272/182043922-e8f20059-70ad-4b9d-bcf2-e4b5bcb2ed75.jpeg" alt="drawing" width="300"/>
 
-The “Home” screen displays best selling items from a particular store for the day. To find out more about each item, you can click on the image to view the item description, price, rating and the website it is available from.
-To search for products across online shops, click on the search icon next to “Online Shops”.To search for product prices from past customer purchases, click on the search icon next to “Community”.
+
+The “Home” screen displays posts by users from the community, you can filter the posts to show everyone’s posts, or, just your friends’ posts! Within the homepage you are able to view your liked posts, add friends and create your own posts to show off your purchases!
+To add users as friends, search for their usernames in the Friends section and send a request, you may also add other users as friends by clicking on their image on their posts!
 
 Further details on web-view & Search History can be viewed here: [Contributions_Qi Ren](README_QIREN.md)
 
