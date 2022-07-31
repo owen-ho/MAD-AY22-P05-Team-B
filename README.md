@@ -57,6 +57,9 @@ To search for products across online shops, click on the search icon next to “
 
 In the “Shopping” page, you may search for any desired product by clicking on the search icon at the top right corner. Upon submitting the query, product listings of the item from multiple online shopping sites will be displayed from lowest to highest price.
 If any item catches your eye, you can click on the Heart icon to add it to your wishlist, which can be seen from the 4th tab. Clicking on the item itself and then clicking “Open” afterwards will bring you to the website store where you can complete your purchase of the item.The app currently supports products from Walmart, Amazon and Ebay. Users can also filter the product by their price, ratings and names.
+You will also be able to go into a web view of the product you have chosen where you are able to purchase directly from the website of where the product is from. Additionally, your search results are saved so that you are able to search for the same item again without typing it in. 
+
+Further details on web-view & Search History can be viewed here: [Contributions_Jun_Xian](README_JUNXIAN.md)
 
 
 
@@ -69,9 +72,9 @@ To get a better experience browsing through others’ purchases, you may click o
 You can contribute to the community page by uploading and selling your products! 
 
 
-Further details on chat can be viewed here: [Contributions_Jun_Xian](README_JUNXIAN.md)
+Further details on chat feature can be viewed here: [Contributions_Jun_Xian](README_JUNXIAN.md)
 
-Further details on  reserve can be viewed here: [Contributions_Cheng_Ann](README_CHENGANN.md)
+Further details on reserve feature can be viewed here: [Contributions_Cheng_Ann](README_CHENGANN.md)
 
 
 #### Wishlist Page
@@ -85,11 +88,11 @@ The “Wishlist” page lists all products which you have added from either “S
 
 In the profile page, the user is able to view three different sections, where they are able to view the posts that they have posted, the products that they have listed for sale and the products that they are interested in and have reserved. The profile page would also show the number of friends the user have as well as the number of posts the user has posted. The user can also navigate to the bell icon on the top of the screen to navigate to the notifications page to view notifications for various tasks and activities between users. 
 
-Further details on notifications can be viewed here: [Contributions_Joby](README_JOBY.md)
+Further details on notification feature can be viewed here: [Contributions_Joby](README_JOBY.md)
 
-Further details on posts can be viewed here: [Contributions_Qi Ren](README_QIREN.md)
+Further details on posts feature can be viewed here: [Contributions_Qi Ren](README_QIREN.md)
 
-Further details on uploads and reserve can be viewed here: [Contributions_Cheng_Ann](README_CHENGANN.md)
+Further details on uploads & reserve feature can be viewed here: [Contributions_Cheng_Ann](README_CHENGANN.md)
 
 <img src="https://user-images.githubusercontent.com/104065272/175825078-f15d1f49-4d66-49ab-a948-64a965ee23d8.png" alt="drawing" width="300"/> <img src="https://user-images.githubusercontent.com/104065272/175825100-d0d259a1-36cd-4505-80c1-9623b92750e8.png" alt="drawing" width="300"/>
 
