@@ -53,7 +53,7 @@ To search for products across online shops, click on the search icon next to “
 
 
 #### Shopping Page
-<img src="https://user-images.githubusercontent.com/104065272/175824984-419932e8-c473-4d67-b422-e58ce6b079e0.png" alt="drawing" width="300"/>
+<img src="https://user-images.githubusercontent.com/104065272/175824984-419932e8-c473-4d67-b422-e58ce6b079e0.png" alt="drawing" width="300"/> <img src="https://user-images.githubusercontent.com/94032313/182045578-d55e388a-6b0b-474e-9d1e-e0bbca8662cd.jpg" alt="drawing" width="300"/> <img src="https://user-images.githubusercontent.com/94032313/182045585-11ddbe14-e6ab-4979-82a7-62cd248f1da7.jpg" alt="drawing" width="300"/>
 
 In the “Shopping” page, you may search for any desired product by clicking on the search icon at the top right corner. Upon submitting the query, product listings of the item from multiple online shopping sites will be displayed from lowest to highest price.
 If any item catches your eye, you can click on the Heart icon to add it to your wishlist, which can be seen from the 4th tab. Clicking on the item itself and then clicking “Open” afterwards will bring you to the website store where you can complete your purchase of the item.The app currently supports products from Walmart, Amazon and Ebay. Users can also filter the product by their price, ratings and names.
@@ -67,6 +67,11 @@ If any item catches your eye, you can click on the Heart icon to add it to your 
 Unlike the “Shopping” tab, the “Community” tab would show products posted by other sellers within the commmunity that you are able to purchase from. You are able to click into the products and reserve them or chat with the seller for further details. 
 To get a better experience browsing through others’ purchases, you may click on the available filters above, of which more can be found by swiping left.You can also search for the item directly by clicking on the search icon on the top right corner.
 You can contribute to the community page by uploading and selling your products! 
+
+
+Further details on chat can be viewed here: [Contributions_Jun_Xian](README_JUNXIAN.md)
+
+Further details on  reserve can be viewed here: [Contributions_Cheng_Ann](README_CHENGANN.md)
 
 
 #### Wishlist Page
