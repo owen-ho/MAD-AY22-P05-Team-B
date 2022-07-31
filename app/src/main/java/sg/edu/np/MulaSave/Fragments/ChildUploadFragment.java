@@ -145,6 +145,9 @@ public class ChildUploadFragment extends Fragment {
         recyclerViewUserUpload.setItemAnimator(new DefaultItemAnimator());
         recyclerViewUserUpload.setAdapter(prodAdapter);
     }
+    /**
+     * set recyclerview to scroll to top when the tab is reselected
+     */
     public static void cufSrollTop(){
         RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(ChildUploadFragment.recyclerViewUserUpload.getContext()) {
             @Override protected int getVerticalSnapPreference() {

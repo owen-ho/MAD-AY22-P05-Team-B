@@ -40,7 +40,6 @@ public class ExploreFragment extends Fragment {
     DatabaseReference databaseRefUser = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/")
             .getReference("user");
-    FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     ArrayList<User> exploreList;
     public static SearchView searchFriendExplore;
     TextView exploreNoDisplay;
@@ -78,6 +77,11 @@ public class ExploreFragment extends Fragment {
 
         exploreList = new ArrayList<>();
         ViewFriendAdapter eAdapter = new ViewFriendAdapter(exploreList,3);
+
+        /**
+         *The if else statement is used to check if there is target tab or user to search, if no, then initialise the data normally
+         * target tab and users are variables set to pass the user object from post to the friends activity
+         */
         if(FriendsActivity.targetUserUid == null && FriendsActivity.targetTab == null){
             initData(exploreList, eAdapter, "explore",exploreNoDisplay);//initialise data
         }

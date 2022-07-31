@@ -117,6 +117,9 @@ public class ChildReserveFragment extends Fragment {
         recyclerViewReserve.setItemAnimator(new DefaultItemAnimator());
         recyclerViewReserve.setAdapter(ReserveAdapter);//set adapter
     }
+    /**
+     * set recyclerview to scroll to top when the tab is reselected
+     */
     public static void crfScrollTop(){
         RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(ChildReserveFragment.recyclerViewReserve.getContext()) {
             @Override protected int getVerticalSnapPreference() {

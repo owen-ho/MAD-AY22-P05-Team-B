@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,14 +43,12 @@ public class HomeExplorePosts extends Fragment {
     static LinearLayoutManager epLinearLayoutManager;
     FirebaseDatabase databaseRef = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
-    DatabaseReference databaseRefUser = databaseRef.getReference("user");
     DatabaseReference databaseRefPost = databaseRef.getReference("post");
-    FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
 
     public HomeExplorePosts() {
         // Required empty public constructor
     }
-    public static HomeExplorePosts newInstance(String param1, String param2) {
+    public static HomeExplorePosts newInstance() {
         HomeExplorePosts fragment = new HomeExplorePosts();
         return fragment;
     }
@@ -98,11 +97,14 @@ public class HomeExplorePosts extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.i("HomeExplorePosts",error.toString());
             }
         });
     }
 
+    /**
+     * Custom comparator to sort the timing of the posts to the latest first
+     */
     public Comparator<Post> postComparator = new Comparator<Post>() {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override

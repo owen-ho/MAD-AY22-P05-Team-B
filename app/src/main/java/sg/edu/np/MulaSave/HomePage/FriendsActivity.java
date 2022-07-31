@@ -90,6 +90,7 @@ public class FriendsActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+                //clear the queries and static variables when the user leaves the tab
                 targetUserUid = null;
                 targetTab = null;
                 if(ExploreFragment.searchFriendExplore != null){
@@ -152,5 +153,4 @@ public class FriendsActivity extends AppCompatActivity {
         targetTab = null;//set back the targets to null on pause
         targetUserUid = null;
     }
-
 }

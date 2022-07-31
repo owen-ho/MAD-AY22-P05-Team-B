@@ -106,6 +106,10 @@ public class RequestsFragment extends Fragment {
             }
         });
     }
+
+    /**
+     * set recyclerview to scroll to top when the tab is reselected
+     */
     public static void ffScrollTop(){
         RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(RequestsFragment.requestRecycler.getContext()) {
             @Override protected int getVerticalSnapPreference() {

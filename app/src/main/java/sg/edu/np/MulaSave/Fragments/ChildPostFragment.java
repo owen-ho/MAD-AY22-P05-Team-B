@@ -112,6 +112,9 @@ public class ChildPostFragment extends Fragment {
         }
     };
 
+    /**
+     * set recyclerview to scroll to top when the tab is reselected
+     */
     public static void cpfSrollTop(){
         RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(ChildPostFragment.userPostRecycler.getContext()) {
             @Override protected int getVerticalSnapPreference() {
