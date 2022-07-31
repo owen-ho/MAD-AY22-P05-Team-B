@@ -340,7 +340,7 @@ public class ShoppingFragment extends Fragment {
         protected Void doInBackground(Void... voids) {
             Boolean demo = false;
             //Amazon API is skipped as our API has expired
-            String[] apiList = new String[] {"walmart","ebay","target"};// {"walmart","amazon","ebay","target"};
+            String[] apiList = new String[] {"walmart","amazon","ebay","target"};
 
             for(String website:apiList){//If it is a demo query, there is no need to iterate through all websites in apiList
                 if(query.contains(website)){
@@ -353,7 +353,9 @@ public class ShoppingFragment extends Fragment {
             if(!demo){//If it is not a demo, take product data from all APIs
                 for (String i:apiList){
                     String url = getAPIlink(query,i); //Finds URL link by processing through template based on online shopping site used, this is so the correct API & API keys are used
-                    loadJsonfromUrl(url,i); //Loads json using URL query and extracts Product details from Json
+                    if (url != "") { //Check if there is a readable URL(url can be empty string if non-demo Amazon link is asked for)
+                        loadJsonfromUrl(url,i); //Loads json using URL query and extracts Product details from Json
+                    }
                 }
             }
             return null;
@@ -385,6 +387,7 @@ public class ShoppingFragment extends Fragment {
 
                     //TEMPORARY DEMO API FOR TESTING
                     //url = "https://api.rainforestapi.com/request?api_key=demo&amazon_domain=amazon.com&type=search&search_term=memory+cards";
+                    url="";
                 }
                 else if(website.toLowerCase().equals("walmart")){
                     apikey = BuildConfig.API_KEY_WALMART;
