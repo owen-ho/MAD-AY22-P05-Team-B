@@ -70,7 +70,7 @@ You can contribute after your own purchases by clicking on the upload button on 
 
 
 #### Wishlist Page
-![wishlistPage](https://user-images.githubusercontent.com/104065272/175825071-929f0aac-d1d0-40ac-96e5-8a958c525863.png)
+<img src="https://user-images.githubusercontent.com/104065272/175825071-929f0aac-d1d0-40ac-96e5-8a958c525863.png" alt="drawing" width="300"/>
 
 The “Wishlist” page lists all products which you have added from either “Shopping” or “Community” pages by clicking on the heart next to the product listing. By clicking on the heart-shaped icon on the bottom right of each item, you will be prompted to confirm if you would like to remove the product from your wishlist. Like the shopping and commununity page, you can filter the products by their attributes and also search for specific products within the wishlist.
 
@@ -78,8 +78,7 @@ The “Wishlist” page lists all products which you have added from either “S
 #### Profile Page
 <img src="https://user-images.githubusercontent.com/94032313/182044691-5087de00-48d8-4eb1-b44b-c8225c57f06f.jpg" alt="drawing" width="300"/> <img src="https://user-images.githubusercontent.com/94032313/182044702-5d38bc4b-271e-4b1c-8969-7e24905e4c2b.jpg" alt="drawing" width="300"/> <img src="https://user-images.githubusercontent.com/94032313/182044708-57d4efd2-d7d3-41cc-9880-3276387d449d.jpg" alt="drawing" width="300"/>
 
-<img src="https://user-images.githubusercontent.com/104065272/175825078-f15d1f49-4d66-49ab-a948-64a965ee23d8.png" alt="drawing" width="300"/>
-<img src="https://user-images.githubusercontent.com/104065272/175825100-d0d259a1-36cd-4505-80c1-9623b92750e8.png" alt="drawing" width="300"/>
+<img src="https://user-images.githubusercontent.com/104065272/175825078-f15d1f49-4d66-49ab-a948-64a965ee23d8.png" alt="drawing" width="300"/> <img src="https://user-images.githubusercontent.com/104065272/175825100-d0d259a1-36cd-4505-80c1-9623b92750e8.png" alt="drawing" width="300"/>
 
 MulaSave stores information like username, email and password which can be found in the “Profile” page. The pencil icon on the top of the screen allows you to change any of these information.
 You can also upload an image from your gallery to be your profile picture by clicking on the plus button.You can also swap accounts or end your session by clicking on the “Log Out” button at the bottom of the page.
