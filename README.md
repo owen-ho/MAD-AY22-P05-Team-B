@@ -54,6 +54,8 @@ To search for products across online shops, click on the search icon next to “
 
 #### Shopping Page
 <img src="https://user-images.githubusercontent.com/104065272/175824984-419932e8-c473-4d67-b422-e58ce6b079e0.png" alt="drawing" width="300"/> <img src="https://user-images.githubusercontent.com/94032313/182045578-d55e388a-6b0b-474e-9d1e-e0bbca8662cd.jpg" alt="drawing" width="300"/> <img src="https://user-images.githubusercontent.com/94032313/182045585-11ddbe14-e6ab-4979-82a7-62cd248f1da7.jpg" alt="drawing" width="300"/>
+![image](https://user-images.githubusercontent.com/94032313/182045653-f43f777b-fbe6-4833-825b-03f7ad9f78bc.png)
+
 
 In the “Shopping” page, you may search for any desired product by clicking on the search icon at the top right corner. Upon submitting the query, product listings of the item from multiple online shopping sites will be displayed from lowest to highest price.
 If any item catches your eye, you can click on the Heart icon to add it to your wishlist, which can be seen from the 4th tab. Clicking on the item itself and then clicking “Open” afterwards will bring you to the website store where you can complete your purchase of the item.The app currently supports products from Walmart, Amazon and Ebay. Users can also filter the product by their price, ratings and names.
