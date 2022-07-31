@@ -19,7 +19,6 @@
         <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/activity_descriptionpage.xml" value="0.3625" />
         <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/activity_documentation.xml" value="0.2" />
         <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/activity_forget_password.xml" value="0.3625" />
-        <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/activity_friends.xml" value="0.1762917933130699" />
         <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/activity_liked_post.xml" value="0.4" />
         <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/activity_login.xml" value="0.3625" />
         <entry key="..\:/Users/qiren/Desktop/MAD/ASGFINAL/MulaSave/app/src/main/res/layout/activity_main.xml" value="0.3625" />
@@ -80,6 +79,7 @@
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_descriptionpage.xml" value="0.33" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_documentation.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_forget_password.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_friends.xml" value="0.14023086789226166" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_login.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_main.xml" value="0.2109375" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_notification.xml" value="0.33" />
@@ -90,6 +90,7 @@
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_user_input_price.xml" value="0.25" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/activity_web.xml" value="0.19655797101449277" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/chat_adapter_layout.xml" value="0.5" />
+        <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/fragment_child_upload.xml" value="0.20897552130553038" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/fragment_community.xml" value="0.5" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/fragment_explore.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
@@ -107,13 +108,16 @@
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/post_row.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/product_dialog.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/remove_wislist.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/reserve_row.xml" value="0.12227447627191107" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/search_history_row.xml" value="0.5" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/shopping_view_holder.xml" value="0.19583333333333333" />
-        <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/suggestion_row.xml" value="0.5" />
+        <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/suggestion_row.xml" value="2.0" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/unreserve_dialog.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/upload_delete_dialog.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/wishlist_filter.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/layout/wishlist_row.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.196" />
+        <entry key="..\:/Users/user/StudioProjects/MAD-AY22-P05-Team-B/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.196" />
       </map>
     </option>
   </component>
