@@ -61,7 +61,8 @@ If any item catches your eye, you can click on the Heart icon to add it to your 
 
 
 #### Community Page
-<img src="https://user-images.githubusercontent.com/94032313/182045233-22d48492-0510-4b90-8a2b-391aaf72c3f0.jpg" alt="drawing" width="300"/>
+<img src="https://user-images.githubusercontent.com/94032313/182045233-22d48492-0510-4b90-8a2b-391aaf72c3f0.jpg" alt="drawing" width="300"/> <img src="https://user-images.githubusercontent.com/94032313/182045273-b51b7b49-36ed-48f0-af97-58dcf46c3611.png" alt="drawing" width="300"/>
+
 
 Unlike the “Shopping” tab, the “Community” tab lists products which have been purchased by other users. You can browse through to get an idea of how much your desired product should cost.
 To get a better experience browsing through others’ purchases, you may click on the available filters above, of which more can be found by swiping left.You can also search for the item directly by clicking on the search icon on the top right corner.
