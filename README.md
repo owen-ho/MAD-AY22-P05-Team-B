@@ -64,10 +64,9 @@ If any item catches your eye, you can click on the Heart icon to add it to your 
 <img src="https://user-images.githubusercontent.com/94032313/182045233-22d48492-0510-4b90-8a2b-391aaf72c3f0.jpg" alt="drawing" width="300"/> <img src="https://user-images.githubusercontent.com/94032313/182045273-b51b7b49-36ed-48f0-af97-58dcf46c3611.png" alt="drawing" width="300"/>
 
 
-Unlike the “Shopping” tab, the “Community” tab lists products which have been purchased by other users. You can browse through to get an idea of how much your desired product should cost.
+Unlike the “Shopping” tab, the “Community” tab would show products posted by other sellers within the commmunity that you are able to purchase from. You are able to click into the products and reserve them or chat with the seller for further details. 
 To get a better experience browsing through others’ purchases, you may click on the available filters above, of which more can be found by swiping left.You can also search for the item directly by clicking on the search icon on the top right corner.
-You can contribute after your own purchases by clicking on the upload button on the bottom right to fill in the necessary details of your product purchase. Like the shopping page, users are able to sort/filter the products and also search for specific products within the Community Page
-
+You can contribute to the community page by uploading and selling your products! 
 
 
 #### Wishlist Page
