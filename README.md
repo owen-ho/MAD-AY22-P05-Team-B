@@ -61,7 +61,7 @@ If any item catches your eye, you can click on the Heart icon to add it to your 
 
 
 #### Community Page
-<img src="https://user-images.githubusercontent.com/104065272/175825008-0d0b9ae9-6421-481b-8236-e5f0579d644d.png" alt="drawing" width="300"/>
+<img src="https://user-images.githubusercontent.com/94032313/182045233-22d48492-0510-4b90-8a2b-391aaf72c3f0.jpg" alt="drawing" width="300"/>
 
 Unlike the “Shopping” tab, the “Community” tab lists products which have been purchased by other users. You can browse through to get an idea of how much your desired product should cost.
 To get a better experience browsing through others’ purchases, you may click on the available filters above, of which more can be found by swiping left.You can also search for the item directly by clicking on the search icon on the top right corner.
@@ -82,7 +82,7 @@ In the profile page, the user is able to view three different sections, where th
 
 Further details on notifications can be viewed here: [Contributions_Joby](README_JOBY.md)
 
-Further details on posts can be viewed here:[Contributions_Qi Ren](README_QIREN.md)
+Further details on posts can be viewed here: [Contributions_Qi Ren](README_QIREN.md)
 
 Further details on uploads and reserve can be viewed here: [Contributions_Cheng_Ann](README_CHENGANN.md)
 
