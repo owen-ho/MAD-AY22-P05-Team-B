@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -72,7 +71,7 @@ public class UserInputPrice extends AppCompatActivity {
                 storageRef.child("productpics/" + key + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).fit().into(productPic);
+                        Picasso.get().load(uri).fit().centerCrop().into(productPic);
                     }
                 }).addOnFailureListener(new OnFailureListener() {//Happens when file does not exist
                     @Override
