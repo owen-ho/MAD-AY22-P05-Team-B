@@ -297,7 +297,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 Boolean duplicate = false;//set default for duplication to be false
                 for (DataSnapshot ss : snapshot.getChildren()){
                     Notification notif = ss.getValue(Notification.class);
-                    if (postId.equals(notif.getProductid())){//check for duplicate product ids as the post id that is passed in
+                    if (postId.equals(notif.getProductid()) && notif.getUserid().equals(usr.getUid())){//check for duplicate product ids as the post id that is passed in
                         duplicate = true;
                     }
                 }
