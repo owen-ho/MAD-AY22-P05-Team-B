@@ -81,7 +81,9 @@ The “Wishlist” page lists all products which you have added from either “S
 In the profile page, the user is able to view three different sections, where they are able to view the posts that they have posted, the products that they have listed for sale and the products that they are interested in and have reserved. The profile page would also show the number of friends the user have as well as the number of posts the user has posted. The user can also navigate to the bell icon on the top of the screen to navigate to the notifications page to view notifications for various tasks and activities between users. 
 
 Further details on notifications can be viewed here: [Contributions_Joby](README_JOBY.md)
+
 Further details on posts can be viewed here:[Contributions_Qi Ren](README_QIREN.md)
+
 Further details on uploads and reserve can be viewed here: [Contributions_Cheng_Ann](README_CHENGANN.md)
 
 <img src="https://user-images.githubusercontent.com/104065272/175825078-f15d1f49-4d66-49ab-a948-64a965ee23d8.png" alt="drawing" width="300"/> <img src="https://user-images.githubusercontent.com/104065272/175825100-d0d259a1-36cd-4505-80c1-9623b92750e8.png" alt="drawing" width="300"/>
