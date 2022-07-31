@@ -141,4 +141,10 @@ public class FriendsActivity extends AppCompatActivity {
         refreshViewPager.performClick();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        targetTab = null;
+        targetUserUid = null;
+    }
 }
