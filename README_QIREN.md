@@ -3,8 +3,9 @@
 
 <img src="" alt="drawing" width="400"/>
 
-### Description of ASG2 Implementations
+## Description of ASG2 Implementations
 
+### Home Page
 The previous home page is changed to show posts instead of most popular shopping products. Users can view everyone's posts under the "explore" page, or, view their friends posts under the "friends" tab. Tap on the "Explore" or "Friends" bar to return to the top of the page.
 
 <img src="https://user-images.githubusercontent.com/104065272/182043898-d7a31f49-0983-4cfe-b717-c5cbd548a64e.jpeg" alt="drawing" width="400"/>
@@ -22,19 +23,19 @@ Users can view other users by tapping on their profile picture
 <img src="https://user-images.githubusercontent.com/104065272/182044082-9b9a73f8-f544-4753-a17f-c5315273e7b8.jpeg" alt="drawing" width="400"/>
 
 
-**Liked Posts**
+### Liked Posts
 View number of liked posts and tap the title to scroll to the top of the screen
 
 <img src="https://user-images.githubusercontent.com/104065272/182044177-78be5c15-6acc-4eef-ab05-ea285a8c71a1.jpeg" alt="drawing" width="400"/>
 
 
-**Upload a new Post**
+### Upload a new Post
 Tap on the placeholder to upload a picture, or if you made a mistake, tap on the picture again to reselect a picture. 
 Enter a description (max 60 characters) and hit post!
 
 <img src="https://user-images.githubusercontent.com/104065272/182044310-0b929be2-7f97-4da5-bb4d-d93c7e4b9e58.jpeg" alt="drawing" width="400"/>
 
-**Friends Page**
+### Friends Page
 
 Current Friends
 
