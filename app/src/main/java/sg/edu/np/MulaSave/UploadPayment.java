@@ -140,7 +140,7 @@ public class UploadPayment extends AppCompatActivity {
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("userid", buyerid);
-        hashMap.put("text", "Payment has been made to you!");
+        hashMap.put("text", "Has made payment to you!");
         hashMap.put("productid", productid);
         hashMap.put("isproduct",true);
 
