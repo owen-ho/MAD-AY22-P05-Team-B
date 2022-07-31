@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import sg.edu.np.MulaSave.FriendsFragments.RequestsFragment;
 import sg.edu.np.MulaSave.HomePage.Post;
 import sg.edu.np.MulaSave.HomePage.PostAdapter;
 import sg.edu.np.MulaSave.R;
@@ -38,7 +40,8 @@ import sg.edu.np.MulaSave.R;
 
 public class ChildPostFragment extends Fragment {
 
-    RecyclerView userPostRecycler;
+    static RecyclerView userPostRecycler;
+    static LinearLayoutManager cpfLayoutManager;
     ArrayList<Post> userPostList;
     PostAdapter userPostAdapter;
 
@@ -90,15 +93,15 @@ public class ChildPostFragment extends Fragment {
 
             }
         });
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
+        cpfLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
 
-        userPostRecycler.setLayoutManager(linearLayoutManager);
+        userPostRecycler.setLayoutManager(cpfLayoutManager);
         userPostRecycler.setItemAnimator(new DefaultItemAnimator());
         userPostRecycler.setAdapter(userPostAdapter);//set adapter
     }
 
     /**
-     *
+     *comparator to show posts with the earliest first
      */
     public Comparator<Post> postComparator = new Comparator<Post>() {
         @RequiresApi(api = Build.VERSION_CODES.O)
@@ -108,4 +111,14 @@ public class ChildPostFragment extends Fragment {
             return l1;
         }
     };
+
+    public static void cpfSrollTop(){
+        RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(ChildPostFragment.userPostRecycler.getContext()) {
+            @Override protected int getVerticalSnapPreference() {
+                return LinearSmoothScroller.SNAP_TO_START;
+            }
+        };
+        smoothScroller.setTargetPosition(0);
+        cpfLayoutManager.startSmoothScroll(smoothScroller);
+    }
 }

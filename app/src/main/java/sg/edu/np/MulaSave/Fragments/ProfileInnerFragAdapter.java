@@ -8,11 +8,11 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 
-public class NestedFragAdapter extends FragmentPagerAdapter {
+public class ProfileInnerFragAdapter extends FragmentPagerAdapter {
     private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     private final ArrayList<String> fragmentTitle = new ArrayList<>();
 
-    public NestedFragAdapter(@NonNull FragmentManager fm){
+    public ProfileInnerFragAdapter(@NonNull FragmentManager fm){
         super(fm);
     }
 
