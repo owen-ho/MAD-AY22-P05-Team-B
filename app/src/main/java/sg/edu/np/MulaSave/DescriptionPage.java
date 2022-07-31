@@ -135,16 +135,19 @@ public class DescriptionPage extends AppCompatActivity {
             databaseRefUser.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    boolean isSold = false;
                     for(DataSnapshot ds: snapshot.getChildren()){//Cycle through users in firebase
                         for (DataSnapshot ds1: ds.child("Sold").getChildren()){//Cycle through the firebase to look for the products inside sold
                             Product prod = ds1.getValue(Product.class);//To convert the object in the firebase into a product
-                            if (!product.getImageUrl().equals(prod.getImageUrl())){ //If current product image url not equals to the product image url in sold
-                                reserve.setVisibility(View.VISIBLE);// Reserve button will be shown
-                            }
-                            else{//The current product image url is equals to the product image url in sold
-                                reserve.setVisibility(View.GONE);//Reserve button will not be shown
+                            if (product.getImageUrl().equals(prod.getImageUrl())){ //If current product image url not equals to the product image url in sold
+                                isSold=true;
                             }
                         }
+                    }
+                    if (isSold) {
+                        reserve.setVisibility(View.GONE);
+                    }else {
+                        reserve.setVisibility(View.VISIBLE);
                     }
                 }
                 @Override
