@@ -133,7 +133,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.i("PostAdapter", error.toString());
             }
         });
         storageRef.child("postpics/" + post.getPostUuid() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -380,7 +380,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
+                        Log.i("LikedPostActivity", error.toString());
                     }
                 });
                 alertDialog.dismiss();

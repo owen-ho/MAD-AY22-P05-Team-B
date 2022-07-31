@@ -5,10 +5,12 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import sg.edu.np.MulaSave.FriendsFragments.RequestsFragment;
 import sg.edu.np.MulaSave.R;
 
 public class LikedPostActivity extends AppCompatActivity {
@@ -33,13 +36,13 @@ public class LikedPostActivity extends AppCompatActivity {
     RecyclerView likedPostRecycler;
     ArrayList<Post> likedList;
     PostAdapter likedAdapter;
-    TextView likedCount, likedPostNoDisplay;
+    TextView likedCount, likedPostNoDisplay, likedPostTitle;
     ImageView likedBackTrack;
+    LinearLayoutManager linearLayoutManager;
 
     FirebaseDatabase databaseRef = FirebaseDatabase
             .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference databaseRefUser = databaseRef.getReference("user");
-    DatabaseReference databaseRefPost = databaseRef.getReference("post");
     FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,7 @@ public class LikedPostActivity extends AppCompatActivity {
         likedCount = findViewById(R.id.likedCount);
         likedBackTrack = findViewById(R.id.likedBackTrack);
         likedPostNoDisplay = findViewById(R.id.likedPostNoDisplay);
+        likedPostTitle = findViewById(R.id.likedPostTitle);
 
         //on click listeners for backtrack
         likedBackTrack.setOnClickListener(new View.OnClickListener() {
@@ -79,15 +83,26 @@ public class LikedPostActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.i("LikedPostActivity", error.toString());
             }
         });
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(LikedPostActivity.this,LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
-
+        linearLayoutManager = new LinearLayoutManager(LikedPostActivity.this,LinearLayoutManager.VERTICAL,false);//set layout, 1 item per row
         likedPostRecycler.setLayoutManager(linearLayoutManager);
         likedPostRecycler.setItemAnimator(new DefaultItemAnimator());
         likedPostRecycler.setAdapter(likedAdapter);//set adapter
+
+        //scroll to top when the title is clicked
+        likedPostTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                likedPostScrollTop();
+            }
+        });
     }
+
+    /**
+     * custom comparator to show the latest posts first
+     */
     public Comparator<Post> postComparator = new Comparator<Post>() {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
@@ -96,4 +111,18 @@ public class LikedPostActivity extends AppCompatActivity {
             return l1;
         }
     };
+
+    /**
+     * set recyclerview to scroll to top when the title is clicked
+     */
+    private void likedPostScrollTop(){
+        RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(LikedPostActivity.this) {
+            @Override protected int getVerticalSnapPreference() {
+                return LinearSmoothScroller.SNAP_TO_START;
+            }
+        };
+        smoothScroller.setTargetPosition(0);
+        linearLayoutManager.startSmoothScroll(smoothScroller);
+    }
+
 }

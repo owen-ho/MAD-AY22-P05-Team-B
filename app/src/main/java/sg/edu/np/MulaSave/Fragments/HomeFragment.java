@@ -40,16 +40,10 @@ public class HomeFragment extends Fragment {
     TextView  hPageView;
     TabLayout barTab;
 
-    FirebaseDatabase databaseRef = FirebaseDatabase
-            .getInstance("https://mad-ay22-p05-team-b-default-rtdb.asia-southeast1.firebasedatabase.app/");
-    DatabaseReference databaseRefUser = databaseRef.getReference("user");
-    DatabaseReference databaseRefPost = databaseRef.getReference("post");
-    FirebaseUser usr = FirebaseAuth.getInstance().getCurrentUser();
-
     public HomeFragment() {
         // Required empty public constructor
     }
-    public static HomeFragment newInstance(String param1, String param2) {
+    public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
         return fragment;
     }
@@ -77,7 +71,7 @@ public class HomeFragment extends Fragment {
         hPageView = view.findViewById(R.id.hPageView);
         barTab = view.findViewById(R.id.homeTabLayout);
 
-        addFriend.setOnClickListener(new View.OnClickListener() {//set on click listener
+        addFriend.setOnClickListener(new View.OnClickListener() {//set on click listener for friends activity
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), FriendsActivity.class);//go to add friends class
@@ -85,7 +79,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        addPost.setOnClickListener(new View.OnClickListener() {
+        addPost.setOnClickListener(new View.OnClickListener() {//onclick for add posts activity
             @Override
             public void onClick(View view) {//go to add post activity
                 Intent i = new Intent(getActivity(), AddPostActivity.class);
@@ -108,13 +102,13 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                //recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {//method to scroll to the top when the user presses the tab again
                 if(tab.getPosition() == 0){
-                    HomeExplorePosts.epScrollTop();
+                    HomeExplorePosts.epScrollTop();//call their respective methods to scroll the recycler views to the top
                 }
                 else{
                     HomeFriendsPosts.fpScrollTop();
@@ -123,6 +117,10 @@ public class HomeFragment extends Fragment {
         });
     }//end of onview created method
 
+    /**
+     * add the Explore and Friends POSTS fragments into the home page
+     * @param view view object to set the view
+     */
     private void addFragmentPost(View view) {
         tabLayout = view.findViewById(R.id.homeTabLayout);
         viewPager = view.findViewById(R.id.homeViewPager);
@@ -134,6 +132,9 @@ public class HomeFragment extends Fragment {
     }
 
 
+    /**
+     *onPause to preserve the selected tab in the home fragment
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -145,6 +146,9 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /**
+     * onResume set the tab based on last tab
+     */
     @Override
     public void onResume() {
         super.onResume();

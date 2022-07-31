@@ -40,6 +40,9 @@ import sg.edu.np.MulaSave.HomePage.FriendsActivity;
 import sg.edu.np.MulaSave.R;
 import sg.edu.np.MulaSave.User;
 
+/**
+ * Adapter to show each row of friends in FriendsActivity
+ */
 public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.FriendViewHolder>{
 
     ArrayList<User> userList;
@@ -100,7 +103,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
         //holder.setIsRecyclable(false);
         holder.position = position;
 
-        if(holder.getItemViewType()==1){//friends page
+        if(holder.getItemViewType()==1){//View type 1 is friends page
             holder.negativeCard.setVisibility(View.GONE);
             holder.positiveText.setText("Friends");
             holder.positiveCard.setOnClickListener(new View.OnClickListener() {//alertdialog to remove friend
@@ -159,6 +162,7 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
         }//end of onbind for requests view
 
         else{//explore view (3)
+
             //remove all friends from explore
             databaseRefUser.child(usr.getUid()).child("friends").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
@@ -171,12 +175,12 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                     }
                 }
             });
-
             holder.positiveText.setText("Add Friend");
             holder.negativeText.setText("Cancel");
             holder.positiveCard.setCardBackgroundColor(Color.parseColor("#8BC34A"));//set to green
             holder.negativeCard.setVisibility(View.GONE);//set the visibility of cancel request to be gone first
 
+            //change to ui to show user requested if user has requested
             databaseRefUser.child(u.getUid()).child("requests").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -188,12 +192,12 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                 }
             });//end of checking if the user has requested
 
-            holder.positiveCard.setOnClickListener(new View.OnClickListener() {//request to add friend
+            //request to add friend
+            holder.positiveCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //u refers to the user in the explore list
                     //usr refers to the user currently logged in
-
                     databaseRefUser.child(usr.getUid()).child("requests").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -204,19 +208,18 @@ public class ViewFriendAdapter extends RecyclerView.Adapter<ViewFriendAdapter.Fr
                                 userList.remove(u);
                             }
                             else{
-                                databaseRefUser.child(u.getUid().toString()).child("requests").child(usr.getUid().toString()).setValue("wants to add");//add the current user under the requests of the user in explore list
+                                databaseRefUser.child(u.getUid()).child("requests").child(usr.getUid().toString()).setValue("wants to add");//add the current user under the requests of the user in explore list
                             }
                         }
                     });
-                    //u.setImg(holder.userPic,holder.userPic.getContext());
                     holder.positiveText.setText("Requested");
                     holder.positiveCard.setCardBackgroundColor(Color.parseColor("#FF0288D1"));//set to blue
                     holder.negativeCard.setVisibility(View.VISIBLE);
-                    //ViewFriendAdapter.this.notifyItemChanged(position);
                 }
             });
 
-            holder.negativeCard.setOnClickListener(new View.OnClickListener() {//cancel friend request
+            //cancel friend request
+            holder.negativeCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     databaseRefUser.child(u.getUid().toString()).child("requests").child(usr.getUid().toString()).removeValue();

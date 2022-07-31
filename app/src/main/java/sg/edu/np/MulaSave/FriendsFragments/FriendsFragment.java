@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -208,7 +209,7 @@ public class FriendsFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    Log.i("FriendsFragment", error.toString());
                 }
             });
         }
@@ -245,7 +246,7 @@ public class FriendsFragment extends Fragment {
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-
+                                Log.i("FriendsFragment", error.toString());
                             }
                         });
                     }
@@ -253,7 +254,7 @@ public class FriendsFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    Log.i("FriendsFragment", error.toString());
                 }
             });
         }
@@ -308,7 +309,7 @@ public class FriendsFragment extends Fragment {
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-
+                            Log.i("FriendsFragment", error.toString());
                         }
                     });
                 }
@@ -335,7 +336,7 @@ public class FriendsFragment extends Fragment {
                                     }
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
-
+                                        Log.i("FriendsFragment", error.toString());
                                     }
                                 });
                             }
@@ -343,7 +344,7 @@ public class FriendsFragment extends Fragment {
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-
+                            Log.i("FriendsFragment", error.toString());
                         }
                     });
                 }
@@ -353,6 +354,9 @@ public class FriendsFragment extends Fragment {
         });
     }//end of filter data by search
 
+    /**
+     * set recyclerview to scroll to top when the tab is reselected
+     */
     public static void ffScrollTop(){
         RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(FriendsFragment.friendRecycler.getContext()) {
             @Override protected int getVerticalSnapPreference() {

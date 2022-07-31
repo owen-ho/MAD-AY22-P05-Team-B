@@ -8,6 +8,9 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter for the FriendsActivity's fragments in the tab layout
+ */
 public class FriendsActivityAdapter extends FragmentPagerAdapter {
 
     private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();

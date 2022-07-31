@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,17 +112,20 @@ public class HomeFriendsPosts extends Fragment {
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-
+                            Log.i("HomeFriendPosts", error.toString());
                         }
                     });
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.i("HomeFriendPosts", error.toString());
             }
         });
     }
+    /**
+     * Custom comparator to sort the timing of the posts to the latest first
+     */
     public Comparator<Post> postComparator = new Comparator<Post>() {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override

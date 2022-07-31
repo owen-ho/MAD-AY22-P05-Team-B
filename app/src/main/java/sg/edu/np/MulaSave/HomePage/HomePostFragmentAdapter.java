@@ -8,6 +8,9 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter for the explore and friends tabs fragment under the home fragment
+ */
 public class HomePostFragmentAdapter extends FragmentPagerAdapter {
     private final ArrayList<Fragment> hnFragArrayList = new ArrayList<>();
     private final ArrayList<String> hnFragTitle = new ArrayList<>();
