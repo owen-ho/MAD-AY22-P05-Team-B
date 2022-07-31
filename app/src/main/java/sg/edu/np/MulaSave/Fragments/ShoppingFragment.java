@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,216 +77,89 @@ public class ShoppingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //Intent to shopping search fragments which is another page for suggestions
+        //Intent to shopping search fragments where search history suggestions are displayed
         ImageView searchBtn = view.findViewById(R.id.shoppingSearchImageBtn);
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShoppingSearchFragment nextFrag= new ShoppingSearchFragment();
+                ShoppingSearchFragment nextFrag = new ShoppingSearchFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout, nextFrag, "findThisFragment")
                         .commit();
             }
         });
-//        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-//        //Associate the searchable configuration with the SearchView
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-//        //Lets users click on the submit button rather than "Enter" or "Return" on their keyboards
-//        searchView.setSubmitButtonEnabled(true);
-//        //Enables query refinement from search suggestions
-//        searchView.setQueryRefinementEnabled(true);
 
-//        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-//
-//        EditText searchEdit = searchView.findViewById(id);
-//        searchEdit.setTextColor(Color.BLACK);
-//
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("Recent API queries", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("Recent API queries", Context.MODE_PRIVATE);//Initializes SharedPreferences for saved search history list of products
 
         recyclerView = view.findViewById(R.id.shoppingrecyclerview);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1,GridLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        if (query!=null){//If suggestion has been clicked and intented, process the query which has been clicked(hence query will not be null)
-            productList=null;//Clear previously loaded products as a new one will be loaded based on suggestion clicked
+        if (query != null) {//If suggestion has been clicked and intented, process the query which has been clicked(hence query will not be null)
+            productList = null;//Clear previously loaded products as a new one will be loaded based on suggestion clicked
             List<Product> arrayItems;
             String serializedObject = sharedPreferences.getString(query, null);//Extract previously queried product list from SharedPreferences
             if (serializedObject != null) {//If list of previous query was saved into SharedPreferences, extract it and use it in recycler (This is to reduce API requests made)
-                ((TextView)getView().findViewById(R.id.placeholderText)).setVisibility(View.GONE);//hide the placeholder text
-                ((ImageView)getView().findViewById(R.id.shoppingMulasaveLogo)).setVisibility(View.GONE);//hide the mulasave logo background
+                ((TextView) getView().findViewById(R.id.placeholderText)).setVisibility(View.GONE);//hide the placeholder text
+                ((ImageView) getView().findViewById(R.id.shoppingMulasaveLogo)).setVisibility(View.GONE);//hide the mulasave logo background
                 Gson gson = new Gson();
-                Type type = new TypeToken<List<Product>>() {}.getType();
+                Type type = new TypeToken<List<Product>>() {
+                }.getType();
                 arrayItems = gson.fromJson(serializedObject, type);//Convert from Json to List<Product>
 
-                ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter((ArrayList<Product>) arrayItems, getContext(),2);
+                ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter((ArrayList<Product>) arrayItems, getContext(), 2);
                 //WishList Filters
                 recyclerViewFilter = view.findViewById(R.id.shoppingFilter);
-                wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(view,pAdapter,(ArrayList<Product>) arrayItems,3);
+                wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(view, pAdapter, (ArrayList<Product>) arrayItems, 3);
                 //Layout manager for filters recyclerview
-                LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);//set horizontal layout
+                LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);//set horizontal layout
                 recyclerViewFilter.setLayoutManager(hLayoutManager);
                 recyclerViewFilter.setItemAnimator(new DefaultItemAnimator());
                 recyclerViewFilter.setAdapter(wFilterAdapter);//set adapter for wishlist filters
                 recyclerView.setAdapter(pAdapter);
 
                 MainActivity.productList = (ArrayList<Product>) arrayItems;//Set new product list as currently focused list (makes product list persistent in case user switches fragments)
-            }else{//If no list can be found in SharedPreferences, load the query again from API
-                ((TextView)getView().findViewById(R.id.placeholderText)).setVisibility(View.GONE);//hide the placeholder text
-                ((ImageView)getView().findViewById(R.id.shoppingMulasaveLogo)).setVisibility(View.GONE);//hide the mulasave logo background
+            } else {//If no list can be found in SharedPreferences, load the query again from API
+                ((TextView) getView().findViewById(R.id.placeholderText)).setVisibility(View.GONE);//hide the placeholder text
+                ((ImageView) getView().findViewById(R.id.shoppingMulasaveLogo)).setVisibility(View.GONE);//hide the mulasave logo background
                 //Toast.makeText(getContext(),"No previous searches has been saved. Try searching instead.",Toast.LENGTH_LONG);
                 productList = new ArrayList<Product>();//Create new list to clear previously loaded products for new query
-                new getProducts(query,productList,view).execute();
+                new getProducts(query, productList, view).execute();
 
             }
         }
-        if (productList!=null) {//Checks for previously loaded productList to display(i.e. the user clicked another fragment and returned back)
-            if(productList.size()!=0){
-                ((TextView)getView().findViewById(R.id.placeholderText)).setVisibility(View.GONE);//hide the placeholder text
-                ((ImageView)getView().findViewById(R.id.shoppingMulasaveLogo)).setVisibility(View.GONE);//hide the mulasave logo background
-                ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(),2);
+        if (productList != null) {//Checks for previously loaded productList to display(i.e. the user clicked another fragment and returned back)
+            if (productList.size() != 0) {
+                ((TextView) getView().findViewById(R.id.placeholderText)).setVisibility(View.GONE);//hide the placeholder text
+                ((ImageView) getView().findViewById(R.id.shoppingMulasaveLogo)).setVisibility(View.GONE);//hide the mulasave logo background
+                ShoppingRecyclerAdapter pAdapter = new ShoppingRecyclerAdapter(productList, getContext(), 2);
                 //WishList Filters
                 recyclerViewFilter = view.findViewById(R.id.shoppingFilter);
-                wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(view,pAdapter,productList,3);
+                wishlistFilterAdapter wFilterAdapter = new wishlistFilterAdapter(view, pAdapter, productList, 3);
                 //Layout manager for filters recyclerview
-                LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);//set horizontal layout
+                LinearLayoutManager hLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);//set horizontal layout
                 recyclerViewFilter.setLayoutManager(hLayoutManager);
                 recyclerViewFilter.setItemAnimator(new DefaultItemAnimator());
                 recyclerViewFilter.setAdapter(wFilterAdapter);//set adapter for wishlist filters
                 recyclerView.setAdapter(pAdapter);
             }
         }
-
-//        searchView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                searchView.setIconified(false);//Displays entire search bar when clicked by user
-//            }
-//        });
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() { //Grab products from API whenever a query is submitted
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getContext(),
-//                        ProductSuggestionProvider.AUTHORITY, ProductSuggestionProvider.MODE);
-//                suggestions.saveRecentQuery(s, null); //Save query for search history suggestions in the future
-//
-//                productList = new ArrayList<Product>();//Create new list to clear previously loaded products for new query
-//                new getProducts(s,productList,view).execute();//Gets products data from API
-//                return true;
-//            }
-//            @Override
-//            public boolean onQueryTextChange(String s) {
-//                return false;
-//            }
-//        });
-//
-//        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
-//            @Override
-//            public boolean onSuggestionSelect(int i) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onSuggestionClick(int i) {
-//                Intent intent = new Intent();
-//                intent.putExtra("shopping",1);
-//                return false;
-//            }
-//        });
-//
-//        //set on searchview open listener for searchview
-//        searchView.setOnSearchClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //((TextView)getView().findViewById(R.id.placeholderText)).setVisibility(View.GONE);//hide the placeholder text
-//
-//                ((TextView)getView().findViewById(R.id.shoppingTitle)).setVisibility(View.GONE);//set the title to be gone
-//                ConstraintLayout layout = (ConstraintLayout) getView().findViewById(R.id.shoppingConstraintLayout);//get constraintlayout
-//                ConstraintSet set = new ConstraintSet();
-//                set.clone(layout);
-//                //set constraints for the title and searchview
-//                set.connect(R.id.shoppingSearchCard, ConstraintSet.START,R.id.shoppingConstraintLayout,ConstraintSet.START,0);
-//                set.connect(R.id.shoppingSearchCard, ConstraintSet.END,R.id.shoppingConstraintLayout,ConstraintSet.END,0);
-//                set.applyTo(layout);
-//            }
-//        });
-//
-//        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-//            @Override
-//            public boolean onClose() {
-//                ((TextView)getView().findViewById(R.id.shoppingTitle)).setVisibility(View.VISIBLE);
-//
-//                //to convert margin to dp
-//                Resources r = getView().getResources();
-//                int px = (int) TypedValue.applyDimension(
-//                        TypedValue.COMPLEX_UNIT_DIP,
-//                        24,
-//                        r.getDisplayMetrics()
-//                );
-//
-//                //set layout
-//                ConstraintLayout layout = (ConstraintLayout) getView().findViewById(R.id.shoppingConstraintLayout);
-//                ConstraintSet set = new ConstraintSet();
-//                set.clone(layout);
-//                //clear constraints
-//                set.clear(R.id.shoppingSearchCard, ConstraintSet.START);
-//                set.connect(R.id.shoppingSearchCard, ConstraintSet.END,R.id.shoppingConstraintLayout,ConstraintSet.END,px);
-//                set.applyTo(layout);
-//                return false;//return false so that icon closes back on close
-//            }
-//        });
-
-        //to navigate user from homefrag to shoppingfrag
-//        Bundle bundle = this.getArguments();
-//        if(bundle!= null){
-//            Boolean search = bundle.getBoolean("condition",false);
-//            if(search){//if search == true, which means set searchview to active
-//                searchView.performClick();
-//                searchView.requestFocus();
-//                //to show the keyboard
-//                searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-//                    @Override
-//                    public void onFocusChange(View view, boolean hasFocus) {
-//                        if (hasFocus) {
-//                            showInputMethod(view.findFocus());
-//                        }
-//                    }
-//                });
-//            }
-//        }//end of bundle
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        try{//try catch because the product list may not be initialised
-//            if (MainActivity.productList == null){//if there are items in the list
-//                ((SearchView)getView().findViewById(R.id.searchFragQuery)).performClick();//click the searchview to show the previous state
-//                ((SearchView)getView().findViewById(R.id.searchFragQuery)).setIconified(true);//onresume, hide the keyboard
-//            }
-//        }
-//        catch (Exception e){
-//            Log.e("error", "onResume: " + String.valueOf(e));
-//        }
-//    }
-
-    private void showInputMethod(View view) {
-        InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (mgr != null) {
-            mgr.showSoftInput(view, 0);
-        }
-    }
-
-
 
     class getProducts extends AsyncTask<Void, Void, Void> {
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("Recent API queries", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("Recent API queries", Context.MODE_PRIVATE);//Initializes SharedPreferences to save search history list of products
         SharedPreferences.Editor editor = sharedPreferences.edit();
         String query;
         ArrayList<Product> productList;
         View view;
 
+        /**
+         * Constructor for getting products list from API
+         * @param _query Query to receive product
+         * @param pList List of products to be populated with products from API
+         * @param v Currently active view to allow products to be filtered with another recyclerview
+         */
         public getProducts(String _query, ArrayList<Product> pList,View v){
             this.query=_query;
             this.productList=pList;
@@ -361,6 +233,12 @@ public class ShoppingFragment extends Fragment {
             return null;
         }
 
+        /**
+         * Retrieves API URL based on chosen shopping website in the case of demo query and all websites in the case of a normal query\
+         * @param query Query to parse into website link to query API for item. If demo query, will return demo API URL.
+         * @param website Indicates chosen website API to query from.
+         * @return
+         */
         private String getAPIlink(String query, String website){
             String url = null;
             String apikey;
@@ -408,6 +286,11 @@ public class ShoppingFragment extends Fragment {
             return url;
         }
 
+        /**
+         * Loads Json data output from API and parses into Product object before adding to productList.
+         * @param url API URL to load Json data from
+         * @param website API website the data is loaded from. Important as Walmart/Target APIs have data structured differently from Amazon/Ebay
+         */
         private void loadJsonfromUrl(String url, String website){
             APIHandler handler = new APIHandler();
             String jsonString = handler.httpServiceCall(url);//Loads API Json into a string
@@ -478,17 +361,32 @@ public class ShoppingFragment extends Fragment {
                 }
             }
         }
+
+        /**
+         * Saves list of objects into SharedPreferences by turning it into a Json then into a string.
+         * This is because SharedPreferences does not allow saving as a list of custom objects.
+         * @param key Key which will be used to identify data for reading from SharedPreferences in future.
+         * @param list List of custom objects to be saved into SharedPreferences
+         */
         public <T> void setList(String key, List<T> list) {
             Gson gson = new Gson();
             String json = gson.toJson(list);//Converts list of products into json string, which can be saved into SharedPreferences
             set(key, json);
         }
 
+        /**
+         * Writes into SharedPreferences
+         * @param key Key which will be used to identify data for reading from SharedPreferences in future.
+         * @param value String to be saved into SharedPreferences
+         */
         public void set(String key, String value) {//Stores string into SharedPreferences under a specified key for extraction later on
             editor.putString(key, value);
             editor.commit();
         }
 
+        /**
+         * For use by Collections object to sort products by price from low to high
+         */
         public Comparator<Product> productPriceLowHigh = new Comparator<Product>() {//Method to compare prices so that list can be sorted from low to high price
             @Override
             public int compare(Product p1, Product p2) {

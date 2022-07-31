@@ -32,7 +32,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import sg.edu.np.MulaSave.Documentation;
 import sg.edu.np.MulaSave.HomePage.FriendsActivity;
 import sg.edu.np.MulaSave.HomePage.Post;
 import sg.edu.np.MulaSave.LoginActivity;
@@ -110,7 +109,6 @@ public class ProfileFragment extends Fragment {
         ImageView infobutton = view.findViewById(R.id.changeinfo);
         ImageView logoutbutton = view.findViewById(R.id.logoutBtn);
         ImageView notificationbtn = view.findViewById(R.id.notificationBtn);
-        ImageView documentation = view.findViewById(R.id.infoDocumentation);
 
         noOfFriends = view.findViewById(R.id.noOfFriends);
         noOfPosts = view.findViewById(R.id.noOfPosts);
@@ -176,7 +174,6 @@ public class ProfileFragment extends Fragment {
 
         //load this as the default picture first
         if (profilePicLink!=null) {
-
             Picasso.get().load(profilePicLink).into(profilepic);
         }else{
             Picasso.get().load("https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png").into(profilepic);
@@ -218,17 +215,7 @@ public class ProfileFragment extends Fragment {
 
                 }
             });
-        }else{
-
         }
-
-        documentation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), Documentation.class);
-                startActivity(intent);
-            }
-        });
 
         infobutton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -44,9 +44,6 @@
             android:name=".DescriptionPage"
             android:exported="false" />
         <activity
-            android:name=".Documentation"
-            android:exported="false" />
-        <activity
             android:name=".ForgetPassword"
             android:exported="false" />
         <activity

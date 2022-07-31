@@ -40,11 +40,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:fontFamily="sans-serif"
-            android:text="COMMUNITY UPLOADS"
+            android:text="COMMUNITY"
             android:textColor="#393939"
             android:textSize="22sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/communitySearchCard"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,13 +84,13 @@
 
         <ImageView
             android:id="@+id/messagesBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
             android:layout_marginTop="24dp"
             android:background="#FFFFFF"
             android:src="@drawable/ic_baseline_message_24"
             app:layout_constraintEnd_toStartOf="@+id/communitySearchCard"
-            app:layout_constraintHorizontal_bias="0.481"
+            app:layout_constraintHorizontal_bias="0.764"
             app:layout_constraintStart_toEndOf="@+id/communityTitle"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="#000000" />

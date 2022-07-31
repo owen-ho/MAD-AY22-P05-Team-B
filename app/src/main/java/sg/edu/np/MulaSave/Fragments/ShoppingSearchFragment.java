@@ -22,8 +22,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 
 import java.time.Instant;
@@ -91,17 +89,20 @@ public class ShoppingSearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
-                        ProductSuggestionProvider.AUTHORITY, ProductSuggestionProvider.MODE);
+                        ProductSuggestionProvider.AUTHORITY, ProductSuggestionProvider.MODE);//Initiates recent sugestions content provider
                 suggestions.clearHistory();
             }
         });
 
-
+        /**
+         * Saves query and sends to ShoppingFragment, where 'getProducts' class can be called to retrieve products list from API
+         */
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() { //Grab products from API whenever a query is submitted
             @Override
             public boolean onQueryTextSubmit(String s) {
                 SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getContext(),ProductSuggestionProvider.AUTHORITY,ProductSuggestionProvider.MODE);
                 suggestions.saveRecentQuery(s, null); //Save query for search history suggestions in the future
+
                 MainActivity.query=s;
                 ShoppingFragment nextFrag= new ShoppingFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
@@ -116,36 +117,9 @@ public class ShoppingSearchFragment extends Fragment {
             }
         });
 
-        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
-            @Override
-            public boolean onSuggestionSelect(int i) {
-                return false;
-            }
-
-            @Override
-            public boolean onSuggestionClick(int i) {
-                //Intent to mainactivity rather than starting new fragment so that the search query will be passed through to the shopping fragment
-                Intent intent = new Intent(getActivity(),MainActivity.class);
-                intent.putExtra("shopping",1);
-                getActivity().startActivity(intent);
-                return false;
-            }
-        });
-
-        //set on searchview open listener for searchview
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ConstraintLayout layout = (ConstraintLayout) getView().findViewById(R.id.shoppingSearchConstraint);//get constraintlayout
-                ConstraintSet set = new ConstraintSet();
-                set.clone(layout);
-                //set constraints for the title and searchview
-                set.connect(R.id.searchFragCard, ConstraintSet.START,R.id.shoppingConstraintLayout,ConstraintSet.START,0);
-                set.connect(R.id.searchFragCard, ConstraintSet.END,R.id.shoppingConstraintLayout,ConstraintSet.END,0);
-                set.applyTo(layout);
-            }
-        });
-
+        /**
+         * Upon closing searchview, user is sent back to shopping fragment
+         */
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
@@ -158,7 +132,9 @@ public class ShoppingSearchFragment extends Fragment {
             }
         });
 
-        //To show the keyboard automatically
+        /**
+         * To show the keyboard automatically
+         */
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
@@ -176,21 +152,27 @@ public class ShoppingSearchFragment extends Fragment {
         }
     }
 
+    /**
+     * Retrieves saved suggestions from SearchRecentSuggestionsProvider and loads into ListView adapter
+     * @param view To retrieve ListView within view
+     */
     private void showResults(View view) {
         searchList = view.findViewById(R.id.searchList);
         String string_uri = "content://sg.edu.np.MulaSave.ProductSuggestionProvider/suggestions";
         Uri uri=Uri.parse(string_uri);
 
         //Taking suggestions data from SearchRecentSuggestionsProvider
-        Cursor cursor=getActivity().getContentResolver().query(uri,null,null,null,null);
+        Cursor cursor=getActivity().getContentResolver().query(uri,null,null,null,null);//All null will return everything from database
         SimpleCursorAdapter simpleCursorAdapter=new SimpleCursorAdapter(view.getContext(),R.layout.suggestion_row,cursor,
                 new String[] { "query", "date"},
                 new int[]{R.id.suggestion, R.id.suggestionDate},
                 SearchManager.FLAG_QUERY_REFINEMENT);
+
+        //Converts date from epoch milli to standard date time format
         simpleCursorAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
             @Override
             public boolean setViewValue(View view, Cursor cursor, int i) {
-                if (i==3){
+                if (i==3){//Date is found in the 4th column
                     String createDate = cursor.getString(i);
                     TextView textView = view.findViewById(R.id.suggestionDate);
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -201,6 +183,8 @@ public class ShoppingSearchFragment extends Fragment {
                 return false;
             }
         });
+
+        //Calls ListView adapter to display suggestions and date/time where suggestion was saved
         searchList.setAdapter(simpleCursorAdapter);
         searchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -208,8 +192,8 @@ public class ShoppingSearchFragment extends Fragment {
                 CursorWrapper suggestion = (CursorWrapper) adapterView.getAdapter().getItem(i);
                 String suggestionQuery = suggestion.getString(1);//Column index 1 refers to the second column, where the query names are kept
                 Intent intent = new Intent(getActivity(),MainActivity.class);
-                intent.putExtra("shopping",1);
-                intent.putExtra(SearchManager.QUERY,suggestionQuery);
+                intent.putExtra("shopping",1);//Indicates that the user should be sent to shopping fragment
+                intent.putExtra(SearchManager.QUERY,suggestionQuery);//Intents the query to ShoppingFragment to load with either API or previously loaded product list
                 getActivity().startActivity(intent);
             }
         });

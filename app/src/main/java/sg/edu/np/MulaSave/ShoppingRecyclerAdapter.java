@@ -409,28 +409,10 @@ public class ShoppingRecyclerAdapter extends RecyclerView.Adapter<ShoppingViewHo
                     i.putExtra("product",p);//pass product into desc
                     context.startActivity(i);//start the product desc activity
                 }
-                else{//Products from shopping have actual URL as the link var
+                else{//Products from shopping have an actual URL as the link var
                     Intent browserIntent = new Intent(context, WebActivity.class);
                     browserIntent.putExtra("url",p.getLink());
                     context.startActivity(browserIntent); //Intent to WebActivity for in-app browser
-//                    AlertDialog.Builder alertbuilder = new AlertDialog.Builder(context);
-//                    alertbuilder.setTitle("Open Browser");
-//                    alertbuilder.setMessage("Where would you like to open the product page?");
-//                    alertbuilder.setPositiveButton("Open in app", new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int id) {
-//                            Intent browserIntent = new Intent(context, WebActivity.class);
-//                            browserIntent.putExtra("url",p.getLink());
-//                            context.startActivity(browserIntent); //Intent to WebActivity for in-app browser
-//                        }
-//                    });
-//                    alertbuilder.setNegativeButton("Open in browser", new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int id) {
-//                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(p.getLink()));
-//                            context.startActivity(browserIntent);//Intent to user's own browser
-//                        }
-//                    });
-//                    alertbuilder.show();
-
                 }
                 alertDialog.dismiss();
             }

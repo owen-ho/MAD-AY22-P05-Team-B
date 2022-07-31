@@ -50,7 +50,7 @@ public class WebActivity extends AppCompatActivity {
         closeBtn = findViewById(R.id.closeBtn);
         customWebView= findViewById(R.id.webview);
 
-        customWebView.setGestureDetector(new GestureDetector(new CustomeGestureDetector()));//Calls gesture detector class to hide toolbars
+        customWebView.setGestureDetector(new GestureDetector(new CustomGestureDetector()));//Calls gesture detector class to hide toolbars
         progressBar.setMax(100);
 
         customWebView.setWebViewClient(new WebViewClient(){
@@ -139,7 +139,8 @@ public class WebActivity extends AppCompatActivity {
             super.onBackPressed();//Returns to app otherwise
         }
     }
-    private class CustomeGestureDetector extends GestureDetector.SimpleOnGestureListener {
+
+    private class CustomGestureDetector extends GestureDetector.SimpleOnGestureListener {
         private Toolbar bottomToolbar = findViewById(R.id.webviewBottomToolbar);
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
