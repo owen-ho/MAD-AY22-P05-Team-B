@@ -9,7 +9,7 @@ Users/buyers would be able to reserve the product when it is marked as available
 
 When the user/buyer clicks on the reserve button, a confirmation message would appear where they would have to confirm. Once the user/buyer has confirmed that they would like to reserve, they would successfully reserve the product where it would be exclusive to them. 
 
-![Reserve Page](https://user-images.githubusercontent.com/94032313/182039908-438d219a-9453-45cf-9aa3-6d18b55b0e93.png) 
+<img src="https://user-images.githubusercontent.com/94032313/182039908-438d219a-9453-45cf-9aa3-6d18b55b0e93.png" alt="drawing" width="500"/>
 
 Once the user has successfully reserved the product, the product would appear in “Reserve” in the profile page. The user/buyer would be able to upload a proof of purchase via the “Upload Payment” button (an upload icon) as well as to unreserve the product via the “unreserve” button (a red x icon). 
 
