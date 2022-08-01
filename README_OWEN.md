@@ -16,7 +16,7 @@ Technical details:
 
 
 ### Suggestions based on Recent Searches
-<img src="https://user-images.githubusercontent.com/93632887/182045412-374c80cf-f75e-4815-83e8-1add98e593c3.png" alt="drawing" width="300"/>
+<img src="https://user-images.githubusercontent.com/93632887/182051365-7322d4a4-09ea-4259-88c1-04e40836818a.png" alt="drawing" width="300"/><img src="https://user-images.githubusercontent.com/93632887/182045412-374c80cf-f75e-4815-83e8-1add98e593c3.png" alt="drawing" width="300"/>
 
 - Allows user to quickly get back to where they left off
 - Clicking on search button in Shopping fragment sends user to new fragment which stores search history
