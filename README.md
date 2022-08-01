@@ -117,7 +117,7 @@ You can also upload an image from your gallery to be your profile picture by cli
 ## Roles and Contribution of Members (For ASG1)
 **In-depth details of contributions for ASG2 is shown in the individual readme files of the team members**
 | Member  | Role | Contribution | ASG2 Contributions |
-| ------------- | ------------- | ------------- |
+| ------------- | ------------- | ------------- | ------------- |
 | Ho Shang Luen Owen  | Developer/Team Leader/Tester | Delegation of tasks, Integrations of product APIs and Firebase | Search Suggestions and In-app Browser |
 | Phua Cheng Ann  | Developer/Tester  | Designing of sign in and sign out layouts, Coding of Product input by users and forgot password | Upload product, Reserve product, Make Payment for Product |
 | Chong Ke Wei Joby | Developer/UI Designer | Designing and coding of Profile fragment and Product input by users | Notifications |
