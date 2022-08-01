@@ -13,6 +13,7 @@ Technical details:
 - Top toolbar indicates the user's current domain name and lets the user close the WebView activity
 - Done with Custom WebView(override some WebView methods) and GestureDetector
 
+
 ### Suggestions based on Recent Searches
 <img src="https://user-images.githubusercontent.com/93632887/182045412-374c80cf-f75e-4815-83e8-1add98e593c3.png" alt="drawing" width="300"/>
 
