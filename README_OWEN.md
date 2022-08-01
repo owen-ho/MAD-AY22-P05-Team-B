@@ -18,7 +18,7 @@ Technical details:
 ### Suggestions based on Recent Searches
 <img src="https://user-images.githubusercontent.com/93632887/182051423-c2fbc327-a5d2-470b-89f1-ed6604a218a6.png" alt="drawing" width="300"/> <img src="https://user-images.githubusercontent.com/93632887/182051427-320aa919-c3a5-494d-8073-438556eaea02.png" alt="drawing" width="300"/>
 
-- Allows user to quickly get back to where they left off
+- Allows user to quickly get back to product searches where they left off
 - Clicking on search button in Shopping fragment sends user to new fragment which stores search history
 - Saves user's recent queries and the products data as a result of that query
 - Allows for quick searches on previously queried products without long wait times or new API calls
