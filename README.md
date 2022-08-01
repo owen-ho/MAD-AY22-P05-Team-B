@@ -115,11 +115,11 @@ You can also upload an image from your gallery to be your profile picture by cli
 | Owg Jun Xian | S10205779 |
 
 ## Roles and Contribution of Members (For ASG1)
-**Details of contributions for ASG2 is shown in the individual readme files of the team members**
-| Member  | Role | Contribution |
+**In-depth details of contributions for ASG2 is shown in the individual readme files of the team members**
+| Member  | Role | Contribution | ASG2 Contributions |
 | ------------- | ------------- | ------------- |
-| Ho Shang Luen Owen  | Developer/Team Leader | Delegation of tasks, Integrations of product APIs and Firebase |
-| Phua Cheng Ann  | Developer/UI Designer  | Designing of sign in and sign out layouts, Coding of Product input by users and forgot password |
-| Chong Ke Wei Joby | Developer/UI Designer | Designing and coding of Profile fragment and Product input by users|
-| Ho Qi Ren | Developer | Wishlist fragment, SearchView, CardView RecyclerViews & Filters, Custom Dialogs & Layouts |
-| Owg Jun Xian | Developer | Implementation of fragments and editing of profile page |
+| Ho Shang Luen Owen  | Developer/Team Leader/Tester | Delegation of tasks, Integrations of product APIs and Firebase | Search Suggestions and In-app Browser |
+| Phua Cheng Ann  | Developer/Tester  | Designing of sign in and sign out layouts, Coding of Product input by users and forgot password | Upload product, Reserve product, Make Payment for Product |
+| Chong Ke Wei Joby | Developer/UI Designer | Designing and coding of Profile fragment and Product input by users | Notifications |
+| Ho Qi Ren | Developer/Tester | Wishlist fragment, SearchView, CardView RecyclerViews & Filters, Custom Dialogs & Layouts | Share and like posts, add friends and revamped profile page |
+| Owg Jun Xian | Developer | Implementation of fragments and editing of profile page | Chat with seller |
