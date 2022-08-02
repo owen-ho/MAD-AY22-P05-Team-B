@@ -3,6 +3,8 @@
 
 ## Description of ASG2 Implementations
 
+Main motivations for this feature is to build and allow a community to interact with each other. The main function of the posts allows users to share their purchases with the other users and build a strong community around the MulaSave application.
+
 ### Home Page
 The previous home page is changed to show posts instead of most popular shopping products. Users can view everyone's posts under the "explore" page, or, view their friends posts under the "friends" tab. Tap on the "Explore" or "Friends" bar to return to the top of the page.
 
@@ -61,6 +63,10 @@ Users can search for users by their usernames
 
 
 ### Profile Page
-User can view their own posts in their profile page under the "Profile" tab
+User can view their own posts in their profile page under the "Profile" tab. The number of friends and posts are shown beside the profile pictures.
+
+If the user clicks on the Friends count, it navigates to the Friends Page
+
+If the user clicks on the Posts count, it jumps to the user's own posts tab if the user is not already in the tab
 
 <img src="https://user-images.githubusercontent.com/104065272/182044945-67d92e2d-0c33-4caa-9410-1a2764106aed.jpeg" alt="drawing" width="400"/>
